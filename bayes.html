@@ -144,7 +144,7 @@ Gibbs 算法可以被视为 Metropolis-Hastings (MH) 方法的一个特例，该
 <li>挑选 <span class="math inline">\(\textbf{x}_{m+1}=\textbf{x}'_{m+1}\)</span> 有概率 <span class="math inline">\(\alpha\)</span> 或坚持使用以前的值（<span class="math inline">\(\textbf{x}_{m+1}=\textbf{x}_{m}\)</span>）有概率 <span class="math inline">\(1-\alpha\)</span>.</li>
 </ol>
 <p>在一般情况下，接受率的解释并不简单。当采样发生器对称时（<span class="math inline">\(p(\textbf{x}|\textbf{y})=p(\textbf{y}|\textbf{x})\)</span>），每当 <span class="math inline">\(p(\textbf{x}'_{m+1})\ge p(\textbf{x}_{m})\)</span>。如果相反的条件成立（<span class="math inline">\(p(\textbf{x}'_{m+1})&lt; p(\textbf{x}_{m})\)</span>），那么候选人被保留的几率等于 <span class="math inline">\(p(\textbf{x}'_{m+1})/p(\textbf{x}_{m})\)</span>，这是似然比。新提案的可能性越大，保留它的可能性就越高。</p>
-<p>通常，第一次模拟会被丢弃，以便给链留下时间来收敛到高概率区域。此过程（通常称为“<em>烧伤</em>’）确保第一个保留的样本位于可能的区域，即它们更能代表我们试图模拟的定律。</p>
+<p>通常，第一次模拟会被丢弃，以便给链留下时间来收敛到高概率区域。此过程（通常称为“<em>burn in</em>”）确保第一个保留的样本位于可能的区域，即它们更能代表我们试图模拟的定律。</p>
 <p>为了简洁起见，我们在这里坚持简洁的介绍，但一些额外的细节在第 11.2 节中概述 <span class="citation">Gelman et al. (<a href="solutions-to-exercises.html#ref-gelman2013bayesian" role="doc-biblioref">2013</a>)</span> 并在第 7 章中 <span class="citation">Kruschke (<a href="solutions-to-exercises.html#ref-kruschke2014doing" role="doc-biblioref">2014</a>)</span>.</p>
 </div>
 </div>
@@ -264,7 +264,7 @@ P[\textbf{y} | \textbf{x}_1,\dots,\textbf{x}_K] \propto P[\textbf{y}]\prod_{k=1}
 \end{equation}\]</span>
 无论何时都会有一个标准的正常法 <span class="math inline">\(F_{\textbf{x}_k}\)</span> 不是病态的。非病理情况是指 cdf 连续且严格递增且观测值位于开区间 (0,1) 内。如果所有特征都是独立的，则变换不应对相关结构产生任何影响。否则，我们参考有关 NORmal-To-Anything (NORTA) 方法的文献（例如，参见 <span class="citation">H. Chen (<a href="solutions-to-exercises.html#ref-chen2001initialization" role="doc-biblioref">2001</a>)</span> 和 <span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2017approximate" role="doc-biblioref">2017</a>)</span>).</p>
 <p>最后，之前的 <span class="math inline">\(P[\textbf{y}]\)</span> 在方程中 <a href="bayes.html#eq:naivebayes3">(9.10)</a> 通常被认为是跨类统一的（<span class="math inline">\(1/K\)</span> 为所有人 <span class="math inline">\(k\)</span>) 或等于样本分布。</p>
-<p>我们用一个简单的例子来说明朴素贝叶斯分类工具。虽然包 <em>e1071</em> 嵌入这样一个分类器， <em>朴素贝叶斯</em> 库提供了更多选项（高斯、伯努利、多项式和非参数似然）。下面，由于特征是均匀分布的，因此变换为 <a href="bayes.html#eq:transf">(9.11)</a> 相当于应用高斯分位数函数（逆 cdf）。</p>
+<p>我们用一个简单的例子来说明朴素贝叶斯分类工具。虽然包 <em>e1071</em> 嵌入这样一个分类器， <em>naivebayes</em> 库提供了更多选项（高斯、伯努利、多项式和非参数似然）。下面，由于特征是均匀分布的，因此变换为 <a href="bayes.html#eq:transf">(9.11)</a> 相当于应用高斯分位数函数（逆 cdf）。</p>
 <p>为了视觉清晰度，我们只使用一小部分特征。</p>
 <div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/majkamichal/naivebayes">naivebayes</a></span><span class="op">)</span>                           <span class="co"># Load package</span>
@@ -369,7 +369,7 @@ P(\left(q_1,\textbf{w}_1\right),\dots,\left(q_M,\textbf{w}_M\right),\sigma^2)=\u
 - 改变分割规则。</p>
 <p>为了简单起见，第三个选项通常被排除在外。一旦树结构被定义（即采样），终端权重将根据高斯分布独立绘制 <span class="math inline">\(\mathcal{N}(\mu_\mu, \sigma_\mu^2)\)</span>.</p>
 <p>树被采样后，MH 原则要求根据某种概率接受或拒绝它。该概率随着新树增加模型可能性的可能性而增加。其详细计算比较繁琐，我们参考《 <span class="citation">Sparapani, Spanbauer, and McCulloch (<a href="solutions-to-exercises.html#ref-sparapani2019r" role="doc-biblioref">2019</a>)</span> 有关此事的详细信息。</p>
-<p>现在，我们必须概述总体吉布斯程序。首先，该算法从简单节点的树开始。然后，指定循环次数包括以下内容 <em>顺序的</em> 步骤：</p>
+<p>现在，我们必须概述总体吉布斯程序。首先，该算法从简单节点的树开始。然后，指定循环次数包括以下 <em>sequential</em> 步骤：</p>
 <div class="inline-table"><table class="table table-sm">
 <colgroup>
 <col width="55%"/>
@@ -423,7 +423,7 @@ P(\left(q_1,\textbf{w}_1\right),\dots,\left(q_M,\textbf{w}_M\right),\sigma^2)=\u
 <h3>
 <span class="header-section-number">9.5.4</span> 代码<a aria-label="锚" class="anchor" href="#code"><i class="fas fa-link"></i></a>
 </h3>
-<p>有几个实现 BART 方法的 R 包： <em>BART</em>, <em>巴特机</em> 和一个旧的（原来的）， <em>贝叶斯树</em>。第一个非常高效，因此我们使用它。我们只使用几个参数，例如功率和基数，它们是 <span class="math inline">\(\beta\)</span> 和 <span class="math inline">\(\alpha\)</span> 定义于 <a href="bayes.html#eq:bartnode">(9.15)</a>。该程序有点冗长，并提供了一些参数详细信息。</p>
+<p>有几个实现 BART 方法的 R 包： <em>BART</em>, <em>bartMachine</em> 和一个旧的（原来的）， <em>BayesTree</em>。第一个非常高效，因此我们使用它。我们只使用几个参数，例如功率和基数，它们是 <span class="math inline">\(\beta\)</span> 和 <span class="math inline">\(\alpha\)</span> 定义于 <a href="bayes.html#eq:bartnode">(9.15)</a>。该程序有点冗长，并提供了一些参数详细信息。</p>
 <div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BART</span><span class="op">)</span>                                                           <span class="co"># Load package</span>
 <span class="va">fit_bart</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BART/man/gbart.html">gbart</a></span><span class="op">(</span>                                                      <span class="co"># Main function</span>

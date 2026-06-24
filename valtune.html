@@ -166,7 +166,7 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 </p>
 </div>
 <p>ROC 曲线高于 45° 角的算法的性能优于普通分类器。事实上，该曲线可以被视为利益之间的权衡（在 <span class="math inline">\(y\)</span> 轴）减去成本（在轴上选择错误资产的几率） <span class="math inline">\(x\)</span> 轴）。因此，高于 45° 至关重要。最好的分类器有一条 ROC 曲线，从点 (0,0) 到点 (0,1) 再到点 (1,1)。在点 (0,1) 处，后果为空，因此不存在误报，召回率等于 1，因此也不存在误报：模型总是正确的。反之亦然：在点 (1,0) 处，模型总是错误的。</p>
-<p>下面，我们使用一个特定的包（<em>ca工具</em>）来计算测试样本上给定预测集的 ROC 曲线。</p>
+<p>下面，我们使用一个特定的包（<em>caTools</em>）来计算测试样本上给定预测集的 ROC 曲线。</p>
 <div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">caTools</span><span class="op">)</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"caTools"</span><span class="op">)</span><span class="op">}</span></code></pre></div>
 <p></p>
@@ -400,13 +400,13 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 为了说明网格搜索的过程，我们将尝试找到提升树的最佳参数。我们寻求量化三个参数的影响：</p>
 <ul>
 <li>
-<strong>埃塔</strong>，学习率，<br/>
+<strong>eta</strong>，学习率，<br/>
 </li>
 <li>
-<strong>n轮</strong>，种植的树数量，<br/>
+<strong>nrounds</strong>，种植的树数量，<br/>
 </li>
 <li>
-<strong>拉姆达</strong>，权重正则化器，通过权重/分数的平方总和来惩罚目标函数。</li>
+<strong>lambda</strong>，权重正则化器，通过权重/分数的平方总和来惩罚目标函数。</li>
 </ul>
 <p>下面，我们使用要测试这些参数的值创建一个网格。</p>
 <div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">

@@ -14992,7 +14992,7 @@ Z&amp;=g(Y,\epsilon_Z)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>一个 <strong>循环</strong> 是一种创建循环的特殊路径类型，即当第一个顶点也是最后一个顶点时。序列 $X \rightarrow Y \rightarrow Z \rightarrow X$ 是一个循环。从技术上讲，周期会带来问题。为了说明这一点，请考虑简单的序列 $X \rightarrow Y \rightarrow X$。这意味着 $X$ 的实现会导致 $Y$，而 $Y$ 又会导致 $Y$ 的实现。虽然格兰杰因果性可以被视为允许这种联系，但一般因果模型通常避免循环并与 <strong>有向无环图</strong> （DAG）。正式的图操作（可能与 do-演算 相关）可以通过以下方式计算 <em>因果效应</em> Tikka 和 Karvanen 包（2017）。也可以使用以下命令创建和操作有向无环图 <em>达吉蒂</em> (textor2016robust) 和 ggdag 包。</p>
+<p>一个 <strong>循环</strong> 是一种创建循环的特殊路径类型，即当第一个顶点也是最后一个顶点时。序列 $X \rightarrow Y \rightarrow Z \rightarrow X$ 是一个循环。从技术上讲，周期会带来问题。为了说明这一点，请考虑简单的序列 $X \rightarrow Y \rightarrow X$。这意味着 $X$ 的实现会导致 $Y$，而 $Y$ 又会导致 $Y$ 的实现。虽然格兰杰因果性可以被视为允许这种联系，但一般因果模型通常避免循环并与 <strong>有向无环图</strong> （DAG）。正式的图操作（可能与 do-演算 相关）可以通过以下方式计算 <em>causaleffect</em> 包 Tikka 和 Karvanen（2017）。也可以使用以下命令创建和操作有向无环图 <em>dagitty</em> (textor2016robust) 和 ggdag 包。</p>
 </div>
 </div>
 </div>
@@ -15053,7 +15053,7 @@ X_j=\sum_{k\in \text{pa}_D(j)}f_{j,k}\left(\textbf{X}_{k}  \right)+\epsilon_j,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中每个变量的非线性效应是累积的，因此术语 <em>'添加剂'</em>。请注意，那里没有时间索引。与格兰杰因果性相反，不存在自然顺序。这些模型非常复杂且难以估计。详细信息可以在 Bühlmann 等人中找到。 （2014）。幸运的是，作者开发了一个 R 包来确定 DAG $D$。</p>
+<p>其中每个变量的非线性效应是累积的，因此术语 <em>'additive'</em>。请注意，那里没有时间索引。与格兰杰因果性相反，不存在自然顺序。这些模型非常复杂且难以估计。详细信息可以在 Bühlmann 等人中找到。 （2014）。幸运的是，作者开发了一个 R 包来确定 DAG $D$。</p>
 </div>
 </div>
 </div>
@@ -15117,7 +15117,7 @@ X_j=\sum_{k\in \text{pa}_D(j)}f_{j,k}\left(\textbf{X}_{k}  \right)+\epsilon_j,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>为了完整起见，我们还提供了 python 版本的实现 <em>计算</em> 包（Kalisch 等人（2012））。29 下面是通过所谓的 PC（以其作者命名）进行的估计 <strong>磷</strong>乙特烈酒和 <strong>C</strong>云雀 Glymour）被执行。该算法的细节超出了本书的范围，有兴趣的读者可以看看Spirtes等人的第5.4节。 (2000) 或 Kalisch 等人的第 2 节。 （2012）了解有关此主题的更多信息。</p>
+<p>为了完整起见，我们还提供了 python 版本的实现 <em>pcalg</em> 包（Kalisch 等人（2012））。29 下面是通过所谓的 PC（以其作者命名）进行的估计 <strong>磷</strong>乙特烈酒和 <strong>C</strong>云雀 Glymour）被执行。该算法的细节超出了本书的范围，有兴趣的读者可以看看Spirtes等人的第5.4节。 (2000) 或 Kalisch 等人的第 2 节。 （2012）了解有关此主题的更多信息。</p>
 </div>
 </div>
 </div>
@@ -15249,7 +15249,7 @@ y_t&amp;=\textbf{Z}_t'\boldsymbol{\alpha}_t+\epsilon_t \\
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>下面，我们测试样本内的 100$^{th}$ 日期点（2008 年 4 月）是否是一个转折点。可以说，这个日期属于次贷金融危机的时间跨度。我们使用 <em>因果影响</em> 模块，Python 版本。</p>
+<p>下面，我们测试样本内的 100$^{th}$ 日期点（2008 年 4 月）是否是一个转折点。可以说，这个日期属于次贷金融危机的时间跨度。我们使用 <em>CausalImpact</em> 模块，Python 版本。</p>
 </div>
 </div>
 </div>
@@ -16231,7 +16231,7 @@ R_T=\underset{\boldsymbol{\theta}^*\in \boldsymbol{\Theta}}{\sup} \ \sum_{t=1}^T
 <p>奎奥内罗-坎德拉、华金、杉山雅史、安东·施瓦格霍费尔和尼尔·D·劳伦斯。 2009。机器学习中的数据集转变。麻省理工学院出版社。</p>
 <p>Regenstein, Jonathan K. 2018。使用 R 实现可重复的金融：代码流和用于投资组合分析的闪亮应用程序。查普曼和霍尔 / CRC。</p>
 <p>彼得·斯皮尔特、克拉克·N·格莱摩、理查德·沙恩斯和大卫·赫克曼。 2000。因果性、预测和搜索。麻省理工学院出版社。</p>
-<p>蒂卡、桑图和尤哈·卡尔瓦宁。 2017.“使用 R 包因果效应识别因果效应。”统计量软件杂志 76 (1): 1–30。</p>
+<p>蒂卡、桑图和尤哈·卡尔瓦宁。 2017.“使用 R 包 causaleffect 识别因果效应。”统计量软件杂志 76 (1): 1–30。</p>
 <p>Weiss、Karl、Taghi M Khoshgoftaar 和 DingDing Wang。 2016。“迁移学习调查。”大数据杂志3（1）：9。</p>
 <p>伯纳德·威德罗和马西安·E·霍夫。 1960。“自适应开关电路。” IRE Wescon 会议记录，4:96–104。</p>
 <p>Wong、Steven YK、Jennifer Chan、Lamiae Azizi 和 Richard YD Xu。 2020.“用于股票收益预测的时变神经网络。” arXiv 预印本，编号。 2003.02515。</p>

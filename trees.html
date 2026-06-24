@@ -549,7 +549,7 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 <h3>
 <span class="header-section-number">6.4.6</span> 代码和结果<a aria-label="锚" class="anchor" href="#boostcode"><i class="fas fa-link"></i></a>
 </h3>
-<p>在本节中，我们使用以下方法训练模型 <em>XGBoost</em> 图书馆。其他选项包括 <em>猫助推器</em>, <em>基因组</em>, <em>光GBM</em>, 和 <em>水</em>自己版本的增强机器。与许多其他包不同，XGBoost 函数需要特定的语法和专用格式。因此，第一步是相应地封装数据。</p>
+<p>在本节中，我们使用以下方法训练模型 <em>XGBoost</em> 图书馆。其他选项包括 <em>catboost</em>, <em>gbm</em>, <em>lightgbm</em>, 和 <em>h2o</em> 自己版本的增强机器。与许多其他包不同，XGBoost 函数需要特定的语法和专用格式。因此，第一步是相应地封装数据。</p>
 <p>此外，由于训练时间可能很长，我们按照中所提倡的缩短训练样本 <span class="citation">Coqueret and Guida (<a href="solutions-to-exercises.html#ref-coqueret2019training" role="doc-biblioref">2020</a>)</span>。我们仅保留 40% 最极端的观察结果（就标签值而言：前 20% 和后 20%）并使用一小部分特征。在本书中专门用于提升树的所有编码部分中，模型将仅使用 7 个特征进行训练。</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dmlc/xgboost">xgboost</a></span><span class="op">)</span>                                                <span class="co"># The package for boosted trees</span>
@@ -578,7 +578,7 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 <span class="va">mono_const</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">features</span> <span class="op">==</span> <span class="st">"Pb"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>              <span class="co"># Decreasing in price-to-book</span>
 <span class="va">mono_const</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">features</span> <span class="op">==</span> <span class="st">"Mom_11M_Usd"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span>        <span class="co"># Increasing in past return</span></code></pre></div>
 <p></p>
-<p>第三步是在格式化的训练数据上训练模型。我们包括单调性约束和 DART 特征（通过 <em>rate_drop</em>）。就像随机森林一样，提升树可以在数据子集上生长单独的树：按行（通过选择随机实例）和按列（通过保留较小部分的预测变量）。这些选项的实现如下 <em>子样本</em> 和 <em>colsample_bytree</em> 在函数的参数中。</p>
+<p>第三步是在格式化的训练数据上训练模型。我们包括单调性约束和 DART 特征（通过 <em>rate_drop</em>）。就像随机森林一样，提升树可以在数据子集上生长单独的树：按行（通过选择随机实例）和按列（通过保留较小部分的预测变量）。这些选项的实现如下 <em>subsample</em> 和 <em>colsample_bytree</em> 在函数的参数中。</p>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_xgb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.train.html">xgb.train</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">train_matrix_xgb</span>,     <span class="co"># Data source </span>
               eta <span class="op">=</span> <span class="fl">0.3</span>,                          <span class="co"># Learning rate</span>
@@ -671,7 +671,7 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 <span class="header-section-number">6.6</span> 编码练习<a aria-label="锚" class="anchor" href="#coding-exercises-2"><i class="fas fa-link"></i></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li><p>使用 <em>公式</em> 在上面的块中，在训练样本上构建两棵简单的树，只有一个参数：cp。 对于第一棵树，取 cp=0.001，对于第二棵树，取 cp=0.01。评估两个模型在测试样本上的性能。评论。</p></li>
+<li><p>使用 <em>formula</em> 在上面的块中，在训练样本上构建两棵简单的树，只有一个参数：cp。 对于第一棵树，取 cp=0.001，对于第二棵树，取 cp=0.01。评估两个模型在测试样本上的性能。评论。</p></li>
 <li><p>使用较小的预测变量集，在训练样本上构建随机森林。将学习限制在 30,000 个实例和超过 5 个预测变量上。在 10、20、40、80 和 160 棵树上构建森林，并评估它们在训练样本上的性能。在这种情况下，复杂性是否值得？为什么？</p></li>
 <li><p>根据 2008 年和 2009 年的数据绘制一棵树。进行比较。</p></li>
 </ol>

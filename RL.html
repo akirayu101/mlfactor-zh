@@ -275,7 +275,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <h3><span class="header-section-number">16.4.1</span> 通过模拟进行 Q 学习<a aria-label="锚" class="anchor" href="#q-learning-with-simulations"><i class="fas fa-link"></i></a></h3>
 <p>为了说明上述问题的要点，我们提出了 <span class="math inline">\(Q\)</span>-learning 的两种实现方式。为简单起见，第一个基于模拟。这有助于在简化的框架中理解学习​​过程。我们考虑两种资产：一种有风险，一种无风险，回报为零。风险过程的回报遵循一阶自回归模型 (AR(1))：<span class="math inline">\(r_{t+1}=a+\rho r_t+\epsilon_{t+1}\)</span> 以及 <span class="math inline">\(|\rho|&lt;1\)</span> 和 <span class="math inline">\(\epsilon\)</span> 遵循方差为 <span class="math inline">\(\sigma^2\)</span> 的标准白噪声。在实践中，个体（每月）回报很少是自相关的，但调整自相关有助于了解算法是否正确学习（参见下面的练习）。</p>
 <p>该环境仅包含观察过去的返回 <span class="math inline">\(r_t\)</span>。由于我们寻求估计 <span class="math inline">\(Q\)</span> 函数，因此我们需要离散化该状态变量。最简单的选择是使用二元变量：如果 <span class="math inline">\(r_t&lt;0\)</span> 则等于 -1（负），如果 <span class="math inline">\(r_t\ge 0\)</span> 则等于 +1（正）。这些行动按投资于风险资产的数量进行总结。它可以取 5 个值：0（无风险投资组合）、0.25、0.5、0.75 和 1（完全投资于风险资产）。例如，这与 <span class="citation">Pendharkar and Cusatis (<a href="solutions-to-exercises.html#ref-pendharkar2018trading" role="doc-biblioref">2018</a>)</span> 中的选择相同。</p>
-<p>用于强化学习的 R 库的情况出人意料地稀疏。我们求助于 <em>强化学习</em> 包，它具有 <span class="math inline">\(Q\)</span> 学习的直观实现（另一个选项是 <em>强化学习</em> 包）。它需要一个包含通常输入的数据集：状态、动作、奖励和后续状态。我们首先模拟回报：它们驱动状态和奖励（投资组合收益率）。动作是随机采样的。从技术上讲，包的主要功能要求状态和操作是字符类型。数据构建在下面的块中。</p>
+<p>用于强化学习的 R 库的情况出人意料地稀疏。我们求助于 <em>ReinforcementLearning</em> 包，它具有 <span class="math inline">\(Q\)</span> 学习的直观实现（另一个选项是 <em>reinforcelearn</em> 包）。它需要一个包含通常输入的数据集：状态、动作、奖励和后续状态。我们首先模拟回报：它们驱动状态和奖励（投资组合收益率）。动作是随机采样的。从技术上讲，包的主要功能要求状态和操作是字符类型。数据构建在下面的块中。</p>
 <div class="sourceCode" id="cb245"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">ReinforcementLearning</span><span class="op">)</span>                              <span class="co"># Package for RL</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>                                                <span class="co"># Fixing the random seed</span>
@@ -305,7 +305,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <p></p>
 <p><em>Q</em>-学习算法的实现中有3个参数：</p>
 <ul>
-<li><span class="math inline">\(\eta\)</span>，是更新方程 <a href="RL.html#eq:QLupdate">(16.8)</a> 中的学习率。在 <em>强化学习</em> 中，编码为 <em>alpha</em>;<br/></li>
+<li><span class="math inline">\(\eta\)</span>，是更新方程 <a href="RL.html#eq:QLupdate">(16.8)</a> 中的学习率。在 <em>ReinforcementLearning</em> 中，编码为 <em>alpha</em>;<br/></li>
 <li><span class="math inline">\(\gamma\)</span>，奖励的折扣率（也如公式 <a href="RL.html#eq:QLupdate">(16.8)</a> 所示）；<br/></li>
 <li>和 <span class="math inline">\(\epsilon\)</span>，控制探索与利用的速率（参见公式 <a href="RL.html#eq:egreedy">(16.10)</a>）。</li>
 </ul>

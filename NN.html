@@ -383,7 +383,7 @@ NNs 的起源至少可以追溯到 <span class="citation">Rosenblatt (<a href="s
   <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">8</span>, activation <span class="op">=</span> <span class="st">'tanh'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># No activation means linear activation: f(x) = x.</span></code></pre></div>
 <p></p>
-<p>结构体的定义非常直观，使用了 <em>顺序的</em> 一种语法，其中一个输入由一层迭代转换，直到最后一次迭代给出输出。每层取决于两个参数：单元数量和应用于该层输出的激活函数。一个重要的点是第一层的 input_shape 参数。它是第一层所必需的，等于特征数。对于后续层，input_shape 由前一层的单元数量决定；因此它不是必需的。当前可用的激活列于 <a class="uri" href="https://keras.io/activations/">https://keras.io/activations/</a>。我们在倒数第二层中使用双曲正切，因为它会产生正输出和负输出。当然，最后一层也可以生成负值，但最好在最终输出之前满足此属性。</p>
+<p>结构体的定义非常直观，使用了 <em>sequential</em> 一种语法，其中一个输入由一层迭代转换，直到最后一次迭代给出输出。每层取决于两个参数：单元数量和应用于该层输出的激活函数。一个重要的点是第一层的 input_shape 参数。它是第一层所必需的，等于特征数。对于后续层，input_shape 由前一层的单元数量决定；因此它不是必需的。当前可用的激活列于 <a class="uri" href="https://keras.io/activations/">https://keras.io/activations/</a>。我们在倒数第二层中使用双曲正切，因为它会产生正输出和负输出。当然，最后一层也可以生成负值，但最好在最终输出之前满足此属性。</p>
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/compile.html">compile</a></span><span class="op">(</span>                             <span class="co"># Model specification</span>
   loss <span class="op">=</span> <span class="st">'mean_squared_error'</span>,               <span class="co"># Loss function</span>
@@ -536,7 +536,7 @@ NNs 的起源至少可以追溯到 <span class="citation">Rosenblatt (<a href="s
   <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">8</span>, activation <span class="op">=</span> <span class="st">'sigmoid'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># No activation means linear activation: f(x) = x.</span></code></pre></div>
 <p></p>
-<p>然后我们对损失函数进行编码并将其集成到模型中。重要的技巧是求助于特定于库的函数（k_<em>功能</em>）。我们对预测值的方差减去实现值和预测值之间的缩放协方差进行编码。下面我们使用五级。</p>
+<p>然后我们对损失函数进行编码并将其集成到模型中。重要的技巧是求助于特定于库的函数（k_<em>functions</em>）。我们对预测值的方差减去实现值和预测值之间的缩放协方差进行编码。下面我们使用五级。</p>
 <div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Defines the loss, we use gamma = 5</span>
 <span class="va">metric_cust</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/custom_metric.html">custom_metric</a></span><span class="op">(</span><span class="st">"custom_loss"</span>, 
@@ -899,7 +899,7 @@ r_{t,i}=\textbf{NN}_{\textbf{beta}}(\textbf{x}_{t-1,i})+\textbf{NN}_{\textbf{fac
 图 7.14：自动编码器定价模型示意图。
 </p>
 </div>
-<p>为了充分发挥 Keras 的潜力，必须改用更通用的 NNs 配方。这可以通过所谓的 <em>功能API</em>: <a class="uri" href="https://keras.rstudio.com/articles/functional_api.html">https://keras.rstudio.com/articles/functional_api.html</a>.</p>
+<p>为了充分发挥 Keras 的潜力，必须改用更通用的 NNs 配方。这可以通过所谓的 <em>functional API</em>: <a class="uri" href="https://keras.rstudio.com/articles/functional_api.html">https://keras.rstudio.com/articles/functional_api.html</a>.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>本练习的目的是演示简单 NNs 的通用近似。让我们采用一个简单的函数，例如区间 [0,6] 上的 sin(x)。使用具有一层和 16 个单元的简单前馈神经网络来模拟此功能。然后尝试使用 128 个单位，看看它如何改善贴合度。</li>
 </ol>
