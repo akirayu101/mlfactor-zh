@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 6 章 树模型 | 因子投资中的机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 6 章 树模型 | 因子投资中的机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 6 章 树模型 | 因子投资中的机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content=".container-fluid main { max-width: 60rem;分类和回归树是简单但功能强大的聚类算法，由 Breiman 等人的专着推广。 （1984）。决策树..." name="description"/>
+<meta content=".container-fluid main { max-width: 60rem;分类和回归树是简单但功能强大的聚类算法，由 Breiman 等人的专着推广。 （1984）。决策树..." property="og:description"/>
+<meta content=".container-fluid main { max-width: 60rem;分类和回归树是简单但功能强大的聚类算法，由 Breiman 等人的专着推广。 （1984）。决策树..." name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">因子投资中的机器学习</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">引言</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号与数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 引言</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></li>
+<li><a class="active" href="trees.html"><span class="header-section-number">6</span> 树模型</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性与非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 习题解答</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="trees" number="6">
+<h1>
+<span class="header-section-number">6</span> 树模型<a aria-label="锚" class="anchor" href="#trees"><i class="fas fa-link"></i></a>
+</h1>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>
+分类树和回归树是简单而强大的聚类算法，因专着而流行 <span class="citation">Breiman et al. (<a href="solutions-to-exercises.html#ref-breiman1984classification" role="doc-biblioref">1984</a>)</span>。众所周知，在处理表格数据时，决策树及其扩展是非常有效的预测工具。 ML 竞赛中大部分获奖方案（特别是在 Kaggle 网站上）<a class="footnote-ref" href="solutions-to-exercises.html#fn14" id="fnref14"><sup>14</sup></a>）诉诸简单树的改进。例如，生物信息学的元研究 <span class="citation">Olson et al. (<a href="solutions-to-exercises.html#ref-olson2018data" role="doc-biblioref">2018</a>)</span> 发现提升树和随机森林是 13 种算法中排名前 2 的算法（不包括神经网络）。</p>
+<p>最近，机器学习在金融领域的应用激增，导致许多出版物在投资组合分配问题中使用树。一个很长但并不详尽的清单包括： <span class="citation">Ballings et al. (<a href="solutions-to-exercises.html#ref-ballings2015evaluating" role="doc-biblioref">2015</a>)</span>, <span class="citation">Patel et al. (<a href="solutions-to-exercises.html#ref-patel2015predicting" role="doc-biblioref">2015a</a>)</span>, <span class="citation">Patel et al. (<a href="solutions-to-exercises.html#ref-patel2015bpredicting" role="doc-biblioref">2015b</a>)</span>, <span class="citation">Moritz and Zimmermann (<a href="solutions-to-exercises.html#ref-moritz2016tree" role="doc-biblioref">2016</a>)</span>, <span class="citation">Krauss, Do, and Huck (<a href="solutions-to-exercises.html#ref-krauss2017deep" role="doc-biblioref">2017</a>)</span>, <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2018empirical" role="doc-biblioref">2020b</a>)</span>, <span class="citation">Guida and Coqueret (<a href="solutions-to-exercises.html#ref-guida2019big" role="doc-biblioref">2018a</a>)</span>, <span class="citation">Coqueret and Guida (<a href="solutions-to-exercises.html#ref-coqueret2019training" role="doc-biblioref">2020</a>)</span> 和 <span class="citation">Simonian et al. (<a href="solutions-to-exercises.html#ref-simonian2019machine" role="doc-biblioref">2019</a>)</span>。一项显着的贡献是 <span class="citation">Bryzgalova, Pelger, and Zhu (<a href="solutions-to-exercises.html#ref-bryzgalova2019forest" role="doc-biblioref">2019</a>)</span> 其中作者通过简单的树对投资组合进行排序，从树中创建因子，他们称之为 <em>资产定价树</em>。最近的另一篇文章（<span class="citation">X. He et al. (<a href="solutions-to-exercises.html#ref-he2021panel" role="doc-biblioref">2021</a>)</span>）旨在为资产定价目的制定全球分割标准。</p>
+<p>在本章中，我们回顾与树相关的方法及其在投资组合选择中的应用。</p>
+<div class="section level2" id="simple-trees" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> 简单树<a aria-label="锚" class="anchor" href="#simple-trees"><i class="fas fa-link"></i></a>
+</h2>
+<div class="section level3" id="principle" number="6.1.1">
+<h3>
+<span class="header-section-number">6.1.1</span> 原理<a aria-label="锚" class="anchor" href="#principle"><i class="fas fa-link"></i></a>
+</h3>
+<p>决策树试图将数据集划分为 <strong>同质簇</strong>。给定一个外生变量 <span class="math inline">\(\mathbf{Y}\)</span> 和特点 <span class="math inline">\(\mathbf{X}\)</span>，树迭代地将样本分成组（通常一次两个），这些组在 <span class="math inline">\(\mathbf{Y}\)</span> 尽可能。分割是根据一组特征中的一个变量进行的。关于命名法的简短说明：当 <span class="math inline">\(\mathbf{Y}\)</span> 由实数组成，我们谈论 <em>回归树</em> 当 <span class="math inline">\(\mathbf{Y}\)</span> 是绝对的，我们使用术语 <em>分类树</em>.</p>
+<p>在正式化这个想法之前，我们在图中说明了这个过程 <a href="trees.html#fig:treescheme">6.1</a>。共有 12 颗星，具有三个特征：颜色、大小和复杂性（分支数量）。</p>
+<div class="figure">
+<span id="fig:treescheme" style="display:block;"></span>
+<img alt="基本树形图；分裂过程的可视化。" src="images/tree_scheme.png" width="826"/><p class="caption">
+图 6.1：基本树结构；分裂过程的可视化。
+</p>
+</div>
+<p>因变量是颜色（为简单起见，让我们考虑与颜色相关的波长）。第一次分割是根据大小或复杂性进行的。显然，复杂性是更好的选择：复杂的星星是蓝色和绿色，而简单的星星是黄色、橙色和红色。根据大小分裂会混合蓝色和黄色星星（小星星）以及绿色和橙色星星（大星星）。</p>
+<p>第二步是将两个集群进一步拆分一级。由于只有一个变量（大小）相关，因此二次分割很简单。最后，我们的程式化树有四个一致的簇。与因子投资的类比很简单：颜色代表绩效：红色代表高性能，蓝色代表平庸绩效。特征（星级的大小和复杂性）被公司特定的属性所取代，例如资本、会计比率等。因此，练习的目的是找到允许将公司分为表现良好的公司和可能表现较差的公司的特征。</p>
+<p>我们现在转向回归树的技术构建（分裂过程）。我们遵循以下标准文献 <span class="citation">Breiman et al. (<a href="solutions-to-exercises.html#ref-breiman1984classification" role="doc-biblioref">1984</a>)</span> 或在第 9 章 <span class="citation">Hastie, Tibshirani, and Friedman (<a href="solutions-to-exercises.html#ref-friedman2009elements" role="doc-biblioref">2009</a>)</span>。给定一个样本（<span class="math inline">\(y_i\)</span>,<span class="math inline">\(\mathbf{x}_i\)</span>）的大小 <span class="math inline">\(I\)</span>, 一个 <em>回归</em> 树寻找使总变异最小化的分裂点 <span class="math inline">\(y_i\)</span> 在两个子簇内。这两个簇不需要具有相同的大小。为了做到这一点，它分两步进行。首先，它发现，对于每个特征 <span class="math inline">\(x_i^{(k)}\)</span>，最佳分裂点（以便簇在 <span class="math inline">\(\mathbf{Y}\)</span>）。其次，它选择实现最高同质性的特征。</p>
+<p>回归树中的同质性与方差密切相关。既然我们想要 <span class="math inline">\(y_i\)</span> 为了使每个簇内部相似，我们寻求 <strong>最小化它们的可变性</strong> （或 <strong>色散</strong>）在每个簇内，然后将两个数字相加。我们无法对方差求和，因为这不会考虑簇的相对大小。因此，我们与 <em>总计</em> 变异，即方差乘以簇中元素的数量。</p>
+<p>下面，符号有点重，因为我们使用上标 <span class="math inline">\(k\)</span> （特征的索引），但很大程度上可以忽略这些上标以方便理解。第一步是找到每个特征的最佳分割，即求解 <span class="math inline">\(\underset{c^{(k)}}{\text{argmin}} \ V^{(k)}_I(c^{(k)})\)</span> 与
+<span class="math display" id="eq:node">\[\begin{equation}
+\tag{6.1}
+V^{(k)}_I(c^{(k}))= \underbrace{\sum_{x_i^{(k)}&lt;c^{(k)}}\left(y_i-m_I^{k,-}(c^{(k)}) \right)^2}_{\text{Total dispersion of first cluster}} + \underbrace{\sum_{x_i^{(k)}&gt;c^{(k)}}\left(y_i-m_I^{k,+}(c^{(k)}) \right)^2}_{\text{Total dispersion of second cluster}},
+\end{equation}\]</span>
+哪里
+<span class="math display">\[\begin{align*}
+m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}&lt;c^{(k)} \}}y_i \quad \text{ and } \\ m_I^{k,+}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&gt;c^{(k)} \}}\sum_{\{x_i^{(k)}&gt;c^{(k)} \}}y_i
+\end{align*}\]</span>
+是平均值 <span class="math inline">\(Y\)</span>，条件为 <span class="math inline">\(X^{(k)}\)</span> 小于或大于 <span class="math inline">\(c\)</span>。基函数 <span class="math inline">\(\#\{\cdot\}\)</span> 计算其参数的实例数。对于功能 <span class="math inline">\(k\)</span>, 最优分割 <span class="math inline">\(c^{k,*}\)</span> 因此， 是两个子群上的总离差最小的一个。</p>
+<p>最优分割满足 <span class="math inline">\(c^{k,*}= \underset{c^{(k)}}{\text{argmin}} \ V^{(k)}_I(c^{(k)})\)</span>。在所有可能的分裂变量中，树将选择一个不仅在所有分裂上而且在所有变量上最小化总离散度的变量： <span class="math inline">\(k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})\)</span>.</p>
+<p>执行一次拆分后，该过程将在两个新形成的集群上继续。有几个标准可以确定何时停止分裂过程（请参阅第 <a href="trees.html#pruning-criteria">6.1.3</a>）。一个简单的标准是确定树的最大级别数（深度）。通常的条件是对每次分割施加预期的最小增益。如果分割后离散度的减少只是微不足道的并且低于指定阈值，则不执行分割。对于决策树的进一步技术讨论，我们例如参考第 9.2.4 节 <span class="citation">Hastie, Tibshirani, and Friedman (<a href="solutions-to-exercises.html#ref-friedman2009elements" role="doc-biblioref">2009</a>)</span>.</p>
+<p>当树被构建（训练）时，很容易对新实例进行预测。给定其特征值，该实例最终会出现在树的一片叶子中。每片叶子都有一个标签的平均值：这是预测的结果。当然，这仅在标签为数字时才有效。我们下面讨论分类时发生的变化。</p>
+</div>
+<div class="section level3" id="treeclass" number="6.1.2">
+<h3>
+<span class="header-section-number">6.1.2</span> 分类的更多细节<a aria-label="锚" class="anchor" href="#treeclass"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+分类练习比回归任务稍微复杂一些。最明显的区别是分散性或异质性的衡量。这个损失函数必须考虑到最终输出不是一个简单的数字，而是一个向量。输出 <span class="math inline">\(\tilde{\textbf{y}}_i\)</span> 标签中有多少个类别就有多少个元素，每个元素是实例属于相应类别的概率。</p>
+<p>例如，如果有 3 个类别： <em>买</em>, <em>保持</em> 和 <em>卖</em>，那么每个实例都会有一个标签，其中的列数与类的数量一样多。按照我们的示例，一个标签将是 (1,0,0) <em>买</em> 例如位置。我们参考章节 <a href="Data.html#categorical-labels">4.5.2</a> 有关此主题的介绍。</p>
+<p>在树内部，标签在每个集群级别聚合。典型的输出看起来像 (0.6,0.1,0.3)：它们是集群中代表的每个类别的比例。在这种情况下，集群有 60% <em>买</em>, 10% <em>保持</em> 和 30% <em>卖</em>.</p>
+<p>损失函数必须考虑标签的多维性。在构建树时，由于目标是有利于同质性，因此损失会惩罚不集中于某一类的输出。事实上，面对多样化的输出（0.3,0.4,0.3）比集中的情况（0.8,0.1,0.1）更难处理。</p>
+<p>因此，该算法寻求纯度：它搜索一种分裂标准，该标准将导致尽可能纯净的集群，即具有一个非常主导的类别，或至少只有几个主导类别。文献提出了几种度量标准，所有度量标准都基于输出生成的比例。如果有 <span class="math inline">\(J\)</span> 类，我们将这些比例表示为 <span class="math inline">\(p_j\)</span>。对于每片叶子，通常的损失函数是：</p>
+<ul>
+<li>基尼杂质指数： <span class="math inline">\(1-\sum_{j=1}^Jp_j^2;\)</span><br/>
+</li>
+<li>错误分类错误： <span class="math inline">\(1-\underset{j}{\text{max}}\, p_j;\)</span><br/>
+</li>
+<li>熵： <span class="math inline">\(-\sum_{j=1}^J\log(p_j)p_j.\)</span>
+</li>
+</ul>
+<p>基尼指数只不过是减去衡量投资组合多元化程度的赫芬达尔指数。树寻找多样性最少的分区。基尼指数的最小值为零，当为 1 时达到最小值 <span class="math inline">\(p_j=1\)</span> 所有其他都等于零。最大值等于 <span class="math inline">\(1-1/J\)</span> 并且当所有的都达到 <span class="math inline">\(p_j=1/J\)</span>。其他两个损失也存在类似的关系。错误分类错误的一个缺点是它缺乏可区分性，这解释了为什么其他两种选择经常受到青睐。</p>
+<p>一旦树生长完毕，新实例将自动属于最后一片叶子。该叶子与其嵌套的类的比例相关。通常，为了进行预测，当新实例与叶子关联时，会选择比例（或概率）最高的类。</p>
+</div>
+<div class="section level3" id="pruning-criteria" number="6.1.3">
+<h3>
+<span class="header-section-number">6.1.3</span> 剪枝准则<a aria-label="锚" class="anchor" href="#pruning-criteria"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+构建树时，可以进行分裂过程，直到长出完整的树，即：</p>
+<ul>
+<li>所有实例都属于单独的叶子，和/或<br/>
+</li>
+<li>所有叶子都包含无法根据当前特征集进一步分离的实例。</li>
+</ul>
+<p>在此阶段，无法进行分裂过程。</p>
+<p>显然，当预测变量相关、数量众多且数字化时，完全生长的树通常会产生近乎完美的拟合。尽管如此，训练样本的细粒度特性对于样本外预测来说并没有多大意义。例如，能够完美匹配 2000 年到 2006 年的模式在 2007 年到 2009 年期间可能不会很有趣。树的最可靠部分是最接近根的部分，因为它们嵌入了大部分数据：早期集群中的平均值是值得信赖的，因为它们是根据大量观测值计算的。第一个分割是最重要的，因为它们决定了最一般的模式。最深的分裂只涉及样本的特殊性。</p>
+<p>因此，必须限制树的大小以避免过度拟合。修剪树的方法有多种，所有方法都取决于某些特定标准。我们在下面列出了其中的一些：</p>
+<ul>
+<li>为每个终端节点（叶）施加最小实例数。这确保了每个最终簇都由足够数量的观测值组成。因此，标签的平均值是可靠的，因为它是根据大量数据计算得出的。<br/>
+</li>
+<li>类似地，在考虑任何进一步分裂之前，可以强制集群具有最小大小。这一标准当然与上述标准有关。<br/>
+</li>
+<li>要求契合度有一定的提升阈值。如果分割不足以减少损失，则可以认为没有必要。用户指定一个小数字 <span class="math inline">\(\epsilon&gt;0\)</span> 仅当分割后获得的损失小于 <span class="math inline">\(1-\epsilon\)</span> 乘以分割前的损失。<br/>
+</li>
+<li>限制树的深度。深度定义为树的根和任何叶子之间的总体最大分裂数。</li>
+</ul>
+<p>在下面的示例中，我们同时实现所有这些标准，但通常最多两个就足够了。</p>
+</div>
+<div class="section level3" id="code-and-interpretation" number="6.1.4">
+<h3>
+<span class="header-section-number">6.1.4</span> 代码与解释<a aria-label="锚" class="anchor" href="#code-and-interpretation"><i class="fas fa-link"></i></a>
+</h3>
+<p>我们从一棵简单的树及其解释开始。我们使用包 <em>rpart</em> 及其绘图引擎 <em>rpart.plot</em>。标签是未来 1 个月的收益率，特征是样本中可用的所有预测变量。该树是在完整样本上进行训练的。</p>
+<pre><code>## Loading required package: rpart</code></pre>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bethatkinson/rpart">rpart</a></span><span class="op">)</span>              <span class="co"># Tree package  </span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.milbo.org/rpart-plot/index.html">rpart.plot</a></span><span class="op">)</span>         <span class="co"># Tree plot package</span>
+<span class="va">formula</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"R1M_Usd ~"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">features</span>, collapse <span class="op">=</span> <span class="st">" + "</span><span class="op">)</span><span class="op">)</span> <span class="co"># Defines the model </span>
+<span class="va">formula</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="va">formula</span><span class="op">)</span>                                   <span class="co"># Forcing formula object</span>
+<span class="va">fit_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpart/man/rpart.html">rpart</a></span><span class="op">(</span><span class="va">formula</span>,
+             data <span class="op">=</span> <span class="va">data_ml</span>,     <span class="co"># Data source: full sample</span>
+             minbucket <span class="op">=</span> <span class="fl">3500</span>,   <span class="co"># Min nb of obs required in each terminal node (leaf)</span>
+             minsplit <span class="op">=</span> <span class="fl">8000</span>,    <span class="co"># Min nb of obs required to continue splitting</span>
+             cp <span class="op">=</span> <span class="fl">0.0001</span>,        <span class="co"># Precision: smaller = more leaves</span>
+             maxdepth <span class="op">=</span> <span class="fl">3</span>        <span class="co"># Maximum depth (i.e. tree levels)</span>
+             <span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/pkg/rpart.plot/man/rpart.plot.html">rpart.plot</a></span><span class="op">(</span><span class="va">fit_tree</span><span class="op">)</span>             <span class="co"># Plot the tree</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:rpart1" style="display:block;"></span>
+<img alt="简单的基于特征的树。因变量是 未来 1 个月收益。" src="ML_factor_files/figure-html/rpart1-1.png" width="400px"/><p class="caption">
+图 6.2：简单的基于特征的树。因变量是 未来 1 个月收益。
+</p>
+</div>
+<p></p>
+<p>树的表示通常存在约定。在每个节点，条件用布尔表达式描述分割。如果表达式是 <strong>真实</strong>，然后实例转到 <strong>左簇</strong>;如果没有，则转到 <em>对</em> 集群。给定整个样本，这棵树中的初始分割（图 <a href="trees.html#fig:rpart1">6.2</a>)按照市净率计算。如果实例的 Pb 分数（或值）高于 0.025，则将该实例放入左桶中；否则，它会进入 <strong>右桶</strong>.</p>
+<p>在每个节点，有两个重要的指标。第一个是集群中标签的平均值，第二个是集群中实例的比例。在树的顶部，所有实例 (100%) 都存在，平均 未来 1 个月收益率为 1.3%。下面一层，左侧集群是迄今为止最拥挤的，大约 98% 的观测值平均收益率为 1.2%。右侧的集群要小得多 (2%)，但集中的实例具有更高的平均收益率 (5.9%)。这可能是样本的特殊之处。</p>
+<p>分裂过程在每个节点处类似地继续，直到满足某些条件（通常在这里：达到最大深度）。颜色编码平均收益率：从白色（低收益率）到蓝色（高收益率）。最左边平均收益率最低的集群由满足以下条件的公司组成： <em>全部</em> 以下标准：</p>
+<ul>
+<li>Pb 分数高于 0.025；<br/>
+</li>
+<li>3个月市值得分高于0.16；<br/>
+</li>
+<li>过去 3 个月的日均交易量得分高于 0.85。</li>
+</ul>
+<p>请注意，树的一个特点是它们的簇大小可能存在异质性。有时，一些集群收集了几乎所有的观察结果，而一些小组则嵌入了一些异常值。这不是树的有利特性，因为小群体更有可能是侥幸，并且可能无法概括样本外。</p>
+<p>这就是我们在构建树时施加限制的原因。第一个（代码中的 minbucket = 3500）要求每个集群至少包含 3500 个实例。第二个 (minsplit) 进一步要求一个簇至少包含 8000 个观测值，以便进行分裂过程。这些值在逻辑上取决于训练样本的大小。代码中的 cp = 0.0001 参数要求任何分割都能将损失减少到分割前原始值的 0.9999 倍以下。最后，最大深度三本质上意味着树的根和任何终端叶子之间最多有三个分裂。</p>
+<p>树的复杂性（通过末端叶子的数量来衡量）是 minbucket、minsplit 和 cp 的递减函数以及最大深度的递增函数。</p>
+<p>一旦模型经过训练（即树生长），任何实例的预测都是该实例应落在的集群内标签的平均值。</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_tree</span>, <span class="va">data_ml</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>,<span class="op">]</span><span class="op">)</span> <span class="co"># Test (prediction) on the first six instances of the sample</span></code></pre></div>
+<pre><code>##          1          2          3          4          5          6 
+## 0.01088066 0.01088066 0.01088066 0.01088066 0.01088066 0.01088066</code></pre>
+<p></p>
+<p>给出该图，我们立即得出结论，前六个实例都属于第二个集群（从左侧开始）。</p>
+<p>作为对第一次分割的验证，我们根据市值、市净率和交易量绘制了未来收益率的平滑平均值。</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_ml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">stat_smooth</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Mkt_Cap_3M_Usd</span>, y <span class="op">=</span> <span class="va">R1M_Usd</span>, color <span class="op">=</span> <span class="st">"Market Cap"</span><span class="op">)</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">stat_smooth</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Pb</span>, y <span class="op">=</span> <span class="va">R1M_Usd</span>, color <span class="op">=</span> <span class="st">"Price-to-Book"</span><span class="op">)</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">stat_smooth</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Advt_3M_Usd</span>, y <span class="op">=</span> <span class="va">R1M_Usd</span>, color <span class="op">=</span> <span class="st">"Volume"</span><span class="op">)</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Predictor"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="fl">11</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"Characteristic"</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:rpart3mkt" style="display:block;"></span>
+<img alt="1 个月未来收益率的平均值，以市值、市净率和波动率分数为条件。" src="ML_factor_files/figure-html/rpart3mkt-1.png" width="400px"/><p class="caption">
+图 6.3：1 个月未来收益率的平均值，以市值、市净率和波动率分数为条件。
+</p>
+</div>
+<p></p>
+<p>该图显示了基于市值和市净率的集群的相关性。对于这两个特征的低分数值，平均收益率很高（曲线左侧每月接近 +4%）。例如，与成交量相比，这种模式更为明显。</p>
+<p>最后，我们评估测试集上单个树的预测质量（该树在训练集上生长）。我们使用更深的树，最大深度为五。</p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_tree2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpart/man/rpart.html">rpart</a></span><span class="op">(</span><span class="va">formula</span>, 
+             data <span class="op">=</span> <span class="va">training_sample</span>,     <span class="co"># Data source: training sample</span>
+             minbucket <span class="op">=</span> <span class="fl">1500</span>,           <span class="co"># Min nb of obs required in each terminal node (leaf)</span>
+             minsplit <span class="op">=</span> <span class="fl">4000</span>,            <span class="co"># Min nb of obs required to continue splitting</span>
+             cp <span class="op">=</span> <span class="fl">0.0001</span>,                <span class="co"># Precision: smaller cp = more leaves</span>
+             maxdepth <span class="op">=</span> <span class="fl">5</span>                <span class="co"># Maximum depth (i.e. tree levels)</span>
+             <span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_tree2</span>, <span class="va">testing_sample</span><span class="op">)</span> <span class="op">-</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="co"># MSE</span></code></pre></div>
+<pre><code>## [1] 0.03700039</code></pre>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_tree2</span>, <span class="va">testing_sample</span><span class="op">)</span> <span class="op">*</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.5416619</code></pre>
+<p></p>
+<p>均方误差通常很难解释。将收益率错误映射到对投资决策的影响并不容易。命中率是一个更直观的指标，因为它评估正确猜测（以及因此有利可图的投资）的比例。显然，它并不完美：55% 的小收益可以通过 45% 的大损失来缓解。尽管如此，它是一个流行的度量标准，而且它对应于二元分类练习中经常计算的常用准确度度量。这里，0.542 的精度是令人满意的。即使超过 50% 的任何数字看起来都很有价值，但也不能忘记交易成本会削弱收益。因此，基准阈值可能至少为 52%。</p>
+</div>
+</div>
+<div class="section level2" id="random-forests" number="6.2">
+<h2>
+<span class="header-section-number">6.2</span> 随机森林<a aria-label="锚" class="anchor" href="#random-forests"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+虽然树可以直观地表示之间的关系 <span class="math inline">\(\mathbf{Y}\)</span> 和 <span class="math inline">\(\mathbf{X}\)</span>，它们可以通过集成的简单思想来改进，其中预测工具是 <em>合并的</em> （本主题的 <strong>模型聚合</strong> 在本章中更一般和更详细地讨论 <a href="ensemble.html#ensemble">11</a>).</p>
+<div class="section level3" id="principle-1" number="6.2.1">
+<h3>
+<span class="header-section-number">6.2.1</span> 原理<a aria-label="锚" class="anchor" href="#principle-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>大多数时候，当手头有多个建模选项时，预先并不清楚哪个模型最好，因此组合似乎是实现预测误差多样化的合理途径（当它们不太相关时）。模型多样化的一些理论基础在 <span class="citation">Schapire (<a href="solutions-to-exercises.html#ref-schapire1990strength" role="doc-biblioref">1990</a>)</span>.</p>
+<p>稍后提出了更多实际考虑因素 <span class="citation">T. K. Ho (<a href="solutions-to-exercises.html#ref-ho1995random" role="doc-biblioref">1995</a>)</span> 更重要的是在 <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span> 这是随机森林的主要参考。 Bagging 成功用于 <span class="citation">Yin (<a href="solutions-to-exercises.html#ref-yin2020equity" role="doc-biblioref">2020</a>)</span> 汇总股票预测。有两种方法可以从简单的树创建多个预测变量，随机森林将这两种方法结合起来：</p>
+<ul>
+<li>首先，可以在相似但不同的数据集上训练模型。实现此目的的一种方法是通过引导程序：在有或没有替换的情况下对实例进行重新采样（对于每个单独的树），每次构建新树时都会产生新的训练数据。<br/>
+</li>
+<li>其次，可以通过减少预测变量的数量来改变数据。替代模型是根据不同的特征集构建的。用户选择要保留的特征数量，然后算法在每次尝试时随机选择这些特征。</li>
+</ul>
+<p>因此，种植许多不同的树变得很简单，并且整体只是一个 <strong>加权组合</strong> 所有树。通常，使用相等的权重，这是一个不可知且稳健的选择。我们在图中说明了简单组合（也称为装袋）的想法 <a href="trees.html#fig:RF">6.4</a> 下面。最终预测只是所有中间预测的平均值。</p>
+<div class="figure">
+<span id="fig:RF" style="display:block;"></span>
+<img alt="通过随机森林组合树输出。" src="images/tree_RF.png" width="826"/><p class="caption">
+图 6.4：通过随机森林组合树输出。
+</p>
+</div>
+<p>随机森林因为是建立在引导思想之上的，所以比简单树更有效。它们被使用 <span class="citation">Ballings et al. (<a href="solutions-to-exercises.html#ref-ballings2015evaluating" role="doc-biblioref">2015</a>)</span>, <span class="citation">Patel et al. (<a href="solutions-to-exercises.html#ref-patel2015predicting" role="doc-biblioref">2015a</a>)</span>, <span class="citation">Krauss, Do, and Huck (<a href="solutions-to-exercises.html#ref-krauss2017deep" role="doc-biblioref">2017</a>)</span>, 和 <span class="citation">Huck (<a href="solutions-to-exercises.html#ref-huck2019large" role="doc-biblioref">2019</a>)</span> 他们在这些论文中表现得非常好。随机森林的原始理论特性在 <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span> 用于分类树。在分类练习中，通过投票做出决定：每棵树为特定类别投票，得票最多的类别获胜（如果出现平局，可能会随机选择）。 <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span> 将边际函数定义为
+<span class="math display">\[mg=M^{-1}\sum_{m=1}^M1_{\{h_m(\textbf{x})=y\}}-\max_{j\neq y}\left(M^{-1}\sum_{m=1}^M1_{\{h_m(\textbf{x})=j\}}\right),\]</span>
+其中左边部分是基于投票的平均票数 <span class="math inline">\(M\)</span> 树 <span class="math inline">\(h_m\)</span> 对于正确的类别（模型 <span class="math inline">\(h_m\)</span> 基于 <span class="math inline">\(\textbf{x}\)</span> 与数据值匹配 <span class="math inline">\(y\)</span>）。右侧部分是任何其他类别的最大平均值。边际反映了聚合森林正确分类的信心。泛化误差是概率 <span class="math inline">\(mg\)</span> 严格来说是负面的。 <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span> 表明聚合的不准确性（通过泛化误差测量）的界限为 <span class="math inline">\(\bar{\rho}(1-s^2)/s^2\)</span>, 其中<br/>
+- <span class="math inline">\(s\)</span> 是强度（平均质量<a class="footnote-ref" href="solutions-to-exercises.html#fn15" id="fnref15"><sup>15</sup></a>）各个分类器和<br/>
+- <span class="math inline">\(\bar{\rho}\)</span> 是学习者之间的平均相关性。</p>
+<p>值得注意的是， <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span> 还表明，随着树数量增长到无穷大，误差会收敛到某个有限数量，这解释了为什么随机森林不容易过度拟合。</p>
+<p>虽然原始论文 <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span> 致力于分类模型，此后许多文章都解决了回归树的问题。我们建议有兴趣的读者参考 <span class="citation">Biau (<a href="solutions-to-exercises.html#ref-biau2012analysis" role="doc-biblioref">2012</a>)</span> 和 <span class="citation">Scornet et al. (<a href="solutions-to-exercises.html#ref-scornet2015consistency" role="doc-biblioref">2015</a>)</span>。最后，可以在分类集成中获得进一步的结果 <span class="citation">Biau, Devroye, and Lugosi (<a href="solutions-to-exercises.html#ref-biau2008consistency" role="doc-biblioref">2008</a>)</span> 我们提到了简短的调查论文 <span class="citation">Denil, Matheson, and De Freitas (<a href="solutions-to-exercises.html#ref-denil2014narrowing" role="doc-biblioref">2014</a>)</span> 总结了该领域的最新成果。</p>
+</div>
+<div class="section level3" id="code-and-results-1" number="6.2.2">
+<h3>
+<span class="header-section-number">6.2.2</span> 代码和结果<a aria-label="锚" class="anchor" href="#code-and-results-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>随机森林有多种实现方式。为简单起见，我们选择使用原始 R 库，但另一种选择可能是 h2o 开发的库，它是一种高效的机器学习元环境（用 Java 编码）。</p>
+<p>randomForest 的语法遵循许多 ML 库的语法。一些随机森林实现的完整选项列表非常大。<a class="footnote-ref" href="solutions-to-exercises.html#fn16" id="fnref16"><sup>16</sup></a> 下面，我们训练一个模型并展示测试样本的前 5 个实例的预测。</p>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.stat.berkeley.edu/~breiman/RandomForests/">randomForest</a></span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>                                <span class="co"># Sets the random seed</span>
+<span class="va">fit_RF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span><span class="op">(</span><span class="va">formula</span>,             <span class="co"># Same formula as for simple trees!</span>
+                 data <span class="op">=</span> <span class="va">training_sample</span>,    <span class="co"># Data source: training sample</span>
+                 sampsize <span class="op">=</span> <span class="fl">10000</span>,          <span class="co"># Size of (random) sample for each tree</span>
+                 replace <span class="op">=</span> <span class="cn">FALSE</span>,           <span class="co"># Is the sampling done with replacement?</span>
+                 nodesize <span class="op">=</span> <span class="fl">250</span>,            <span class="co"># Minimum size of terminal cluster</span>
+                 ntree <span class="op">=</span> <span class="fl">40</span>,                <span class="co"># Nb of random trees</span>
+                 mtry <span class="op">=</span> <span class="fl">30</span>                  <span class="co"># Nb of predictive variables for each tree</span>
+    <span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_RF</span>, <span class="va">testing_sample</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span><span class="op">)</span>       <span class="co"># Prediction over the first 5 test instances </span></code></pre></div>
+<pre><code>##            1            2            3            4            5 
+##  0.009787728  0.012507087  0.008722386  0.009398814 -0.011511758</code></pre>
+<p></p>
+<p>第一个评论是每个实例都有自己的预测，这与简单的树模型结果形成对比。结合许多树可以产生量身定制的预测。请注意，该块的第二行冻结了随机数生成。事实上，随机森林的构建取决于为构建个体学习器而选择的实例和特征的任意组合。</p>
+<p>在上面的示例中，每个单独的学习器（树）都建立在 10,000 个随机选择的实例（无替换）之上，并且每个终端叶（簇）必须包含至少 240 个元素（观察）。总共聚合了 40 棵树，每棵树都是基于 30 个随机选择的预测变量（从整个特征集中）构建的。</p>
+<p>与简单的树不同，不可能简单地说明学习过程的结果（尽管存在解决方案，请参阅第 <a href="interp.html#surr">13.1.1</a>）。提取所有 40 棵树是可能的，但综合可视化是遥不可及的。可以通过变量重要性获得简化视图，如第 1 节中所述 <a href="interp.html#variable-importance">13.1.2</a>.</p>
+<p>最后，我们可以评估模型的准确性。</p>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_RF</span>, <span class="va">testing_sample</span><span class="op">)</span> <span class="op">-</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="co"># MSE</span></code></pre></div>
+<pre><code>## [1] 0.03698197</code></pre>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_RF</span>, <span class="va">testing_sample</span><span class="op">)</span> <span class="op">*</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.5370186</code></pre>
+<p></p>
+<p>MSE 小于 4%，命中率接近 54%，合理地高于 50% 和 52% 阈值。</p>
+<p>让我们看看是否可以通过分类练习来提高命中率。我们首先根据新公式训练模型（标签为 R1M_Usd_C）。</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">formula_C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"R1M_Usd_C ~"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">features</span>, collapse <span class="op">=</span> <span class="st">" + "</span><span class="op">)</span><span class="op">)</span> <span class="co"># Defines the model </span>
+<span class="va">formula_C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="va">formula_C</span><span class="op">)</span>                                   <span class="co"># Forcing formula object</span>
+<span class="va">fit_RF_C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span><span class="op">(</span><span class="va">formula_C</span>,         <span class="co"># New formula! </span>
+                 data <span class="op">=</span> <span class="va">training_sample</span>,    <span class="co"># Data source: training sample</span>
+                 sampsize <span class="op">=</span> <span class="fl">20000</span>,          <span class="co"># Size of (random) sample for each tree</span>
+                 replace <span class="op">=</span> <span class="cn">FALSE</span>,           <span class="co"># Is the sampling done with replacement?</span>
+                 nodesize <span class="op">=</span> <span class="fl">250</span>,            <span class="co"># Minimum size of terminal cluster</span>
+                 ntree <span class="op">=</span> <span class="fl">40</span>,                <span class="co"># Number of random trees</span>
+                 mtry <span class="op">=</span> <span class="fl">30</span>                  <span class="co"># Number of predictive variables for each tree </span>
+    <span class="op">)</span></code></pre></div>
+<p></p>
+<p>然后我们可以评估正确（二元）猜测的比例。
+</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_RF_C</span>, <span class="va">testing_sample</span><span class="op">)</span> <span class="op">==</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.4971371</code></pre>
+<p></p>
+<p>准确性令人失望。对此有两种可能的解释（除了训练和测试集中可能存在非常不同的模式之外）。第一个是样本量，可能太小了。原始训练集有超过 200,000 个观测值，因此我们在上述训练规范中只保留了十分之一。因此，我们可能会忽视相关信息，而成本可能会很高。第二个原因是预测变量的数量，它设置为 30，即我们可以使用的预测变量总数的三分之一。不幸的是，这为算法留下了选择不太相关的预测变量的空间。例程选择的默认预测变量数量是 <span class="math inline">\(\sqrt{p}\)</span> 和 <span class="math inline">\(p/3\)</span> 分别用于分类和回归任务。这里 <span class="math inline">\(p\)</span> 是特征总数。</p>
+</div>
+</div>
+<div class="section level2" id="Adaboost" number="6.3">
+<h2>
+<span class="header-section-number">6.3</span> 提升树：Adaboost<a aria-label="锚" class="anchor" href="#Adaboost"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+与不可知聚合相比，提升的想法稍微先进一些。在随机森林中，我们希望通过许多树的多样化来提高模型的整体质量。在提升过程中，每当添加新树时都会寻求迭代改进模型。促进学习的方法有很多，我们提出了两种可以轻松用树实现的方法。第一个（Adaboost，用于自适应增强）通过逐步关注产生最大错误的实例来改进学习过程。第二个（xgboost）是一种灵活的算法，其中每个新树只专注于训练样本损失的最小化。</p>
+<div class="section level3" id="methodology" number="6.3.1">
+<h3>
+<span class="header-section-number">6.3.1</span> 方法论<a aria-label="锚" class="anchor" href="#methodology"><i class="fas fa-link"></i></a>
+</h3>
+<p>Adaboost 的起源可以追溯到 <span class="citation">Freund and Schapire (<a href="solutions-to-exercises.html#ref-freund1997decision" role="doc-biblioref">1997</a>)</span> 和 <span class="citation">Freund and Schapire (<a href="solutions-to-exercises.html#ref-freund1996experiments" role="doc-biblioref">1996</a>)</span>，为了完整起见，我们还提到了这本书致力于通过 <span class="citation">Schapire and Freund (<a href="solutions-to-exercises.html#ref-schapire2012boosting" role="doc-biblioref">2012</a>)</span>。这些想法的扩展提出于 <span class="citation">J. Friedman et al. (<a href="solutions-to-exercises.html#ref-friedman2000additive" role="doc-biblioref">2000</a>)</span> （所谓真正的Adaboost算法）并且在 <span class="citation">Drucker (<a href="solutions-to-exercises.html#ref-drucker1997improving" role="doc-biblioref">1997</a>)</span> （用于回归分析）。理论处理方法是通过 <span class="citation">Breiman et al. (<a href="solutions-to-exercises.html#ref-breiman2004population" role="doc-biblioref">2004</a>)</span>.</p>
+<p>我们首先直接陈述算法的总体结构：</p>
+<ul>
+<li>设置相等的权重 <span class="math inline">\(w_i=I^{-1}\)</span>;<br/>
+</li>
+<li>对于 <span class="math inline">\(m=1,\dots,M\)</span> 做：</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>寻找学习者 <span class="math inline">\(l_m\)</span> 最小化加权损失 <span class="math inline">\(\sum_{i=1}^Iw_iL(l_m(\textbf{x}_i),\textbf{y}_i)\)</span>;</li>
+<li>计算学习者权重
+<span class="math display" id="eq:Adaboostam">\[\begin{equation}
+\tag{6.2}
+a_m=f_a(\textbf{w},l_m(\textbf{x}),\textbf{y});
+\end{equation}\]</span>
+</li>
+<li>更新实例权重
+<span class="math display" id="eq:Adaboostw">\[\begin{equation}
+\tag{6.3}
+w_i \leftarrow w_ie^{f_w(l_m(\textbf{x}_i), \textbf{y}_i)};
+\end{equation}\]</span>
+</li>
+<li>标准化 <span class="math inline">\(w_i\)</span> 总和为一。</li>
+</ol>
+<ul>
+<li>输出例如 <span class="math inline">\(\textbf{x}_i\)</span> 是一个简单的函数 <span class="math inline">\(\sum_{m=1}^M a_ml_m(\textbf{x}_i)\)</span>,
+<span class="math display" id="eq:Adaboosty">\[\begin{equation}
+\tag{6.4}
+\tilde{y}_i=f_y\left(\sum_{m=1}^M a_ml_m(\textbf{x}_i) \right).
+\end{equation}\]</span>
+</li>
+</ul>
+<p>让我们评论一下算法的步骤。该公式适用于 Adaboost 的许多变体，我们将指定函数 <span class="math inline">\(f_a\)</span> 和 <span class="math inline">\(f_w\)</span> 下面。</p>
+<ol style="list-style-type: decimal">
+<li>第一步寻找学习者（树） <span class="math inline">\(l_m\)</span> 最大限度地减少加权损失。这里是基本损失函数 <span class="math inline">\(L\)</span> 本质上取决于任务（回归与分类）。<br/>
+</li>
+<li>第二步和第三步是最有趣的，因为它们是 Adaboost 的核心：它们定义了算法顺序适应的方式。因为目的是聚合模型，所以与学习者的统一权重相比，更复杂的方法是为每个学习者量身定制权重。自然属性（对于 <span class="math inline">\(f_a\)</span>）应该是产生较小误差的学习器应该具有较大的权重，因为它更准确。<br/>
+</li>
+<li>第三步是改变观测值的权重。在这种情况下，因为模型旨在改进学习过程， <span class="math inline">\(f_w\)</span> 的构建是为了对当前模型做得不好（即产生最大误差）的观察给予更多权重。因此，下一个学习者将被激励更多地关注这些病态案例。<br/>
+</li>
+<li>第三步是简单的缩放过程。</li>
+</ol>
+<p>表中 <a href="trees.html#tab:Adaboost">6.1</a>，我们详细介绍了文献中使用的加权函数的两个示例。对于原始的 Adaboost (<span class="citation">Freund and Schapire (<a href="solutions-to-exercises.html#ref-freund1996experiments" role="doc-biblioref">1996</a>)</span>, <span class="citation">Freund and Schapire (<a href="solutions-to-exercises.html#ref-freund1997decision" role="doc-biblioref">1997</a>)</span>），标签是二进制的，只有值 +1 和 -1。第二个例子源于 <span class="citation">Drucker (<a href="solutions-to-exercises.html#ref-drucker1997improving" role="doc-biblioref">1997</a>)</span> 并致力于回归分析（带有实值标签）。有兴趣的读者可以看看其他的可能性 <span class="citation">Schapire (<a href="solutions-to-exercises.html#ref-schapire2003boosting" role="doc-biblioref">2003</a>)</span> 和 <span class="citation">Ridgeway, Madigan, and Richardson (<a href="solutions-to-exercises.html#ref-ridgeway1999boosting" role="doc-biblioref">1999</a>)</span>.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Adaboost">表 6.1： </span> 类似 Adaboost 的算法的函数示例。</caption>
+<colgroup>
+<col width="33%"/>
+<col width="33%"/>
+<col width="33%"/>
+</colgroup>
+<thead><tr class="header">
+<th></th>
+<th>宾。分类。 （原版。Adaboost）</th>
+<th>回归（德鲁克（1997））</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>个别错误</td>
+<td><span class="math inline">\(\epsilon_i=\textbf{1}_{\left\{y_i\neq l_m(\textbf{x}_i) \right\}}\)</span></td>
+<td><span class="math inline">\(\epsilon_i=\frac{|y_i- l_m(\textbf{x}_i)|}{\underset{i}{\max}|y_i- l_m(\textbf{x}_i)|}\)</span></td>
+</tr>
+<tr class="even">
+<td>学习者的权重通过 <span class="math inline">\(f_a\)</span>
+</td>
+<td>
+<span class="math inline">\(f_a=\log\left(\frac{1-\epsilon}{\epsilon} \right)\)</span>,与 <span class="math inline">\(\epsilon=I^{-1}\sum_{i=1}^Iw_i \epsilon_i\)</span>
+</td>
+<td>
+<span class="math inline">\(f_a=\log\left(\frac{1-\epsilon}{\epsilon} \right)\)</span>,与 <span class="math inline">\(\epsilon=I^{-1}\sum_{i=1}^Iw_i \epsilon_i\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td>实例的权重通过 <span class="math inline">\(f_w(i)\)</span>
+</td>
+<td><span class="math inline">\(f_w=f_a\epsilon_i\)</span></td>
+<td><span class="math inline">\(f_w=f_a\epsilon_i\)</span></td>
+</tr>
+<tr class="even">
+<td>输出功能通过 <span class="math inline">\(f_y\)</span>
+</td>
+<td><span class="math inline">\(f_y(x) = \text{sign}(x)\)</span></td>
+<td>预测的加权中位数</td>
+</tr>
+</tbody>
+</table></div>
+<p>让我们评论一下最初的 Adaboost 规范。基本误差项 <span class="math inline">\(\epsilon_i=\textbf{1}_{\left\{y_i\neq l_m(\textbf{x}_i) \right\}}\)</span> 是一个虚拟数字，指示预测是否正确（我们记得只有两个可能的值，+1 和 -1）。平均误差 <span class="math inline">\(\epsilon\in [0,1]\)</span> 只是个体误差和权重的加权平均值 <span class="math inline">\(m^{th}\)</span> 学习者在方程中定义 <a href="trees.html#eq:Adaboostam">(6.2)</a> 由下式给出 <span class="math inline">\(a_m=\log\left(\frac{1-\epsilon}{\epsilon} \right)\)</span>。功能 <span class="math inline">\(x\mapsto \log((1-x)x^{-1})\)</span> 减少于 <span class="math inline">\([0,1]\)</span> 并切换符号（从正到负） <span class="math inline">\(x=1/2\)</span>。因此，当平均误差较小时，学习器具有较大的正权重，但当误差变大时，学习器甚至可以获得负权重。确实，门槛 <span class="math inline">\(\epsilon&gt;1/2\)</span> 表明学习者有超过 50% 的时间是错误的。显然，这表明存在问题，学习器甚至应该被丢弃。</p>
+<p>实例权重的变化遵循类似的逻辑。新的重量与 <span class="math inline">\(w_i\left(\frac{1-\epsilon}{\epsilon} \right)^{\epsilon_i}\)</span>。如果预测正确并且 <span class="math inline">\(\epsilon_i=0\)</span>，权重不变。如果预测错误并且 <span class="math inline">\(\epsilon_i=1\)</span>，根据总误差调整权重 <span class="math inline">\(\epsilon\)</span>。如果误差很小并且学习器效率很高（<span class="math inline">\(\epsilon&lt;1/2\)</span>），那么 <span class="math inline">\((1-\epsilon)/\epsilon&gt;1\)</span> 并且实例的权重增加。这意味着在下一轮中，学习者将不得不更多地关注实例 <span class="math inline">\(i\)</span>.</p>
+<p>最后，模型的最终预测对应于各个预测的加权和的符号：如果总和为正，则模型将预测 +1，否则将产生 -1。<a class="footnote-ref" href="solutions-to-exercises.html#fn17" id="fnref17"><sup>17</sup></a> 零和的可能性可以忽略不计。对于数字标签，过程稍微复杂一些，我们参考第 3 节第 8 步 <span class="citation">Drucker (<a href="solutions-to-exercises.html#ref-drucker1997improving" role="doc-biblioref">1997</a>)</span> 有关如何进行的更多详细信息。</p>
+<p>我们用一个关于实例权重的词来结束本次演讲。有两种方法可以处理这个话题。第一个在损失函数层面起作用。对于回归树，方程 <a href="trees.html#eq:node">(6.1)</a> 自然会推广到
+<span class="math display">\[V^{(k)}_N(c^{(k)}, \textbf{w})= \sum_{x_i^{(k)}&lt;c^{(k)}}w_i\left(y_i-m_N^{k,-}(c^{(k)}) \right)^2 + \sum_{x_i^{(k)}&gt;c^{(k)}}w_i\left(y_i-m_N^{k,+}(c^{(k)}) \right)^2,\]</span></p>
+<p>因此是一个重量很大的实例 <span class="math inline">\(w_i\)</span> 将对其集群的分散做出更大的贡献。对于分类目标来说，改动比较复杂，我们参考 <span class="citation">Ting (<a href="solutions-to-exercises.html#ref-ting2002instance" role="doc-biblioref">2002</a>)</span> 实例加权树生长算法的一个示例。这个想法与通过损失矩阵改变错误分类风险密切相关（参见第 9.2.4 节） <span class="citation">Hastie, Tibshirani, and Friedman (<a href="solutions-to-exercises.html#ref-friedman2009elements" role="doc-biblioref">2009</a>)</span>).</p>
+<p>强制实例加权的第二种方法是通过随机采样。如果实例有权重 <span class="math inline">\(w_i\)</span>，那么学习器的训练可以在随机提取的样本上进行，样本的分布等于 <span class="math inline">\(w_i\)</span>。在这种情况下，权重较大的实例将有更多机会出现在训练样本中。最初的Adaboost算法依赖于这种方法。</p>
+</div>
+<div class="section level3" id="illustration" number="6.3.2">
+<h3>
+<span class="header-section-number">6.3.2</span> 插图<a aria-label="锚" class="anchor" href="#illustration"><i class="fas fa-link"></i></a>
+</h3>
+<p>下面，我们测试原始 Adaboost 分类器的实现。因此，我们使用 R1M_Usd_C 变量并更改模型公式。 Adaboost 在大型数据集上的计算成本很高，因此我们使用较小的样本，并且只进行了 3 次迭代。</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/souravc83/fastAdaboost">fastAdaboost</a></span><span class="op">)</span>                                                     <span class="co"># Adaboost package </span>
+<span class="va">subsample</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">52000</span><span class="op">)</span><span class="op">*</span><span class="fl">4</span>                                                  <span class="co"># Target small sample</span>
+<span class="va">fit_adaboost_C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/fastAdaboost/man/adaboost.html">adaboost</a></span><span class="op">(</span><span class="va">formula_C</span>,                                     <span class="co"># Model spec.</span>
+                         data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">training_sample</span><span class="op">[</span><span class="va">subsample</span>,<span class="op">]</span><span class="op">)</span>,  <span class="co"># Data source</span>
+                         nIter <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>                                       <span class="co"># Number of trees              </span></code></pre></div>
+<p></p>
+<p>最后，我们评估分类器的性能。 </p>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_adaboost_C</span>, <span class="va">testing_sample</span><span class="op">)</span><span class="op">$</span><span class="va">class</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 0.5028202</code></pre>
+<p></p>
+<p>准确率（以命中率来评估）显然不能令人满意。造成这种情况的原因之一可能是我们对训练施加的限制（较小的样本和只有三棵树）。</p>
+</div>
+</div>
+<div class="section level2" id="boosted-trees-extreme-gradient-boosting" number="6.4">
+<h2>
+<span class="header-section-number">6.4</span> 提升树：极端梯度提升<a aria-label="锚" class="anchor" href="#boosted-trees-extreme-gradient-boosting"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+背后的想法 <strong>树增强</strong> 除其他外，受到欢迎 <span class="citation">Mason et al. (<a href="solutions-to-exercises.html#ref-mason2000boosting" role="doc-biblioref">2000</a>)</span>, <span class="citation">J. H. Friedman (<a href="solutions-to-exercises.html#ref-friedman2001greedy" role="doc-biblioref">2001</a>)</span>, 和 <span class="citation">J. H. Friedman (<a href="solutions-to-exercises.html#ref-friedman2002stochastic" role="doc-biblioref">2002</a>)</span>。在这种情况下，学习器（预测工具）的组合并不像随机森林中那样是不可知的，而是在学习器级别进行调整（或优化）。每一步 <span class="math inline">\(s\)</span>, 模型总和 <span class="math inline">\(M_S=\sum_{s=1}^{S-1}m_s+m_S\)</span> 是这样的，最后一个学习者 <span class="math inline">\(m_S\)</span> 经过精心设计，以减少损失 <span class="math inline">\(M_S\)</span> 在训练样本上。</p>
+<p>下面，我们密切关注原著 <span class="citation">T. Chen and Guestrin (<a href="solutions-to-exercises.html#ref-chen2016xgboost" role="doc-biblioref">2016</a>)</span> 因为他们的算法可以产生令人难以置信的准确预测，而且还因为它是高度可定制的。我们在实证部分使用的是它们的实现。另一种流行的替代方案是 lightgbm（参见 <span class="citation">G. Ke et al. (<a href="solutions-to-exercises.html#ref-ke2017lightgbm" role="doc-biblioref">2017</a>)</span>）。 XGBoost 寻求最小化的是目标
+<span class="math display">\[O=\underbrace{\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)}_{\text{error term}} \quad + \underbrace{\sum_{j=1}^J\Omega(T_j)}_{\text{regularization term}}.\]</span>
+第一项（在所有实例中）测量真实标签与模型输出之间的距离。第二项（针对所有树）惩罚过于复杂的模型。</p>
+<p>为了简单起见，我们提出用最简单的损失函数进行完整推导 <span class="math inline">\(\text{loss}(y,\tilde{y})=(y-\tilde{y})^2\)</span>，这样：
+<span class="math display">\[O=\sum_{i=1}^I \left(y_i-m_{J-1}(\mathbf{x}_i)-T_J(\mathbf{x}_i)\right)^2+ \sum_{j=1}^J\Omega(T_j).\]</span></p>
+<div class="section level3" id="managing-loss" number="6.4.1">
+<h3>
+<span class="header-section-number">6.4.1</span> 管理损失<a aria-label="锚" class="anchor" href="#managing-loss"><i class="fas fa-link"></i></a>
+</h3>
+<p>假设我们已经构建了所有树 <span class="math inline">\(T_{j}\)</span> 最多 <span class="math inline">\(j=1,\dots,J-1\)</span> （因此模型 <span class="math inline">\(M_{J-1}\)</span>): 如何选择树 <span class="math inline">\(T_J\)</span> 最佳地？我们重写
+<span class="math display">\[\begin{align*}
+O&amp;=\sum_{i=1}^I \left(y_i-m_{J-1}(\mathbf{x}_i)-T_J(\mathbf{x}_i)\right)^2+ \sum_{j=1}^J\Omega(T_j) \\
+&amp;=\sum_{i=1}^I\left\{y_i^2+m_{J-1}(\mathbf{x}_i)^2+T_J(\mathbf{x}_i)^2 \right\} + \sum_{j=1}^{J-1}\Omega(T_j)+\Omega(T_J) \quad \text{(squared terms + penalization)}\\
+&amp; \quad -2 \sum_{i=1}^I\left\{y_im_{J-1}(\mathbf{x}_i)+y_iT_J(\mathbf{x}_i)-m_{J-1}(\mathbf{x}_i) T_J(\mathbf{x}_i))\right\}\quad \text{(cross terms)} \\
+&amp;= \sum_{i=1}^I\left\{-2 y_iT_J(\mathbf{x}_i)+2m_{J-1}(\mathbf{x}_i) T_J(\mathbf{x}_i))+T_J(\mathbf{x}_i)^2 \right\} +\Omega(T_J) + c
+\end{align*}\]</span>
+步骤中已知的所有术语 <span class="math inline">\(J\)</span> （即，索引为 <span class="math inline">\(J-1\)</span>）消失，因为它们没有进入优化方案。它们被嵌入到常数中 <span class="math inline">\(c\)</span>.</p>
+<p>事情相当简单，有二次损失。对于更复杂的损失函数，使用泰勒展开（参见原始论文）。</p>
+</div>
+<div class="section level3" id="penalization" number="6.4.2">
+<h3>
+<span class="header-section-number">6.4.2</span> 处罚<a aria-label="锚" class="anchor" href="#penalization"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+为了更进一步，我们需要指定惩罚的方式。对于给定的树 <span class="math inline">\(T\)</span>，我们通过以下方式指定其结构 <span class="math inline">\(T(x)=w_{q(x)}\)</span>, 其中 <span class="math inline">\(w\)</span> 是某个叶子的输出值， <span class="math inline">\(q(\cdot)\)</span> 是将输入映射到其最终叶子的函数。这种编码如图所示 <a href="trees.html#fig:treeq">6.5</a>。功能 <span class="math inline">\(q\)</span> 表示路径，而向量 <span class="math inline">\(\textbf{w}=w_i\)</span> 对终端叶值进行编码。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:treeq" style="display:block;"></span>
+<img alt="编码决策树：结构、节点和叶值之间的分解。" src="images/tree_q.png" width="400px"/><p class="caption">
+图 6.5：编码决策树：结构与节点和叶值之间的分解。
+</p>
+</div>
+<p>我们写 <span class="math inline">\(l=1,\dots,L\)</span> 为树的叶子的索引。在 XGBoost 中，复杂度定义为：
+<span class="math display">\[\Omega(T)=\gamma L+\frac{\lambda}{2}\sum_{l=1}^Lw_l^2,\]</span>
+哪里</p>
+<ul>
+<li>第一项惩罚 <strong>叶子总数</strong>;<br/>
+</li>
+<li>第二项惩罚 <strong>产出值的大小</strong> （这有助于减少方差）。</li>
+</ul>
+<p>第一个惩罚项减少了树的深度，而第二个惩罚项则缩小了最新树的调整大小。</p>
+</div>
+<div class="section level3" id="aggregation" number="6.4.3">
+<h3>
+<span class="header-section-number">6.4.3</span> 聚合<a aria-label="锚" class="anchor" href="#aggregation"><i class="fas fa-link"></i></a>
+</h3>
+<p>我们汇总目标的两个部分（损失和惩罚）。我们写 <span class="math inline">\(I_l\)</span> 属于叶子的实例的索引集 <span class="math inline">\(l\)</span>。然后，<br/><span class="math display">\[\begin{align*}
+O&amp;= 2\sum_{i=1}^I\left\{ -y_iT_J(\mathbf{x}_i)+m_{J-1}(\mathbf{x}_i) T_J(\mathbf{x}_i))+\frac{T_J(\mathbf{x}_i)^2}{2} \right\} + \gamma L+\frac{\lambda}{2}\sum_{l=1}^Lw_l^2 \\
+&amp;=2\sum_{i=1}^I\left\{- y_iw_{q(\mathbf{x}_i)}+m_{J-1}(\mathbf{x}_i)w_{q(\mathbf{x}_i)})+\frac{w_{q(\mathbf{x}_i)}^2}{2} \right\} + \gamma L+\frac{\lambda}{2}\sum_{l=1}^Lw_l^2 \\
+&amp;=2 \sum_{l=1}^L \left(w_l\sum_{i\in I_l}(-y_i +m_{J-1}(\mathbf{x}_i))+ \frac{w_l^2}{2}\sum_{i\in I_l}\left(1+\frac{\lambda}{2}\right)\right)+ \gamma L
+\end{align*}\]</span><br/>
+该函数的形式为 <span class="math inline">\(aw_l+\frac{b}{2}w_l^2\)</span>，具有最小值 <span class="math inline">\(-\frac{a^2}{2b}\)</span> 在点 <span class="math inline">\(w_l=-a/b\)</span>。因此，为计算集合中项目数的基数函数编写#(.)，
+<span class="math display" id="eq:xgbweight">\[\begin{align}
+\tag{6.5}
+\mathbf{\rightarrow} \quad w^*_l&amp;=\frac{\sum_{i\in I_l}(y_i -m_{J-1}(\mathbf{x}_i))}{\left(1+\frac{\lambda}{2}\right)\#\{i\in I_l\}}, \text{ so that} \\
+O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\mathbf{x}_i))\right)^2}{\left(1+\frac{\lambda}{2}\right)\#\{i\in I_l\}}+\gamma L, \nonumber
+\end{align}\]</span>
+我们在其中添加了目标的依赖性 <span class="math inline">\(q\)</span> （树的结构）和 <span class="math inline">\(L\)</span> （叶子的数量）。事实上，树的元形状仍有待确定。</p>
+</div>
+<div class="section level3" id="tree-structure" number="6.4.4">
+<h3>
+<span class="header-section-number">6.4.4</span> 树结构<a aria-label="锚" class="anchor" href="#tree-structure"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+最终问题： <strong>树结构</strong>！让我们退后一步。在构建简单回归树时，每个节点的输出值等于节点（或簇）内标签的平均值。当添加新树以减少损失时，必须以完全不同的方式计算节点值，这就是等式的目的 <a href="trees.html#eq:xgbweight">(6.5)</a>.</p>
+<p>尽管如此，迭代树的生长遵循与简单树相似的路线。必须对功能进行测试，以便选择能够最小化每个给定分割目标的功能。最后的问题是：最佳深度是多少以及何时停止生长树？方法是</p>
+<ul>
+<li>逐个节点进行；<br/>
+</li>
+<li>对于每个节点，查看拆分是否有用（就目标而言）： <span class="math display">\[\text{Gain}=\frac{1}{2}\left(\text{Gain}_L+\text{Gain}_R-\text{Gain}_O \right)-\gamma\]</span><br/>
+</li>
+<li>每个增益是根据每个存储桶（集群）中的实例计算的： <span class="math display">\[\text{Gain}_\mathcal{X}= \frac{\left(\sum_{i\in I_\mathcal{X}}(y_i -m_{J-1}(\mathbf{x}_i))\right)^2}{\left(1+\frac{\lambda}{2}\right)\#\{i\in I_\mathcal{X}\}},\]</span>
+其中 <span class="math inline">\(I_\mathcal{X}\)</span> 是集群内实例的集合 <span class="math inline">\(\mathcal{X}\)</span>.</li>
+</ul>
+<p><span class="math inline">\(\text{Gain}_O\)</span> 是原始增益（未分割）并且 <span class="math inline">\(\text{Gain}_L\)</span> 和 <span class="math inline">\(\text{Gain}_R\)</span> 分别是左簇和右簇的增益。一言以蔽之 <span class="math inline">\(-\gamma\)</span> 调整上式：有1单位新叶（2新减1旧）！这造成了一片叶子的差异；因此 <span class="math inline">\(\Delta L =1\)</span> 每片新叶子的惩罚强度等于 <span class="math inline">\(\gamma\)</span>.</p>
+<p>最后，我们强调 XGBoost 也应用了一个事实 <strong>学习率</strong>：每棵新树都按一个因子缩放 <span class="math inline">\(\eta\)</span>, 与 <span class="math inline">\(\eta \in (0,1]\)</span>。在提升新树的每一步之后 <span class="math inline">\(T_J\)</span> 看到它的价值通过乘以折扣 <span class="math inline">\(\eta\)</span>。这非常有用，因为 100 个优化树的纯粹聚合是过度拟合训练样本的最佳方法。</p>
+</div>
+<div class="section level3" id="boostext" number="6.4.5">
+<h3>
+<span class="header-section-number">6.4.5</span> 扩展<a aria-label="锚" class="anchor" href="#boostext"><i class="fas fa-link"></i></a>
+</h3>
+<p>有几个附加特性可以进一步防止提升树过度拟合。事实上，给定足够多的树，聚合能够很好地匹配训练样本，但可能无法很好地概括样本外。</p>
+<p>继开创性工作之后 <span class="citation">Srivastava et al. (<a href="solutions-to-exercises.html#ref-srivastava2014dropout" role="doc-biblioref">2014</a>)</span>，DART（Dropout for Additive Regression Trees）模型是由 <span class="citation">Rashmi and Gilad-Bachrach (<a href="solutions-to-exercises.html#ref-rashmi2015dart" role="doc-biblioref">2015</a>)</span>。这个想法是在训练期间省略指定数量的树。从模型中删除的树是随机选择的。完整的规格可以在以下位置找到： <a class="uri" href="https://xgboost.readthedocs.io/en/latest/tutorials/dart.html">https://xgboost.readthedocs.io/en/latest/tutorials/dart.html</a> 我们在下面的第一个示例中使用 10% dropout..</p>
+<p>单调性约束是 xgboost 和 lightgbm 中都具有的另一个元素。有时，预计某一特定特征会对标签产生单调影响。例如，如果一个人坚信动量，那么过去的收益率应该对未来收益率（在股票的横截面中）产生越来越大的影响。</p>
+<p>考虑到分割算法的递归性质，可以选择何时执行分割（根据特定变量）以及何时不执行分割。图中 <a href="trees.html#fig:monotonic">6.6</a>，我们展示了算法是如何进行的。所有的分割都是根据相同的特征进行的。对于第一次分割，事情很简单，因为它足以验证每个簇的平均值是否按正确的方向排列。对于下面发生的分裂，事情更加复杂。事实上，所有上述分割设置的平均值很重要，因为它们给出了较低分割中未来平均值的可接受值的界限。如果分割违反了这些界限，那么它将被忽略，并且将选择另一个变量。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:monotonic" style="display:block;"></span>
+<img alt="施加单调约束。约束在底部叶子中以粗体蓝色显示。" src="images/tree_monotonic.png" width="590"/><p class="caption">
+图 6.6：施加单调约束。约束在底部叶子中以粗体蓝色显示。
+</p>
+</div>
+</div>
+<div class="section level3" id="boostcode" number="6.4.6">
+<h3>
+<span class="header-section-number">6.4.6</span> 代码和结果<a aria-label="锚" class="anchor" href="#boostcode"><i class="fas fa-link"></i></a>
+</h3>
+<p>在本节中，我们使用以下方法训练模型 <em>XGBoost</em> 图书馆。其他选项包括 <em>猫助推器</em>, <em>基因组</em>, <em>光GBM</em>, 和 <em>水</em>自己版本的增强机器。与许多其他包不同，XGBoost 函数需要特定的语法和专用格式。因此，第一步是相应地封装数据。</p>
+<p>此外，由于训练时间可能很长，我们按照中所提倡的缩短训练样本 <span class="citation">Coqueret and Guida (<a href="solutions-to-exercises.html#ref-coqueret2019training" role="doc-biblioref">2020</a>)</span>。我们仅保留 40% 最极端的观察结果（就标签值而言：前 20% 和后 20%）并使用一小部分特征。在本书中专门用于提升树的所有编码部分中，模型将仅使用 7 个特征进行训练。</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dmlc/xgboost">xgboost</a></span><span class="op">)</span>                                                <span class="co"># The package for boosted trees</span>
+<span class="va">train_features_xgb</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">R1M_Usd</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">R1M_Usd</span>, <span class="fl">0.2</span><span class="op">)</span> <span class="op">|</span> 
+               <span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">R1M_Usd</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>            <span class="co"># Extreme values only!</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>       <span class="co"># Independent variable</span>
+<span class="va">train_label_xgb</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">R1M_Usd</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">R1M_Usd</span>, <span class="fl">0.2</span><span class="op">)</span> <span class="op">|</span> 
+               <span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">R1M_Usd</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">R1M_Usd</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>                      <span class="co"># Dependent variable</span>
+<span class="va">train_matrix_xgb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html">xgb.DMatrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">train_features_xgb</span>, 
+                                label <span class="op">=</span> <span class="va">train_label_xgb</span><span class="op">)</span>        <span class="co"># XGB format!</span></code></pre></div>
+<p></p>
+<p>第二步（可选）是确定我们想要施加的单调性约束。为简单起见，我们将仅强制执行三个约束</p>
+<ol style="list-style-type: decimal">
+<li>市值（负数，因为在规模异象下，大公司的收益率较小）；<br/>
+</li>
+<li>市净率（负数，因为在价值异象下，被高估的公司收益率也较小）；<br/>
+</li>
+<li>过去的年收益率（正数，因为在动量异常的情况下，赢家的表现优于输家）。</li>
+</ol>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mono_const</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span><span class="op">)</span>                   <span class="co"># Initialize the vector</span>
+<span class="va">mono_const</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">features</span> <span class="op">==</span> <span class="st">"Mkt_Cap_12M_Usd"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="co"># Decreasing in market cap</span>
+<span class="va">mono_const</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">features</span> <span class="op">==</span> <span class="st">"Pb"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>              <span class="co"># Decreasing in price-to-book</span>
+<span class="va">mono_const</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">features</span> <span class="op">==</span> <span class="st">"Mom_11M_Usd"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span>        <span class="co"># Increasing in past return</span></code></pre></div>
+<p></p>
+<p>第三步是在格式化的训练数据上训练模型。我们包括单调性约束和 DART 特征（通过 <em>rate_drop</em>）。就像随机森林一样，提升树可以在数据子集上生长单独的树：按行（通过选择随机实例）和按列（通过保留较小部分的预测变量）。这些选项的实现如下 <em>子样本</em> 和 <em>colsample_bytree</em> 在函数的参数中。</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_xgb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.train.html">xgb.train</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">train_matrix_xgb</span>,     <span class="co"># Data source </span>
+              eta <span class="op">=</span> <span class="fl">0.3</span>,                          <span class="co"># Learning rate</span>
+              objective <span class="op">=</span> <span class="st">"reg:squarederror"</span>,     <span class="co"># Objective function</span>
+              max_depth <span class="op">=</span> <span class="fl">4</span>,                      <span class="co"># Maximum depth of trees</span>
+              subsample <span class="op">=</span> <span class="fl">0.6</span>,                    <span class="co"># Train on random 60% of sample</span>
+              colsample_bytree <span class="op">=</span> <span class="fl">0.7</span>,             <span class="co"># Train on random 70% of predictors</span>
+              lambda <span class="op">=</span> <span class="fl">1</span>,                         <span class="co"># Penalisation of leaf values</span>
+              gamma <span class="op">=</span> <span class="fl">0.1</span>,                        <span class="co"># Penalisation of number of leaves</span>
+              nrounds <span class="op">=</span> <span class="fl">30</span>,                       <span class="co"># Number of trees used (rather low here)</span>
+              monotone_constraints <span class="op">=</span> <span class="va">mono_const</span>,  <span class="co"># Monotonicity constraints</span>
+              rate_drop <span class="op">=</span> <span class="fl">0.1</span>,                    <span class="co"># Drop rate for DART</span>
+              verbose <span class="op">=</span> <span class="fl">0</span>                         <span class="co"># No comment from the algo </span>
+    <span class="op">)</span></code></pre></div>
+<pre><code>## [16:20:44] WARNING: amalgamation/../src/learner.cc:576: 
+## Parameters: { "rate_drop" } might not be used.
+## 
+##   This could be a false alarm, with some parameters getting used by language bindings but
+##   then being mistakenly passed down to XGBoost core, or some parameter actually being used
+##   but getting flagged wrongly here. Please open an issue if you find any such cases.</code></pre>
+<p></p>
+<p>最后，我们评估模型的性能。请注意，在此之前，需要对测试样本进行正确的格式化。</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">xgb_test</span> <span class="op">&lt;-</span> <span class="va">testing_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                <span class="co"># Test sample =&gt; XGB format</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_xgb</span>, <span class="va">xgb_test</span><span class="op">)</span> <span class="op">-</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="co"># MSE</span></code></pre></div>
+<pre><code>## [1] 0.03908854</code></pre>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_xgb</span>, <span class="va">xgb_test</span><span class="op">)</span> <span class="op">*</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.5077626</code></pre>
+<p></p>
+<p>其性能与其他预测工具观察到的性能相当。作为最后的练习，我们展示了 XGBoost 下分类任务的一个实现。仅标签发生变化。在 XGBoost 中，标签必须用整数编码，从零开始。在 R 中，因子被数字编码为从 1 开始的整数，因此映射很简单。</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">train_label_C</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">R1M_Usd</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">R1M_Usd</span>, <span class="fl">0.2</span><span class="op">)</span> <span class="op">|</span>          <span class="co"># Either low 20% returns </span>
+               <span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">R1M_Usd</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>   <span class="co"># Or top 20% returns</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">R1M_Usd_C</span><span class="op">)</span>
+<span class="va">train_matrix_C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html">xgb.DMatrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">train_features_xgb</span>, 
+                              label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">train_label_C</span> <span class="op">==</span> <span class="st">"TRUE"</span><span class="op">)</span><span class="op">)</span> <span class="co"># XGB format!</span></code></pre></div>
+<p></p>
+<p>当处理类别时，损失函数通常是 softmax 函数（参见第 <a href="notdata.html#notations">1.1</a>).</p>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_xgb_C</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.train.html">xgb.train</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">train_matrix_C</span>,  <span class="co"># Data source (pipe input)</span>
+              eta <span class="op">=</span> <span class="fl">0.8</span>,                        <span class="co"># Learning rate</span>
+              objective <span class="op">=</span> <span class="st">"multi:softmax"</span>,      <span class="co"># Objective function</span>
+              num_class <span class="op">=</span> <span class="fl">2</span>,                    <span class="co"># Number of classes</span>
+              max_depth <span class="op">=</span> <span class="fl">4</span>,                    <span class="co"># Maximum depth of trees</span>
+              nrounds <span class="op">=</span> <span class="fl">10</span>,                     <span class="co"># Number of trees used</span>
+              verbose <span class="op">=</span> <span class="fl">0</span>                       <span class="co"># No warning message </span>
+    <span class="op">)</span></code></pre></div>
+<p></p>
+<p>然后我们可以继续评估模型的质量。我们将预测调整为真实标签的值，并统计准确预测的比例。</p>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_xgb_C</span>, <span class="va">xgb_test</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span><span class="op">)</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.495613</code></pre>
+<p></p>
+<p>与之前的分类尝试一致，结果并不令人印象深刻，就好像切换到二进制标签会导致信息丢失一样。</p>
+</div>
+<div class="section level3" id="instweight" number="6.4.7">
+<h3>
+<span class="header-section-number">6.4.7</span> 实例权重<a aria-label="锚" class="anchor" href="#instweight"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+在计算总损失时，可以引入一些灵活性并为实例分配权重：
+<span class="math display">\[O=\underbrace{\sum_{i=1}^I\mathcal{W}_i \times \text{loss}(y_i,\tilde{y}_i)}_{\text{weighted error term}} \quad + \underbrace{\sum_{j=1}^J\Omega(T_j)}_{\text{regularization term (unchanged)}}.\]</span></p>
+<p>在因子投资中，这些权重很大程度上取决于特征值（<span class="math inline">\(\mathcal{W}_i=\mathcal{W}_i(\textbf{x}_i)\)</span>）。例如，对于某一特定特征 <span class="math inline">\(\textbf{x}^k\)</span>，权重可以增加，从而更加重视具有该特征的高价值资产（例如，与成长型股票相比，价值型股票更受青睐）。另一种选择是当特征值变得更加极端时增加权重（深度价值和深度增长股票具有更大的权重）。如果特征是均匀的，则权重可以简单地表示为 <span class="math inline">\(\mathcal{W}_i(x_i^k)\propto|x_i^k-0.5|\)</span>：中值为 0.5 的公司权重为零，随着特征值向 0 或 1 移动，权重增加。指定实例的权重会使学习过程产生偏差，就像引入视图一样 <span class="citation">Black and Litterman (<a href="solutions-to-exercises.html#ref-black1992global" role="doc-biblioref">1992</a>)</span> 影响资产配置过程。不同之处在于，微调是在投资组合选择问题之前进行的。</p>
+<p>在 xgboost 中，实例权重的实现很早就完成了，在xgb.DMatrix的定义中：</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">inst_weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">train_features_xgb</span><span class="op">)</span><span class="op">)</span>               <span class="co"># Random weights</span>
+<span class="va">inst_weights</span> <span class="op">&lt;-</span> <span class="va">inst_weights</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">inst_weights</span><span class="op">)</span>              <span class="co"># Normalization</span>
+<span class="va">train_matrix_xgb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html">xgb.DMatrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">train_features_xgb</span>, 
+                                label <span class="op">=</span> <span class="va">train_label_xgb</span>,
+                                weight <span class="op">=</span> <span class="va">inst_weights</span><span class="op">)</span>        <span class="co"># Weights!</span></code></pre></div>
+<p></p>
+<p>然后，在后续阶段，将使用这些硬编码的权重来执行优化。分裂点可以改变（通过簇中的总加权损失）和最终权重值 <a href="trees.html#eq:xgbweight">(6.5)</a> 也受到影响。</p>
+</div>
+</div>
+<div class="section level2" id="discussion" number="6.5">
+<h2>
+<span class="header-section-number">6.5</span> 讨论<a aria-label="锚" class="anchor" href="#discussion"><i class="fas fa-link"></i></a>
+</h2>
+<p>我们通过对预测引擎的选择以及投资组合构建的讨论来结束本章。正如章节中所回忆的 <a href="intro.html#intro">2</a>，ML 信号只是投资策略构建的一个构建阶段。在某些时候，这个信号必须转化为投资组合权重。</p>
+<p>从这个角度来看，简单的树似乎不是最理想的。树深度通常设置在 3 到 6 之间。这意味着最多有 8 到 64 个终端叶子，并且簇可能非常不平衡。一个簇占样本量 20% 到 30% 的可能性很高。这意味着在预测时，大约 20% 到 30% 的实例将被赋予相同的值。</p>
+<p>另一方面，投资组合保单通常具有固定数量的资产。因此，拥有具有相同信号的资产不允许区分和选择要包含在投资组合中的子集。例如，如果政策要求正好 100 只股票，而 105 只股票具有相同的信号，则该信号不能用于选择目的。它必须与外生信息相结合，例如均值方差类型分配中的协方差矩阵。</p>
+<p>总的来说，这是更喜欢聚合模型的原因之一。当学习者的数量足够大时（5 个几乎足够），对资产的预测将是唯一的并针对这些资产进行定制。然后就可以通过信号进行区分并仅选择那些具有最有利信号的资产。在实践中，随机森林和提升树可能是最好的选择。</p>
+</div>
+<div class="section level2" id="coding-exercises-2" number="6.6">
+<h2>
+<span class="header-section-number">6.6</span> 编码练习<a aria-label="锚" class="anchor" href="#coding-exercises-2"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li><p>使用 <em>公式</em> 在上面的块中，在训练样本上构建两棵简单的树，只有一个参数：cp。 对于第一棵树，取 cp=0.001，对于第二棵树，取 cp=0.01。评估两个模型在测试样本上的性能。评论。</p></li>
+<li><p>使用较小的预测变量集，在训练样本上构建随机森林。将学习限制在 30,000 个实例和超过 5 个预测变量上。在 10、20、40、80 和 160 棵树上构建森林，并评估它们在训练样本上的性能。在这种情况下，复杂性是否值得？为什么？</p></li>
+<li><p>根据 2008 年和 2009 年的数据绘制一棵树。进行比较。</p></li>
+</ol>
+</div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="lasso.html"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></div>
+<div class="next"><a href="NN.html"><span class="header-section-number">7</span> 神经网络</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页目录" data-toggle="toc" id="toc"><h2>本页目录</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#trees"><span class="header-section-number">6</span> 树模型</a></li>
+<li>
+<a class="nav-link" href="#simple-trees"><span class="header-section-number">6.1</span> 简单树</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#principle"><span class="header-section-number">6.1.1</span> 原理</a></li>
+<li><a class="nav-link" href="#treeclass"><span class="header-section-number">6.1.2</span> 分类的更多细节</a></li>
+<li><a class="nav-link" href="#pruning-criteria"><span class="header-section-number">6.1.3</span> 剪枝准则</a></li>
+<li><a class="nav-link" href="#code-and-interpretation"><span class="header-section-number">6.1.4</span> 代码与解释</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#random-forests"><span class="header-section-number">6.2</span> 随机森林</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#principle-1"><span class="header-section-number">6.2.1</span> 原理</a></li>
+<li><a class="nav-link" href="#code-and-results-1"><span class="header-section-number">6.2.2</span> 代码和结果</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#Adaboost"><span class="header-section-number">6.3</span> 提升树：Adaboost</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#methodology"><span class="header-section-number">6.3.1</span> 方法论</a></li>
+<li><a class="nav-link" href="#illustration"><span class="header-section-number">6.3.2</span> 插图</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#boosted-trees-extreme-gradient-boosting"><span class="header-section-number">6.4</span> 提升树：极端梯度提升</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#managing-loss"><span class="header-section-number">6.4.1</span> 管理损失</a></li>
+<li><a class="nav-link" href="#penalization"><span class="header-section-number">6.4.2</span> 处罚</a></li>
+<li><a class="nav-link" href="#aggregation"><span class="header-section-number">6.4.3</span> 聚合</a></li>
+<li><a class="nav-link" href="#tree-structure"><span class="header-section-number">6.4.4</span> 树结构</a></li>
+<li><a class="nav-link" href="#boostext"><span class="header-section-number">6.4.5</span> 扩展</a></li>
+<li><a class="nav-link" href="#boostcode"><span class="header-section-number">6.4.6</span> 代码和结果</a></li>
+<li><a class="nav-link" href="#instweight"><span class="header-section-number">6.4.7</span> 实例权重</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#discussion"><span class="header-section-number">6.5</span> 讨论</a></li>
+<li><a class="nav-link" href="#coding-exercises-2"><span class="header-section-number">6.6</span> 编码练习</a></li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>"<strong>因子投资中的机器学习</strong>” 由 Guillaume Coqueret 和 Tony Guida 编写。最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

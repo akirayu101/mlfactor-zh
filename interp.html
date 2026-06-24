@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 13 章 可解释性 | Machine Learning for Factor Investing</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 13 章 可解释性 | Machine Learning for Factor Investing" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 13 章 可解释性 | Machine Learning for Factor Investing" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content=".container-fluid main { max-width: 60rem; } This chapter is dedicated to the techniques that help understand the way models process inputs into outputs. Two recent books (Molnar (2019) available..." name="description"/>
+<meta content=".container-fluid main { max-width: 60rem; } This chapter is dedicated to the techniques that help understand the way models process inputs into outputs. Two recent books (Molnar (2019) available..." property="og:description"/>
+<meta content=".container-fluid main { max-width: 60rem; } This chapter is dedicated to the techniques that help understand the way models process inputs into outputs. Two recent books (Molnar (2019) available..." name="twitter:description"/></head>
+<body data-spy="scroll" data-target="#toc"><div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">Machine Learning for Factor Investing</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">导论</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号和数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 简介</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资和资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归和最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 基于树的方法</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="active" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据描述</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习题答案</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="interp" number="13">
+<h1><span class="header-section-number">13</span> 可解释性<a aria-label="锚" class="anchor" href="#interp"><i class="fas fa-link"></i></a></h1>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>本章专门介绍有助于理解模型将输入处理为输出的方式的技术。最近的两本书（<span class="citation">Molnar (<a href="solutions-to-exercises.html#ref-molnar2019interpretable" role="doc-biblioref">2019</a>)</span>，可在 <a class="uri" href="https://christophm.github.io/interpretable-ml-book/">https://christophm.github.io/interpretable-ml-book/</a> 上找到，<span class="citation">Biecek and Burzykowski (<a href="solutions-to-exercises.html#ref-biecek2021explanatory" role="doc-biblioref">2021</a>)</span>，可在 <a class="uri" href="https://ema.drwhy.ai">https://ema.drwhy.ai</a> 上找到）完全致力于此主题，我们强烈建议您看一下。 <span class="citation">Belle and Papantonis (<a href="solutions-to-exercises.html#ref-belle2020principles" role="doc-biblioref">2020</a>)</span> 的调查也是值得的。另一个更具介绍性和较少技术性的参考是 <span class="citation">Patrick Hall and Gill (<a href="solutions-to-exercises.html#ref-hall2019introduction" role="doc-biblioref">2019</a>)</span>。
+显然，在本章中，我们将采用以因子投资为导向的基调，并讨论与在金融数据集上训练的ML模型相关的示例。</p>
+<p>旨在解释 ML 模型的定量工具需要满足两个简单的条件：</p>
+<ol style="list-style-type: decimal">
+<li>它们提供有关模型的信息.<br/></li>
+<li>它们非常容易理解。</li>
+</ol>
+<p>通常，这些工具会生成易于阅读并立即得出结论的图形输出。</p>
+<p>在尝试对复杂的ML模型进行白盒化时，存在一种二分法：</p>
+<ul>
+<li>一旦模型训练完毕，<strong>全局模型</strong> 就会寻求确定特征在预测构建中的相对作用。这是在全局级别完成的，以便解释中显示的模式在整个训练集上<em>平均而言</em>保持成立。<br/></li>
+<li><strong>局部模型</strong> 旨在通过考虑该实例周围的微小变化来描述模型在该特定实例周围的行为方式。原始模型处理这些变化的方式允许通过近似（例如以线性方式）来简化它。例如，该近似可以确定原始实例附近的每个相关特征的影响的符号和大小。</li>
+</ul>
+<p><span class="citation">Molnar (<a href="solutions-to-exercises.html#ref-molnar2019interpretable" role="doc-biblioref">2019</a>)</span> 通过将依赖于一个特定模型（例如线性回归或决策树）的解释与可以从任何类型的模型获得的解释分开来提出可解释性解决方案的另一种分类。在下文中，我们根据全局与局部二分法提出方法。</p>
+<p>除了下面介绍的传统方法之外，我们希望重点介绍另外两种方法：Sirus (<span class="citation">Bénard et al. (<a href="solutions-to-exercises.html#ref-benard2021sirus" role="doc-biblioref">2021</a>)</span>) 和 Rulefit (<span class="citation">J. H. Friedman and Popescu (<a href="solutions-to-exercises.html#ref-friedman2008predictive" role="doc-biblioref">2008</a>)</span>)。两者都是在 R 中实现的。</p>
+<div class="section level2" id="global-interpretations" number="13.1">
+<h2><span class="header-section-number">13.1</span> 全局解释<a aria-label="锚" class="anchor" href="#global-interpretations"><i class="fas fa-link"></i></a></h2>
+<div class="section level3" id="surr" number="13.1.1">
+<h3><span class="header-section-number">13.1.1</span> 简单模型作为代理<a aria-label="锚" class="anchor" href="#surr"><i class="fas fa-link"></i></a></h3>
+<p>让我们从最简单的例子开始。在线性模型中，
+<span class="math display">\[y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,\]</span>
+通常从 <span class="math inline">\(\beta_k\)</span> 的估计中提取以下元素：</p>
+<ul>
+<li><span class="math inline">\(R^2\)</span>，它评估模型的 <strong>全局拟合</strong>（可能会受到惩罚，以防止与许多回归器过度拟合）。 <span class="math inline">\(R^2\)</span> 通常在样本中计算；<br/></li>
+<li>估计值 <span class="math inline">\(\hat{\beta}_k\)</span> 的符号，表示每个特征 <span class="math inline">\(x^k\)</span> 对 <span class="math inline">\(y\)</span> 的影响的 <strong>方向</strong>；</li>
+<li><span class="math inline">\(t\)</span>-统计量 <span class="math inline">\(t_{\hat{\beta_k}}\)</span>，评估这种影响的 <strong>大小</strong>：无论其方向如何，绝对值较大的统计量都揭示了重要变量。通常，<span class="math inline">\(t\)</span> 统计量会转换为 <span class="math inline">\(p\)</span> 值，这些值是在一些合适的分布假设下计算的。</li>
+</ul>
+<p>最后两个指标非常有用，因为它们告知用户哪些特征最重要以及每个预测变量的效果的符号。这提供了模型如何将特征处理为输出的简化视图。大多数旨在解释黑匣子的工具都遵循相同的原则。</p>
+<p>决策树由于易于描绘，因此也是可解释性的绝佳模型。由于这一优点，它们成为简单模型的目标基准。最近，<span class="citation">Vidal, Pacheco, and Schiffer (<a href="solutions-to-exercises.html#ref-vidal2020born" role="doc-biblioref">2020</a>)</span> 提出了一种将树集合简化为唯一树的方法。目的是提出一种更简单的模型，其行为与复杂模型完全相同。</p>
+<p>更一般地说，采用简单模型来代理更复杂的算法是一个直观的想法。一种简单的方法是构建所谓的 <strong>代理</strong> 模型。过程很简单：</p>
+<ol style="list-style-type: decimal">
+<li>在特征 <span class="math inline">\(\textbf{X}\)</span> 和标签 <span class="math inline">\(\textbf{y}\)</span>;<br/> 上训练原始模型 <span class="math inline">\(f\)</span></li>
+<li>训练一个更简单的模型 <span class="math inline">\(g\)</span> 来解释给定特征 <span class="math inline">\(\textbf{X}\)</span> 的训练模型 <span class="math inline">\(\hat{f}\)</span> 的预测：
+<span class="math display">\[\hat{f}(\textbf{X})=g(\textbf{X})+\textbf{error}\]</span></li>
+</ol>
+<p>估计模型 <span class="math inline">\(\hat{g}\)</span> 解释了初始模型 <span class="math inline">\(\hat{f}\)</span> 如何将特征映射到标签中。为了说明这一点，我们使用 <em>IML</em> 包（请参阅 <span class="citation">Molnar, Casalicchio, and Bischl (<a href="solutions-to-exercises.html#ref-molnar2018iml" role="doc-biblioref">2018</a>)</span>）。更简单的模型是深度为 2 的树。</p>
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://christophm.github.io/iml/">iml</a></span><span class="op">)</span>
+<span class="va">mod</span> <span class="op">&lt;-</span> <span class="va"><a href="https://christophm.github.io/iml/reference/Predictor.html">Predictor</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">fit_RF</span>, 
+                     data <span class="op">=</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span><span class="op">)</span> 
+<span class="va">dt</span> <span class="op">&lt;-</span> <span class="va"><a href="https://christophm.github.io/iml/reference/TreeSurrogate.html">TreeSurrogate</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">mod</span>, maxdepth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:imlsurr" style="display:block;"></span>
+<img alt="代理树的示例。" src="ML_factor_files/figure-html/imlsurr-1.png" width="500px"/><p class="caption">图 13.1：代理树示例。</p>
+</div>
+<p></p>
+<p>与第 <a href="trees.html#trees">6</a> 章中看到的树的表示形式不同。事实上，四种可能的结果（由顶行的条件决定）不再产生简单的值（标签的平均值），而是以箱线图的形式给出更多信息（包括四分位数范围和异常值）。在上面的表示中，右上角的聚类似乎具有最高的奖励，尤其是有很多向上的异常值。该聚类由过去收益率不稳定的小公司组成。</p>
+</div>
+<div class="section level3" id="variable-importance" number="13.1.2">
+<h3><span class="header-section-number">13.1.2</span> 特征重要性（基于树）<a aria-label="锚" class="anchor" href="#variable-importance"><i class="fas fa-link"></i></a></h3>
+<p>简单决策树的一个令人难以置信的有利特征是它们的可解释性。他们的视觉表现清晰而直接。就像回归（ML中的另一个构建块）一样，简单的树很容易理解，并且不会受到通常与更复杂的工具相关的黑盒谴责。</p>
+<p>事实上，随机森林和提升树都无法完全准确地描述引擎内部发生的情况。相反，一旦经过训练，就可以计算每个特征在确定树结构中的总份额（或重要性）。</p>
+<p>训练后，可以在每个节点 <span class="math inline">\(n\)</span> 计算后续分割获得的增益 <span class="math inline">\(G(n)\)</span> （如果有的话），即如果该节点不是终端叶子。确定选择哪个变量来执行分割也很容易，因此我们将 <span class="math inline">\(\mathcal{N}_k\)</span> 写为为分区选择特征 <span class="math inline">\(k\)</span> 的节点集。然后，每个特征的全局重要性由下式给出
+<span class="math display">\[I(k)=\sum_{n\in \mathcal{N}_k}G(n),\]</span>
+并且它经常被重新调整，以便所有 <span class="math inline">\(k\)</span> 的 <span class="math inline">\(I(k)\)</span> 之和等于 1。在这种情况下，<span class="math inline">\(I(k)\)</span> 衡量特征 <span class="math inline">\(k\)</span> 在训练期间减少损失方面的相对贡献。重要度高的变量对预测的影响更大。一般来说，这些变量是那些靠近树根的变量。</p>
+<p>下面，我们看一下在<a href="trees.html#trees">6</a>章中训练的基于树的模型获得的结果。我们首先回收我们使用的三个回归模型的输出。请注意，每个拟合输出都有自己的结构，并且重要性向量有不同的名称。</p>
+<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tree_VI</span> <span class="op">&lt;-</span> <span class="va">fit_tree</span><span class="op">$</span><span class="va">variable.importance</span>  <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                        <span class="co"># VI from tree model</span>
+    <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span>rownames <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                                    <span class="co"># Transform in tibble </span>
+    <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"Feature"</span><span class="op">)</span>                                   <span class="co"># Add feature column</span>
+<span class="va">RF_VI</span> <span class="op">&lt;-</span> <span class="va">fit_RF</span><span class="op">$</span><span class="va">importance</span>  <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                                     <span class="co"># VI from random forest</span>
+    <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span>rownames <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                                    <span class="co"># Transform in tibble </span>
+    <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"Feature"</span><span class="op">)</span>                                   <span class="co"># Add feature column</span>
+<span class="va">XGB_VI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.importance.html">xgb.importance</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">fit_xgb</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>                     <span class="co"># VI from boosted trees</span>
+<span class="va">VI_trees</span> <span class="op">&lt;-</span> <span class="va">tree_VI</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">RF_VI</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">XGB_VI</span><span class="op">)</span>      <span class="co"># Aggregate the VIs</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">VI_trees</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Tree"</span>, <span class="st">"RF"</span>, <span class="st">"XGB"</span><span class="op">)</span>                   <span class="co"># New column names</span>
+<span class="va">norm_1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">x</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>                           <span class="co"># Normalizing function</span>
+<span class="va">VI_trees</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="va">na.omit</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span><span class="va">is.numeric</span>,  <span class="va">norm_1</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>         <span class="co"># Plotting sequence</span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">model</span>, value <span class="op">=</span> <span class="va">value</span>, <span class="op">-</span><span class="va">Feature</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Feature</span>, y <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">model</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">35</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:VItrees" style="display:block;"></span>
+<img alt="基于树的模型的特征重要性。" src="ML_factor_files/figure-html/VItrees-1.png" width="500px"/><p class="caption">图 13.2：基于树的模型的特征重要性。</p>
+</div>
+<p></p>
+<p>在上面的代码中，tibbles 就像数据帧（可以这么说，它们是数据帧的 v2.0）。
+鉴于该图的编码方式，图 <a href="interp.html#fig:VItrees">13.2</a> 实际上具有误导性。事实上，通过构造，简单的树模型仅具有少量非零重要性的特征：在上图中，只有 3 个：资本化、市净率和波动性。相比之下，由于随机森林和提升树要复杂得多，因此它们对许多预测变量具有一定的重要性。该图仅显示与简单树模型相关的变量。出于规模原因，执行归一化 <em>之后</em> 选择特征子集。出于明显的可读性考虑，我们倾向于限制图表上显示的特征数量。</p>
+<p>模型依赖特征的方式存在差异。例如，最重要的特征从一个模型变为另一个模型：简单树模型最重视市净率，而随机森林则更多地关注波动性，而提升树模型则更重视资本化。</p>
+<p>随机森林的一个定义属性是它们为所有特征提供了机会。事实上，通过随机选择预测变量，每个单独的外生变量都有机会解释标签。与将大部分鸡蛋放在几个篮子里的简单树相比，与提升树一起，预测变量之间的重要性分配更加平衡。</p>
+</div>
+<div class="section level3" id="variable-importance-agnostic" number="13.1.3">
+<h3><span class="header-section-number">13.1.3</span> 特征重要性（模型无关）<a aria-label="锚" class="anchor" href="#variable-importance-agnostic"><i class="fas fa-link"></i></a></h3>
+<p>量化学习过程中每个特征的重要性的想法可以扩展到非基于树的模型。我们参考 <span class="citation">Fisher, Rudin, and Dominici (<a href="solutions-to-exercises.html#ref-fisher2018all" role="doc-biblioref">2019</a>)</span> 的研究中提到的论文，以获取有关该文献流的更多信息。前提与上面相同：目的是量化一个特征对学习过程的贡献程度。</p>
+<p>跟踪某个特定特征的附加值的一种方法是查看如果训练集中的值完全打乱会发生什么情况。如果原始特征在因变量的解释中起着重要作用，那么特征的改组版本将导致更高的损失。</p>
+<p>一般情况下评估特征重要性的基线方法如下：</p>
+<ol style="list-style-type: decimal">
+<li>在原始数据上训练模型并计算相关损失 <span class="math inline">\(l^*\)</span>.<br/></li>
+<li>对于每个特征 <span class="math inline">\(k\)</span>，创建一个新的训练数据集，其中特征的值被随机排列。然后，根据这个改变的样本评估模型的损失 <span class="math inline">\(l_k\)</span> <br/></li>
+<li>对每个特征的特征重要性进行排名，计算为差值 <span class="math inline">\(\text{VI}_k=l_k-l^*\)</span> 或比率 <span class="math inline">\(\text{VI}_k=l_k/l^*\)</span>。</li>
+</ol>
+<p>是否计算训练集或测试集的损失是一个悬而未决的问题，仍有待分析师评估。
+上述过程当然是随机的，并且可以重复，以便在多次试验中对重要性进行平均：这提高了结果的稳定性。该算法在<span class="citation">Molnar (<a href="solutions-to-exercises.html#ref-molnar2019interpretable" role="doc-biblioref">2019</a>)</span>作者开发的<em>IML</em> R包的FeatureImp()函数中实现。我们还推荐 <em>VIP</em> 软件包，请参阅 <span class="citation">Greenwell and Boehmke (<a href="solutions-to-exercises.html#ref-greenwell2020variable" role="doc-biblioref">Forthcoming</a>)</span>.<br/>
+下面，我们手动实现该算法，目标是处理图 <a href="interp.html#fig:VItrees">13.2</a> 中出现的特征。我们在岭回归上测试这种方法，并回收第 <a href="lasso.html#lasso">5</a> 章中使用的变量。我们从第一步开始：计算原始训练样本的损失。</p>
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_ridge_0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/glmnet.html">glmnet</a></span><span class="op">(</span><span class="va">x_penalized_train</span>, <span class="va">y_penalized_train</span>,                   <span class="co"># Trained model</span>
+                      alpha <span class="op">=</span> <span class="fl">0</span>, lambda <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> 
+<span class="va">l_star</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">y_penalized_train</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_ridge_0</span>, <span class="va">x_penalized_train</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="co"># Loss</span></code></pre></div>
+<p></p>
+<p>接下来，我们评估每个预测变量被顺序打乱时的损失。为了减少计算时间，我们只进行一轮洗牌。</p>
+<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>                                                             <span class="co"># Initialize</span>
+<span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">VI_trees</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>                                          <span class="co"># Loop on the features</span>
+    <span class="va">feat_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">VI_trees</span><span class="op">[</span><span class="va">i</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+    <span class="va">temp_data</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span>         <span class="co"># Temp feature matrix</span>
+    <span class="va">temp_data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">temp_data</span><span class="op">)</span> <span class="op">==</span> <span class="va">feat_name</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span>          <span class="co"># Shuffles the values</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">temp_data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">temp_data</span><span class="op">)</span> <span class="op">==</span> <span class="va">feat_name</span><span class="op">)</span><span class="op">]</span>
+               <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+    <span class="va">x_penalized_temp</span> <span class="op">&lt;-</span> <span class="va">temp_data</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>                    <span class="co"># Predictors into matrix</span>
+    <span class="va">l</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">y_penalized_train</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_ridge_0</span>, <span class="va">x_penalized_temp</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="co"># = Loss</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>最后，我们绘制结果。</p>
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Feature <span class="op">=</span> <span class="va">VI_trees</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, loss <span class="op">=</span> <span class="va">l</span> <span class="op">-</span> <span class="va">l_star</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Feature</span>, y <span class="op">=</span> <span class="va">loss</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">35</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:VIglobal2" style="display:block;"></span>
+<img alt="岭回归模型的特征重要性。" src="ML_factor_files/figure-html/VIglobal2-1.png" width="450px"/><p class="caption">图 13.3：岭回归模型的特征重要性。</p>
+</div>
+<p></p>
+<p>由此产生的重要性与基于树的模型的重要性一致：最突出的变量是基于波动性、基于市值和市净率；这些与图 <a href="interp.html#fig:VItrees">13.2</a> 中的变量非常匹配。请注意，在某些情况下（例如，股票换手率），分数甚至可能为负，这意味着当预测变量的值被打乱时，预测比基线模型更准确！</p>
+</div>
+<div class="section level3" id="partial-dependence-plot" number="13.1.4">
+<h3><span class="header-section-number">13.1.4</span> 部分依赖图<a aria-label="锚" class="anchor" href="#partial-dependence-plot"><i class="fas fa-link"></i></a></h3>
+<p>部分依赖图 (PDP) 旨在显示模型输出与特征值之间的关系（我们参考 <span class="citation">J. H. Friedman (<a href="solutions-to-exercises.html#ref-friedman2001greedy" role="doc-biblioref">2001</a>)</span> 的第 8.2 节来了解该主题的早期处理）。</p>
+<p>固定一个特征 <span class="math inline">\(k\)</span>。我们想要了解 <span class="math inline">\(k\)</span> 对训练模型 <span class="math inline">\(\hat{f}\)</span> 预测的 <strong>平均影响</strong>。为此，我们假设特征空间是随机的，并将其分为两部分：<span class="math inline">\(k\)</span> 与 <span class="math inline">\(-k\)</span>，它代表除 <span class="math inline">\(k\)</span> 之外的所有特征。部分依赖图定义为</p>
+<p><span class="math display" id="eq:pdp">\[\begin{equation}
+\tag{13.1}
+\bar{f}_k(x_k)=\mathbb{E}[\hat{f}(\textbf{x}_{-k},x_k)]=\int \hat{f}(\textbf{x}_{-k},x_k)d\mathbb{P}_{-k}(\textbf{x}_{-k}),
+\end{equation}\]</span></p>
+<p>，其中 <span class="math inline">\(d\mathbb{P}_{-k}(\cdot)\)</span> 是非 <span class="math inline">\(k\)</span> 特征 <span class="math inline">\(\textbf{x}_{-k}\)</span> 的（多元）分布。上面的函数将特征值 <span class="math inline">\(x_k\)</span> 作为参数，并通过样本分布冻结所有其他特征：这仅显示了特征 <span class="math inline">\(k\)</span> 的影响。在实践中，平均值是使用蒙特卡罗模拟来评估的：</p>
+<p><span class="math display" id="eq:pdpMC">\[\begin{equation}
+\tag{13.2}
+\bar{f}_k(x_k)\approx \frac{1}{M}\sum_{m=1}^M\hat{f}\left(x_k,\textbf{x}_{-k}^{(m)}\right),
+\end{equation}\]</span>
+其中 <span class="math inline">\(\textbf{x}_{-k}^{(m)}\)</span> 是非 <span class="math inline">\(k\)</span> 特征的独立样本。</p>
+<p>理论上，一次可以针对多个特征计算 PDP。实际上，这仅适用于两个特征（产生 3D 表面），并且计算量更大。</p>
+<p>我们在下面使用专用包 <em>IML</em> （可解释的ML）来说明这个概念；另请参阅 <span class="citation">Greenwell (<a href="solutions-to-exercises.html#ref-greenwell2017pdp" role="doc-biblioref">2017</a>)</span> 中记录的 <em>pdp</em> 包。我们试图解释的模型是在 <a href="trees.html#random-forests">6.2</a> 节中构建的随机森林。我们回收其中使用的一些变量。我们选择测试市净率对模型结果的影响。</p>
+<div class="sourceCode" id="cb207"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://christophm.github.io/iml/">iml</a></span><span class="op">)</span>                                         <span class="co"># One package for interpretability</span>
+<span class="va">mod_iml</span> <span class="op">&lt;-</span> <span class="va"><a href="https://christophm.github.io/iml/reference/Predictor.html">Predictor</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">fit_RF</span>,                     <span class="co"># This line encapsulates the objects</span>
+                         data <span class="op">=</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span><span class="op">)</span>
+<span class="va">pdp_PB</span> <span class="op">=</span> <span class="va"><a href="https://christophm.github.io/iml/reference/FeatureEffect.html">FeatureEffect</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">mod_iml</span>, feature <span class="op">=</span> <span class="st">"Pb"</span><span class="op">)</span>  <span class="co"># This line computes the PDP for p/b ratio</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pdp_PB</span><span class="op">)</span>                                         <span class="co"># Plot the partial dependence.</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:pdp" style="display:block;"></span>
+<img alt="随机森林模型市净率的部分依赖图。" src="ML_factor_files/figure-html/pdp-1.png" width="450px"/><p class="caption">图 13.4：随机森林模型市净率的部分依赖图。</p>
+</div>
+<p></p>
+<p>市净率对预测的平均影响正在下降。考虑到因变量的条件平均值以及市净率，这在某种程度上是预料之中的。后一个函数如图 <a href="trees.html#fig:rpart3mkt">6.3</a> 所示，并显示出与上述曲线相当的行为：P/B 值较小时急剧下降，然后相对平坦。当市净率较低时，公司被低估。因此，它们的较高收益率与 <em>价值</em> 溢价一致。</p>
+<p>最后，我们参考 <span class="citation">Q. Zhao and Hastie (<a href="solutions-to-exercises.html#ref-zhao2019causal" role="doc-biblioref">2020</a>)</span> 对 PDP 的 <em>因果性</em> 属性进行理论讨论。事实上，深入研究 PDP 的构造表明，它们可以被解释为模型输出特征的因果表示。</p>
+</div>
+</div>
+<div class="section level2" id="local-interpretations" number="13.2">
+<h2><span class="header-section-number">13.2</span> 局部解释<a aria-label="锚" class="anchor" href="#local-interpretations"><i class="fas fa-link"></i></a></h2>
+<p>全局解释试图评估特征对输出 <span class="math inline">\(overall\)</span> 的影响，而局部方法则尝试量化模型在特定实例或其邻域上的行为。局部可解释性最近受到关注，并且已经发表了许多关于该主题的论文。下面，我们概述了最广泛的方法。<a class="footnote-ref" href="solutions-to-exercises.html#fn27" id="fnref27"><sup>27</sup></a></p>
+<div class="section level3" id="lime" number="13.2.1">
+<h3>
+<span class="header-section-number">13.2.1</span> LIME<a aria-label="锚" class="anchor" href="#lime"><i class="fas fa-link"></i></a>
+</h3>
+<p>LIME（Local Interpretable Model-Agnostic Explanations）是一种最初由 <span class="citation">Ribeiro, Singh, and Guestrin (<a href="solutions-to-exercises.html#ref-ribeiro2016should" role="doc-biblioref">2016</a>)</span> 提出的方法。他们的目标是提供
+在两个约束下忠实地描述模型：</p>
+<ul>
+<li><strong>简单可解释性</strong>，这意味着具有视觉或文本表示的有限数量的变量。这是为了确保任何人都能轻松理解该工具的结果；</li>
+<li><strong>局部忠实度</strong>：该解释适用于实例附近。</li>
+</ul>
+<p>原始（黑盒）模型是 <span class="math inline">\(f\)</span>，我们假设我们希望使用可解释模型 <span class="math inline">\(g\)</span> 来近似其围绕实例 <span class="math inline">\(x\)</span> 的行为。简单函数 <span class="math inline">\(g\)</span> 属于更大的类 <span class="math inline">\(G\)</span>。 <span class="math inline">\(x\)</span> 的附近标记为 <span class="math inline">\(\pi_x\)</span>，<span class="math inline">\(g\)</span> 的复杂度标记为 <span class="math inline">\(\Omega(g)\)</span>。 LIME 寻求对表格的解释
+<span class="math display">\[\xi(x)=\underset{g \in G}{\text{argmin}} \, \mathcal{L}(f,g,\pi_x)+\Omega(g),\]</span>
+其中 <span class="math inline">\(\mathcal{L}(f,g,\pi_x)\)</span> 是 <span class="math inline">\(g\)</span> 在 <span class="math inline">\(x\)</span> 的 <span class="math inline">\(\pi_x\)</span> 附近引起的损失函数（误差/不精确）。惩罚 <span class="math inline">\(\Omega(g)\)</span> 是例如叶子的数量或树的深度，或者线性回归中的预测变量的数量。</p>
+<p>现在需要定义上述一些术语。 <span class="math inline">\(x\)</span> 的附近由 <span class="math inline">\(\pi_x(z)=e^{-D(x,z)^2/\sigma^2},\)</span> 定义，其中 <span class="math inline">\(D\)</span> 是某个距离度量，<span class="math inline">\(\sigma^2\)</span> 是某个缩放常数。我们强调，当 <span class="math inline">\(z\)</span> 远离 <span class="math inline">\(x\)</span> 时，该函数会减弱。</p>
+<p>棘手的部分是损失函数。为了最小化它，LIME 生成接近 <span class="math inline">\(x\)</span> 的人工样本，并对简单表示产生的标签上的误差进行平均/求和。为简单起见，我们假设 <span class="math inline">\(f\)</span> 为标量输出，因此公式如下：
+<span class="math display">\[\mathcal{L}(f,g,\pi_x)=\sum_z \pi_x(z)(f(z)-g(z))^2\]</span>
+并且根据与初始实例 <span class="math inline">\(x\)</span> 的距离对误差进行加权：最近的点获得最大的权重。在其最基本的实现中，模型集 <span class="math inline">\(G\)</span> 由所有线性模型组成。</p>
+<p>在图 <a href="interp.html#fig:lime">13.5</a> 中，我们提供了 LIME 工作原理的简化图。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:lime" style="display:block;"></span>
+<img alt="LIME 的简单解释：解释的实例被红色方块包围。生成五个点（三角形）并相应地拟合加权线性模型（灰色虚线）。" src="images/lime.png" width="300px"/><p class="caption">图 13.5：LIME 的简单解释：解释的实例被红色方块包围。生成五个点（三角形）并相应地拟合加权线性模型（灰色虚线）。</p>
+</div>
+<p>为了说明清楚，我们仅使用一个因变量。原始训练样本用黑点显示。拟合（训练过的）模型用蓝线（平滑条件平均值）表示，我们想要近似模型如何围绕一个特定实例工作，该实例由周围的红色方块突出显示。为了构建近似值，我们在实例周围采样 5 个新点（5 个红色三角形）。每个三角形都位于蓝线上（它们是模型预测），并且具有与其大小成比例的权重：最接近实例的三角形具有更大的权重。使用加权最小二乘法，我们构建了一个适合这 5 个点（灰色虚线）的线性模型。这就是近似的结果。它给出了模型的两个参数：截距和斜率。两者都可以通过标准统计测试进行评估。</p>
+<p>斜坡的标志很重要。很明显，如果实例更接近 <span class="math inline">\(x=0\)</span>，斜率可能几乎是平坦的，因此预测器可能会被局部丢弃。另一个重要的细节是样本点的数量。在我们的解释中，我们只取五个点，但实际上，稳健的估计通常需要大约一千个点或更多。事实上，当采样的邻居太少时，估计风险很高并且近似可能很粗糙。</p>
+<p>我们继续看一个实施示例。有几个步骤：</p>
+<ol style="list-style-type: decimal">
+<li>在一些训练数据上拟合模型.<br/></li>
+<li>使用 Lime() 函数包装所有内容。<br/></li>
+<li>关注一些预测变量并查看它们对一些特定实例的影响（通过explain()函数）。</li>
+</ol>
+<p>我们从第一步开始。这次，我们使用提升树模型。</p>
+<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lime.data-imaginist.com">lime</a></span><span class="op">)</span>                              <span class="co"># Package for LIME interpretation</span>
+<span class="va">params_xgb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>                        <span class="co"># Parameters of the boosted tree</span>
+    max_depth <span class="op">=</span> <span class="fl">5</span>,                         <span class="co"># Max depth of each tree</span>
+    eta <span class="op">=</span> <span class="fl">0.5</span>,                             <span class="co"># Learning rate </span>
+    gamma <span class="op">=</span> <span class="fl">0.1</span>,                           <span class="co"># Penalization</span>
+    colsample_bytree <span class="op">=</span> <span class="fl">1</span>,                  <span class="co"># Proportion of predictors to be sampled (1 = all)</span>
+    min_child_weight <span class="op">=</span> <span class="fl">10</span>,                 <span class="co"># Min number of instances in each node</span>
+    subsample <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>                         <span class="co"># Proportion of instance to be sampled (1 = all)</span>
+<span class="va">xgb_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.train.html">xgb.train</a></span><span class="op">(</span><span class="va">params_xgb</span>,         <span class="co"># Training of the model</span>
+                       <span class="va">train_matrix_xgb</span>,   <span class="co"># Training data</span>
+                       nrounds <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>       <span class="co"># Number of trees</span></code></pre></div>
+<p></p>
+<p>然后，我们继续第二步和第三步。正如上面强调的，我们求助于 Lime() 和explain() 函数。</p>
+<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">explainer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lime.data-imaginist.com/reference/lime.html">lime</a></span><span class="op">(</span><span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span>, <span class="va">xgb_model</span><span class="op">)</span> <span class="co"># Step 2.</span>
+<span class="va">explanation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lime.data-imaginist.com/reference/explain.html">explain</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                                  <span class="co"># Step 3.</span>
+                           <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+                           <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>,           <span class="co"># First two instances in train_sample </span>
+                       explainer <span class="op">=</span> <span class="va">explainer</span>,           <span class="co"># Explainer variable created above </span>
+                       n_permutations <span class="op">=</span> <span class="fl">900</span>,            <span class="co"># Nb samples for loss function</span>
+                       dist_fun <span class="op">=</span> <span class="st">"euclidean"</span>,          <span class="co"># Dist.func. "gower" is one alternative</span>
+                       n_features <span class="op">=</span> <span class="fl">6</span>                   <span class="co"># Nb of features shown (important ones)</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://lime.data-imaginist.com/reference/plot_features.html">plot_features</a></span><span class="op">(</span><span class="va">explanation</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>                    <span class="co"># Visual display</span></code></pre></div>
+<div class="inline-figure"><img src="ML_factor_files/figure-html/lime1-1.png" style="display: block; margin: auto;" width="450px"/></div>
+<p></p>
+<p>在每张图中（一张图对应一个实例的说明），有两种类型的信息：影响的符号和影响的大小。符号用颜色显示（正为蓝色，负为红色），大小用矩形的大小显示。</p>
+<p>图表左侧的值显示用于计算局部近似值的特征的范围。</p>
+<p>最后，我们简要讨论代码中距离函数的选择。它用于评估真实实例与模拟实例之间的差异，以或多或少地赋予采样实例的预测权重。我们的数据集仅包含数值数据；因此，欧几里德距离是一个自然的选择：</p>
+<p><span class="math display">\[\text{Euclidean}(\textbf{x}, \textbf{y})=\sqrt{\sum_{n=1}^N(x_n-y_n)^2}.\]</span>
+另一种可能的选择是曼哈顿距离：
+<span class="math display">\[\text{Manhattan}(\textbf{x}, \textbf{y})=\sum_{n=1}^N|x_n-y_n|.\]</span></p>
+<p>这两个距离的问题在于它们无法处理分类变量。这就是高尔距离介入的地方 (<span class="citation">Gower (<a href="solutions-to-exercises.html#ref-gower1971general" role="doc-biblioref">1971</a>)</span>)。距离对不同类型的特征施加不同的处理（本质上是类与数字，但它也可以处理丢失的数据！）。对于分类特征，Gower 距离采用二元处理：如果特征相等，则该值等于 1，如果不相等，则该值等于 0（即 <span class="math inline">\(1_{\{x_n=y_n\}}\)</span>）。对于数值特征，分布被量化为 <span class="math inline">\(1-\frac{|x_n-y_n|}{R_n}\)</span>，其中 <span class="math inline">\(R_n\)</span> 是特征可以采用的最大绝对值。然后汇总所有相似性测量结果以得出最终分数。请注意，在这种情况下，逻辑是相反的：如果高尔距离接近 1，则 <span class="math inline">\(\textbf{x}\)</span> 和 <span class="math inline">\(\textbf{y}\)</span> 非常接近；如果距离接近 0，则它们很远。</p>
+</div>
+<div class="section level3" id="shapley-values" number="13.2.2"><h3><span class="header-section-number">13.2.2</span> 沙普利值 <a aria-label="锚" class="anchor" href="#shapley-values"><i class="fas fa-link"></i></a></h3>
+<p>Shapley 值的方法与 LIME 相比有些不同，但在精神上更接近 PDP。它起源于合作博弈论（<span class="citation">Shapley (<a href="solutions-to-exercises.html#ref-shapley1953value" role="doc-biblioref">1953</a>)</span>）。理由如下。评估变量影响（或有用性）的一种方法是看看如果我们从数据集中删除该变量会发生什么。如果这对模型的质量（即预测的准确性）非常不利，则意味着该变量非常有价值。</p>
+<p>Shapley 值已用于归因 <span class="citation">Shalit (<a href="solutions-to-exercises.html#ref-shalit2020shapley" role="doc-biblioref">2020</a>)</span>、<span class="citation">Shalit (<a href="solutions-to-exercises.html#ref-shalit2020shapley" role="doc-biblioref">2020</a>)</span> 和 <span class="citation">Moehle, Boyd, and Ang (<a href="solutions-to-exercises.html#ref-moehle2021portfolio" role="doc-biblioref">2021</a>)</span> 中投资组合的风险或绩效。</p>
+<p>从数字上看，最简单的方法是采用所有变量并删除一个变量来评估其预测能力。 Shapley 值的计算规模更大，因为它们考虑了添加目标预测变量的所有可能的变量组合。形式上，这给出：</p>
+<p><span class="math display" id="eq:shapley">\[\begin{equation}
+\tag{13.3}
+\phi_k=\sum_{S \subseteq \{x_1,\dots,x_K \} \backslash x_k}\underbrace{\frac{\text{Card}(S)!(K-\text{Card}(S)-1)!}{K!}}_{\text{weight of coalition}}\underbrace{\left(\hat{f}_{S \cup \{x_k\}}(S \cup \{x_k\})-\hat{f}_S(S)\right)}_{\text{gain when adding } x_k}
+\end{equation}\]</span></p>
+<span class="math inline">\(S\)</span> 是不包括特征 <span class="math inline">\(k\)</span> 的任何子集，其大小为 Card(<span class="math inline">\(S\)</span>).<br/>
+在上面的等式中，必须更改模型 <span class="math inline">\(f\)</span>，因为当特征缺失时无法评估 <span class="math inline">\(f\)</span>。在这种情况下，有几种可能的选择：
+<p>显然，如果预测变量的数量很大，则 Shapley 值可能需要花费大量时间来计算。我们参考 <span class="citation">J. Chen et al. (<a href="solutions-to-exercises.html#ref-chen2018shapley" role="doc-biblioref">2018</a>)</span> 来讨论在这种情况下减少计算时间的简化方法。
+<span class="citation">Lundberg and Lee (<a href="solutions-to-exercises.html#ref-lundberg2017unified" role="doc-biblioref">2017</a>)</span> 中研究了可解释性的 Shapley 值的扩展。</p>
+<p>R 中允许通过 <em>IML</em> 包实现 Shapley 值。与 LIME 相比有两个限制。首先，必须预先过滤特征，因为所有特征都显示在图表上（超过 20 个特征就会变得难以辨认）。这就是为什么在下面的代码中，我们使用预测变量的简短列表（来自 <a href="notdata.html#dataset">1.2</a> 节）。
+其次，一次分析一个实例。</p>
+<p>我们首先拟合随机森林模型。</p>
+<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_RF_short</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span><span class="op">(</span><span class="va">R1M_Usd</span> <span class="op">~</span><span class="va">.</span>,    <span class="co"># Same formula as for simple trees!</span>
+                 data <span class="op">=</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span>, <span class="st">"R1M_Usd"</span><span class="op">)</span>,  
+                 sampsize <span class="op">=</span> <span class="fl">10000</span>,          <span class="co"># Size of (random) sample for each tree</span>
+                 replace <span class="op">=</span> <span class="cn">FALSE</span>,           <span class="co"># Is the sampling done with replacement?</span>
+                 nodesize <span class="op">=</span> <span class="fl">250</span>,            <span class="co"># Minimum size of terminal cluster</span>
+                 ntree <span class="op">=</span> <span class="fl">40</span>,                <span class="co"># Nb of random trees</span>
+                 mtry <span class="op">=</span> <span class="fl">4</span>                   <span class="co"># Nb of predictive variables for each tree</span>
+    <span class="op">)</span></code></pre></div>
+<p></p>
+<p>然后，我们可以分析模型在训练样本的第一个实例周围的行为。</p>
+<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">predictor</span> <span class="op">&lt;-</span> <span class="va"><a href="https://christophm.github.io/iml/reference/Predictor.html">Predictor</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">fit_RF_short</span>,    <span class="co"># This wraps the model &amp; data</span>
+                          data <span class="op">=</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span>, 
+                          y <span class="op">=</span> <span class="va">training_sample</span><span class="op">$</span><span class="va">R1M_Usd</span><span class="op">)</span>
+<span class="va">shapley</span> <span class="op">&lt;-</span> <span class="va"><a href="https://christophm.github.io/iml/reference/Shapley.html">Shapley</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">predictor</span>,                        <span class="co"># Compute the Shapley values...</span>
+                       x.interest <span class="op">=</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
+                           <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+                           <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>              <span class="co"># On the first instance</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">shapley</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="fl">1500</span><span class="op">)</span> <span class="op">+</span>                      <span class="co"># Plot</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">35</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span>          </code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:shapley" style="display:block;"></span>
+<img alt="Shapley 方法的插图。" src="ML_factor_files/figure-html/shapley-1.png" width="450px"/><p class="caption">图 13.6：Shapley 方法图解。</p>
+</div>
+<p></p>
+<p>在图 <a href="interp.html#fig:shapley">13.6</a> 所示的输出中，我们再次获得两个关键的见解：特征影响的 <strong>符号</strong> 和 <strong>相对重要性</strong> （与其他特征相比）。</p></div>
+<div class="section level3" id="breakdown" number="13.2.3">
+<h3><span class="header-section-number">13.2.3</span> 分解法<a aria-label="锚" class="anchor" href="#breakdown"><i class="fas fa-link"></i></a></h3>
+<p>分解法（参见例如 <span class="citation">Staniak and Biecek (<a href="solutions-to-exercises.html#ref-staniak2018explanations" role="doc-biblioref">2018</a>)</span>）是 PDP 和 Shapley 值思想的混合。分解法的核心是方程 <a href="interp.html#eq:breakdown">(13.4)</a> 中定义的所谓 <strong>松弛模型预测</strong>。它在本质上与方程 <a href="interp.html#eq:pdp">(13.1)</a> 很接近。不同之处在于，我们是在局部层面开展工作，即针对一项特定观察，例如 <span class="math inline">\(x^*\)</span>。我们想要衡量一组预测变量对与 <span class="math inline">\(x^*\)</span> 相关的预测的影响；因此，我们固定两个集合<span class="math inline">\(\textbf{k}\)</span>（固定特征）和<span class="math inline">\(-\textbf{k}\)</span>（自由特征），并在预测变量集合<span class="math inline">\(\textbf{k}\)</span>固定为<span class="math inline">\(x^*\)</span>的值时评估估计模型<span class="math inline">\(\hat{f}\)</span>的平均预测替代量，即等于下面表达式中的<span class="math inline">\(x^*_{\textbf{k}}\)</span>：</p>
+<p><span class="math display" id="eq:breakdown">\[\begin{equation}
+\tag{13.4}
+\tilde{f}_{\textbf{k}}(x^*)=\frac{1}{M}\sum_{m=1}^M \hat{f}\left(x^{(m)}_{-\textbf{k}},x^*_{\textbf{k}} \right).
+\end{equation}\]</span></p>
+<p>上面表达式中的<span class="math inline">\(x^{(m)}\)</span>是模拟值实例或只是从数据集中采样的值。该符号意味着该实例的一些值被 <span class="math inline">\(x^*\)</span> 的值替换，即那些对应于索引 <span class="math inline">\(\textbf{k}\)</span> 的值。当<span class="math inline">\(\textbf{k}\)</span>由所有特征组成时，<span class="math inline">\(\tilde{f}_{\textbf{k}}(x^*)\)</span>等于原始模型预测<span class="math inline">\(\hat{f}(x^*)\)</span>，当<span class="math inline">\(\textbf{k}\)</span>为空时，它等于标签的平均样本值（恒定预测）。</p>
+<p>感兴趣的量是特征 <span class="math inline">\(j\notin \textbf{k}\)</span> 对数据点 <span class="math inline">\(x^*\)</span> 和集合 <span class="math inline">\(\textbf{k}\)</span> 的所谓贡献：</p>
+<p><span class="math display">\[\phi_{\textbf{k}}^j(x^*)=\tilde{f}_{\textbf{k} \cup j}(x^*)-\tilde{f}_{\textbf{k}}(x^*).\]</span></p>
+<p>正如 Shapley 值一样，上述指标计算使用特征 <span class="math inline">\(j\)</span> 增强预测变量集时的平均影响。根据定义，它取决于集合 <span class="math inline">\(\textbf{k}\)</span>，因此这是与 Shapley 值（跨越 <em>全部</em> 排列）的一个显着差异。在 <span class="citation">Staniak and Biecek (<a href="solutions-to-exercises.html#ref-staniak2018explanations" role="doc-biblioref">2018</a>)</span> 中，作者设计了一个逐渐增加或减少集合 <span class="math inline">\(\textbf{k}\)</span> 的过程。这种贪婪的想法有助于减轻计算所有可能的特征组合的负担。此外，他们的算法的一个非常方便的属性是所有贡献的总和等于预测值：
+<span class="math display">\[\sum_j \phi_{\textbf{k}}^j(x^*)=f(x^*).\]</span></p>
+<p>可视化使其非常容易看到（如下图 <a href="interp.html#fig:breakdown">13.7</a> 所示）。</p>
+<p>为了说明分解法的一种实现，我们在有限数量的特征上训练随机森林，如下所示。这将提高分解输出的可读性。</p>
+<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">formula_short</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"R1M_Usd ~"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">features_short</span>, collapse <span class="op">=</span> <span class="st">" + "</span><span class="op">)</span><span class="op">)</span> <span class="co">#  Model </span>
+<span class="va">formula_short</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="va">formula_short</span><span class="op">)</span>                                   <span class="co">#  Formula format</span>
+<span class="va">fit_RF_short</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span><span class="op">(</span><span class="va">formula_short</span>, <span class="co"># Same formula as before</span>
+                 data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">training_sample</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">features_short</span>, <span class="st">"R1M_Usd"</span><span class="op">)</span><span class="op">)</span>,  
+                 sampsize <span class="op">=</span> <span class="fl">10000</span>,          <span class="co"># Size of (random) sample for each tree</span>
+                 replace <span class="op">=</span> <span class="cn">FALSE</span>,           <span class="co"># Is the sampling done with replacement?</span>
+                 nodesize <span class="op">=</span> <span class="fl">250</span>,            <span class="co"># Minimum size of terminal cluster</span>
+                 ntree <span class="op">=</span> <span class="fl">12</span>,                <span class="co"># Nb of random trees</span>
+                 mtry <span class="op">=</span> <span class="fl">5</span>                   <span class="co"># Nb of predictive variables for each tree</span>
+    <span class="op">)</span></code></pre></div>
+<p></p>
+<p>模型训练完成后，预测分解的语法就非常简单。</p>
+<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pbiecek.github.io/breakDown/">breakDown</a></span><span class="op">)</span>
+<span class="va">explain_break</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pbiecek.github.io/breakDown/reference/broken.html">broken</a></span><span class="op">(</span><span class="va">fit_RF_short</span>, 
+                        <span class="va">data_ml</span><span class="op">[</span><span class="fl">6</span>,<span class="op">]</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span>,
+                        data <span class="op">=</span> <span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">explain_break</span><span class="op">)</span> </code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:breakdown" style="display:block;"></span>
+<img alt="分解法输出示例。" src="ML_factor_files/figure-html/breakdown-1.png" width="500px"/><p class="caption">图 13.7：分解法输出示例。</p>
+</div>
+<p></p>
+<p>图形输出可以直观地解释。灰色条是模型在所选实例上的预测。绿色条表示积极贡献，黄色矩形表示具有负面影响的变量。相对大小表明每个特征的重要性。</p>
+</div>
+</div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></div>
+<div class="next"><a href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页" data-toggle="toc" id="toc"><h2>本页</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#interp"><span class="header-section-number">13</span> 可解释性</a></li>
+<li>
+<a class="nav-link" href="#global-interpretations"><span class="header-section-number">13.1</span> 全局解释</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#surr"><span class="header-section-number">13.1.1</span> 作为代理的简单模型</a></li>
+<li><a class="nav-link" href="#variable-importance"><span class="header-section-number">13.1.2</span> 特征重要性（基于树）</a></li>
+<li><a class="nav-link" href="#variable-importance-agnostic"><span class="header-section-number">13.1.3</span> 特征重要性（模型无关）</a></li>
+<li><a class="nav-link" href="#partial-dependence-plot"><span class="header-section-number">13.1.4</span> 部分依赖图</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#local-interpretations"><span class="header-section-number">13.2</span> 局部解释</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lime"><span class="header-section-number">13.2.1</span> LIME</a></li>
+<li><a class="nav-link" href="#shapley-values"><span class="header-section-number">13.2.2</span> Shapley 值</a></li>
+<li><a class="nav-link" href="#breakdown"><span class="header-section-number">13.2.3</span> 分解法</a></li>
+</ul>
+</li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> .容器 
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>“<strong>Machine Learning for Factor Investing</strong>”由 Guillaume Coqueret 和 Tony Guida 编写。它最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+</div>
+</div></div>
+</footer> 动态加载 mathjax 以与独立的 <script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script> 兼容</body>
+</html>

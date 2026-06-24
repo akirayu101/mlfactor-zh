@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" xml:lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<title>第 19 章 结论 | 因子投资中的机器学习</title>
+<meta content="第 19 章：结论。" name="description"/>
+<meta content="bookdown 0.16 and GitBook 2.6.7" name="generator"/>
+<meta content="第 19 章 结论 | 因子投资中的机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 19 章 结论 | 因子投资中的机器学习" name="twitter:title"/>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+<link href="python.html" rel="prev"/>
+<link href="data-description.html" rel="next"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet"/>
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet"/>
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet"/>
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet"/>
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet"/>
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet"/>
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet"/>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+</head>
+<body>
+<div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+<div class="book-summary">
+<nav role="navigation">
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="preface.html"><a href="preface.html"><i class="fa fa-check"></i><b>1</b> 序言</a><ul>
+<li class="chapter" data-level="1.1" data-path="preface.html"><a href="preface.html#foreword"><i class="fa fa-check"></i><b>1.1</b> 前言</a></li>
+<li class="chapter" data-level="1.2" data-path="preface.html"><a href="preface.html#what-this-book-is-not-about"><i class="fa fa-check"></i><b>1.2</b> 本书不讨论什么</a></li>
+<li class="chapter" data-level="1.3" data-path="preface.html"><a href="preface.html#the-targeted-audience"><i class="fa fa-check"></i><b>1.3</b> 目标读者</a></li>
+<li class="chapter" data-level="1.4" data-path="preface.html"><a href="preface.html#how-this-book-is-structured"><i class="fa fa-check"></i><b>1.4</b> 本书结构</a></li>
+<li class="chapter" data-level="1.5" data-path="preface.html"><a href="preface.html#companion-website"><i class="fa fa-check"></i><b>1.5</b> 配套网站</a></li>
+<li class="chapter" data-level="1.6" data-path="preface.html"><a href="preface.html#why-r"><i class="fa fa-check"></i><b>1.6</b> 为什么使用 R？</a></li>
+<li class="chapter" data-level="1.7" data-path="preface.html"><a href="preface.html#coding-instructions"><i class="fa fa-check"></i><b>1.7</b> 代码说明</a></li>
+<li class="chapter" data-level="1.8" data-path="preface.html"><a href="preface.html#acknowledgements"><i class="fa fa-check"></i><b>1.8</b> 致谢</a></li>
+<li class="chapter" data-level="1.9" data-path="preface.html"><a href="preface.html#future-developments"><i class="fa fa-check"></i><b>1.9</b> 未来发展</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="notdata.html"><a href="notdata.html"><i class="fa fa-check"></i><b>2</b> 记号与数据</a><ul>
+<li class="chapter" data-level="2.1" data-path="notdata.html"><a href="notdata.html#notations"><i class="fa fa-check"></i><b>2.1</b> 记号</a></li>
+<li class="chapter" data-level="2.2" data-path="notdata.html"><a href="notdata.html#dataset"><i class="fa fa-check"></i><b>2.2</b> 数据集</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>3</b> 导论</a><ul>
+<li class="chapter" data-level="3.1" data-path="intro.html"><a href="intro.html#context"><i class="fa fa-check"></i><b>3.1</b> 背景</a></li>
+<li class="chapter" data-level="3.2" data-path="intro.html"><a href="intro.html#portfolio-construction-the-workflow"><i class="fa fa-check"></i><b>3.2</b> 投资组合构建：工作流程</a></li>
+<li class="chapter" data-level="3.3" data-path="intro.html"><a href="intro.html#machine-learning-is-no-magic-wand"><i class="fa fa-check"></i><b>3.3</b> 机器学习不是魔法棒</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="factor.html"><a href="factor.html"><i class="fa fa-check"></i><b>4</b> 因子投资与资产定价异象</a><ul>
+<li class="chapter" data-level="4.1" data-path="factor.html"><a href="factor.html#introduction"><i class="fa fa-check"></i><b>4.1</b> 导论</a></li>
+<li class="chapter" data-level="4.2" data-path="factor.html"><a href="factor.html#detecting-anomalies"><i class="fa fa-check"></i><b>4.2</b> 检测异象</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="factor.html"><a href="factor.html#simple-portfolio-sorts"><i class="fa fa-check"></i><b>4.2.1</b> 简单的投资组合排序</a></li>
+<li class="chapter" data-level="4.2.2" data-path="factor.html"><a href="factor.html#factors"><i class="fa fa-check"></i><b>4.2.2</b> 因子</a></li>
+<li class="chapter" data-level="4.2.3" data-path="factor.html"><a href="factor.html#predictive-regressions-sorts-and-p-value-issues"><i class="fa fa-check"></i><b>4.2.3</b> 预测回归、排序和 p 值问题</a></li>
+<li class="chapter" data-level="4.2.4" data-path="factor.html"><a href="factor.html#fama-macbeth-regressions"><i class="fa fa-check"></i><b>4.2.4</b> 法玛-麦克白回归</a></li>
+<li class="chapter" data-level="4.2.5" data-path="factor.html"><a href="factor.html#factor-competition"><i class="fa fa-check"></i><b>4.2.5</b> 要素竞争</a></li>
+<li class="chapter" data-level="4.2.6" data-path="factor.html"><a href="factor.html#advanced-techniques"><i class="fa fa-check"></i><b>4.2.6</b> 先进技术</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="factor.html"><a href="factor.html#factors-or-characteristics"><i class="fa fa-check"></i><b>4.3</b> 因素或特征？</a></li>
+<li class="chapter" data-level="4.4" data-path="factor.html"><a href="factor.html#momentum-and-timing"><i class="fa fa-check"></i><b>4.4</b> 动力和时机</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="factor.html"><a href="factor.html#factor-momentum"><i class="fa fa-check"></i><b>4.4.1</b> 因子动量</a></li>
+<li class="chapter" data-level="4.4.2" data-path="factor.html"><a href="factor.html#factor-timing"><i class="fa fa-check"></i><b>4.4.2</b> 因素时机</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="factor.html"><a href="factor.html#the-link-with-machine-learning"><i class="fa fa-check"></i><b>4.5</b> 与机器学习的联系</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="factor.html"><a href="factor.html#a-short-list-of-recent-references"><i class="fa fa-check"></i><b>4.5.1</b> 最近参考文献的简短列表</a></li>
+<li class="chapter" data-level="4.5.2" data-path="factor.html"><a href="factor.html#explicit-connexions-with-asset-pricing-models"><i class="fa fa-check"></i><b>4.5.2</b> 与资产定价模型的明确联系</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="factor.html"><a href="factor.html#coding-exercises"><i class="fa fa-check"></i><b>4.6</b> 编码练习</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="Data.html"><a href="Data.html"><i class="fa fa-check"></i><b>5</b> 数据预处理</a><ul>
+<li class="chapter" data-level="5.1" data-path="Data.html"><a href="Data.html#know-your-data"><i class="fa fa-check"></i><b>5.1</b> 了解您的数据</a></li>
+<li class="chapter" data-level="5.2" data-path="Data.html"><a href="Data.html#missing-data"><i class="fa fa-check"></i><b>5.2</b> 缺失数据</a></li>
+<li class="chapter" data-level="5.3" data-path="Data.html"><a href="Data.html#outlier-detection"><i class="fa fa-check"></i><b>5.3</b> 异常值检测</a></li>
+<li class="chapter" data-level="5.4" data-path="Data.html"><a href="Data.html#feateng"><i class="fa fa-check"></i><b>5.4</b> 特征工程</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="Data.html"><a href="Data.html#feature-selection"><i class="fa fa-check"></i><b>5.4.1</b> 特征选择</a></li>
+<li class="chapter" data-level="5.4.2" data-path="Data.html"><a href="Data.html#scaling"><i class="fa fa-check"></i><b>5.4.2</b> 缩放预测变量</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="Data.html"><a href="Data.html#labelling"><i class="fa fa-check"></i><b>5.5</b> 标签构造</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="Data.html"><a href="Data.html#simple-labels"><i class="fa fa-check"></i><b>5.5.1</b> 简单的标签</a></li>
+<li class="chapter" data-level="5.5.2" data-path="Data.html"><a href="Data.html#categorical-labels"><i class="fa fa-check"></i><b>5.5.2</b> 分类标签</a></li>
+<li class="chapter" data-level="5.5.3" data-path="Data.html"><a href="Data.html#the-triple-barrier-method"><i class="fa fa-check"></i><b>5.5.3</b> 三重屏障法</a></li>
+<li class="chapter" data-level="5.5.4" data-path="Data.html"><a href="Data.html#filtering-the-sample"><i class="fa fa-check"></i><b>5.5.4</b> 过滤样品</a></li>
+<li class="chapter" data-level="5.5.5" data-path="Data.html"><a href="Data.html#horizons"><i class="fa fa-check"></i><b>5.5.5</b> 返回视野</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="Data.html"><a href="Data.html#pers"><i class="fa fa-check"></i><b>5.6</b> 处理持久性</a></li>
+<li class="chapter" data-level="5.7" data-path="Data.html"><a href="Data.html#extensions"><i class="fa fa-check"></i><b>5.7</b> 扩展</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="Data.html"><a href="Data.html#transforming-features"><i class="fa fa-check"></i><b>5.7.1</b> 转变特征</a></li>
+<li class="chapter" data-level="5.7.2" data-path="Data.html"><a href="Data.html#macrovar"><i class="fa fa-check"></i><b>5.7.2</b> 宏观经济变量</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="Data.html"><a href="Data.html#additional-code-and-results"><i class="fa fa-check"></i><b>5.8</b> 附加代码和结果</a><ul>
+<li class="chapter" data-level="5.8.1" data-path="Data.html"><a href="Data.html#impact-of-rescaling-graphical-representation"><i class="fa fa-check"></i><b>5.8.1</b> 重新缩放的影响：图形表示</a></li>
+<li class="chapter" data-level="5.8.2" data-path="Data.html"><a href="Data.html#impact-of-rescaling-toy-example"><i class="fa fa-check"></i><b>5.8.2</b> 重新缩放的影响：玩具示例</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="Data.html"><a href="Data.html#coding-exercises-1"><i class="fa fa-check"></i><b>5.9</b> 编码练习</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lasso.html"><a href="lasso.html"><i class="fa fa-check"></i><b>6</b> 惩罚回归与最小方差投资组合的稀疏对冲</a><ul>
+<li class="chapter" data-level="6.1" data-path="lasso.html"><a href="lasso.html#penalised-regressions"><i class="fa fa-check"></i><b>6.1</b> 惩罚回归</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="lasso.html"><a href="lasso.html#simple-regressions"><i class="fa fa-check"></i><b>6.1.1</b> 简单回归</a></li>
+<li class="chapter" data-level="6.1.2" data-path="lasso.html"><a href="lasso.html#forms-of-penalizations"><i class="fa fa-check"></i><b>6.1.2</b> 处罚形式</a></li>
+<li class="chapter" data-level="6.1.3" data-path="lasso.html"><a href="lasso.html#illustrations"><i class="fa fa-check"></i><b>6.1.3</b> 示例说明</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lasso.html"><a href="lasso.html#sparse-hedging-for-minimum-variance-portfolios"><i class="fa fa-check"></i><b>6.2</b> 最小方差投资组合的稀疏对冲</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="lasso.html"><a href="lasso.html#presentation-and-derivations"><i class="fa fa-check"></i><b>6.2.1</b> 介绍和推导</a></li>
+<li class="chapter" data-level="6.2.2" data-path="lasso.html"><a href="lasso.html#sparseex"><i class="fa fa-check"></i><b>6.2.2</b> 示例</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="lasso.html"><a href="lasso.html#predictive-regressions"><i class="fa fa-check"></i><b>6.3</b> 预测回归</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="lasso.html"><a href="lasso.html#literature-review-and-principle"><i class="fa fa-check"></i><b>6.3.1</b> 文献综述及原理</a></li>
+<li class="chapter" data-level="6.3.2" data-path="lasso.html"><a href="lasso.html#code-and-results"><i class="fa fa-check"></i><b>6.3.2</b> 代码和结果</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="lasso.html"><a href="lasso.html#coding-exercises-2"><i class="fa fa-check"></i><b>6.4</b> 编码练习</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="trees.html"><a href="trees.html"><i class="fa fa-check"></i><b>7</b> 基于树的方法</a><ul>
+<li class="chapter" data-level="7.1" data-path="trees.html"><a href="trees.html#simple-trees"><i class="fa fa-check"></i><b>7.1</b> 简单的树</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="trees.html"><a href="trees.html#principle"><i class="fa fa-check"></i><b>7.1.1</b> 原理</a></li>
+<li class="chapter" data-level="7.1.2" data-path="trees.html"><a href="trees.html#further-details-on-classification"><i class="fa fa-check"></i><b>7.1.2</b> 有关分类的更多详细信息</a></li>
+<li class="chapter" data-level="7.1.3" data-path="trees.html"><a href="trees.html#pruning-criteria"><i class="fa fa-check"></i><b>7.1.3</b> 修剪标准</a></li>
+<li class="chapter" data-level="7.1.4" data-path="trees.html"><a href="trees.html#code-and-interpretation"><i class="fa fa-check"></i><b>7.1.4</b> 代码及解释</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="trees.html"><a href="trees.html#random-forests"><i class="fa fa-check"></i><b>7.2</b> 随机森林</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="trees.html"><a href="trees.html#principle-1"><i class="fa fa-check"></i><b>7.2.1</b> 原理</a></li>
+<li class="chapter" data-level="7.2.2" data-path="trees.html"><a href="trees.html#code-and-results-1"><i class="fa fa-check"></i><b>7.2.2</b> 代码和结果</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="trees.html"><a href="trees.html#adaboost"><i class="fa fa-check"></i><b>7.3</b> 提升树：Adaboost</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="trees.html"><a href="trees.html#methodology"><i class="fa fa-check"></i><b>7.3.1</b> 方法论</a></li>
+<li class="chapter" data-level="7.3.2" data-path="trees.html"><a href="trees.html#illustration"><i class="fa fa-check"></i><b>7.3.2</b> 示例说明</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="trees.html"><a href="trees.html#boosted-trees-extreme-gradient-boosting"><i class="fa fa-check"></i><b>7.4</b> 提升树：极端梯度提升</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="trees.html"><a href="trees.html#managing-loss"><i class="fa fa-check"></i><b>7.4.1</b> 管理损失</a></li>
+<li class="chapter" data-level="7.4.2" data-path="trees.html"><a href="trees.html#penalisation"><i class="fa fa-check"></i><b>7.4.2</b> 惩罚</a></li>
+<li class="chapter" data-level="7.4.3" data-path="trees.html"><a href="trees.html#aggregation"><i class="fa fa-check"></i><b>7.4.3</b> 聚合</a></li>
+<li class="chapter" data-level="7.4.4" data-path="trees.html"><a href="trees.html#tree-structure"><i class="fa fa-check"></i><b>7.4.4</b> 树形结构</a></li>
+<li class="chapter" data-level="7.4.5" data-path="trees.html"><a href="trees.html#boostext"><i class="fa fa-check"></i><b>7.4.5</b> 扩展</a></li>
+<li class="chapter" data-level="7.4.6" data-path="trees.html"><a href="trees.html#boostcode"><i class="fa fa-check"></i><b>7.4.6</b> 代码和结果</a></li>
+<li class="chapter" data-level="7.4.7" data-path="trees.html"><a href="trees.html#instweight"><i class="fa fa-check"></i><b>7.4.7</b> 实例权重</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="trees.html"><a href="trees.html#discussion"><i class="fa fa-check"></i><b>7.5</b> 讨论</a></li>
+<li class="chapter" data-level="7.6" data-path="trees.html"><a href="trees.html#coding-exercises-3"><i class="fa fa-check"></i><b>7.6</b> 编码练习</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="NN.html"><a href="NN.html"><i class="fa fa-check"></i><b>8</b> 神经网络</a><ul>
+<li class="chapter" data-level="8.1" data-path="NN.html"><a href="NN.html#the-original-perceptron"><i class="fa fa-check"></i><b>8.1</b> 原始感知器</a></li>
+<li class="chapter" data-level="8.2" data-path="NN.html"><a href="NN.html#multilayer-perceptron"><i class="fa fa-check"></i><b>8.2</b> 多层感知器</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="NN.html"><a href="NN.html#introduction-and-notations"><i class="fa fa-check"></i><b>8.2.1</b> 简介和注释</a></li>
+<li class="chapter" data-level="8.2.2" data-path="NN.html"><a href="NN.html#universal-approximation"><i class="fa fa-check"></i><b>8.2.2</b> 万能近似</a></li>
+<li class="chapter" data-level="8.2.3" data-path="NN.html"><a href="NN.html#backprop"><i class="fa fa-check"></i><b>8.2.3</b> 通过反向传播学习</a></li>
+<li class="chapter" data-level="8.2.4" data-path="NN.html"><a href="NN.html#further-details-on-classification-1"><i class="fa fa-check"></i><b>8.2.4</b> 有关分类的更多详细信息</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="NN.html"><a href="NN.html#howdeep"><i class="fa fa-check"></i><b>8.3</b> 我们应该走多深？以及其他实际问题</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="NN.html"><a href="NN.html#architectural-choices"><i class="fa fa-check"></i><b>8.3.1</b> 架构选择</a></li>
+<li class="chapter" data-level="8.3.2" data-path="NN.html"><a href="NN.html#frequency-of-weight-updates-and-learning-duration"><i class="fa fa-check"></i><b>8.3.2</b> 权重更新频率和学习持续时间</a></li>
+<li class="chapter" data-level="8.3.3" data-path="NN.html"><a href="NN.html#penalizations-and-dropout"><i class="fa fa-check"></i><b>8.3.3</b> 处罚和退学</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="NN.html"><a href="NN.html#code-samples-and-comments-for-vanilla-mlp"><i class="fa fa-check"></i><b>8.4</b> 普通 MLP 的代码示例和注释</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="NN.html"><a href="NN.html#regression-example"><i class="fa fa-check"></i><b>8.4.1</b> 回归示例</a></li>
+<li class="chapter" data-level="8.4.2" data-path="NN.html"><a href="NN.html#classification-example"><i class="fa fa-check"></i><b>8.4.2</b> 分类示例</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="NN.html"><a href="NN.html#recurrent-networks"><i class="fa fa-check"></i><b>8.5</b> 循环网络</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="NN.html"><a href="NN.html#presentation"><i class="fa fa-check"></i><b>8.5.1</b> 介绍</a></li>
+<li class="chapter" data-level="8.5.2" data-path="NN.html"><a href="NN.html#code-and-results-2"><i class="fa fa-check"></i><b>8.5.2</b> 代码和结果</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="NN.html"><a href="NN.html#other-common-architectures"><i class="fa fa-check"></i><b>8.6</b> 其他常见架构</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="NN.html"><a href="NN.html#generative-aversarial-networks"><i class="fa fa-check"></i><b>8.6.1</b> 生成对抗网络</a></li>
+<li class="chapter" data-level="8.6.2" data-path="NN.html"><a href="NN.html#autoencoders"><i class="fa fa-check"></i><b>8.6.2</b> 自编码器</a></li>
+<li class="chapter" data-level="8.6.3" data-path="NN.html"><a href="NN.html#a-word-on-convolutional-networks"><i class="fa fa-check"></i><b>8.6.3</b> 关于卷积网络的一句话</a></li>
+<li class="chapter" data-level="8.6.4" data-path="NN.html"><a href="NN.html#advanced-architectures"><i class="fa fa-check"></i><b>8.6.4</b> 先进的架构</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="NN.html"><a href="NN.html#coding-exercise"><i class="fa fa-check"></i><b>8.7</b> 编码练习</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="svm.html"><a href="svm.html"><i class="fa fa-check"></i><b>9</b> 支持向量机</a><ul>
+<li class="chapter" data-level="9.1" data-path="svm.html"><a href="svm.html#svm-for-classification"><i class="fa fa-check"></i><b>9.1</b> 用于分类的支持向量机</a></li>
+<li class="chapter" data-level="9.2" data-path="svm.html"><a href="svm.html#svm-for-regression"><i class="fa fa-check"></i><b>9.2</b> 用于回归的支持向量机</a></li>
+<li class="chapter" data-level="9.3" data-path="svm.html"><a href="svm.html#practice"><i class="fa fa-check"></i><b>9.3</b> 实践</a></li>
+<li class="chapter" data-level="9.4" data-path="svm.html"><a href="svm.html#coding-exercises-4"><i class="fa fa-check"></i><b>9.4</b> 编码练习</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="bayes.html"><a href="bayes.html"><i class="fa fa-check"></i><b>10</b> 贝叶斯方法</a><ul>
+<li class="chapter" data-level="10.1" data-path="bayes.html"><a href="bayes.html#the-bayesian-framework"><i class="fa fa-check"></i><b>10.1</b> 贝叶斯框架</a></li>
+<li class="chapter" data-level="10.2" data-path="bayes.html"><a href="bayes.html#bayesian-sampling"><i class="fa fa-check"></i><b>10.2</b> 贝叶斯采样</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="bayes.html"><a href="bayes.html#gibbs-sampling"><i class="fa fa-check"></i><b>10.2.1</b> 吉布斯抽样</a></li>
+<li class="chapter" data-level="10.2.2" data-path="bayes.html"><a href="bayes.html#metropolis-hastings-sampling"><i class="fa fa-check"></i><b>10.2.2</b> 大都会-黑斯廷斯抽样</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="bayes.html"><a href="bayes.html#bayesian-linear-regression"><i class="fa fa-check"></i><b>10.3</b> 贝叶斯线性回归</a></li>
+<li class="chapter" data-level="10.4" data-path="bayes.html"><a href="bayes.html#naive-bayes-classifier"><i class="fa fa-check"></i><b>10.4</b> 朴素贝叶斯分类器</a></li>
+<li class="chapter" data-level="10.5" data-path="bayes.html"><a href="bayes.html#BART"><i class="fa fa-check"></i><b>10.5</b> 贝叶斯加法树</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="bayes.html"><a href="bayes.html#general-formulation"><i class="fa fa-check"></i><b>10.5.1</b> 一般配方</a></li>
+<li class="chapter" data-level="10.5.2" data-path="bayes.html"><a href="bayes.html#priors"><i class="fa fa-check"></i><b>10.5.2</b> 先验</a></li>
+<li class="chapter" data-level="10.5.3" data-path="bayes.html"><a href="bayes.html#sampling-and-predictions"><i class="fa fa-check"></i><b>10.5.3</b> 抽样和预测</a></li>
+<li class="chapter" data-level="10.5.4" data-path="bayes.html"><a href="bayes.html#code"><i class="fa fa-check"></i><b>10.5.4</b> 代码</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="valtune.html"><a href="valtune.html"><i class="fa fa-check"></i><b>11</b> 验证与调参</a><ul>
+<li class="chapter" data-level="11.1" data-path="valtune.html"><a href="valtune.html#mlmetrics"><i class="fa fa-check"></i><b>11.1</b> 学习指标</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="valtune.html"><a href="valtune.html#regression-analysis"><i class="fa fa-check"></i><b>11.1.1</b> 回归分析</a></li>
+<li class="chapter" data-level="11.1.2" data-path="valtune.html"><a href="valtune.html#classification-analysis"><i class="fa fa-check"></i><b>11.1.2</b> 分类分析</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="valtune.html"><a href="valtune.html#validation"><i class="fa fa-check"></i><b>11.2</b> 验证</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="valtune.html"><a href="valtune.html#the-variance-bias-tradeoff-theory"><i class="fa fa-check"></i><b>11.2.1</b> 方差与偏差的权衡：理论</a></li>
+<li class="chapter" data-level="11.2.2" data-path="valtune.html"><a href="valtune.html#the-variance-bias-tradeoff-illustration"><i class="fa fa-check"></i><b>11.2.2</b> 方差-偏差权衡：插图</a></li>
+<li class="chapter" data-level="11.2.3" data-path="valtune.html"><a href="valtune.html#the-risk-of-overfitting-principle"><i class="fa fa-check"></i><b>11.2.3</b> 过度拟合的风险：原则</a></li>
+<li class="chapter" data-level="11.2.4" data-path="valtune.html"><a href="valtune.html#the-risk-of-overfitting-some-solutions"><i class="fa fa-check"></i><b>11.2.4</b> 过度拟合的风险：一些解决方案</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="valtune.html"><a href="valtune.html#the-search-for-good-hyperparameters"><i class="fa fa-check"></i><b>11.3</b> 寻找好的超参数</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="valtune.html"><a href="valtune.html#methods"><i class="fa fa-check"></i><b>11.3.1</b> 方法</a></li>
+<li class="chapter" data-level="11.3.2" data-path="valtune.html"><a href="valtune.html#example-grid-search"><i class="fa fa-check"></i><b>11.3.2</b> 示例：网格搜索</a></li>
+<li class="chapter" data-level="11.3.3" data-path="valtune.html"><a href="valtune.html#example-bayesian-optimization"><i class="fa fa-check"></i><b>11.3.3</b> 示例：贝叶斯优化</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="valtune.html"><a href="valtune.html#short-discussion-on-validation-in-backtests"><i class="fa fa-check"></i><b>11.4</b> 关于回测验证的简短讨论</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="ensemble.html"><a href="ensemble.html"><i class="fa fa-check"></i><b>12</b> 集成模型</a><ul>
+<li class="chapter" data-level="12.1" data-path="ensemble.html"><a href="ensemble.html#linear-ensembles"><i class="fa fa-check"></i><b>12.1</b> 线性系综</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="ensemble.html"><a href="ensemble.html#principles"><i class="fa fa-check"></i><b>12.1.1</b> 原理</a></li>
+<li class="chapter" data-level="12.1.2" data-path="ensemble.html"><a href="ensemble.html#example"><i class="fa fa-check"></i><b>12.1.2</b> 示例</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="ensemble.html"><a href="ensemble.html#stacked-ensembles"><i class="fa fa-check"></i><b>12.2</b> 堆叠合奏</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="ensemble.html"><a href="ensemble.html#two-stage-training"><i class="fa fa-check"></i><b>12.2.1</b> 两阶段训练</a></li>
+<li class="chapter" data-level="12.2.2" data-path="ensemble.html"><a href="ensemble.html#code-and-results-3"><i class="fa fa-check"></i><b>12.2.2</b> 代码和结果</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="ensemble.html"><a href="ensemble.html#extensions-1"><i class="fa fa-check"></i><b>12.3</b> 扩展</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="ensemble.html"><a href="ensemble.html#exogenous-variables"><i class="fa fa-check"></i><b>12.3.1</b> 外生变量</a></li>
+<li class="chapter" data-level="12.3.2" data-path="ensemble.html"><a href="ensemble.html#shrinking-inter-model-correlations"><i class="fa fa-check"></i><b>12.3.2</b> 缩小模型间相关性</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="ensemble.html"><a href="ensemble.html#exercise"><i class="fa fa-check"></i><b>12.4</b> 练习</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="backtest.html"><a href="backtest.html"><i class="fa fa-check"></i><b>13</b> 投资组合回测</a><ul>
+<li class="chapter" data-level="13.1" data-path="backtest.html"><a href="backtest.html#protocol"><i class="fa fa-check"></i><b>13.1</b> 设置协议</a></li>
+<li class="chapter" data-level="13.2" data-path="backtest.html"><a href="backtest.html#turning-signals-into-portfolio-weights"><i class="fa fa-check"></i><b>13.2</b> 将信号转化为投资组合权重</a></li>
+<li class="chapter" data-level="13.3" data-path="backtest.html"><a href="backtest.html#perfmet"><i class="fa fa-check"></i><b>13.3</b> 绩效指标</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="backtest.html"><a href="backtest.html#discussion-1"><i class="fa fa-check"></i><b>13.3.1</b> 讨论</a></li>
+<li class="chapter" data-level="13.3.2" data-path="backtest.html"><a href="backtest.html#pure-performance-and-risk-indicators"><i class="fa fa-check"></i><b>13.3.2</b> 纯粹的绩效和风险指标</a></li>
+<li class="chapter" data-level="13.3.3" data-path="backtest.html"><a href="backtest.html#factor-based-evaluation"><i class="fa fa-check"></i><b>13.3.3</b> 基于因素的评估</a></li>
+<li class="chapter" data-level="13.3.4" data-path="backtest.html"><a href="backtest.html#risk-adjusted-measures"><i class="fa fa-check"></i><b>13.3.4</b> 风险调整指标</a></li>
+<li class="chapter" data-level="13.3.5" data-path="backtest.html"><a href="backtest.html#transaction-costs-and-turnover"><i class="fa fa-check"></i><b>13.3.5</b> 交易成本和营业额</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="backtest.html"><a href="backtest.html#common-errors-and-issues"><i class="fa fa-check"></i><b>13.4</b> 常见错误和问题</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="backtest.html"><a href="backtest.html#forward-looking-data"><i class="fa fa-check"></i><b>13.4.1</b> 前瞻性数据</a></li>
+<li class="chapter" data-level="13.4.2" data-path="backtest.html"><a href="backtest.html#backtest-overfitting"><i class="fa fa-check"></i><b>13.4.2</b> 回测过拟合</a></li>
+<li class="chapter" data-level="13.4.3" data-path="backtest.html"><a href="backtest.html#simple-saveguards"><i class="fa fa-check"></i><b>13.4.3</b> 简单的保护措施</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="backtest.html"><a href="backtest.html#implication-of-non-stationarity-forecasting-is-hard"><i class="fa fa-check"></i><b>13.5</b> 非平稳性的含义：预测很难</a><ul>
+<li class="chapter" data-level="13.5.1" data-path="backtest.html"><a href="backtest.html#general-comments"><i class="fa fa-check"></i><b>13.5.1</b> 一般评论</a></li>
+<li class="chapter" data-level="13.5.2" data-path="backtest.html"><a href="backtest.html#the-no-free-lunch-theorem"><i class="fa fa-check"></i><b>13.5.2</b> 没有免费的午餐定理</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="backtest.html"><a href="backtest.html#example-1"><i class="fa fa-check"></i><b>13.6</b> 示例</a></li>
+<li class="chapter" data-level="13.7" data-path="backtest.html"><a href="backtest.html#coding-exercises-5"><i class="fa fa-check"></i><b>13.7</b> 编码练习</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="interp.html"><a href="interp.html"><i class="fa fa-check"></i><b>14</b> 可解释性</a><ul>
+<li class="chapter" data-level="14.1" data-path="interp.html"><a href="interp.html#global-interpretations"><i class="fa fa-check"></i><b>14.1</b> 全球解读</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="interp.html"><a href="interp.html#variable-importance"><i class="fa fa-check"></i><b>14.1.1</b> 变量重要性（基于树）</a></li>
+<li class="chapter" data-level="14.1.2" data-path="interp.html"><a href="interp.html#variable-importance-agnostic"><i class="fa fa-check"></i><b>14.1.2</b> 可变重要性（不可知）</a></li>
+<li class="chapter" data-level="14.1.3" data-path="interp.html"><a href="interp.html#partial-dependence-plot"><i class="fa fa-check"></i><b>14.1.3</b> 部分依赖图</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="interp.html"><a href="interp.html#local-interpretations"><i class="fa fa-check"></i><b>14.2</b> 局部解释</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="interp.html"><a href="interp.html#lime"><i class="fa fa-check"></i><b>14.2.1</b> LIME</a></li>
+<li class="chapter" data-level="14.2.2" data-path="interp.html"><a href="interp.html#shapley-values"><i class="fa fa-check"></i><b>14.2.2</b> 沙普利值</a></li>
+<li class="chapter" data-level="14.2.3" data-path="interp.html"><a href="interp.html#breakdown"><i class="fa fa-check"></i><b>14.2.3</b> 分解</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="causality.html"><a href="causality.html"><i class="fa fa-check"></i><b>15</b> 两个关键概念：因果性与非平稳性</a><ul>
+<li class="chapter" data-level="15.1" data-path="causality.html"><a href="causality.html#causality-1"><i class="fa fa-check"></i><b>15.1</b> 因果性</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="causality.html"><a href="causality.html#granger"><i class="fa fa-check"></i><b>15.1.1</b> 格兰杰因果关系</a></li>
+<li class="chapter" data-level="15.1.2" data-path="causality.html"><a href="causality.html#causal-additive-models"><i class="fa fa-check"></i><b>15.1.2</b> 因果加性模型</a></li>
+<li class="chapter" data-level="15.1.3" data-path="causality.html"><a href="causality.html#structural-time-series-models"><i class="fa fa-check"></i><b>15.1.3</b> 结构时间序列模型</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="causality.html"><a href="causality.html#nonstat"><i class="fa fa-check"></i><b>15.2</b> 应对不断变化的环境</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="causality.html"><a href="causality.html#non-stationarity-an-obvious-illustration"><i class="fa fa-check"></i><b>15.2.1</b> 非平稳性：一个明显的例子</a></li>
+<li class="chapter" data-level="15.2.2" data-path="causality.html"><a href="causality.html#online-learning"><i class="fa fa-check"></i><b>15.2.2</b> 在线学习</a></li>
+<li class="chapter" data-level="15.2.3" data-path="causality.html"><a href="causality.html#homogeneous-transfer-learning"><i class="fa fa-check"></i><b>15.2.3</b> 同质迁移学习</a></li>
+<li class="chapter" data-level="15.2.4" data-path="causality.html"><a href="causality.html#active-learning"><i class="fa fa-check"></i><b>15.2.4</b> 主动学习</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="unsup.html"><a href="unsup.html"><i class="fa fa-check"></i><b>16</b> 无监督学习</a><ul>
+<li class="chapter" data-level="16.1" data-path="unsup.html"><a href="unsup.html#corpred"><i class="fa fa-check"></i><b>16.1</b> 相关预测变量的问题</a></li>
+<li class="chapter" data-level="16.2" data-path="unsup.html"><a href="unsup.html#principal-component-analysis-and-autoencoders"><i class="fa fa-check"></i><b>16.2</b> 主成分分析和自动编码器</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="unsup.html"><a href="unsup.html#a-bit-of-algebra"><i class="fa fa-check"></i><b>16.2.1</b> 一点代数</a></li>
+<li class="chapter" data-level="16.2.2" data-path="unsup.html"><a href="unsup.html#pca"><i class="fa fa-check"></i><b>16.2.2</b> PCA</a></li>
+<li class="chapter" data-level="16.2.3" data-path="unsup.html"><a href="unsup.html#ae"><i class="fa fa-check"></i><b>16.2.3</b> 自编码器</a></li>
+<li class="chapter" data-level="16.2.4" data-path="unsup.html"><a href="unsup.html#application"><i class="fa fa-check"></i><b>16.2.4</b> 应用</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="unsup.html"><a href="unsup.html#clustering-via-k-means"><i class="fa fa-check"></i><b>16.3</b> 通过 k-means 进行聚类</a></li>
+<li class="chapter" data-level="16.4" data-path="unsup.html"><a href="unsup.html#nearest-neighbors"><i class="fa fa-check"></i><b>16.4</b> 最近的邻居</a></li>
+<li class="chapter" data-level="16.5" data-path="unsup.html"><a href="unsup.html#coding-exercise-1"><i class="fa fa-check"></i><b>16.5</b> 编码练习</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="RL.html"><a href="RL.html"><i class="fa fa-check"></i><b>17</b> 强化学习</a><ul>
+<li class="chapter" data-level="17.1" data-path="RL.html"><a href="RL.html#theoretical-layout"><i class="fa fa-check"></i><b>17.1</b> 理论布局</a><ul>
+<li class="chapter" data-level="17.1.1" data-path="RL.html"><a href="RL.html#general-framework"><i class="fa fa-check"></i><b>17.1.1</b> 总体框架</a></li>
+<li class="chapter" data-level="17.1.2" data-path="RL.html"><a href="RL.html#q-learning"><i class="fa fa-check"></i><b>17.1.2</b> Q-learning</a></li>
+<li class="chapter" data-level="17.1.3" data-path="RL.html"><a href="RL.html#sarsa"><i class="fa fa-check"></i><b>17.1.3</b> SARSA</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="RL.html"><a href="RL.html#the-curse-of-dimensionality"><i class="fa fa-check"></i><b>17.2</b> 维度的诅咒</a></li>
+<li class="chapter" data-level="17.3" data-path="RL.html"><a href="RL.html#policy-gradient"><i class="fa fa-check"></i><b>17.3</b> 政策梯度</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="RL.html"><a href="RL.html#principle-2"><i class="fa fa-check"></i><b>17.3.1</b> 原理</a></li>
+<li class="chapter" data-level="17.3.2" data-path="RL.html"><a href="RL.html#extensions-2"><i class="fa fa-check"></i><b>17.3.2</b> 扩展</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="RL.html"><a href="RL.html#simple-examples"><i class="fa fa-check"></i><b>17.4</b> 简单的例子</a><ul>
+<li class="chapter" data-level="17.4.1" data-path="RL.html"><a href="RL.html#q-learning-with-simulations"><i class="fa fa-check"></i><b>17.4.1</b> 通过模拟进行 Q 学习</a></li>
+<li class="chapter" data-level="17.4.2" data-path="RL.html"><a href="RL.html#q-learning-with-market-data"><i class="fa fa-check"></i><b>17.4.2</b> 利用市场数据进行 Q 学习</a></li>
+</ul></li>
+<li class="chapter" data-level="17.5" data-path="RL.html"><a href="RL.html#concluding-remarks"><i class="fa fa-check"></i><b>17.5</b> 结束语</a></li>
+<li class="chapter" data-level="17.6" data-path="RL.html"><a href="RL.html#exercises"><i class="fa fa-check"></i><b>17.6</b> 练习</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="python.html"><a href="python.html"><i class="fa fa-check"></i><b>18</b> Python notebooks</a></li>
+<li class="chapter" data-level="19" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>19</b> 结论</a></li>
+<li class="appendix"><span><b>附录</b></span></li>
+<li class="chapter" data-level="A" data-path="data-description.html"><a href="data-description.html"><i class="fa fa-check"></i><b>A</b> 数据说明</a></li>
+<li class="chapter" data-level="B" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html"><i class="fa fa-check"></i><b>B</b> 练习题解答</a><ul>
+<li class="chapter" data-level="B.1" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#chapter-4"><i class="fa fa-check"></i><b>B.1</b> 第4章</a></li>
+<li class="chapter" data-level="B.2" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#chapter-5"><i class="fa fa-check"></i><b>B.2</b> 第5章</a></li>
+<li class="chapter" data-level="B.3" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#chapter-6"><i class="fa fa-check"></i><b>B.3</b> 第6章</a></li>
+<li class="chapter" data-level="B.4" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#chapter-7"><i class="fa fa-check"></i><b>B.4</b> 第7章</a></li>
+<li class="chapter" data-level="B.5" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#chapter-8-the-autoencoder-model"><i class="fa fa-check"></i><b>B.5</b> 第 8 章：自动编码器模型</a></li>
+<li class="chapter" data-level="B.6" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#chapter-9"><i class="fa fa-check"></i><b>B.6</b> 第9章</a></li>
+<li class="chapter" data-level="B.7" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#chapter-12"><i class="fa fa-check"></i><b>B.7</b> 第12章</a></li>
+<li class="chapter" data-level="B.8" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#chapter-13"><i class="fa fa-check"></i><b>B.8</b> 第13章</a><ul>
+<li class="chapter" data-level="B.8.1" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#functional-programming-in-the-backtest"><i class="fa fa-check"></i><b>B.8.1</b> 回测中的函数式编程</a></li>
+<li class="chapter" data-level="B.8.2" data-path="solutions-to-exercises.html"><a href="solutions-to-exercises.html#advanced-weighting-function"><i class="fa fa-check"></i><b>B.8.2</b> 高级加权函数</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>C</b> 参考文献</a></li>
+</ul>
+</nav>
+</div>
+<div class="book-body">
+<div class="body-inner">
+<div class="book-header" role="navigation">
+<h1>
+<i class="fa fa-circle-o-notch fa-spin"></i><a href="./">因子投资中的机器学习</a>
+</h1>
+</div>
+<div class="page-wrapper" role="main" tabindex="-1">
+<div class="page-inner">
+<section class="normal" id="section-">
+<div class="section level1" id="conclusion">
+<h1><span class="header-section-number">第19章</span> 结论</h1>
+</div>
+</section>
+</div>
+</div>
+</div>
+<a aria-label="上一页" class="navigation navigation-prev" href="python.html"><i class="fa fa-angle-left"></i></a>
+<a aria-label="下一页" class="navigation navigation-next" href="data-description.html"><i class="fa fa-angle-right"></i></a>
+</div>
+</div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": true,
+"linkedin": true,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ML_factor.pdf"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true,
+"info": true
+});
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>

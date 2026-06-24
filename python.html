@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 18 章 Python 笔记本 | 因子投资中的机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 18 章 Python 笔记本 | 因子投资中的机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 18 章 Python 笔记本 | 因子投资中的机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="Python notebook 中文版已合并到 zh-book 目录中提供。" name="description"/>
+<meta content="Python notebook 中文版已合并到 zh-book 目录中提供。" property="og:description"/>
+<meta content="Python notebook 中文版已合并到 zh-book 目录中提供。" name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到正文</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">因子投资中的机器学习</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">序言</a></li>
+<li class="book-part">导论</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 记号与数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 导论</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常用监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 基于树的方法</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">更多重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性与非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="active" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习答案</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="python" number="18"><h1><span class="header-section-number">18</span> Python 笔记本<a aria-label="anchor" class="anchor" href="#python"><i class="fas fa-link"></i></a></h1><style>
+.container-fluid main {
+max-width: 60rem;
+}
+.chapter-list { columns: 2; column-gap: 2.5rem; padding-left: 1.25rem; }
+.chapter-list li { break-inside: avoid; margin: .35rem 0; }
+.note { background: #f8f9fa; border-left: 4px solid #6c757d; padding: 1rem; margin: 1rem 0 1.5rem; }
+@media (max-width: 768px) { .chapter-list { columns: 1; } }
+</style><p>Python notebook 中文版已整理在 <a href="python-notebooks.html"><strong>python-notebooks.html</strong></a>。下面列出当前实际存在的中文 notebook 章节入口；代码块、变量名、公式、图像、输出和外部引用保留官方页面结构。</p><div class="note"><p>说明：官方 Python notebook 页面没有可用的第 1、2 章 notebook；当前中文 notebook 从第 3 章开始，并在本目录中统一索引。</p></div><ol class="chapter-list"><li><a href="chap_3.html"><strong>第 3 章：因子投资与资产定价异象</strong></a></li><li><a href="chap_4.html"><strong>第 4 章：数据预处理</strong></a></li><li><a href="chap_5.html"><strong>第 5 章：惩罚回归</strong></a></li><li><a href="chap_6.html"><strong>第 6 章：基于树的方法</strong></a></li><li><a href="chap_7.html"><strong>第 7 章：神经网络</strong></a></li><li><a href="chap_8.html"><strong>第 8 章：支持向量机</strong></a></li><li><a href="chap_10.html"><strong>第 10 章：验证与调参</strong></a></li><li><a href="chap_11.html"><strong>第 11 章：集成模型</strong></a></li><li><a href="chap_12.html"><strong>第 12 章：回测</strong></a></li><li><a href="chap_13.html"><strong>第 13 章：可解释性</strong></a></li><li><a href="chap_14.html"><strong>第 14 章：因果性与非平稳性</strong></a></li><li><a href="chap_15.html"><strong>第 15 章：无监督学习</strong></a></li><li><a href="chap_16.html"><strong>第 16 章：强化学习</strong></a></li></ol><p>官方页面还提供 Zheyuan Shen 的独立实现，托管在 <a href="https://drive.google.com/drive/folders/1bG0vUFZP7c2_iV4X8dqeBQ-77-seJOj4?usp=sharing" rel="noopener" target="_blank"><strong>Google Drive</strong></a>。</p></div>
+<div class="chapter-nav">
+<div class="prev"><a href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></div>
+<div class="next"><a href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习答案</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页内容" data-toggle="toc" id="toc"><h2>本页内容</h2>
+<ul class="nav navbar-nav"><li><a class="nav-link" href="#python"><span class="header-section-number">18</span> Python 笔记本</a></li></ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>《<strong>因子投资中的机器学习</strong>》由 Guillaume Coqueret 和 Tony Guida 撰写。最后构建日期：2022-11-28。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

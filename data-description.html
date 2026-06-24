@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 17 章 数据说明 | 因子投资中的机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 17 章 数据说明 | 因子投资中的机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 17 章 数据说明 | 因子投资中的机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="表 17.1：数据集中所有变量（特征和标签）列表。" name="description"/>
+<meta content="表 17.1：数据集中所有变量（特征和标签）列表。" property="og:description"/>
+<meta content="表 17.1：数据集中所有变量（特征和标签）列表。" name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到正文</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">因子投资中的机器学习</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">序言</a></li>
+<li class="book-part">导论</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 记号与数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 导论</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常用监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 基于树的方法</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">更多重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性与非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="active" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习答案</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="data-description" number="17">
+<h1>
+<span class="header-section-number">17</span> 数据说明<a aria-label="anchor" class="anchor" href="#data-description"><i class="fas fa-link"></i></a>
+</h1>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:appendix1">表 17.1： </span> 数据集中所有变量（特征和标签）列表</caption>
+<colgroup>
+<col width="50%"/>
+<col width="50%"/>
+</colgroup>
+<thead><tr class="header">
+<th align="left"><strong>列名</strong></th>
+<th align="left"><strong>简短说明</strong></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">stock_id</td>
+<td align="left">证券 ID</td>
+</tr>
+<tr class="even">
+<td align="left">date</td>
+<td align="left">数据日期</td>
+</tr>
+<tr class="odd">
+<td align="left">Advt_12M_Usd</td>
+<td align="left">过去 12 个月以美元计的平均每日成交金额</td>
+</tr>
+<tr class="even">
+<td align="left">Advt_3M_Usd</td>
+<td align="left">过去 3 个月以美元计的平均每日成交金额</td>
+</tr>
+<tr class="odd">
+<td align="left">Advt_6M_Usd</td>
+<td align="left">过去 6 个月以美元计的平均每日成交金额</td>
+</tr>
+<tr class="even">
+<td align="left">Asset_Turnover</td>
+<td align="left">总销售额 / 平均资产</td>
+</tr>
+<tr class="odd">
+<td align="left">Bb_Yld</td>
+<td align="left">回购收益率</td>
+</tr>
+<tr class="even">
+<td align="left">Bv</td>
+<td align="left">账面价值</td>
+</tr>
+<tr class="odd">
+<td align="left">Capex_Ps_Cf</td>
+<td align="left">市销现金流资本支出</td>
+</tr>
+<tr class="even">
+<td align="left">Capex_Sales</td>
+<td align="left">销售资本支出</td>
+</tr>
+<tr class="odd">
+<td align="left">Cash_Div_Cf</td>
+<td align="left">现金股利现金流量</td>
+</tr>
+<tr class="even">
+<td align="left">Cash_Per_Share</td>
+<td align="left">每股现金</td>
+</tr>
+<tr class="odd">
+<td align="left">Cf_Sales</td>
+<td align="left">每股现金流</td>
+</tr>
+<tr class="even">
+<td align="left">Debtequity</td>
+<td align="left">债务权益比</td>
+</tr>
+<tr class="odd">
+<td align="left">Div_Yld</td>
+<td align="left">股息收益率</td>
+</tr>
+<tr class="even">
+<td align="left">Dps</td>
+<td align="left">每股股息</td>
+</tr>
+<tr class="odd">
+<td align="left">Ebit_Bv</td>
+<td align="left">账面价值的息税前利润</td>
+</tr>
+<tr class="even">
+<td align="left">Ebit_Noa</td>
+<td align="left">非经营性资产的息税前利润</td>
+</tr>
+<tr class="odd">
+<td align="left">Ebit_Oa</td>
+<td align="left">经营资产的息税前利润</td>
+</tr>
+<tr class="even">
+<td align="left">Ebit_Ta</td>
+<td align="left">总资产的息税前利润</td>
+</tr>
+<tr class="odd">
+<td align="left">Ebitda_Margin</td>
+<td align="left">EBITDA 利润率</td>
+</tr>
+<tr class="even">
+<td align="left">Eps</td>
+<td align="left">每股收益</td>
+</tr>
+<tr class="odd">
+<td align="left">Eps_Basic</td>
+<td align="left">每股收益 basic</td>
+</tr>
+<tr class="even">
+<td align="left">Eps_Basic_Gr</td>
+<td align="left">每股收益 growth</td>
+</tr>
+<tr class="odd">
+<td align="left">Eps_Contin_Oper</td>
+<td align="left">每股收益 continuing operations</td>
+</tr>
+<tr class="even">
+<td align="left">Eps_Dil</td>
+<td align="left">每股收益 diluted</td>
+</tr>
+<tr class="odd">
+<td align="left">Ev</td>
+<td align="left">企业价值</td>
+</tr>
+<tr class="even">
+<td align="left">Ev_Ebitda</td>
+<td align="left">企业价值 on EBITDA</td>
+</tr>
+<tr class="odd">
+<td align="left">Fa_Ci</td>
+<td align="left">普通股固定资产</td>
+</tr>
+<tr class="even">
+<td align="left">Fcf</td>
+<td align="left">自由现金流</td>
+</tr>
+<tr class="odd">
+<td align="left">Fcf_Bv</td>
+<td align="left">自由现金流 on book value</td>
+</tr>
+<tr class="even">
+<td align="left">Fcf_Ce</td>
+<td align="left">自由现金流 on capital employed</td>
+</tr>
+<tr class="odd">
+<td align="left">Fcf_Margin</td>
+<td align="left">自由现金流利润率</td>
+</tr>
+<tr class="even">
+<td align="left">Fcf_Noa</td>
+<td align="left">自由现金流 on net operating assets</td>
+</tr>
+<tr class="odd">
+<td align="left">Fcf_Oa</td>
+<td align="left">自由现金流 on operating assets</td>
+</tr>
+<tr class="even">
+<td align="left">Fcf_Ta</td>
+<td align="left">自由现金流 on total assets</td>
+</tr>
+<tr class="odd">
+<td align="left">Fcf_Tbv</td>
+<td align="left">自由现金流 on tangible book value</td>
+</tr>
+<tr class="even">
+<td align="left">Fcf_Toa</td>
+<td align="left">自由现金流 on total operating assets</td>
+</tr>
+<tr class="odd">
+<td align="left">Fcf_Yld</td>
+<td align="left">自由现金流 yield</td>
+</tr>
+<tr class="even">
+<td align="left">Free_Ps_Cf</td>
+<td align="left">自由现金流 on price sales</td>
+</tr>
+<tr class="odd">
+<td align="left">Int_Rev</td>
+<td align="left">收入中的无形资产</td>
+</tr>
+<tr class="even">
+<td align="left">Interest_Expense</td>
+<td align="left">利息支出保障</td>
+</tr>
+<tr class="odd">
+<td align="left">Mkt_Cap_12M_Usd</td>
+<td align="left">12 个月平均市值（美元）</td>
+</tr>
+<tr class="even">
+<td align="left">Mkt_Cap_3M_Usd</td>
+<td align="left">3 个月内平均市值（美元）</td>
+</tr>
+<tr class="odd">
+<td align="left">Mkt_Cap_6M_Usd</td>
+<td align="left">6 个月内平均市值（美元）</td>
+</tr>
+<tr class="even">
+<td align="left">Mom_11M_Usd</td>
+<td align="left">12 - 1 个月价格走势（美元）</td>
+</tr>
+<tr class="odd">
+<td align="left">Mom_5M_Usd</td>
+<td align="left">6 - 1 个月的价格动量（美元）</td>
+</tr>
+<tr class="even">
+<td align="left">Mom_Sharp_11M_Usd</td>
+<td align="left">价格动量 12 - 1 个月（美元）除以波动率</td>
+</tr>
+<tr class="odd">
+<td align="left">Mom_Sharp_5M_Usd</td>
+<td align="left">6 - 1 个月美元价格动量除以波动率</td>
+</tr>
+<tr class="even">
+<td align="left">Nd_Ebitda</td>
+<td align="left">EBITDA 净负债</td>
+</tr>
+<tr class="odd">
+<td align="left">Net_Debt</td>
+<td align="left">净债务</td>
+</tr>
+<tr class="even">
+<td align="left">Net_Debt_Cf</td>
+<td align="left">现金流量净负债</td>
+</tr>
+<tr class="odd">
+<td align="left">Net_Margin</td>
+<td align="left">净利润率</td>
+</tr>
+<tr class="even">
+<td align="left">Netdebtyield</td>
+<td align="left">净债务收益率</td>
+</tr>
+<tr class="odd">
+<td align="left">Ni</td>
+<td align="left">净利润</td>
+</tr>
+<tr class="even">
+<td align="left">Ni_Avail_Margin</td>
+<td align="left">净收入可用保证金</td>
+</tr>
+<tr class="odd">
+<td align="left">Ni_Oa</td>
+<td align="left">经营资产净收入</td>
+</tr>
+<tr class="even">
+<td align="left">Ni_Toa</td>
+<td align="left">总营业资产净利润</td>
+</tr>
+<tr class="odd">
+<td align="left">Noa</td>
+<td align="left">净经营资产</td>
+</tr>
+<tr class="even">
+<td align="left">Oa</td>
+<td align="left">经营资产</td>
+</tr>
+<tr class="odd">
+<td align="left">Ocf</td>
+<td align="left">经营现金流</td>
+</tr>
+<tr class="even">
+<td align="left">Ocf_Bv</td>
+<td align="left">经营现金流 on book value</td>
+</tr>
+<tr class="odd">
+<td align="left">Ocf_Ce</td>
+<td align="left">经营现金流 on capital employed</td>
+</tr>
+<tr class="even">
+<td align="left">Ocf_Margin</td>
+<td align="left">经营现金流 margin</td>
+</tr>
+<tr class="odd">
+<td align="left">Ocf_Noa</td>
+<td align="left">经营现金流 on net operating assets</td>
+</tr>
+<tr class="even">
+<td align="left">Ocf_Oa</td>
+<td align="left">经营现金流 on operating assets</td>
+</tr>
+<tr class="odd">
+<td align="left">Ocf_Ta</td>
+<td align="left">经营现金流 on total assets</td>
+</tr>
+<tr class="even">
+<td align="left">Ocf_Tbv</td>
+<td align="left">经营现金流 on tangible book value</td>
+</tr>
+<tr class="odd">
+<td align="left">Ocf_Toa</td>
+<td align="left">经营现金流 on total operating assets</td>
+</tr>
+<tr class="even">
+<td align="left">Op_Margin</td>
+<td align="left">营业利润率</td>
+</tr>
+<tr class="odd">
+<td align="left">Op_Prt_Margin</td>
+<td align="left">净利润 1 年增长</td>
+</tr>
+<tr class="even">
+<td align="left">Oper_Ps_Net_Cf</td>
+<td align="left">每股经营活动产生的现金流量净额</td>
+</tr>
+<tr class="odd">
+<td align="left">Pb</td>
+<td align="left">市净率</td>
+</tr>
+<tr class="even">
+<td align="left">Pe</td>
+<td align="left">市盈率</td>
+</tr>
+<tr class="odd">
+<td align="left">Ptx_Mgn</td>
+<td align="left">税前利润</td>
+</tr>
+<tr class="even">
+<td align="left">Recurring_Earning_Total_Assets</td>
+<td align="left">总资产的经常性收益</td>
+</tr>
+<tr class="odd">
+<td align="left">Return_On_Capital</td>
+<td align="left">资本回报率</td>
+</tr>
+<tr class="even">
+<td align="left">Rev</td>
+<td align="left">revenue</td>
+</tr>
+<tr class="odd">
+<td align="left">Roa</td>
+<td align="left">资产回报率</td>
+</tr>
+<tr class="even">
+<td align="left">Roc</td>
+<td align="left">资本回报率</td>
+</tr>
+<tr class="odd">
+<td align="left">Roce</td>
+<td align="left">已用资本回报率</td>
+</tr>
+<tr class="even">
+<td align="left">Roe</td>
+<td align="left">股本回报率</td>
+</tr>
+<tr class="odd">
+<td align="left">Sales_Ps</td>
+<td align="left">市销率</td>
+</tr>
+<tr class="even">
+<td align="left">Share_Turn_12M</td>
+<td align="left">12个月平均股票换手率</td>
+</tr>
+<tr class="odd">
+<td align="left">Share_Turn_3M</td>
+<td align="left">3个月平均股票换手率</td>
+</tr>
+<tr class="even">
+<td align="left">Share_Turn_6M</td>
+<td align="left">6个月平均股票换手率</td>
+</tr>
+<tr class="odd">
+<td align="left">Ta</td>
+<td align="left">总资产</td>
+</tr>
+<tr class="even">
+<td align="left">Tev_Less_Mktcap</td>
+<td align="left">total 企业价值 less market capitalization</td>
+</tr>
+<tr class="odd">
+<td align="left">Tot_Debt_Rev</td>
+<td align="left">收入债务总额</td>
+</tr>
+<tr class="even">
+<td align="left">Total_Capital</td>
+<td align="left">总资本</td>
+</tr>
+<tr class="odd">
+<td align="left">Total_Debt</td>
+<td align="left">总债务</td>
+</tr>
+<tr class="even">
+<td align="left">Total_Debt_Capital</td>
+<td align="left">资本负债总额</td>
+</tr>
+<tr class="odd">
+<td align="left">Total_Liabilities_Total_Assets</td>
+<td align="left">总负债除以总资产</td>
+</tr>
+<tr class="even">
+<td align="left">Vol1Y_Usd</td>
+<td align="left">一年期收益率波动率</td>
+</tr>
+<tr class="odd">
+<td align="left">Vol3Y_Usd</td>
+<td align="left">三年期收益率波动率</td>
+</tr>
+<tr class="even">
+<td align="left">R1M_Usd</td>
+<td align="left">未来 1 个月收益率（<strong>标签</strong>)</td>
+</tr>
+<tr class="odd">
+<td align="left">R3M_Usd</td>
+<td align="left">未来 3 个月收益率（<strong>标签</strong>)</td>
+</tr>
+<tr class="even">
+<td align="left">R6M_Usd</td>
+<td align="left">未来 6 个月收益率（<strong>标签</strong>)</td>
+</tr>
+<tr class="odd">
+<td align="left">R12M_Usd</td>
+<td align="left">未来 12 个月收益率（<strong>标签</strong>)</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="RL.html"><span class="header-section-number">16</span> 强化学习</a></div>
+<div class="next"><a href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页内容" data-toggle="toc" id="toc"><h2>本页内容</h2>
+<ul class="nav navbar-nav"><li><a class="nav-link" href="#data-description"><span class="header-section-number">17</span> 数据说明</a></li></ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>《<strong>因子投资中的机器学习</strong>》由 Guillaume Coqueret 和 Tony Guida 撰写。最后构建日期：2022-10-18。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

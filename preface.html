@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>前言|因子投资机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author">
+<meta content="placeholder" name="generator"/>
+<meta content="前言|因子投资机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="前言|因子投资机器学习" name="twitter:title"/>
+<!-- JS -->
+<script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+<script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script>
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+<script src="libs/bs3compat-0.3.1/transition.js"></script>
+<script src="libs/bs3compat-0.3.1/tabs.js"></script>
+<script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+<link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script>
+<script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+<!-- CSS -->
+</meta></head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+<a class="sr-only sr-only-focusable" href="#content">跳到正文</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1><a href="index.html" title="">因子投资机器学习</a></h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录">
+<h2>目录</h2>
+<div id="book-toc"></div>
+<div class="book-extra">
+<p><a href="#" id="book-repo">查看书源<i class="fab fa-github"></i></a></p>
+</div>
+</nav>
+</div>
+</header>
+<main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<!--bookdown:title:end-->
+<!--bookdown:title:start-->
+<div class="section level1 unnumbered" id="preface">
+<h1>前言</h1>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>本书旨在涵盖一些应用于基于 <strong>公司特征</strong> 的股票 <strong>投资策略</strong> 的高级建模技术。内容有三重。首先，我们尝试简单解释股权资产配置中使用的大多数主流机器学习算法背后的想法。其次，我们为希望进一步深入的读者提供了广泛的学术参考资料。最后，我们提供了实用的 <strong>R</strong> 代码示例，展示了如何在现实数据集上应用概念和工具，我们分享这些代码示例是为了鼓励 <strong>可复现性</strong>。</p>
+<div class="section level2 unnumbered" id="what-this-book-is-not-about">
+<h2>这本书不讨论什么</h2>
+<p>本书介绍机器学习工具及其在因子投资中的应用。因子投资是一个涵盖资产配置、量化交易和财富管理的大领域的子领域。其前提是，公司收益率的差异可以通过这些企业的特征来解释。因此，它不同于仅依赖价格和交易量数据的传统分析，例如 <span class="citation">Markowitz (<a href="solutions-to-exercises.html#ref-markowitz1952portfolio" role="doc-biblioref">1952</a>)</span> 的经典投资组合理论或高频交易。对于金融领域机器学习的一般和广泛的处理，我们推荐 <span class="citation">Matthew F. Dixon, Halperin, and Bilokon (<a href="solutions-to-exercises.html#ref-dixon2020machine" role="doc-biblioref">2020</a>)</span>。</p>
+<p>我们讨论的主题与专著中未涵盖的其他主题相关。这些主题包括：</p>
+<ul>
+<li>ML在<strong>其他金融领域的应用</strong>，例如<strong>欺诈检测</strong>或<strong>信用评分</strong>。我们将 <span class="citation">Ngai et al. (<a href="solutions-to-exercises.html#ref-ngai2011application" role="doc-biblioref">2011</a>)</span> 和 <span class="citation">Baesens, Van Vlasselaer, and Verbeke (<a href="solutions-to-exercises.html#ref-baesens2015fraud" role="doc-biblioref">2015</a>)</span> 用于通用欺诈检测，将 <span class="citation">Bhattacharyya et al. (<a href="solutions-to-exercises.html#ref-bhattacharyya2011data" role="doc-biblioref">2011</a>)</span> 用于针对信用卡的关注，将 <span class="citation">Ravisankar et al. (<a href="solutions-to-exercises.html#ref-ravisankar2011detection" role="doc-biblioref">2011</a>)</span> 和 <span class="citation">Abbasi et al. (<a href="solutions-to-exercises.html#ref-abbasi2012metafraud" role="doc-biblioref">2012</a>)</span> 用于欺诈性财务报告的研究。关于信用评分的主题，<span class="citation">G. Wang et al. (<a href="solutions-to-exercises.html#ref-wang2011comparative" role="doc-biblioref">2011</a>)</span> 和 <span class="citation">Brown and Mues (<a href="solutions-to-exercises.html#ref-brown2012experimental" role="doc-biblioref">2012</a>)</span> 提供了方法概述和一些实证结果。此外，我们不涵盖以较高频率（每日或日内）采样的数据的 机器学习算法（微观结构模型、限价订单簿）。 <span class="citation">Kearns and Nevmyvaka (<a href="solutions-to-exercises.html#ref-kearns2013machine" role="doc-biblioref">2013</a>)</span> 的章节和 <span class="citation">Sirignano and Cont (<a href="solutions-to-exercises.html#ref-sirignano2019universal" role="doc-biblioref">2019</a>)</span> 最近的论文是关于这个主题的很好的介绍。<br/></li>
+<li><strong>替代数据集</strong>的案例展示了如何利用社交媒体、卫星图像或信用卡日志中的文本数据来预测销售、收益报告以及最终的未来收益率。关于这个主题的文献仍在不断涌现（例如，参见 <span class="citation">Blank, Davis, and Greene (<a href="solutions-to-exercises.html#ref-blank2019using" role="doc-biblioref">2019</a>)</span>、<span class="citation">Jha (<a href="solutions-to-exercises.html#ref-jha2019implementing" role="doc-biblioref">2019</a>)</span> 和 <span class="citation">Z. T. Ke, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-ke2019predicting" role="doc-biblioref">2019</a>)</span>），但可能会在不久的将来蓬勃发展。<br/></li>
+<li><strong>机器学习工具的技术细节</strong>。虽然我们确实对某些方法的特殊性提供了一些见解（我们认为这些方法很重要），但本书的目的并不是作为统计学习的参考手册。我们参考 <span class="citation">Hastie, Tibshirani, and Friedman (<a href="solutions-to-exercises.html#ref-friedman2009elements" role="doc-biblioref">2009</a>)</span>、<span class="citation">Cornuejols, Miclet, and Barra (<a href="solutions-to-exercises.html#ref-cornuejols2011apprentissage" role="doc-biblioref">2018</a>)</span>（用法语编写）、<span class="citation">James et al. (<a href="solutions-to-exercises.html#ref-james2013introduction" role="doc-biblioref">2013</a>)</span>（用 R 编码！）和 <span class="citation">Mohri, Rostamizadeh, and Talwalkar (<a href="solutions-to-exercises.html#ref-mohri2018foundations" role="doc-biblioref">2018</a>)</span> 来对这个主题进行一般处理。<a class="footnote-ref" href="solutions-to-exercises.html#fn1" id="fnref1"><sup>1</sup></a> 此外，<span class="citation">K.-L. Du and Swamy (<a href="solutions-to-exercises.html#ref-du2013neural" role="doc-biblioref">2013</a>)</span> 和 <span class="citation">Goodfellow et al. (<a href="solutions-to-exercises.html#ref-goodfellow2016deep" role="doc-biblioref">2016</a>)</span> 是关于神经网络的可靠专著，而 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 提供了一个独立且全面的强化之旅学习.<br/></li>
+<li>最后，本书没有涵盖可用于评估情绪的Python notebooks（NLP）方法，而情绪又可以转化为投资决策。尽管如此，这个话题最近一直很流行，我们参考 <span class="citation">Loughran and McDonald (<a href="solutions-to-exercises.html#ref-loughran2016textual" role="doc-biblioref">2016</a>)</span>、<span class="citation">Cong, Liang, and Zhang (<a href="solutions-to-exercises.html#ref-cong2019analyzing" role="doc-biblioref">2019a</a>)</span>、<span class="citation">Cong, Liang, and Zhang (<a href="solutions-to-exercises.html#ref-cong2019textual" role="doc-biblioref">2019b</a>)</span> 和 <span class="citation">Gentzkow, Kelly, and Taddy (<a href="solutions-to-exercises.html#ref-gentzkow2019text" role="doc-biblioref">2019</a>)</span> 来了解该问题的最新进展。</li>
+</ul>
+</div>
+<div class="section level2 unnumbered" id="the-targeted-audience">
+<h2>目标受众</h2>
+<p>谁应该读这本书？本书面向两类读者。首先，<strong>研究生</strong>，希望以投资和资产管理为目标攻读量化金融专业。第二个目标群体是来自资金管理行业的<strong>专业人士</strong>，他们要么寻求转向基于机器学习的分配方法，要么只是对这些新工具感兴趣并希望升级他们的能力。在较小程度上，本书可以为需要一本包含有关最近的资产定价问题和应用于资金管理的机器学习算法的广泛参考文献的学者或研究人员提供服务。虽然本书涵盖了大多数常见方法，但它还展示了如何实现更奇特的模型，例如因果图（第 <a href="causality.html#causality">14</a> 章）、贝叶斯加性树（第 <a href="bayes.html#bayes">9</a> 章）和混合自动编码器（第 <a href="NN.html#NN">7</a> 章）。</p>
+<p>本书假定您具备 <strong>代数</strong>（矩阵操作）、<strong>分析</strong>（函数微分、梯度）、<strong>优化</strong>（一阶和二阶条件、对偶形式）和 <strong>统计</strong>（分布、矩、检验、简单的估计方法，如最大似然）。还需要最低限度的<strong>金融文化</strong>：本书不会定义股票、会计数量（例如账面价值）等简单概念。最后，所有示例和插图均使用 R 进行编码。最少的语言文化足以理解严重依赖 tidyverse（<span class="citation">Wickham et al. (<a href="solutions-to-exercises.html#ref-wickham2019welcome" role="doc-biblioref">2019</a>)</span>、www.tidyverse.org）和管道（<span class="citation">Bache and Wickham (<a href="solutions-to-exercises.html#ref-bache2014magrittr" role="doc-biblioref">2014</a>)</span>、<span class="citation">Mailund (<a href="solutions-to-exercises.html#ref-mailund2019pipelines" role="doc-biblioref">2019</a>)</span>）最常见特征的代码片段。</p>
+</div>
+<div class="section level2 unnumbered" id="how-this-book-is-structured">
+<h2>本书的结构如何</h2>
+<p>本书分为四个部分。</p>
+<p>第一部分收集准备材料，并从记号与数据呈现开始（第 <a href="notdata.html#notdata">1</a> 章），然后是引言性说明（第 <a href="intro.html#intro">2</a> 章）。 <a href="factor.html#factor">3</a> 章概述了因子投资的经济基础（理论和实证），并简要总结了近期的专门文献。 <a href="Data.html#Data">4</a> 章涉及数据准备。它快速回顾基本技巧并警告一些重大问题。</p>
+<p>本书的第二部分致力于监督学习中的预测算法。这些是用于预测金融数量（收益率、波动性、夏普比率等）的最常用工具。它们的范围从惩罚回归（<a href="lasso.html#lasso">5</a> 章）到树方法（<a href="trees.html#trees">6</a> 章），涵盖神经网络（<a href="NN.html#NN">7</a> 章）、支持向量机（<a href="svm.html#svm">8</a> 章）和贝叶斯方法（<a href="bayes.html#bayes">9</a> 章）。</p>
+<p>本书的下一部分将弥合这些工具及其在金融领域的应用之间的差距。 <a href="valtune.html#valtune">10</a> 章详细介绍了如何评估和改进预先定义的 ML 引擎。 <a href="ensemble.html#ensemble">11</a> 章解释了如何组合模型，以及为什么这可能不是一个好主意。最后，最重要的一章（<a href="backtest.html#backtest">12</a> 章）回顾了投资组合回测的关键步骤，并提到了此阶段经常遇到的常见错误。</p>
+<p>本书的结尾更具体地涵盖了与机器学习相关的一系列高级主题。第一个是 <strong> 可解释性 </strong>。机器学习模型通常被认为是黑匣子，这引发了信任问题：人们应该如何以及为何信任基于机器学习的预测？ <a href="interp.html#interp">13</a> 章旨在介绍有助于理解幕后情况的方法。 <a href="causality.html#causality">14</a> 章重点介绍 <strong>因果性</strong>，它既是一个比相关性更强大的概念，也是人工智能 (AI) 领域最近许多讨论的核心。大多数机器学习工具都依赖于类似相关的模式，因此强调与因果关系相关的技术的好处非常重要。最后，<a href="unsup.html#unsup">15</a> 和 <a href="RL.html#RL">16</a> 章专门讨论非监督方法。后者可能有用，但它们的金融应用应该明智而谨慎地推动。 <!-- Lastly, the final chapter (\@ref(NLP)) introduces standard approaches for the treatment of textual data. --></p>
+</div>
+<div class="section level2 unnumbered" id="companion-website">
+<h2>配套网站</h2>
+<p>本书可在 <a class="uri" href="http://www.mlfactor.com">http://www.mlfactor.com</a> 上完整获取。重要的是，不仅本书的内容易于访问，而且各章节中使用的数据和代码也易于访问。您可以在 <a class="uri" href="https://github.com/shokru/mlfactor.github.io/tree/master/material">https://github.com/shokru/mlfactor.github.io/tree/master/material</a> 找到它们。本书的在线版本将在印刷版出版后进行更新。</p>
+</div>
+<div class="section level2 unnumbered" id="why-r">
+<h2>为什么是R？</h2>
+<p>人们普遍认为，Python 作为 <em>最</em> 主导 ML 编程语言的霸主地位。这是因为几乎所有深度学习应用程序（截至 2020 年，深度学习是机器学习最流行的分支之一）都是通过 TensorFlow 或 PyTorch 用 Python 进行编码。
+事实上，<strong>R</strong> 还提供 <strong>很多</strong>。首先，我们不要忘记，机器学习领域最有影响力的教科书之一 (<span class="citation">Hastie, Tibshirani, and Friedman (<a href="solutions-to-exercises.html#ref-friedman2009elements" role="doc-biblioref">2009</a>)</span>) 是由使用 R 编写代码的统计学家编写的。此外，许多面向统计的算法（例如 <a href="bayes.html#BART">9.5</a> 节中的 BART）主要使用 R 编写，并不总是使用 Python 编写。一般而言，贝叶斯包 (<a class="uri" href="https://cran.r-project.org/web/views/Bayesian.html">https://cran.r-project.org/web/views/Bayesian.html</a>) 以及特别是贝叶斯学习中的 R 产品可能是无与伦比的。</p>
+<p>目前 R 中有多种可用的 ML 框架。</p>
+<ul>
+<li><strong>caret</strong>：<a class="uri" href="https://topepo.github.io/caret/index.html">https://topepo.github.io/caret/index.html</a>，200多个ML模型的汇编；<br/></li>
+<li><strong>tidymodels</strong>：<a class="uri" href="https://github.com/tidymodels">https://github.com/tidymodels</a>，最近的 ML 工作流程包集合（由 Max Kuhn 在 RStudio 开发，这是高质量材料的象征！）；<br/></li>
+<li><strong>rtemis</strong>：<a class="uri" href="https://rtemis.netlify.com">https://rtemis.netlify.com</a>，用于机器学习和可视化的通用包；<br/></li>
+<li><strong>mlr3</strong>：<a class="uri" href="https://mlr3.mlr-org.com/index.html">https://mlr3.mlr-org.com/index.html</a>，也是ML模型的简单框架；<br/></li>
+<li><strong>h2o</strong>：<a class="uri" href="https://github.com/h2oai/h2o-3/tree/master/h2o-r">https://github.com/h2oai/h2o-3/tree/master/h2o-r</a>，h2o提供的一大套工具（用Java编码）；<br/></li>
+<li><strong>Open ML</strong>：<a class="uri" href="https://github.com/openml/openml-r">https://github.com/openml/openml-r</a>，OpenML (www.openml.org) 社区的 R 版本。</li>
+</ul>
+<p>此外，通过 <em>reticulate</em> 包，也可以（但并不总是容易）使用 Python 工具。最突出的例子是将 <em>TensorFlow</em> 和 <em>keras</em> 库改编为 R。因此，R 用户可以轻松获得一些非常先进的 Python 材料。对于其他资源也是如此，例如斯坦福大学的 CoreNLP 库（Java 语言），它在 <em>coreNLP</em> 包中被移植到 R（我们在本书中不会使用它）。</p>
+</div>
+<div class="section level2 unnumbered" id="coding-instructions">
+<h2>编码说明</h2>
+<p>这本书的目的之一是提出一个关于金融预测和投资组合选择中的机器学习应用的大规模教程。因此，一个关键字是 <strong>可复现性</strong>！为了复制我们的结果（在某些学习算法中可能存在随机性），您需要在计算机上运行 R 和 RStudio 版本。学习 R 的最佳书籍通常也可以在线免费获取。可以在此处找到简短列表 <a class="uri" href="https://rstudio.com/resources/books/">https://rstudio.com/resources/books/</a>。<em>R for Data Science</em> 专著 可能是最重要的。</p>
+<p>在编码要求方面，我们严重依赖<strong>tidyverse</strong>，它是<strong>包</strong>（或库）的集合。我们最常用的三个包是 <strong>dplyr</strong>，它实现简单的数据操作（过滤、选择、排列）；<strong>tidyr</strong>，它以整洁的方式格式化数据；<strong>ggplot</strong>，用于图形输出。</p>
+<p>我们使用的软件包列表可以在下面的表 <a href="preface.html#tab:packages">0.1</a> 中找到。带星号 <span class="math inline">\(*\)</span> 的软件包需要通过 <em>bioconductor</em> 安装<a class="footnote-ref" href="solutions-to-exercises.html#fn2" id="fnref2"><sup>2</sup></a>。带加号 <span class="math inline">\(^+\)</span> 的软件包需要<strong>手动</strong>安装<a class="footnote-ref" href="solutions-to-exercises.html#fn3" id="fnref3"><sup>3</sup></a>。</p>
+<table>
+<caption><span id="tab:packages">表 0.1：</span> 书中使用的所有包的列表。</caption>
+<thead>
+<tr class="header">
+<th align="left"><em>包</em></th>
+<th align="left">目的</th>
+<th align="center">章节</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><em>捷运</em></td>
+<td align="left">贝叶斯加法树</td>
+<td align="center">10</td>
+</tr>
+<tr class="even">
+<td align="left"><em>扫帚</em></td>
+<td align="left">整齐的回归输出</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>计算机辅助制造</em><span class="math inline">\(^+\)</span></td>
+<td align="left">因果相加模型</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="left"><em>caTools</em></td>
+<td align="left">AUC曲线</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>因果影响</em></td>
+<td align="left">结构时间序列的因果推断</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="left"><em>牛区</em></td>
+<td align="left">堆积图</td>
+<td align="center">4 &amp; 13</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>故障</em></td>
+<td align="left">细分可解释性</td>
+<td align="center">14</td>
+</tr>
+<tr class="even">
+<td align="left"><em>假人</em></td>
+<td align="left">独热编码</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>e1071</em></td>
+<td align="left">支持向量机</td>
+<td align="center">9</td>
+</tr>
+<tr class="even">
+<td align="left"><em>事实额外</em></td>
+<td align="left">主成分分析可视化</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>快速Adaboost</em></td>
+<td align="left">增强树木</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="left"><em>预测</em></td>
+<td align="left">自相关函数</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>模糊神经网络</em></td>
+<td align="left">最近邻检测</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="left"><em>ggpubr</em></td>
+<td align="left">合并绘图</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>环球网</em></td>
+<td align="left">惩罚回归</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="left"><em>伊姆勒</em></td>
+<td align="left">可解释性工具</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>喀拉斯</em></td>
+<td align="left">神经网络</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="left"><em>石灰</em></td>
+<td align="left">可解释性</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>lmtest</em></td>
+<td align="left">格兰杰因果关系</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="left"><em>润滑</em></td>
+<td align="left">处理日期</td>
+<td align="center">全部（或多个）</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>朴素贝叶斯</em></td>
+<td align="left">朴素贝叶斯分类器</td>
+<td align="center">10</td>
+</tr>
+<tr class="even">
+<td align="left"><em>计算</em></td>
+<td align="left">因果图</td>
+<td align="center">15</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>四编程</em></td>
+<td align="left">二次规划</td>
+<td align="center">12</td>
+</tr>
+<tr class="even">
+<td align="left"><em>量子模型</em></td>
+<td align="left">数据提取</td>
+<td align="center">4, 12</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>随机森林</em></td>
+<td align="left">随机森林</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="left"><em>rBayesianOptimization</em></td>
+<td align="left">贝叶斯超参数调参</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>强化学习</em></td>
+<td align="left">强化学习</td>
+<td align="center">17</td>
+</tr>
+<tr class="even">
+<td align="left"><em>图形可视化</em><span class="math inline">\(^*\)</span></td>
+<td align="left">因果图</td>
+<td align="center">15</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>rpart</em> 和 <em>rpart.plot</em></td>
+<td align="left">简单的决策树</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="left"><em>spBayes</em></td>
+<td align="left">贝叶斯线性回归</td>
+<td align="center">10</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>整洁宇宙</em></td>
+<td align="left">数据科学环境、数据争论</td>
+<td align="center">全部</td>
+</tr>
+<tr class="even">
+<td align="left"><em>xgboost</em></td>
+<td align="left">增强树木</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="left"><em>xtable</em></td>
+<td align="left">表格格式</td>
+<td align="center">4</td>
+</tr>
+</tbody>
+</table>
+<p>在所有这些软件包（或其集合）中，<strong>tidyverse</strong> 和 <strong>lubridate</strong> 在本书的几乎所有章节中都是必修的。要在 R 中安装新包，只需键入</p>
+<p>install.packages(“包名”)</p>
+<p>在控制台中。有时，由于函数名称冲突（特别是与 select() 函数），我们使用语法 package::function() 来确保函数调用来自正确的源。用于汇集本书的软件包的确切版本列在本书的 GitHub 网页 <a class="uri" href="https://github.com/shokru/mlfactor.github.io">https://github.com/shokru/mlfactor.github.io</a> 上的“<em>renv.lock</em>”文件中。一个小注释如下：虽然 <em>dplyr</em> 包中的函数 <em>gather()</em> 和 <em>spread()</em> 已被 <em>pivot_longer()</em> 取代， <em>pivot_wider()</em>，我们仍然使用它们，因为它们的语法更加紧凑。</p>
+<p>我们尽可能地创建了简短的 <strong> 代码块</strong>，并在我们认为有用的时候对每一行进行了注释。注释显示在行的末尾，前面有一个标签 #。</p>
+<p>这本书被构造为一个非常大的笔记本，因此结果通常显示在代码块下面。它们可以是图表或表格。有时，它们是简单的数字，前面有两个主题标签##。下面的示例说明了这种格式。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" href="preface.html#cb1-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">2</span> <span class="co"># Example</span></span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p></p>
+<p>这本书可以看作是一本非常大的教程。因此，大多数块依赖于先前定义的变量。复制部分代码（通过在线代码）时，请确保 <strong> 环境包含所有相关变量 </strong>。一种最佳实践是始终从运行 <a href="notdata.html#notdata">1</a> 章中的所有代码块开始。对于练习，我们经常使用相应章节中创建的变量。</p>
+</div>
+<div class="section level2 unnumbered" id="acknowledgments">
+<h2>致谢</h2>
+<p>本书的核心内容是为作者之一于 2019 年春季为法国里昂商学院和帝国理工学院商学院金融硕士学生举办的一系列讲座而准备的。我们感谢那些提出富有成效的问题并为完善本书内容做出贡献的学生。</p>
+<p>我们感谢 Bertrand Tavin 和 Gautier Marti 对本书的彻底筛选。我们还要感谢 Eric André、Aurélie Brossard、Alban Cousin、Frédérique Girod、Philippe Huber、Jean-Michel Maeso、Javier Nogales 以及友好的评论； Christophe Dervieux 帮助预订； Mislav Sagovac 和 Vu Tran 的早期反馈；约翰·金梅尔（John Kimmel）让这一切成为现实，乔纳森·雷根斯坦（Jonathan Regenstein）无论话题如何，都随时愿意参与。最后，我们感谢我们的原始编辑 John Kimmel 收集的匿名评论。</p>
+</div>
+<div class="section level2 unnumbered" id="future-developments">
+<h2>未来发展</h2>
+<p>机器学习与因子投资是两个巨大的研究领域，两者之间的重叠也相当大，并且发展迅速。这本书的内容永远会构成坚实的背景，但它自然注定会过时。此外，通过构建，一些子主题和许多参考文献将逃脱我们的审查。我们的目的是逐步改进本书的内容，并根据最新的正在进行的研究进行更新。我们将感谢任何有助于纠正或更新专著的评论。感谢您直接（通过拉取请求）在本书的网站（托管在 <a class="uri" href="https://github.com/shokru/mlfactor.github.io">https://github.com/shokru/mlfactor.github.io</a>）上发送反馈。</p>
+</div>
+</div>
+</main>
+<div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页" data-toggle="toc" id="toc">
+<h2>本页</h2>
+<div id="book-on-this-page"></div>
+<div class="book-extra">
+<ul class="list-unstyled">
+<li><a href="#" id="book-source">查看源码 <i class="fab fa-github"></i></a></li>
+<li><a href="#" id="book-edit">编辑本页 <i class="fab fa-github"></i></a></li>
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5">
+<div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>“<strong>用于因子投资机器学习</strong>”由 Guillaume Coqueret 和 Tony Guida 撰写。它最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+</div>
+</div></div>
+</footer>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

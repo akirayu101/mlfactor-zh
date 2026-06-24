@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 1 章 记号与数据 |因子投资机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 1 章 记号与数据 |因子投资机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 1 章 记号与数据 |因子投资机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="本章介绍全书使用的数学记号、金融收益率记号，以及示例数据集中的特征与标签。" name="description"/>
+<meta content="本章介绍全书使用的数学记号、金融收益率记号，以及示例数据集中的特征与标签。" property="og:description"/>
+<meta content="本章介绍全书使用的数学记号、金融收益率记号，以及示例数据集中的特征与标签。" name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到正文</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1><a href="index.html" title="">因子投资机器学习</a></h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">引言</li>
+<li><a class="active" href="notdata.html"><span class="header-section-number">1</span> 记号与数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 简介</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督式算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 最小方差投资组合的惩罚回归和稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 基于树的方法</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习题答案</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="notdata" number="1">
+<h1><span class="header-section-number">1</span> 记号与数据<a aria-label="锚点" class="anchor" href="#notdata"><i class="fas fa-link"></i></a></h1>
+<div class="section level2" id="notations" number="1.1">
+<h2><span class="header-section-number">1.1</span> 符号<a aria-label="锚点" class="anchor" href="#notations"><i class="fas fa-link"></i></a></h2>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>本节旨在提供全书将使用的正式数学约定。</p>
+<p>粗体符号表示向量和矩阵。我们使用大写字母表示矩阵，使用小写字母表示向量。
+<span class="math inline">\(\mathbf{v}'\)</span>和<span class="math inline">\(\mathbf{M}'\)</span>表示<span class="math inline">\(\mathbf{v}\)</span>和<span class="math inline">\(\mathbf{M}\)</span>的转置。 <span class="math inline">\(\mathbf{M}=[m]_{i,j}\)</span>，其中 <span class="math inline">\(i\)</span> 是行索引，<span class="math inline">\(j\)</span> 是列索引。</p>
+<p>我们将并行使用两种符号。第一个是纯机器学习表示法，其中 <strong>标签</strong>（也称为 <strong>输出</strong>、<strong>因变量</strong> 变量或 <strong>被预测</strong> 变量）<span class="math inline">\(\mathbf{y}=y_i\)</span> 通过特征 <span class="math inline">\(\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})\)</span> 的函数进行近似。特征矩阵<span class="math inline">\(\mathbf{X}\)</span>的维度为<span class="math inline">\(I\times K\)</span>：有<span class="math inline">\(I\)</span> <strong>实例</strong>、<strong>记录</strong>或<strong>观测</strong>，并且每一个都有<span class="math inline">\(K\)</span> <strong>属性</strong>、<strong>特征</strong>、<strong>输入</strong>或<strong>预测器</strong>将用作<strong>独立</strong>和<strong>解释性</strong>变量（所有这些术语将互换使用）。有时，为了简化符号，我们会为 <span class="math inline">\(\textbf{X}\)</span> 的一个实例（一行）编写 <span class="math inline">\(\textbf{x}_i\)</span>，或为 <span class="math inline">\(\textbf{X}\)</span> 的一个（特征）列向量编写 <span class="math inline">\(\textbf{x}_k\)</span>。</p>
+<p>第二种符号类型与金融有关，并且与第一种符号类型直接相关。我们经常使用根据价格数据计算得出的离散收益率 <span class="math inline">\(r_{t,n}=p_{t,n}/p_{t-1,n}-1\)</span>。这里<span class="math inline">\(t\)</span>是时间指标，<span class="math inline">\(n\)</span>是资产指标。除非另有说明，收益率总是在一个时期内计算，尽管这个时期有时可以是一个月或一年。为避免混淆，我们会在需要时另行说明收益率记号。</p>
+<p>按照我们之前的约定，收益率观测日期数将为 <span class="math inline">\(T\)</span>，资产数量为 <span class="math inline">\(N\)</span>。资产的特征或属性将用<span class="math inline">\(x_{t,n}^{(k)}\)</span>表示：它是公司或资产<span class="math inline">\(n\)</span>的<span class="math inline">\(k^{th}\)</span>属性的时间<span class="math inline">\(t\)</span>值。在堆叠表示法中，<span class="math inline">\(\mathbf{x}_{t,n}\)</span> 将代表资产 <span class="math inline">\(n\)</span> 在时间 <span class="math inline">\(t\)</span> 的特征向量。此外，<span class="math inline">\(\mathbf{r}_t\)</span>代表​​<span class="math inline">\(t\)</span>时刻所有资产的收益率，而<span class="math inline">\(\mathbf{r}_n\)</span>代表​​资产<span class="math inline">\(n\)</span>的所有时期收益率。通常，收益率将扮演因变量或标签（在机器学习术语中）的角色。对于无风险资产，我们将使用符号 <span class="math inline">\(r_{t,f}\)</span>。</p>
+<p>两种符号之间的联系大多数时候如下。一个 <strong>实例</strong>（或 <strong>观测</strong>）<span class="math inline">\(i\)</span> 将由一对（<span class="math inline">\(t,n\)</span>）一个特定日期和一个特定公司组成（如果数据是完美的矩形且没有缺失字段，则为 <span class="math inline">\(I=T\times N\)</span>）。标签通常是在未来某个时期计算出的公司绩效衡量指标，而特征将由 <span class="math inline">\(t\)</span> 时刻的公司属性组成。因此，因子投资中机器学习引擎的目的是确定将公司的时间 <span class="math inline">\(t\)</span> 特征映射到其未来绩效的模型。</p>
+<p>就规范矩阵而言：<span class="math inline">\(\mathbf{I}_N\)</span> 将表示 <span class="math inline">\((N\times N)\)</span> 单位矩阵。</p>
+<p>根据概率文献，我们采用期望算子 <span class="math inline">\(\mathbb{E}[\cdot]\)</span> 和条件期望 <span class="math inline">\(\mathbb{E}_t[\cdot]\)</span>，其中相应的过滤 <span class="math inline">\(\mathcal{F}_t\)</span> 对应于时间 <span class="math inline">\(t\)</span> 时可用的所有信息。更准确地说，<span class="math inline">\(\mathbb{E}_t[\cdot]=\mathbb{E}[\cdot | \mathcal{F}_t]\)</span>。 <span class="math inline">\(\mathbb{V}[\cdot]\)</span> 将表示方差运算符。根据上下文，概率将简单地写为 <span class="math inline">\(P\)</span>，但有时我们会使用更重的符号 <span class="math inline">\(\mathbb{P}\)</span>。概率密度函数（pdfs）将用小写字母（<span class="math inline">\(f\)</span>）表示，累积分布函数（cdfs）将用大写字母（<span class="math inline">\(F\)</span>）表示。我们将分布相等写为<span class="math inline">\(X \overset{d}{=}Y\)</span>，在变量的支持下，这相当于所有<span class="math inline">\(z\)</span>的<span class="math inline">\(F_X(z)=F_Y(z)\)</span>。对于随机过程 <span class="math inline">\(X_t\)</span>，如果 <span class="math inline">\(X_t\)</span> 的规律随时间恒定，即 <span class="math inline">\(X_t\overset{d}{=}X_s\)</span>，则称其为 <strong>平稳</strong>，其中 <span class="math inline">\(\overset{d}{=}\)</span> 表示分布相等。</p>
+<p>有时，渐近行为将用通常的朗道符号 <span class="math inline">\(o(\cdot)\)</span> 和 <span class="math inline">\(O(\cdot)\)</span> 来表征。符号<span class="math inline">\(\propto\)</span>表示比例：<span class="math inline">\(x\propto y\)</span>表示<span class="math inline">\(x\)</span>与<span class="math inline">\(y\)</span>成比例。对于导数，我们在对 <span class="math inline">\(x\)</span> 求导时使用标准符号 <span class="math inline">\(\frac{\partial}{\partial x}\)</span>。当计算所有导数（梯度向量）时，我们采用紧凑符号 <span class="math inline">\(\nabla\)</span>。</p>
+<p>在方程中，左侧和右侧可以写得更紧凑：l.h.s。和 r.h.s.，分别。</p>
+<p>最后，我们转向函数。我们列出以下几个：<br/>
+- <span class="math inline">\(1_{\{x \}}\)</span>：条件<span class="math inline">\(x\)</span>的指示函数，如果<span class="math inline">\(x\)</span>为真则等于1，否则为零。<br/>
+- <span class="math inline">\(\phi(\cdot)\)</span>和<span class="math inline">\(\Phi(\cdot)\)</span>是标准高斯pdf和cdf.<br/>
+-card<span class="math inline">\((\cdot)=\#(\cdot)\)</span> 是基数函数的两种表示法，它计算给定集合中的元素数量（作为函数的参数提供）。<br/>
+- <span class="math inline">\(\lfloor \cdot \rfloor\)</span> 是整数部分函数。<br/>
+- 对于实数<span class="math inline">\(x\)</span>，<span class="math inline">\([x]^+\)</span>是<span class="math inline">\(x\)</span>的正数部分，即<span class="math inline">\(\max(0,x)\)</span>.<br/>
+- tanh<span class="math inline">\((\cdot)\)</span> 是双曲正切：tanh<span class="math inline">\((x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}\)</span>.<br/>
+- ReLu<span class="math inline">\((\cdot)\)</span> 是整流线性单元：ReLu<span class="math inline">\((x)=\max(0,x)\)</span>.<br/>
+- s<span class="math inline">\((\cdot)\)</span> 将是 softmax 函数：<span class="math inline">\(s(\textbf{x})_i=\frac{e^{x_i}}{\sum_{j=1}^Je^{x_j}}\)</span>，其中下标 <span class="math inline">\(i\)</span> 指的是向量的 <span class="math inline">\(i^{th}\)</span> 元素。</p>
+</div>
+<div class="section level2" id="dataset" number="1.2">
+<h2><span class="header-section-number">1.2</span> 数据集<a aria-label="锚点" class="anchor" href="#dataset"><i class="fas fa-link"></i></a></h2>
+<p>在整本书中，为了 <strong> 再现性 </strong>，我们将通过基于 <a class="uri" href="https://github.com/shokru/mlfactor.github.io/tree/master/material">https://github.com/shokru/mlfactor.github.io/tree/master/material</a> 上提供的单个金融数据集的实施示例来说明我们提出的概念。该数据集包含 1,207 只在美国上市的股票（可能来自加拿大或墨西哥）的信息。时间窗口从 1998 年 11 月开始，到 2019 年 3 月结束。对于每个时间点，93 个 <strong>特征</strong> 描述了样本中的公司。这些属性涵盖了广泛的主题：</p>
+<ul>
+<li><strong>估值</strong>（收益率、会计比率）；<br/></li>
+<li><strong>盈利能力</strong>和质量（股本收益率）；<br/></li>
+<li><strong>动量</strong>和技术分析（过去收益率、相对强弱指标）；<br/></li>
+<li><strong>风险</strong>（波动率）；<br/></li>
+<li><strong>估计</strong>（每股收益）；<br/></li>
+<li><strong>成交量</strong>和<strong>流动性</strong>（股票成交量）。</li>
+</ul>
+<p>样本并不是完美的矩形：没有缺失点，但公司数量及其属性随时间变化并不恒定。这使得回测中的计算更加棘手，但也更加现实。</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>                      <span class="co"># Activate the data science package</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span>                      <span class="co"># Activate the date management package</span>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data_ml.RData"</span><span class="op">)</span>                   <span class="co"># Load the data</span>
+<span class="va">data_ml</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">&gt;</span> <span class="st">"1999-12-31"</span>,         <span class="co"># Keep the date with sufficient data points</span>
+           <span class="va">date</span> <span class="op">&lt;</span> <span class="st">"2019-01-01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">stock_id</span>, <span class="va">date</span><span class="op">)</span>             <span class="co"># Order the data</span>
+<span class="va">data_ml</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>                       <span class="co"># Sample values</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   stock_id date       Advt_12M_Usd Advt_3M_Usd Advt_6M_Usd Asset_Turnover
+##      &lt;int&gt; &lt;date&gt;            &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;
+## 1        1 2000-01-31         0.41        0.39        0.42           0.19
+## 2        1 2000-02-29         0.41        0.39        0.4            0.19
+## 3        1 2000-03-31         0.4         0.37        0.37           0.2 
+## 4        1 2000-04-30         0.39        0.36        0.37           0.2 
+## 5        1 2000-05-31         0.4         0.42        0.4            0.2 
+## 6        1 2000-06-30         0.41        0.47        0.42           0.21</code></pre>
+<p></p>
+<p>该数据有 99 列和 268336 行。前两列表示股票标识符和日期。接下来的 93 列是特征（详细信息请参见附录中的表 <a href="data-description.html#tab:appendix1">17.1</a>）。最后四列是标签。这些点按月频率采样。正如实践中的情况一样，资产的数量会随着时间而变化，如图<a href="notdata.html#fig:nbassets">1.1</a>所示。</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_ml</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                   <span class="co"># Group by date</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>nb_assets <span class="op">=</span> <span class="va">stock_id</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                   <span class="co"># Count nb assets</span>
+                  <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nlevels.html">nlevels</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">nb_assets</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># Plot</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:nbassets" style="display:block;"></span>
+<img alt="随时间变化的资产数量。" src="ML_factor_files/figure-html/nbassets-1.png" width="600"/><p class="caption">图 1.1：随时间变化的资产数量。</p>
+</div>
+<p></p>
+<p>数据集中有四个直接 <strong>标签</strong>：R1M_Usd、R3M_Usd、R6M_Usd 和 R12M_Usd，分别对应股票的 1 个月、3 个月、6 个月和 12 个月的未来/远期收益率。收益率为 <strong>总收益率</strong>，也就是说，它们包含了所考虑期间内潜在的 <strong>股息</strong> 支付。与仅价格收益率相比，这是投资收益的更好代表。我们参考<span class="citation">Hartzmark and Solomon (<a href="solutions-to-exercises.html#ref-hartzmark2019dividend" role="doc-biblioref">2019</a>)</span>的分析来研究价格收益率与股息脱钩的影响。这些标签位于数据集的最后 4 列中。我们在下面提供了这些标签的描述性统计量。</p>
+<pre><code>## # A tibble: 4 × 5
+##   Label      mean    sd    min   max
+##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 R12M_Usd 0.137  0.738 -0.991  96.0
+## 2 R1M_Usd  0.0127 0.176 -0.922  30.2
+## 3 R3M_Usd  0.0369 0.328 -0.929  39.4
+## 4 R6M_Usd  0.0723 0.527 -0.98  107.</code></pre>
+<p></p>
+<p>为了预测未来的模型，我们将预测变量的名称保留在内存中。此外，我们还保留了一个更短的预测变量列表。</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_ml</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">95</span><span class="op">]</span><span class="op">)</span> <span class="co"># Keep the feature's column names (hard-coded, beware!)</span>
+<span class="va">features_short</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Div_Yld"</span>, <span class="st">"Eps"</span>, <span class="st">"Mkt_Cap_12M_Usd"</span>, <span class="st">"Mom_11M_Usd"</span>, 
+                    <span class="st">"Ocf"</span>, <span class="st">"Pb"</span>, <span class="st">"Vol1Y_Usd"</span><span class="op">)</span></code></pre></div>
+<p></p>
+<p>预测变量已经被均匀化，即对于任何给定的特征和时间点，分布是均匀的。鉴于 1,207 只股票，下图无法显示完美的矩形。</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_ml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">==</span> <span class="st">"2000-02-29"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Div_Yld</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">+</span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="fl">0.03</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:datarectangle" style="display:block;"></span>
+<img alt="2000 年 2 月 29 日的股息收益率分布。" src="ML_factor_files/figure-html/datarectangle-1.png" width="600"/><p class="caption">图 1.2：2000 年 2 月 29 日股息收益率特征的分布。</p>
+</div>
+<p></p>
+<p>原始标签（未来收益率）是数值型的，将用于回归练习，即当目标是预测标量实数时。有时，练习可能会有所不同，目的可能是预测<strong>类别</strong>（也称为<strong>类</strong>），例如“买入”“持有”或“卖出”。为了能够执行这种类型的分类分析，我们创建了额外的分类标签。</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_ml</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                   <span class="co"># Group by date</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>R1M_Usd_C <span class="op">=</span> <span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">R1M_Usd</span><span class="op">)</span>,        <span class="co"># Create the categorical labels</span>
+           R12M_Usd_C <span class="op">=</span> <span class="va">R12M_Usd</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">R12M_Usd</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_if</a></span><span class="op">(</span><span class="va">is.logical</span>, <span class="va">as.factor</span><span class="op">)</span></code></pre></div>
+<p></p>
+<p>新标签是二元的：如果原始收益率高于所考虑时间段内的中位数收益率，则它们等于 1（真），否则等于 0（假）。因此，在每个时间点，一半样本的标签等于 0，另一半的标签等于 1：一些股票表现优异，另一些股票表现不佳。</p>
+<p>在机器学习中，模型根据一部分数据（<strong>训练集</strong>）进行估计，然后对另一部分数据（<strong>测试集</strong>）进行测试以评估其质量。我们相应地分割了样本。</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">separation_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="st">"2014-01-15"</span><span class="op">)</span>
+<span class="va">training_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">data_ml</span>, <span class="va">date</span> <span class="op">&lt;</span> <span class="va">separation_date</span><span class="op">)</span>
+<span class="va">testing_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">data_ml</span>, <span class="va">date</span> <span class="op">&gt;=</span> <span class="va">separation_date</span><span class="op">)</span></code></pre></div>
+<p></p>
+<p>我们还保留了一些关键变量，例如资产标识符列表和矩形版本的收益率。为简单起见，在后者的计算中，我们缩小了投资范围，仅保留我们拥有最多点数的股票。</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">stock_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">data_ml</span><span class="op">$</span><span class="va">stock_id</span><span class="op">)</span><span class="op">)</span> <span class="co"># A list of all stock_ids</span>
+<span class="va">stock_days</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                        <span class="co"># Compute the number of data points per stock</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">stock_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>nb <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> 
+<span class="va">stock_ids_short</span> <span class="op">&lt;-</span> <span class="va">stock_ids</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">stock_days</span><span class="op">$</span><span class="va">nb</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">stock_days</span><span class="op">$</span><span class="va">nb</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="co"># Stocks with full data</span>
+<span class="va">returns</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                           <span class="co"># Compute returns, in matrix format, in 3 steps:</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">stock_ids_short</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>    <span class="co"># 1. Filtering the data</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">stock_id</span>, <span class="va">R1M_Usd</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>   <span class="co"># 2. Keep returns along with dates &amp; firm names</span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="st">"stock_id"</span>, 
+                values_from <span class="op">=</span> <span class="st">"R1M_Usd"</span><span class="op">)</span>         <span class="co"># 3. Put in matrix shape </span></code></pre></div>
+<p></p>
+</div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="index.html">前言</a></div>
+<div class="next"><a href="intro.html"><span class="header-section-number">2</span> 引言</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页" data-toggle="toc" id="toc"><h2>本页</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#notdata"><span class="header-section-number">1</span> 记号与数据</a></li>
+<li><a class="nav-link" href="#notations"><span class="header-section-number">1.1</span> 符号</a></li>
+<li><a class="nav-link" href="#dataset"><span class="header-section-number">1.2</span> 数据集</a></li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>“<strong>用于因子投资机器学习</strong>”由 Guillaume Coqueret 和 Tony Guida 撰写。它最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

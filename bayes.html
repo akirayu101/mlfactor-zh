@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 9 章 贝叶斯方法 | 因子投资中的机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 9 章 贝叶斯方法 | 因子投资中的机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 9 章 贝叶斯方法 | 因子投资中的机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content=".container-fluid main { max-width: 60rem;本节专门介绍对参数进行事先假设的机器学习子集。在我们解释贝叶斯定理如何..." name="description"/>
+<meta content=".container-fluid main { max-width: 60rem;本节专门介绍对参数进行事先假设的机器学习子集。在我们解释贝叶斯定理如何..." property="og:description"/>
+<meta content=".container-fluid main { max-width: 60rem;本节专门介绍对参数进行事先假设的机器学习子集。在我们解释贝叶斯定理如何..." name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">因子投资中的机器学习</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">引言</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号与数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 引言</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 树模型</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="active" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性与非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 习题解答</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="bayes" number="9">
+<h1>
+<span class="header-section-number">9</span> 贝叶斯方法<a aria-label="锚" class="anchor" href="#bayes"><i class="fas fa-link"></i></a>
+</h1>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>本节专门介绍对参数进行事先假设的机器学习子集。在我们解释贝叶斯定理如何应用于机器学习中的简单构建块之前，我们在下面的小节中介绍一些符号和概念。贝叶斯分析的好参考是 <span class="citation">Gelman et al. (<a href="solutions-to-exercises.html#ref-gelman2013bayesian" role="doc-biblioref">2013</a>)</span> 和 <span class="citation">Kruschke (<a href="solutions-to-exercises.html#ref-kruschke2014doing" role="doc-biblioref">2014</a>)</span>。后者与本书一样，用多行 R 代码说明了这些概念。贝叶斯推理用于 <span class="citation">Feng and He (<a href="solutions-to-exercises.html#ref-feng2021factor" role="doc-biblioref">2021</a>)</span> 估计条件预期收益和残差协方差矩阵，以进行投资组合选择。</p>
+<div class="section level2" id="the-bayesian-framework" number="9.1">
+<h2>
+<span class="header-section-number">9.1</span> 贝叶斯框架<a aria-label="锚" class="anchor" href="#the-bayesian-framework"><i class="fas fa-link"></i></a>
+</h2>
+<p>到目前为止，所提出的模型仅依赖于数据。这种方法通常被称为“<strong>常客</strong>’。给定一个数据集，频率论者将提取（即估计）一组独特的最佳参数，并将其视为最佳模型。另一方面，贝叶斯主义者将数据集视为 <strong>现实的快照</strong> 而且，对于他们来说，参数是随机的！他们不是估计参数的一个值（例如线性模型中的系数），而是更加雄心勃勃并尝试确定 <strong>整体分布</strong> 的参数。</p>
+<p>为了概述如何实现这一点，我们介绍基本符号和结果。贝叶斯分析的基本概念是 <strong>条件概率</strong>。给定两个随机集（或事件） <span class="math inline">\(A\)</span> 和 <span class="math inline">\(B\)</span>，我们定义概率 <span class="math inline">\(A\)</span> 知道 <span class="math inline">\(B\)</span> （同样地，拥有的几率 <span class="math inline">\(A\)</span>，有条件地有 <span class="math inline">\(B\)</span>) 作为
+<span class="math display">\[P[A|B]=\frac{P[A \cap B]}{P[B]},\]</span>
+即两个集合之间交集的概率除以 <span class="math inline">\(B\)</span>。同样，两个事件发生的概率等于 <span class="math inline">\(P[A \cap B] = P[A]P[B|A]\)</span>。给定 <span class="math inline">\(n\)</span> 不相交的事件 <span class="math inline">\(A_i\)</span>, <span class="math inline">\(i=1,...n\)</span> 这样 <span class="math inline">\(\sum_{i=1}^nP(A_i)=1\)</span>，那么对于任意事件 <span class="math inline">\(B\)</span>，总概率定律是（或暗示）
+<span class="math display">\[P(B)=\sum_{i=1}^nP(B \cap A_i)= \sum_{i=1}^nP(B|A_i)P(A_i).\]</span></p>
+<p>给定这个表达式，我们可以制定贝叶斯定理的通用版本：
+<span class="math display" id="eq:bayes">\[\begin{equation}
+\tag{9.1}
+P(A_i|B)=\frac{P(A_i)P(B|A_i)}{P(B)}= \frac{P(A_i)P(B|A_i)}{\sum_{i=1}^nP(B|A_i)P(A_i)}.
+\end{equation}\]</span></p>
+<p>有了这个结果，我们就可以进入本节的核心主题，即一些参数的估计 <span class="math inline">\(\boldsymbol{\theta}\)</span> （可能是一个向量）给定一个数据集，我们用 <span class="math inline">\(\textbf{y}\)</span> 从而遵循以下公约 <span class="citation">Gelman et al. (<a href="solutions-to-exercises.html#ref-gelman2013bayesian" role="doc-biblioref">2013</a>)</span>。尽管如此，这种表示法在本书中并不是最理想的，因为在所有其他章节中， <span class="math inline">\(\textbf{y}\)</span> 代表数据集的标签。</p>
+<p>在贝叶斯分析中，一种复杂性（与频率论方法相比）来自于数据并不是万能的这一事实。参数的分布 <span class="math inline">\(\boldsymbol{\theta}\)</span> 将是一些之间的混合 <strong>先前的</strong> 统计学家（用户、分析师）设置的分布和数据的经验分布。更准确地说，简单应用贝叶斯公式即可得出
+<span class="math display" id="eq:bayes2">\[\begin{equation}
+\tag{9.2}
+p(\boldsymbol{\theta}| \textbf{y})=\frac{p(\boldsymbol{\theta})p(\textbf{y} |\boldsymbol{\theta})}{p(\textbf{y})} \propto p(\boldsymbol{\theta})p(\textbf{y} |\boldsymbol{\theta}).
+\end{equation}\]</span></p>
+<p>解释是直接的：分布 <span class="math inline">\(\boldsymbol{\theta}\)</span> 了解数据 <span class="math inline">\(\textbf{y}\)</span> 与分布成正比 <span class="math inline">\(\boldsymbol{\theta}\)</span> 乘以分布 <span class="math inline">\(\textbf{y}\)</span> 知道 <span class="math inline">\(\boldsymbol{\theta}\)</span>。术语 <span class="math inline">\(p(\textbf{y})\)</span> 通常被省略，因为它只是一个确保密度总和或积分为一的缩放数字。</p>
+<p>我们在方程之间使用略有不同的符号 <a href="bayes.html#eq:bayes">(9.1)</a> 和方程 <a href="bayes.html#eq:bayes2">(9.2)</a>。在前者中， <span class="math inline">\(P\)</span> 表示真实概率，即它是一个数字。在后者中， <span class="math inline">\(p\)</span> 代表整个概率密度函数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 或 <span class="math inline">\(\textbf{y}\)</span>.</p>
+<p>贝叶斯分析的全部目的是计算所谓的 <strong>后部</strong> 分布 <span class="math inline">\(p(\boldsymbol{\theta}| \textbf{y})\)</span> 通过 <strong>先前的</strong> 分布 <span class="math inline">\(p(\boldsymbol{\theta})\)</span> 和 <strong>似然函数</strong> <span class="math inline">\(p(\textbf{y} |\boldsymbol{\theta})\)</span>。先验有时被限定为信息丰富、信息较弱或信息不丰富，具体取决于用户对先验的相关性和鲁棒性的信心程度。定义无信息先验的最简单方法是在某些实际间隔上设置恒定（均匀）分布。</p>
+<p>最具挑战性的部分通常是似然函数。解决该问题的最简单方法是采用特定的分布（可能是参数族）来分布数据，然后考虑观测值是独立同分布的，就像简单的最大似然推理一样。如果我们假设分布的新参数被收集到 <span class="math inline">\(\boldsymbol{\lambda}\)</span>，那么似然度可以写为
+<span class="math display" id="eq:likelihood">\[\begin{equation}
+\tag{9.3}
+p(\textbf{y} |\boldsymbol{\theta}, \boldsymbol{\lambda})=\prod_{i=1}^I f_{\boldsymbol{\lambda}}(y_i; \boldsymbol{\beta}),
+\end{equation}\]</span>
+但在这种情况下，问题变得稍微复杂一些，因为添加新参数会将后验分布更改为 <span class="math inline">\(p(\boldsymbol{\theta}, \boldsymbol{\lambda}|\textbf{y})\)</span>。用户必须找出联合分布 <span class="math inline">\(\boldsymbol{\theta}\)</span> 和 <span class="math inline">\(\boldsymbol{\lambda}\)</span> - 给定 <span class="math inline">\(\textbf{y}\)</span>。由于它们的嵌套结构，这些模型通常被称为 <strong>层次模型</strong>.</p>
+<p>贝叶斯方法广泛用于投资组合选择。其基本原理是，资产收益的分布取决于某些参数，主要问题是确定后验分布。我们非常简要地回顾了下面大量的文献。贝叶斯资产配置的研究 <span class="citation">Lai et al. (<a href="solutions-to-exercises.html#ref-lai2011mean" role="doc-biblioref">2011</a>)</span> （通过随机优化）， <span class="citation">Guidolin and Liu (<a href="solutions-to-exercises.html#ref-guidolin2016ambiguity" role="doc-biblioref">2016</a>)</span> 和 <span class="citation">Dangl and Weissensteiner (<a href="solutions-to-exercises.html#ref-dangl2020optimal" role="doc-biblioref">2020</a>)</span>。收缩技术（均值和协方差矩阵）在 <span class="citation">Frost and Savarino (<a href="solutions-to-exercises.html#ref-frost1986empirical" role="doc-biblioref">1986</a>)</span>, <span class="citation">Kan and Zhou (<a href="solutions-to-exercises.html#ref-kan2007optimal" role="doc-biblioref">2007</a>)</span> 和 <span class="citation">DeMiguel, Martı́n-Utrera, and Nogales (<a href="solutions-to-exercises.html#ref-demiguel2015parameter" role="doc-biblioref">2015</a>)</span>。同样， <span class="citation">Tu and Zhou (<a href="solutions-to-exercises.html#ref-tu2010incorporating" role="doc-biblioref">2010</a>)</span> 建立与资产定价理论一致的先验。最后， <span class="citation">Bauder et al. (<a href="solutions-to-exercises.html#ref-bauder2020bayesian" role="doc-biblioref">2020</a>)</span> 样本投资组合收益可以得出贝叶斯最优边界。我们邀请感兴趣的读者也仔细研究这几篇文章中引用的参考文献。</p>
+</div>
+<div class="section level2" id="bayesian-sampling" number="9.2">
+<h2>
+<span class="header-section-number">9.2</span> 贝叶斯采样<a aria-label="锚" class="anchor" href="#bayesian-sampling"><i class="fas fa-link"></i></a>
+</h2>
+<div class="section level3" id="gibbs-sampling" number="9.2.1">
+<h3>
+<span class="header-section-number">9.2.1</span> 吉布斯抽样<a aria-label="锚" class="anchor" href="#gibbs-sampling"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+贝叶斯定理的一个相邻应用领域是 <strong>模拟</strong>。假设我们要模拟随机向量的多元分布 <span class="math inline">\(\textbf{X}\)</span> 由其密度给出 <span class="math inline">\(p=p(x_1,\dots,x_J)\)</span>。通常，完整的分布很复杂，但其边缘更容易理解。事实上，它们更简单，因为它们仅依赖于一个变量（当所有其他值都已知时）：
+<span class="math display">\[p(X_j=x_j|X_1= x_1,\dots,X_{j-1}=x_{j-1},X_{j+1}=x_{j+1},\dots,X_J=x_J)=p(X_j=x_j|\textbf{X}_{-j}=\textbf{x}_{-j}),\]</span>
+我们使用紧凑表示法 <span class="math inline">\(\textbf{X}_{-j}\)</span> 对于所有变量，除了 <span class="math inline">\(X_j\)</span>。一种利用规律生成样本的方法 <span class="math inline">\(p\)</span> 如下并且依赖于条件句的知识 <span class="math inline">\(p(x_j|\textbf{x}_{-j})\)</span> 以及关于 <strong>马尔可夫链蒙特卡罗</strong>，我们在下面概述。该过程是迭代的，并假设可以抽取上述条件的样本。我们写 <span class="math inline">\(x_j^{m}\)</span> 为 <span class="math inline">\(m^{th}\)</span> 的样本 <span class="math inline">\(j^{th}\)</span> 变量（<span class="math inline">\(X_j\)</span>）。模拟从先前（或固定或随机）样本开始 <span class="math inline">\(\textbf{x}^0=(x^0_1,\dots,x^0_J)\)</span>。然后，对于足够多的次数，说 <span class="math inline">\(T\)</span>，根据以下公式抽取新样本
+<span class="math display">\[\begin{align*}
+x_1^{m+1} &amp;= p(X_1|X_2=x_2^{m}, \dots ,X_J=x_J^m) ;\\
+x_2^{m+1} &amp;=p(X_2|X_1=x_1^{m+1}, X_3=x^{m}_3, \dots, X_J=x_J^m); \\
+\dots&amp; \\
+x_J^{m+1}&amp;= p(X_J|X_1=x_1^{m+1}, X_2=x_2^{m+1}, \dots, X_{J-1}=x_{J-1}^{m+1}).
+\end{align*}\]</span></p>
+<p>重要的细节是，在每一行之后，变量的值都会更新。因此，在第二行中， <span class="math inline">\(X_2\)</span> 是用已知的知识进行采样的 <span class="math inline">\(X_1=x_1^{m+1}\)</span> 在最后一行中，除 <span class="math inline">\(X_J\)</span> 已更新为他们的 <span class="math inline">\((m+1)^{th}\)</span> 状态。上述算法称为吉布斯采样。它与马尔可夫链相关，因为每个新迭代仅依赖于前一个迭代。</p>
+<p>在某些技术假设下，如 <span class="math inline">\(T\)</span> 增加，分布 <span class="math inline">\(\textbf{x}_T\)</span> 收敛于 <span class="math inline">\(p\)</span>。 20 世纪 90 年代的一系列文章广泛讨论了收敛发生的条件。有兴趣的读者可以看看例如 <span class="citation">Tierney (<a href="solutions-to-exercises.html#ref-tierney1994markov" role="doc-biblioref">1994</a>)</span>, <span class="citation">Roberts and Smith (<a href="solutions-to-exercises.html#ref-roberts1994simple" role="doc-biblioref">1994</a>)</span>，以及第 11.7 节 <span class="citation">Gelman et al. (<a href="solutions-to-exercises.html#ref-gelman2013bayesian" role="doc-biblioref">2013</a>)</span>.</p>
+<p>有时，完整的分布很复杂，条件定律很难确定和采样。然后，可以使用一种更通用的方法，称为 Metropolis-Hastings，它依赖于拒绝方法来模拟随机变量。</p>
+</div>
+<div class="section level3" id="metropolis-hastings-sampling" number="9.2.2">
+<h3>
+<span class="header-section-number">9.2.2</span> 大都会-黑斯廷斯抽样<a aria-label="锚" class="anchor" href="#metropolis-hastings-sampling"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+Gibbs 算法可以被视为 Metropolis-Hastings (MH) 方法的一个特例，该方法的最简单版本是在 <span class="citation">Metropolis and Ulam (<a href="solutions-to-exercises.html#ref-metropolis1949monte" role="doc-biblioref">1949</a>)</span>。前提是相似的：目的是模拟以下随机变量 <span class="math inline">\(p(\textbf{x})\)</span> 能够从更简单的形式中进行采样 <span class="math inline">\(p(\textbf{x}|\textbf{y})\)</span> 给出了未来状态的概率 <span class="math inline">\(\textbf{x}\)</span>，给定过去的一个 <span class="math inline">\(\textbf{y}\)</span>.</p>
+<p>一旦初始值为 <span class="math inline">\(\textbf{x}\)</span> 已采样（<span class="math inline">\(\textbf{x}_0\)</span>），每个新的迭代（<span class="math inline">\(m\)</span>）的模拟分三个阶段进行：</p>
+<ol style="list-style-type: decimal">
+<li>生成候选值 <span class="math inline">\(\textbf{x}'_{m+1}\)</span> 来自 <span class="math inline">\(p(\textbf{x}|\textbf{x}_m)\)</span>,<br/>
+</li>
+<li>计算接受率 <span class="math inline">\(\alpha=\min\left(\frac{p(\textbf{x}'_{m+1})p(\textbf{x}_{m}|\textbf{x}'_{m+1})}{p(\textbf{x}_{m})p(\textbf{x}'_{m+1}|\textbf{x}_{m})} \right)\)</span><br/>
+</li>
+<li>挑选 <span class="math inline">\(\textbf{x}_{m+1}=\textbf{x}'_{m+1}\)</span> 有概率 <span class="math inline">\(\alpha\)</span> 或坚持使用以前的值（<span class="math inline">\(\textbf{x}_{m+1}=\textbf{x}_{m}\)</span>）有概率 <span class="math inline">\(1-\alpha\)</span>.</li>
+</ol>
+<p>在一般情况下，接受率的解释并不简单。当采样发生器对称时（<span class="math inline">\(p(\textbf{x}|\textbf{y})=p(\textbf{y}|\textbf{x})\)</span>），每当 <span class="math inline">\(p(\textbf{x}'_{m+1})\ge p(\textbf{x}_{m})\)</span>。如果相反的条件成立（<span class="math inline">\(p(\textbf{x}'_{m+1})&lt; p(\textbf{x}_{m})\)</span>），那么候选人被保留的几率等于 <span class="math inline">\(p(\textbf{x}'_{m+1})/p(\textbf{x}_{m})\)</span>，这是似然比。新提案的可能性越大，保留它的可能性就越高。</p>
+<p>通常，第一次模拟会被丢弃，以便给链留下时间来收敛到高概率区域。此过程（通常称为“<em>烧伤</em>’）确保第一个保留的样本位于可能的区域，即它们更能代表我们试图模拟的定律。</p>
+<p>为了简洁起见，我们在这里坚持简洁的介绍，但一些额外的细节在第 11.2 节中概述 <span class="citation">Gelman et al. (<a href="solutions-to-exercises.html#ref-gelman2013bayesian" role="doc-biblioref">2013</a>)</span> 并在第 7 章中 <span class="citation">Kruschke (<a href="solutions-to-exercises.html#ref-kruschke2014doing" role="doc-biblioref">2014</a>)</span>.</p>
+</div>
+</div>
+<div class="section level2" id="bayesian-linear-regression" number="9.3">
+<h2>
+<span class="header-section-number">9.3</span> 贝叶斯线性回归<a aria-label="锚" class="anchor" href="#bayesian-linear-regression"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+由于贝叶斯概念相当抽象，因此用一个简单的例子来说明理论概念是很有用的。在线性模型中， <span class="math inline">\(y_i=\textbf{x}_i\textbf{b}+\epsilon_i\)</span> 并且统计上经常假设 <span class="math inline">\(\epsilon_i\)</span> 是 i.i.d.均值和方差均为零的正态分布 <span class="math inline">\(\sigma^2\)</span>。因此，方程的可能性 <a href="bayes.html#eq:likelihood">(9.3)</a> 翻译成
+<span class="math display">\[p(\boldsymbol{\epsilon}|\textbf{b}, \sigma)=\prod_{i=1}^I\frac{e^{-\frac{\epsilon_i^2}{2\sigma}}}{\sigma\sqrt{2\pi}}=(\sigma\sqrt{2\pi})^{-I}e^{-\sum_{i=1}^I\frac{\epsilon_i^2}{2\sigma^2}}.\]</span></p>
+<p>在回归分析中，数据由下式给出 <span class="math inline">\(\textbf{y}\)</span> 并由 <span class="math inline">\(\textbf{X}\)</span>，因此两者都在符号中报告。只是承认这一点 <span class="math inline">\(\boldsymbol{\epsilon}=\textbf{y}-\textbf{Xb}\)</span>，我们得到
+<span class="math display" id="eq:linlike">\[\begin{align}
+p(\textbf{y},\textbf{X}|\textbf{b}, \sigma)&amp;=\prod_{i=1}^I\frac{e^{-\frac{\epsilon_i^2}{2\sigma}}}{\sigma\sqrt{2\pi}}\\
+&amp;=(\sigma\sqrt{2\pi})^{-I}e^{-\sum_{i=1}^I\frac{\left(y_i-\textbf{x}_i'\textbf{b}\right)^2}{2\sigma^2}}=(\sigma\sqrt{2\pi})^{-I} e^{-\frac{\left(\textbf{y}-\textbf{X}\textbf{b}\right)' \left(\textbf{y}-\textbf{X}\textbf{b}\right)}{2\sigma^2}} \nonumber \\ \tag{9.4}
+&amp;=\underbrace{(\sigma\sqrt{2\pi})^{-I} e^{-\frac{\left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right)' \left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right)}{2\sigma^2}}}_{\text{depends on } \sigma, \text{ not } \textbf{b}}\times \underbrace{e^{-\frac{(\textbf{b}-\hat{\textbf{b}})'\textbf{X}'\textbf{X}(\textbf{b}-\hat{\textbf{b}})}{2\sigma^2}}}_{\text{ depends on both } \sigma, \text{ and } \textbf{b} }.
+\end{align}\]</span>
+在最后一行中，第二项是差值的函数 <span class="math inline">\(\textbf{b}-\hat{\textbf{b}}\)</span>, 其中 <span class="math inline">\(\hat{\textbf{b}}=(\textbf{X}'\textbf{X})^{-1}\textbf{X}'\textbf{y}\)</span>。这并不奇怪： <span class="math inline">\(\hat{\textbf{b}}\)</span> 是均值的自然基准 <span class="math inline">\(\textbf{b}\)</span>。此外，还介绍了 <span class="math inline">\(\hat{\textbf{b}}\)</span> 产生相对简单的概率形式。</p>
+<p>上面的表达式是后验的频率论（基于数据）块：可能性。如果我们想要获得后验的易于处理的表达式，我们需要找到一个先验成分，其形式可以与这种可能性很好地结合。这些形式被称为 <strong>共轭先验</strong>。正确部分的自然候选者（这取决于两者 <strong>乙</strong> 和 <span class="math inline">\(\sigma\)</span>) 是多元高斯密度：
+<span class="math display" id="eq:linprior">\[\begin{equation}
+\tag{9.5}
+p[\textbf{b}|\sigma]=\sigma^{-k}e^{-\frac{(\textbf{b}-\textbf{b}_0)'\boldsymbol{\Lambda}_0(\textbf{b}-\textbf{b}_0)}{2\sigma^2}},
+\end{equation}\]</span>
+我们有义务就以下方面提出条件： <span class="math inline">\(\sigma\)</span>。密度有先验平均值 <span class="math inline">\(\textbf{b}_0\)</span> 和先验协方差矩阵 <span class="math inline">\(\boldsymbol{\Lambda}_0^{-1}\)</span>。这个先验让我们更接近后验，因为
+<span class="math display" id="eq:cascade">\[\begin{align}
+p[\textbf{b},\sigma|\textbf{y},\textbf{X}]&amp; \propto p[\textbf{y},\textbf{X}|\textbf{b},\sigma]p[\textbf{b},\sigma] \nonumber \\
+\tag{9.6}
+&amp;\propto p[\textbf{y},\textbf{X}|\textbf{b},\sigma]p[\textbf{b}|\sigma]p[\sigma].
+\end{align}\]</span></p>
+<p>为了完全指定概率级联，我们需要考虑 <span class="math inline">\(\sigma\)</span> 并设置表格的密度
+<span class="math display" id="eq:linsig">\[\begin{equation}
+\tag{9.7}
+p[\sigma^2]\propto (\sigma^2)^{-1-a_0}e^{-\frac{b_0}{2\sigma^2}},
+\end{equation}\]</span>
+与左侧部分接近 <a href="bayes.html#eq:linlike">(9.4)</a>。这对应于先验参数方差的逆伽玛分布 <span class="math inline">\(a_0\)</span> 和 <span class="math inline">\(b_0\)</span> （这个标量表示法不是最佳的，因为它可能与先前的平均值相混淆 <span class="math inline">\(\textbf{b}_0\)</span> 所以我们必须格外注意）。</p>
+<p>现在，我们可以简化 <span class="math inline">\(p[\textbf{b},\sigma|\textbf{y},\textbf{X}]\)</span> 与 <a href="bayes.html#eq:linlike">(9.4)</a>, <a href="bayes.html#eq:linprior">(9.5)</a> 和 <a href="bayes.html#eq:linsig">(9.7)</a>:
+<span class="math display">\[\begin{align*}
+p[\textbf{b},\sigma|\textbf{y},\textbf{X}]&amp; \propto
+(\sigma\sqrt{2\pi})^{-I} \sigma^{-2(1+a_0)} e^{-\frac{\left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right)' \left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right)}{2\sigma^2}} \\
+&amp;\quad \times e^{-\frac{(\textbf{b}-\hat{\textbf{b}})'\textbf{X}'\textbf{X}(\textbf{b}-\hat{\textbf{b}})}{2\sigma^2}}\sigma^{-k}e^{-\frac{(\textbf{b}-\textbf{b}_0)'\boldsymbol{\Lambda}_0(\textbf{b}-\textbf{b}_0)}{2\sigma^2}}e^{-\frac{b_0}{2\sigma^2}} \\
+\end{align*}\]</span>
+可以重写
+<span class="math display">\[\begin{align*}
+p[\textbf{b},\sigma|\textbf{y},\textbf{X}]&amp; \propto  \sigma^{-I-k-2(1+a_0)} \\
+&amp;\times  \exp\left(-\frac{\left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right)' \left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right) + (\textbf{b}-\hat{\textbf{b}})'\textbf{X}'\textbf{X}(\textbf{b}-\hat{\textbf{b}}) + (\textbf{b}-\textbf{b}_0)'\boldsymbol{\Lambda}_0(\textbf{b}-\textbf{b}_0)+b_0}{2\sigma^2} \right) .
+\end{align*}\]</span></p>
+<p>上面的表达式只是一个二次形式 <span class="math inline">\(\textbf{b}\)</span> 它可以在繁重的代数之后以更紧凑的方式重写：
+<span class="math display">\[\begin{equation}
+\label{eq:linpost}
+p(\textbf{b}|\textbf{y},\textbf{X},\sigma) \propto \left[\sigma^{-k}e^{-\frac{(\textbf{b}-\textbf{b}_*)'\boldsymbol{\Lambda}_*(\textbf{b}-\textbf{b}_*)}{2\sigma^2}}\right] \times \left[ (\sigma^2)^{-1-a_*}e^{-\frac{b_*}{2\sigma^2}}  \right],
+\end{equation}\]</span></p>
+<p>哪里
+<span class="math display">\[\begin{align*}
+\boldsymbol{\Lambda}_* &amp;= \textbf{X}'\textbf{X}+\boldsymbol{\Lambda}_0  \\
+\textbf{b}_*&amp;=  \boldsymbol{\Lambda}_*^{-1}(\boldsymbol{\Lambda}_0\textbf{b}_0+\textbf{X}'\textbf{X}\hat{\textbf{b}}) \\
+a_* &amp; = a_0 + I/2  \\
+b_* &amp;=b_0+\frac{1}{2}\left(\textbf{y}'\textbf{y}+ \textbf{b}_0'\boldsymbol{\Lambda}_0\textbf{b}_0+\textbf{b}_*'\boldsymbol{\Lambda}_*\textbf{b}_* \right).\\
+\end{align*}\]</span></p>
+<p>该表达式有两部分：高斯分量主要涉及 <span class="math inline">\(\textbf{b}\)</span>，以及反伽玛分量，完全致力于 <span class="math inline">\(\sigma\)</span>。先验数据和数据之间的混合是清晰的。高斯部分的后验协方差矩阵 (<span class="math inline">\(\boldsymbol{\Lambda}_*\)</span>) 是数据的先验形式和二次形式之间的总和。后验均值 <span class="math inline">\(\textbf{b}_*\)</span> 是先前的加权平均值 <span class="math inline">\(\textbf{b}_0\)</span> 和样本估计器 <span class="math inline">\(\hat{\textbf{b}}\)</span>。这种根据数据估计的数量和用户提供的版本的混合通常称为 <strong>收缩</strong>。例如，交叉项的原始矩阵 <span class="math inline">\(\textbf{X}'\textbf{X}\)</span> 向先前收缩 <span class="math inline">\(\boldsymbol{\Lambda}_0\)</span>。这可以看作是 <strong>正则化</strong> 程序：源自数据的纯拟合与一些“外部”成分混合，为最终估计提供某种结构。</p>
+<p>有兴趣的读者还可以看看16.3节 <span class="citation">Greene (<a href="solutions-to-exercises.html#ref-greene2018econometric" role="doc-biblioref">2018</a>)</span> （共轭先验的情况在第 16.3.2 小节中处理）。</p>
+<p>上述公式可能很长并且实施起来存在风险。幸运的是，有一个 R 包（<span class="math inline">\(spBayes\)</span>）使用共轭先验执行线性回归的贝叶斯推理。下面，我们提供一个示例来说明其工作原理。为了简化代码并减少计算时间，我们考虑两个预测变量：市值（规模异常）和市净率（价值异常）。在统计学中， <strong>精度矩阵</strong> 是协方差矩阵的逆矩阵。在参数中，前两个先验与高斯定律相关，后两个先验与逆伽玛分布相关：
+<span class="math display">\[f_\text{invgamma}(x, \alpha, \beta)=\frac{\beta^\alpha}{\Gamma(\alpha)}x^{-1-\alpha}e^{-\frac{\beta}{x}},\]</span>
+其中 <span class="math inline">\(\alpha\)</span> 是形状和 <span class="math inline">\(\beta\)</span> 是规模。</p>
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">prior_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.01</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span><span class="op">)</span>                    <span class="co"># Average value of parameters (prior)</span>
+<span class="va">precision_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">prior_mean</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/solve-methods.html">solve</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># Inverse cov matrix of parameters (prior)</span>
+<span class="va">fit_lmBayes</span> <span class="op">&lt;-</span> <span class="fu">bayesLMConjugate</span><span class="op">(</span>
+    <span class="va">R1M_Usd</span> <span class="op">~</span> <span class="va">Mkt_Cap_3M_Usd</span> <span class="op">+</span> <span class="va">Pb</span>,          <span class="co"># Model: size and value</span>
+    data <span class="op">=</span> <span class="va">testing_sample</span>,                  <span class="co"># Data source, here, the test sample</span>
+    n.samples <span class="op">=</span> <span class="fl">2000</span>,                       <span class="co"># Number of samples used</span>
+    beta.prior.mean <span class="op">=</span> <span class="va">prior_mean</span>,           <span class="co"># Avg prior: size &amp; value rewarded &amp; unit beta</span>
+    beta.prior.precision <span class="op">=</span> <span class="va">precision_mat</span>,   <span class="co"># Precision matrix</span>
+    prior.shape <span class="op">=</span> <span class="fl">0.5</span>,                      <span class="co"># Shape for prior distribution of sigma</span>
+    prior.rate <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>                       <span class="co"># Scale for prior distribution of sigma</span></code></pre></div>
+<p></p>
+<p>在上面的规范中，我们还必须为常量提供先验。默认情况下，我们将其平均值设置为 0.01，相当于 1% 的平均月收益率。一旦模型被估计，我们就可以绘制系数估计的分布。</p>
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_lmBayes</span><span class="op">$</span><span class="va">p.beta.tauSq.samples</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Intercept"</span>, <span class="st">"Size"</span>, <span class="st">"Value"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">coefficient</span>, value <span class="op">=</span> <span class="va">value</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">coefficient</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:lmBayesplot" style="display:block;"></span>
+<img alt="线性回归系数（beta）的分布。" src="ML_factor_files/figure-html/lmBayesplot-1.png" width="320px"/><p class="caption">
+图 9.1：线性回归系数（beta）的分布。
+</p>
+</div>
+<p></p>
+<p>图中常数的分布 <a href="bayes.html#fig:lmBayesplot">9.1</a> 牢牢地靠右且离散度小，因此它是牢靠的正值。对于尺寸系数则相反；它是负的（小公司更有利可图）。关于价值，很难得出结论，分布平衡在零附近：没有明确说明市净率变量。</p>
+</div>
+<div class="section level2" id="naive-bayes-classifier" number="9.4">
+<h2>
+<span class="header-section-number">9.4</span> 朴素贝叶斯分类器<a aria-label="锚" class="anchor" href="#naive-bayes-classifier"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+</p>
+<p>贝叶斯定理也可以很容易地应用于 <strong>分类</strong>。我们根据标签和特征制定它并写下
+<span class="math display" id="eq:naivebayes">\[\begin{equation}
+\tag{9.8}
+P[\textbf{y} | \textbf{X}] = \frac{P[ \textbf{X} | \textbf{y}]P[\textbf{y}]}{P[\textbf{X}]} \propto P[ \textbf{X} | \textbf{y}]P[\textbf{y}],
+\end{equation}\]</span>
+然后将输入矩阵拆分为其列向量 <span class="math inline">\(\textbf{X}=(\textbf{x}_1,\dots,\textbf{x}_K)\)</span>。这产生
+<span class="math display" id="eq:naivebayes2">\[\begin{equation}
+\tag{9.9}
+P[\textbf{y} | \textbf{x}_1,\dots,\textbf{x}_K] \propto P[\textbf{x}_1,\dots,\textbf{x}_K| \textbf{y}]P[\textbf{y}].
+\end{equation}\]</span></p>
+<p>该方法的“朴素”限定来自于对特征的简化假设。<a class="footnote-ref" href="solutions-to-exercises.html#fn19" id="fnref19"><sup>19</sup></a> 如果它们都是相互独立的，那么上式中的似然度可以展开为
+<span class="math display" id="eq:naivebayes3">\[\begin{equation}
+\tag{9.10}
+P[\textbf{y} | \textbf{x}_1,\dots,\textbf{x}_K] \propto P[\textbf{y}]\prod_{k=1}^K P[\textbf{x}_k| \textbf{y}].
+\end{equation}\]</span></p>
+<p>下一步是更具体地说明可能性。这可以通过非参数方式（通过核估计）或常见分布（连续数据的高斯分布，二进制数据的伯努利分布）来完成。在因子投资中，特征是连续的，因此高斯定律更合适：
+<span class="math display">\[P[x_{i,k}=z|\textbf{y}_i= c]=\frac{e^{-\frac{(z-m_c)^2}{2\sigma_c^2}}}{\sigma_c\sqrt{2\pi}},\]</span>
+其中 <span class="math inline">\(c\)</span> 是所修课程的价值 <span class="math inline">\(y\)</span> 和 <span class="math inline">\(\sigma_c\)</span> 和 <span class="math inline">\(m_c\)</span> 是标准误差和平均值 <span class="math inline">\(x_{i,k}\)</span>，条件为 <span class="math inline">\(y_i\)</span> 等于 <span class="math inline">\(c\)</span>。在实践中，每个类都会被跨越，训练集也会被相应地过滤， <span class="math inline">\(\sigma_c\)</span> 和 <span class="math inline">\(m_c\)</span> 被视为样本统计量。这种高斯参数化可能不适合我们的数据集，因为特征是均匀分布的。即使经过调节，分布也不太可能接近高斯分布。从技术上讲，这可以通过双重变换方法来克服。给定一个特征向量 <span class="math inline">\(\textbf{x}_k\)</span> 与经验累积分布函数 <span class="math inline">\(F_{\textbf{x}_k}\)</span>，变量
+<span class="math display" id="eq:transf">\[\begin{equation}
+\tag{9.11}
+\tilde{\textbf{x}}_k=\Phi^{-1}\left(F_{\textbf{x}_k}(\textbf{x}_k) \right),
+\end{equation}\]</span>
+无论何时都会有一个标准的正常法 <span class="math inline">\(F_{\textbf{x}_k}\)</span> 不是病态的。非病理情况是指 cdf 连续且严格递增且观测值位于开区间 (0,1) 内。如果所有特征都是独立的，则变换不应对相关结构产生任何影响。否则，我们参考有关 NORmal-To-Anything (NORTA) 方法的文献（例如，参见 <span class="citation">H. Chen (<a href="solutions-to-exercises.html#ref-chen2001initialization" role="doc-biblioref">2001</a>)</span> 和 <span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2017approximate" role="doc-biblioref">2017</a>)</span>).</p>
+<p>最后，之前的 <span class="math inline">\(P[\textbf{y}]\)</span> 在方程中 <a href="bayes.html#eq:naivebayes3">(9.10)</a> 通常被认为是跨类统一的（<span class="math inline">\(1/K\)</span> 为所有人 <span class="math inline">\(k\)</span>) 或等于样本分布。</p>
+<p>我们用一个简单的例子来说明朴素贝叶斯分类工具。虽然包 <em>e1071</em> 嵌入这样一个分类器， <em>朴素贝叶斯</em> 库提供了更多选项（高斯、伯努利、多项式和非参数似然）。下面，由于特征是均匀分布的，因此变换为 <a href="bayes.html#eq:transf">(9.11)</a> 相当于应用高斯分位数函数（逆 cdf）。</p>
+<p>为了视觉清晰度，我们只使用一小部分特征。</p>
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/majkamichal/naivebayes">naivebayes</a></span><span class="op">)</span>                           <span class="co"># Load package</span>
+<span class="va">gauss_features_train</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>   <span class="co"># Build sample</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="fu">`*`</span><span class="op">(</span><span class="fl">0.999</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>                            <span class="co"># Features smaller than 1</span>
+    <span class="op">+</span> <span class="op">(</span><span class="fl">0.0001</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>                            <span class="co"># Features larger than 0</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>                               <span class="co"># Inverse Gaussian cdf</span>
+    <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span>
+<span class="va">fit_NB_gauss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://majkamichal.github.io/naivebayes//reference/naive_bayes.html">naive_bayes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gauss_features_train</span>,      <span class="co"># Transformed features</span>
+                            y <span class="op">=</span> <span class="va">training_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span><span class="op">)</span> <span class="co"># Label</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/layout.html">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span>, <span class="fl">4</span>, <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,     <span class="co"># Organize graphs</span>
+       widths<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.9</span>,<span class="fl">0.45</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit_NB_gauss</span>, prob <span class="op">=</span> <span class="st">"conditional"</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:NB" style="display:block;"></span>
+<img alt="预测变量的分布，以标签类别为条件。 TRUE 是当实例对应于高于中位数收益率而 FALSE 对应于低于中位数收益率时。" src="ML_factor_files/figure-html/NB-1.png" width="500px"/><p class="caption">
+图 9.2：预测变量的分布，以标签类别为条件。 TRUE 是当实例对应于高于中位数收益率而 FALSE 对应于低于中位数收益率时。
+</p>
+</div>
+<p></p>
+<p>图中的图 <a href="bayes.html#fig:NB">9.2</a> 根据标签的每个值显示特征的分布。本质上，这些是密度 <span class="math inline">\(P[\textbf{x}_k| \textbf{y}]\)</span>。对于每个特征，两个分布都非常相似。</p>
+<p>像往常一样，一旦模型经过训练，就可以评估预测的准确性。</p>
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">gauss_features_test</span> <span class="op">&lt;-</span> <span class="va">testing_sample</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> 
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="fu">`*`</span><span class="op">(</span><span class="fl">0.999</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="op">+</span> <span class="op">(</span><span class="fl">0.0001</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_NB_gauss</span>, <span class="va">gauss_features_test</span><span class="op">)</span> <span class="op">==</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.4956985</code></pre>
+<p></p>
+<p>分类器的性能并不令人满意，因为它的性能低于随机猜测。</p>
+</div>
+<div class="section level2" id="BART" number="9.5">
+<h2>
+<span class="header-section-number">9.5</span> 贝叶斯加法树<a aria-label="锚" class="anchor" href="#BART"><i class="fas fa-link"></i></a>
+</h2>
+<p></p>
+<div class="section level3" id="general-formulation" number="9.5.1">
+<h3>
+<span class="header-section-number">9.5.1</span> 一般配方<a aria-label="锚" class="anchor" href="#general-formulation"><i class="fas fa-link"></i></a>
+</h3>
+<p>贝叶斯加性回归树（BARTs）是一种混合了贝叶斯思维和回归树的集成技术。在精神上，它们与本章中看到的树群很接近 <a href="trees.html#trees">6</a>，但它们在实现上有很大不同。在 BARTs 中，就像贝叶斯回归一样，正则化来自先验。文章原文是 <span class="citation">Chipman, George, and McCulloch (<a href="solutions-to-exercises.html#ref-chipman2010bart" role="doc-biblioref">2010</a>)</span> 实现（在 R 中）如下 <span class="citation">Sparapani, Spanbauer, and McCulloch (<a href="solutions-to-exercises.html#ref-sparapani2019r" role="doc-biblioref">2019</a>)</span>。 BARTs已用于 <span class="citation">Shu and Tiwari (<a href="solutions-to-exercises.html#ref-shu2021identifying" role="doc-biblioref">2021</a>)</span> 以确定哪些特征被定价。作者报告说，股票市值是唯一重要的因素。</p>
+<p>形式上，该模型是以下内容的聚合 <span class="math inline">\(M\)</span> 模型，我们写为
+<span class="math display" id="eq:BART">\[\begin{equation}
+\tag{9.12}
+y = \sum_{m=1}^M\mathcal{T}_m(q_m,\textbf{w}_m, \textbf{x}) + \epsilon,
+\end{equation}\]</span>
+其中 <span class="math inline">\(\epsilon\)</span> 是具有方差的高斯噪声 <span class="math inline">\(\sigma^2\)</span>，以及 <span class="math inline">\(\mathcal{T}_m=\mathcal{T}_m(q_m,\textbf{w}_m, \textbf{x})\)</span> 是具有结构的决策树 <span class="math inline">\(q_m\)</span> 和权重向量 <span class="math inline">\(\textbf{w}_m\)</span>。这种树的分解是我们用于提升树的分解，如图所示 <a href="trees.html#fig:treeq">6.5</a>. <span class="math inline">\(q_m\)</span> 对所有分割（为分割选择的变量和分割的级别）和向量进行编码 <span class="math inline">\(\textbf{w}_m\)</span> 对应于叶值（在终端节点）。</p>
+<p>在宏观层面上，BARTs可以被视为传统的贝叶斯对象，其中参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 所有未知数都通过编码 <span class="math inline">\(q_m\)</span>, <span class="math inline">\(\textbf{w}_m\)</span> 和 <span class="math inline">\(\sigma^2\)</span> 重点是确定后验
+<span class="math display" id="eq:bartpost">\[\begin{equation}
+\tag{9.13}
+\left(q_m,\textbf{w}_m,\sigma^2\right) | (\textbf{X}, \textbf{Y}).
+\end{equation}\]</span></p>
+<p>给定特定形式的先验 <span class="math inline">\(\left(q_m,\textbf{w}_m,\sigma^2\right)\)</span>，该算法使用 Metropolis-Hastings 的组合来绘制参数 <em>和</em> 吉布斯采样器。</p>
+</div>
+<div class="section level3" id="priors" number="9.5.2">
+<h3>
+<span class="header-section-number">9.5.2</span> 先验者<a aria-label="锚" class="anchor" href="#priors"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+树模型中先验的定义是微妙而复杂的。第一个重要假设是独立性：之间的独立性 <span class="math inline">\(\sigma^2\)</span> 以及树之间（即树对之间）的所有其他参数和独立性 <span class="math inline">\((q_m,\textbf{w}_m)\)</span> 和 <span class="math inline">\((q_n,\textbf{w}_n)\)</span> 为了 <span class="math inline">\(m\neq n\)</span>。这个假设使得 BARTs 在精神上更接近随机森林，而距离提升树更远。这种独立性意味着</p>
+<p><span class="math display">\[P(\left(q_1,\textbf{w}_1\right),\dots,\left(q_M,\textbf{w}_M\right),\sigma^2)=P(\sigma^2)\prod_{m=1}^MP\left(q_m,\textbf{w}_m\right).\]</span></p>
+<p>此外，习惯上（为了简单起见）将树的结构分开（<span class="math inline">\(q_m\)</span>）和终端权重（<span class="math inline">\(\textbf{w}_m\)</span>），这样通过贝叶斯条件</p>
+<p><span class="math display" id="eq:bart1">\[\begin{equation}
+\tag{9.14}
+P(\left(q_1,\textbf{w}_1\right),\dots,\left(q_M,\textbf{w}_M\right),\sigma^2)=\underbrace{P(\sigma^2)}_{\text{noise term}}\prod_{m=1}^M\underbrace{P\left(\textbf{w}_m|q_m\right)}_{\text{tree weights}}\underbrace{P(q_m)}_{\text{tree struct.}}
+\end{equation}\]</span></p>
+<p>仍然需要为这三个部分中的每一个制定假设。</p>
+<p>我们从树木的结构开始， <span class="math inline">\(q_m\)</span>。树由它们的分裂（在节点处）定义，这些分裂由分裂变量和分裂级别来表征。首先，树的大小被参数化，使得深度处的节点 <span class="math inline">\(d\)</span> 是非终结符，概率为
+<span class="math display" id="eq:bartnode">\[\begin{equation}
+\tag{9.15}
+\alpha(1+d)^{-\beta}, \quad \alpha \in (0,1), \quad \beta &gt;0.
+\end{equation}\]</span>
+作者建议设置 <span class="math inline">\(\alpha = 0.95\)</span> 和 <span class="math inline">\(\beta=2\)</span>。这给出了拥有 1 个节点的概率为 5%，拥有 2 个节点的概率为 55%，拥有 3 个节点的概率为 28%，拥有 4 个节点的概率为 9%，拥有 5 个节点的概率为 3%。因此，目的是迫使结构相对较浅。</p>
+<p>其次，分割变量的选择是由广义伯努利（分类）分布驱动的，该分布定义了选择一个特定特征的几率。在原始论文中由 <span class="citation">Chipman, George, and McCulloch (<a href="solutions-to-exercises.html#ref-chipman2010bart" role="doc-biblioref">2010</a>)</span>，概率向量是均匀的（每个预测变量被选择用于分割的几率相同）。该向量也可以是随机的，并且可以从更灵活的狄利克雷分布中采样。分割级别统一绘制在所选预测变量的一组可能值上。</p>
+<p>确定了树结构的先验 <span class="math inline">\(q_m\)</span>，仍然需要修复叶子处的终端值（<span class="math inline">\(\textbf{w}_m|q_m\)</span>）。假设所有叶子的权重遵循高斯分布 <span class="math inline">\(\mathcal{N}(\mu_\mu,\sigma_\mu^2)\)</span>, 其中 <span class="math inline">\(\mu_\mu=(y_\text{min}+y_\text{max})/2\)</span> 是标签值范围的中心。方差 <span class="math inline">\(\sigma_\mu^2\)</span> 选择使得 <span class="math inline">\(\mu_\mu\)</span> 加减两次 <span class="math inline">\(\sigma_\mu^2\)</span> 覆盖训练数据集中观察到的范围的 95%。这些是默认值，用户可以更改。</p>
+<p>最后，出于类似于线性回归的计算目的，参数 <span class="math inline">\(\sigma^2\)</span> （方差为 <span class="math inline">\(\epsilon\)</span> 在 <a href="bayes.html#eq:BART">(9.12)</a>) 假设遵循反伽马定律 <span class="math inline">\(\text{IG}(\nu/2,\lambda \nu/2)\)</span> 类似于贝叶斯回归中使用的方法。默认情况下，参数是根据数据计算的，因此分布 <span class="math inline">\(\sigma^2\)</span> 是现实的并且可以防止过度拟合。有关此主题的更多详细信息，请参阅原始文章第 2.2.4 节。</p>
+<p>总而言之，除了 <span class="math inline">\(M\)</span> （树的数量），先验取决于少量参数： <span class="math inline">\(\alpha\)</span> 和 <span class="math inline">\(\beta\)</span> （对于树结构）， <span class="math inline">\(\mu_\mu\)</span> 和 <span class="math inline">\(\sigma_\mu^2\)</span> （对于树的权重）和 <span class="math inline">\(\nu\)</span> 和 <span class="math inline">\(\lambda\)</span> （对于噪声项）。</p>
+</div>
+<div class="section level3" id="sampling-and-predictions" number="9.5.3">
+<h3>
+<span class="header-section-number">9.5.3</span> 抽样和预测<a aria-label="锚" class="anchor" href="#sampling-and-predictions"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+后验分布为 <a href="bayes.html#eq:bartpost">(9.13)</a> 无法通过分析获得，但模拟是模型的有效捷径 <a href="bayes.html#eq:BART">(9.12)</a>。正如吉布斯和大都会-黑斯廷斯抽样一样，模拟的分布预计会收敛到所寻求的后验。经过一些老化样本后，对新观察到的集合进行预测 <span class="math inline">\(\textbf{x}_*\)</span> 只是模拟预测的平均值（或中值）。如果我们假设 <span class="math inline">\(S\)</span> 老化后的模拟，则平均值等于
+<span class="math display">\[\tilde{y}(\textbf{x}_*):=\frac{1}{S}\sum_{s=1}^S\sum_{m=1}^M\mathcal{T}_m\left(q_m^{(s)},\textbf{w}_m^{(s)}, \textbf{x}_*\right).\]</span></p>
+<p>复杂的部分自然是生成模拟。每棵树都使用 Metropolis-Hastings 方法进行采样：提出了一棵树，但它仅在某些（可能是随机的）标准下替换现有的树。然后以类似吉布斯的方式重复此过程。</p>
+<p>让我们从 MH 构建块开始。我们试图模拟条件分布</p>
+<p><span class="math display">\[(q_m,\textbf{w}_m) \ | \ (q_{-m},\textbf{w}_{-m},\sigma^2, \textbf{y}, \textbf{x}),\]</span></p>
+<p>其中 <span class="math inline">\(q_{-m}\)</span> 和 <span class="math inline">\(\textbf{w}_{-m}\)</span> 收集除树号之外的所有树的结构和权重 <span class="math inline">\(m\)</span>。 BART 中的一项杰作是简化上述吉布斯画法
+<span class="math display">\[(q_m,\textbf{w}_m) \ | \ (\textbf{R}_{m},\sigma^2 ),\]</span>
+其中 <span class="math inline">\(\textbf{R}_{m}=\textbf{y}-\sum_{l \neq m}\mathcal{T}_l(q_l,\textbf{w}_l, \textbf{x})\)</span> 是排除预测的部分残差 <span class="math inline">\(m^{th}\)</span> 树。</p>
+<p>新的 MH 提案 <span class="math inline">\(q_m\)</span> 基于前一棵树，并且该树存在三种可能（且随机）的更改：<br/>
+- 生长终端节点（通过添加补充叶子来增加树的复杂性）；<br/>
+- 修剪一对终端节点（相反的操作：降低复杂度）；<br/>
+- 改变分割规则。</p>
+<p>为了简单起见，第三个选项通常被排除在外。一旦树结构被定义（即采样），终端权重将根据高斯分布独立绘制 <span class="math inline">\(\mathcal{N}(\mu_\mu, \sigma_\mu^2)\)</span>.</p>
+<p>树被采样后，MH 原则要求根据某种概率接受或拒绝它。该概率随着新树增加模型可能性的可能性而增加。其详细计算比较繁琐，我们参考《 <span class="citation">Sparapani, Spanbauer, and McCulloch (<a href="solutions-to-exercises.html#ref-sparapani2019r" role="doc-biblioref">2019</a>)</span> 有关此事的详细信息。</p>
+<p>现在，我们必须概述总体吉布斯程序。首先，该算法从简单节点的树开始。然后，指定循环次数包括以下内容 <em>顺序的</em> 步骤：</p>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="55%"/>
+<col width="44%"/>
+</colgroup>
+<thead><tr class="header">
+<th align="center">步骤</th>
+<th align="left">任务</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="left">样品 <span class="math inline">\((q_1,\textbf{w}_1) \ | \ (\textbf{R}_{1},\sigma^2 )\)</span>;</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="left">样品 <span class="math inline">\((q_2,\textbf{w}_2) \ | \ (\textbf{R}_{2},\sigma^2 )\)</span>;</td>
+</tr>
+<tr class="odd">
+<td align="center">…</td>
+<td align="left">…;</td>
+</tr>
+<tr class="even">
+<td align="center">米</td>
+<td align="left">样品 <span class="math inline">\((q_m,\textbf{w}_m) \ | \ (\textbf{R}_{m},\sigma^2 )\)</span>;</td>
+</tr>
+<tr class="odd">
+<td align="center">…</td>
+<td align="left">…;</td>
+</tr>
+<tr class="even">
+<td align="center">中号</td>
+<td align="left">样品 <span class="math inline">\((q_M,\textbf{w}_M) \ | \ (\textbf{R}_{M},\sigma^2 )\)</span>; （最后一棵树）</td>
+</tr>
+<tr class="odd">
+<td align="center">M+1</td>
+<td align="left">样品 <span class="math inline">\(\sigma^2\)</span> 给定全部残差 <span class="math inline">\(\textbf{R}=\textbf{y}-\sum_{l=1}^M\mathcal{T}_l(q_l,\textbf{w}_l, \textbf{x})\)</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>每一步 <span class="math inline">\(m\)</span>，残差 <span class="math inline">\(\textbf{R}_{m}\)</span> 使用步骤中的值进行更新 <span class="math inline">\(m-1\)</span>。我们用图来说明这个过程 <a href="bayes.html#fig:bartfig">9.3</a> 其中 <span class="math inline">\(M=3\)</span>。在步骤 1 中，建议对第一棵树进行分区，该树是一个简单节点。在这种特殊情况下，该树被接受。在该示意图中，为了简单起见，省略了终端权重。在步骤 2 中，为树提出了另一个分区，但被拒绝了。第三步，第三个提议被接受。第三步之后，新的值 <span class="math inline">\(\sigma^2\)</span> 抽出后，新一轮吉布斯抽样即可开始。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:bartfig" style="display:block;"></span>
+<img alt="MH/BARTs 吉布斯采样图。在步骤 2 中，提出的树未被接受。" src="images/bart.png" width="260px"/><p class="caption">
+图 9.3： MH/BARTs 吉布斯采样图。在步骤 2 中，提出的树未被接受。
+</p>
+</div>
+</div>
+<div class="section level3" id="code" number="9.5.4">
+<h3>
+<span class="header-section-number">9.5.4</span> 代码<a aria-label="锚" class="anchor" href="#code"><i class="fas fa-link"></i></a>
+</h3>
+<p>有几个实现 BART 方法的 R 包： <em>BART</em>, <em>巴特机</em> 和一个旧的（原来的）， <em>贝叶斯树</em>。第一个非常高效，因此我们使用它。我们只使用几个参数，例如功率和基数，它们是 <span class="math inline">\(\beta\)</span> 和 <span class="math inline">\(\alpha\)</span> 定义于 <a href="bayes.html#eq:bartnode">(9.15)</a>。该程序有点冗长，并提供了一些参数详细信息。</p>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BART</span><span class="op">)</span>                                                           <span class="co"># Load package</span>
+<span class="va">fit_bart</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BART/man/gbart.html">gbart</a></span><span class="op">(</span>                                                      <span class="co"># Main function</span>
+    x.train <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">training_sample</span>, <span class="va">features_short</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>        <span class="co"># Training features</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span>, 
+    y.train <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">training_sample</span>, <span class="va">R1M_Usd</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>               <span class="co"># Training label</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span> ,        
+    x.test <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">testing_sample</span>, <span class="va">features_short</span><span class="op">)</span>  <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>         <span class="co"># Testing features</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span>,  
+    type <span class="op">=</span> <span class="st">"wbart"</span>,                                          <span class="co"># Option: label is continuous</span>
+    ntree <span class="op">=</span> <span class="fl">20</span>,                                              <span class="co"># Number of trees in the model </span>
+    nskip <span class="op">=</span> <span class="fl">100</span>,                                             <span class="co"># Size of burn-in sample</span>
+    ndpost <span class="op">=</span> <span class="fl">200</span>,                                            <span class="co"># Number of posteriors drawn</span>
+    power <span class="op">=</span> <span class="fl">2</span>,                                               <span class="co"># beta in the tree structure prior</span>
+    base <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>                                             <span class="co"># alpha in the tree structure prior</span></code></pre></div>
+<pre><code>## *****Calling gbart: type=1
+## *****Data:
+## data:n,p,np: 198128, 7, 70208
+## y1,yn: -0.049921, 0.024079
+## x1,x[n*p]: 0.010000, 0.810000
+## xp1,xp[np*p]: 0.270000, 0.880000
+## *****Number of Trees: 20
+## *****Number of Cut Points: 100 ... 100
+## *****burn,nd,thin: 100,200,1
+## *****Prior:beta,alpha,tau,nu,lambda,offset: 2,0.95,1.57391,3,2.84908e-31,0.0139209
+## *****sigma: 0.000000
+## *****w (weights): 1.000000 ... 1.000000
+## *****Dirichlet:sparse,theta,omega,a,b,rho,augment: 0,0,1,0.5,1,7,0
+## *****printevery: 100
+## 
+## MCMC
+## done 0 (out of 300)
+## done 100 (out of 300)
+## done 200 (out of 300)
+## time: 31s
+## trcnt,tecnt: 200,200</code></pre>
+<p></p>
+<p>模型训练完成后，<a class="footnote-ref" href="solutions-to-exercises.html#fn20" id="fnref20"><sup>20</sup></a> 我们评估了它的性能。我们简单地计算命中率。预测嵌入在拟合变量中，名称为“<em>测试</em>’.</p>
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">fit_bart</span><span class="op">$</span><span class="va">yhat.test</span> <span class="op">*</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 0.5432794</code></pre>
+<p></p>
+<p>性能 <em>似乎</em> 合理但绝不令人印象深刻。所有采样树的数据都可以在 <em>fit_bart</em> 变量。尽管如此，它仍然具有复杂的结构（就像树的情况一样）。我们可以提取的最简单的信息是 <span class="math inline">\(\sigma\)</span> 在所有 300 次模拟中（见图 <a href="bayes.html#fig:bartsigplot">9.4</a>).</p>
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>simulation <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">300</span>, sigma <span class="op">=</span> <span class="va">fit_bart</span><span class="op">$</span><span class="va">sigma</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">simulation</span>, y <span class="op">=</span> <span class="va">sigma</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:bartsigplot" style="display:block;"></span>
+<img alt="BART 模拟中 sigma 的演变。" src="ML_factor_files/figure-html/bartsigplot-1.png" width="384"/><p class="caption">
+图 9.4：BART 模拟中 sigma 的演变。
+</p>
+</div>
+<p>我们看到，随着样本数量的增加， <span class="math inline">\(\sigma\)</span> 减少。</p>
+</div>
+</div>
+</div>
+
+
+
+.container-fluid main {
+max-width: 60rem;
+}
+
+<div class="chapter-nav">
+<div class="prev"><a href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></div>
+<div class="next"><a href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页目录" data-toggle="toc" id="toc"><h2>本页目录</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#bayes"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li><a class="nav-link" href="#the-bayesian-framework"><span class="header-section-number">9.1</span> 贝叶斯框架</a></li>
+<li>
+<a class="nav-link" href="#bayesian-sampling"><span class="header-section-number">9.2</span> 贝叶斯采样</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#gibbs-sampling"><span class="header-section-number">9.2.1</span> 吉布斯抽样</a></li>
+<li><a class="nav-link" href="#metropolis-hastings-sampling"><span class="header-section-number">9.2.2</span> 大都会-黑斯廷斯抽样</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#bayesian-linear-regression"><span class="header-section-number">9.3</span> 贝叶斯线性回归</a></li>
+<li><a class="nav-link" href="#naive-bayes-classifier"><span class="header-section-number">9.4</span> 朴素贝叶斯分类器</a></li>
+<li>
+<a class="nav-link" href="#BART"><span class="header-section-number">9.5</span> 贝叶斯加法树</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#general-formulation"><span class="header-section-number">9.5.1</span> 一般配方</a></li>
+<li><a class="nav-link" href="#priors"><span class="header-section-number">9.5.2</span> 先验者</a></li>
+<li><a class="nav-link" href="#sampling-and-predictions"><span class="header-section-number">9.5.3</span> 抽样和预测</a></li>
+<li><a class="nav-link" href="#code"><span class="header-section-number">9.5.4</span> 代码</a></li>
+</ul>
+</li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div>
+<!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>"<strong>因子投资中的机器学习</strong>” 由 Guillaume Coqueret 和 Tony Guida 编写。最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

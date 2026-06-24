@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 2 章 引言 |因子投资机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 2 章 引言 |因子投资机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 2 章 引言 |因子投资机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="本章概述因子投资机器学习中的预测建模原则，以及数据、经济框架和样本外评估的重要性。" name="description"/>
+<meta content="本章概述因子投资机器学习中的预测建模原则，以及数据、经济框架和样本外评估的重要性。" property="og:description"/>
+<meta content="本章概述因子投资机器学习中的预测建模原则，以及数据、经济框架和样本外评估的重要性。" name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到正文</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1><a href="index.html" title="">因子投资机器学习</a></h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">引言</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 记号与数据</a></li>
+<li><a class="active" href="intro.html"><span class="header-section-number">2</span> 简介</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督式算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 最小方差投资组合的惩罚回归和稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 基于树的方法</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习题答案</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="intro" number="2">
+<h1><span class="header-section-number">2</span> 简介<a aria-label="锚点" class="anchor" href="#intro"><i class="fas fa-link"></i></a></h1>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>结论常常与引言相呼应。本章是在本书写作的最后完成的。它概述的原则和想法可能比随后涵盖的技术细节的总和更相关。当结果令人失望时，我们建议读者远离算法，回到本节，以更广泛的视角了解预测建模中的一些问题。</p>
+<div class="section level2" id="context" number="2.1">
+<h2><span class="header-section-number">2.1</span> 上下文<a aria-label="锚点" class="anchor" href="#context"><i class="fas fa-link"></i></a></h2>
+<p>机器学习在因子投资中的兴起源于三个有利发展的融合：数据可用性、计算能力和经济基础。</p>
+<p>首先，<strong>数据</strong>。如今，彭博和路透社等经典供应商的竞争环境已被细分领域参与者和聚合平台入侵。此外，高频数据和衍生品报价已成为主流。因此，公司特定的属性很容易汇集，而且通常成本低廉。这意味着 <a href="intro.html#eq:ML">(2.1)</a> 中的 <span class="math inline">\(\mathbf{X}\)</span> 的大小现在足够大，可以输入机器学习算法中。可以达到的数量级（2019 年）如下：对数千只股票（至少在美国上市）进行数百个月的观察，涵盖数百个属性。这形成了包含数千万个点的数据集。虽然这是一个相当高的数字，但我们强调，时间深度可能是弱点，并且在未来几十年内仍将如此，因为会计数据仅按季度发布。不用说，这个缺点对于高频策略来说并不成立。</p>
+<p>二、<strong>计算能力</strong>，既通过硬件又通过软件。存储和处理速度不再是技术障碍，由于主要参与者（亚马逊、微软、IBM 和谷歌）和较小参与者（Rackspace、Techila）托管的服务，模型甚至可以在云上运行。在软件方面，开源已成为常态，由企业（Google 的 TensorFlow 和 Keras、Facebook 的 PyTorch、h2o 等）、大学（INRIA 的 Scikit-Learn、斯坦福大学的 CoreNLP、宾夕法尼亚大学的 NLTK）和小型研究人员小组（caret、xgboost、tidymodels 列出仅举两例）资助。因此，ML 不再是少数专家计算机科学家的私人领地，相反，任何愿意学习和编码的人都可以访问它。</p>
+<p>最后，<strong>经济框架</strong>。金融领域的机器学习应用最初由计算机科学家和信息系统专家（例如 <span class="citation">Braun and Chandler (<a href="solutions-to-exercises.html#ref-braun1987predicting" role="doc-biblioref">1987</a>)</span>、<span class="citation">White (<a href="solutions-to-exercises.html#ref-white1988economic" role="doc-biblioref">1988</a>)</span>）引入，不久之后就被金融经济学学者（<span class="citation">Bansal and Viswanathan (<a href="solutions-to-exercises.html#ref-bansal1993no" role="doc-biblioref">1993</a>)</span>）和对冲基金（参见例如 <span class="citation">Zuckerman (<a href="solutions-to-exercises.html#ref-zuckerman2019man" role="doc-biblioref">2019</a>)</span>）所利用。随后，非线性关系在资产定价中变得更加主流（<span class="citation">Freeman and Tse (<a href="solutions-to-exercises.html#ref-freeman1992nonlinear" role="doc-biblioref">1992</a>)</span>、<span class="citation">Bansal, Hsieh, and Viswanathan (<a href="solutions-to-exercises.html#ref-bansal1993new" role="doc-biblioref">1993</a>)</span>）。这些贡献开始为自 2010 年以来蓬勃发展的更强大的方法铺平道路，本书通篇都提到了这些方法。</p>
+<p>在 <span class="citation">R. Arnott, Harvey, and Markowitz (<a href="solutions-to-exercises.html#ref-arnott2019backtesting" role="doc-biblioref">2019</a>)</span> 的综合性论文中，第一个建议是依赖经济上有意义的模型。我们同意这一立场，并且我们在本书中做出的唯一假设是未来收益率取决于公司特征。这些特征与未来收益率之间的关系在很大程度上是未知的，并且可能随时间变化。这就是机器学习有用的原因：检测已记录资产定价异象之外的一些隐藏模式。此外，动态训练可以适应不断变化的市场条件。</p>
+</div>
+<div class="section level2" id="portfolio-construction-the-workflow" number="2.2">
+<h2><span class="header-section-number">2.2</span> 投资组合构建：工作流程<a aria-label="锚点" class="anchor" href="#portfolio-construction-the-workflow"><i class="fas fa-link"></i></a></h2>
+<p>建立成功的投资组合策略需要许多步骤。本书涵盖了其中的许多内容，但主要关注预测部分。事实上，大多数时候配置资产都需要形成判断，从而预测哪些资产会表现良好，哪些资产不会。在本书中，我们主要采用监督学习来预测横截面收益率。监督学习中的基线方程，</p>
+<p><span class="math display" id="eq:ML">\[\begin{equation}
+\mathbf{y}=f(\mathbf{X})+\mathbf{\epsilon},
+\tag{2.1}
+\end{equation}\]</span></p>
+<p>用金融术语表示为</p>
+<p><span class="math display" id="eq:MLfin">\[\begin{equation}
+\mathbf{r}_{t+1,n}=f(\mathbf{x}_{t,n})+\mathbf{\epsilon}_{t+1,n},
+\tag{2.2}
+\end{equation}\]</span>
+其中，<span class="math inline">\(f(\mathbf{x}_{t,n})\)</span>可以看作是在时间<span class="math inline">\(t\)</span>计算出的时间<span class="math inline">\(t+1\)</span>的<strong>预期收益率</strong>，即<span class="math inline">\(\mathbb{E}_t[r_{t+1,n}]\)</span>。请注意，该模型是所有资产 <strong> 共同的 </strong>（<span class="math inline">\(f\)</span> 未由 <span class="math inline">\(n\)</span> 索引），因此它与面板方法具有相似性。</p>
+<p>建立准确的预测需要注意上述方程中的 <strong>所有</strong> 项。按时间顺序，第一步是收集数据并对其进行处理（请参阅章节 <a href="Data.html#Data">4</a>）。据我们所知，唯一的共识是，在 <span class="math inline">\(\textbf{x}\)</span> 方面，特征应包括文献中报告的经典预测变量：市值、会计比率、风险度量、动量代理（参见章节 <a href="factor.html#factor">3</a>）。对于因变量，许多研究人员和从业者都使用月收益率，但其他期限的样本外表现可能更好。</p>
+<p>虽然人们很容易认为最关键的部分是 <span class="math inline">\(f\)</span> 的选择（它在数学上是最复杂的），但我们相信输入（即变量）的选择和工程至少同样重要。 <span class="math inline">\(f\)</span> 的常用建模系列在 <a href="lasso.html#lasso">5</a> 至 <a href="bayes.html#bayes">9</a> 章节中介绍。最后，错误 <span class="math inline">\(\mathbf{\epsilon}_{t+1,n}\)</span> 经常被忽视。人们认为普通二次规划是最好的方法（当然是最常见的！），因此主流目标是最小化平方误差。事实上，其他选项可能是更明智的选择（例如参见第 <a href="NN.html#custloss">7.4.3</a> 节）。</p>
+<p>即使图 <a href="intro.html#fig:figscheme2">2.1</a> 所示的整个过程看起来非常连续，但将其视为 <strong>一体化</strong> 更为明智。所有步骤都是相互交织的，每个部分都不应该独立于其他部分进行处理。<a class="footnote-ref" href="solutions-to-exercises.html#fn5" id="fnref5"><sup>5</sup></a> 问题的全局框架至关重要，从预测变量的选择到算法系列，更不用说投资组合加权方案了（后者请参阅章节 <a href="backtest.html#backtest">12</a>）。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:figscheme2" style="display:block;"></span>
+<img alt="简化基于机器学习的投资组合构建工作流程。" src="images/scheme2.png" width="794"/><p class="caption">图 2.1：基于机器学习的投资组合构建的简化工作流程。</p>
+</div>
+</div>
+<div class="section level2" id="machine-learning-is-no-magic-wand" number="2.3">
+<h2><span class="header-section-number">2.3</span> 机器学习不是魔杖<a aria-label="锚点" class="anchor" href="#machine-learning-is-no-magic-wand"><i class="fas fa-link"></i></a></h2>
+<p>预测的内在难点在于它们依赖于 <strong>过去</strong> 数据来推断有关 <strong> 随后的 </strong> 波动的模式。任何预测者都或多或少明确地希望过去将成为未来的良好近似。不用说，这是一个美好愿望；总的来说，预测效果很差。令人惊讶的是，这并不太依赖于计量经济学工具的复杂程度。事实上，启发式猜测往往很难被击败。</p>
+<!--Hard to translate computer vision or textual ML into financial predictions. -->
+<p>为了说明这个悲伤的事实，我们在 <a href="lasso.html#lasso">5</a> 到 <a href="NN.html#NN">7</a> 章中详细介绍的基线算法最多只能产生平庸的结果。这是<strong>故意做的</strong>。这迫使读者明白，盲目地将数据和参数提供给编码函数很少足以达到令人满意的样本外精度。</p>
+<p>下面，我们总结了我们在金融机器学习探索之旅中学到的一些要点。</p>
+<ul>
+<li>第一点是<strong>因果关系</strong>是关键。如果能够识别出<span class="math inline">\(X \rightarrow y\)</span>，其中<span class="math inline">\(y\)</span>是预期收益率，那么问题就解决了。不幸的是，因果关系很难揭示。<br/></li>
+<li>因此，研究人员大部分时间都在使用简单的 <strong>相关</strong> 模式，这些模式的信息量和鲁棒性要差得多。<br/></li>
+<li>与此相关的是，金融数据集非常嘈杂。从<strong>中提取信号</strong>是一项艰巨的任务。 <strong>无套利</strong>推理意味着，如果一个简单的模式产生持久的利润，它就会机械地迅速消失。<br/></li>
+<li><span class="citation">Wolpert (<a href="solutions-to-exercises.html#ref-wolpert1992connection" role="doc-biblioref">1992a</a>)</span> 的免费午餐定理要求分析师对模型提出看法。这就是为什么经济或 <strong> 计量经济框架 </strong> 是关键。关于因变量和解释特征所做的假设和选择是决定性的。由此推论，数据是关键。给予模型的输入可能比模型本身的选择重要得多。<br/></li>
+<li>为了最大限度地提高样本外效率，正确的问题可能是套用杰夫·贝佐斯的话：什么是不会改变的？ <strong>持久</strong>系列更有可能揭示持久的模式。<br/></li>
+<li>每个人都会犯错误。循环或变量索引中的错误是整个过程的一部分。重要的是从这些失误中学习<strong>。</strong></li>
+</ul>
+<p>最后，我们提醒读者这个显而易见的事实：没有任何东西可以取代 <strong>实践</strong>。收集和清理数据、编码回测、为机器学习模型调参、测试权重方案、调试、重新开始：这些都是绝对不可或缺的步骤和任务，必须反复进行。经验无可替代。</p>
+</div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="notdata.html"><span class="header-section-number">1</span> 记号与数据</a></div>
+<div class="next"><a href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页" data-toggle="toc" id="toc"><h2>本页</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#intro"><span class="header-section-number">2</span> 简介</a></li>
+<li><a class="nav-link" href="#context"><span class="header-section-number">2.1</span> 上下文</a></li>
+<li><a class="nav-link" href="#portfolio-construction-the-workflow"><span class="header-section-number">2.2</span> 投资组合构建：工作流程</a></li>
+<li><a class="nav-link" href="#machine-learning-is-no-magic-wand"><span class="header-section-number">2.3</span> 机器学习没有魔杖</a></li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>“<strong>用于因子投资机器学习</strong>”由 Guillaume Coqueret 和 Tony Guida 撰写。它最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

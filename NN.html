@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 7 章 神经网络 | 因子投资中的机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 7 章 神经网络 | 因子投资中的机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 7 章 神经网络 | 因子投资中的机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content=".container-fluid main { max-width: 60rem;神经网络（NNs）是一个非常丰富和复杂的主题。在本章中，我们介绍最简单的背后的简单想法和概念......" name="description"/>
+<meta content=".container-fluid main { max-width: 60rem;神经网络（NNs）是一个非常丰富和复杂的主题。在本章中，我们介绍最简单的背后的简单想法和概念......" property="og:description"/>
+<meta content=".container-fluid main { max-width: 60rem;神经网络（NNs）是一个非常丰富和复杂的主题。在本章中，我们介绍最简单的背后的简单想法和概念......" name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">因子投资中的机器学习</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">引言</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号与数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 引言</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 树模型</a></li>
+<li><a class="active" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性与非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 习题解答</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="NN" number="7">
+<h1>
+<span class="header-section-number">7</span> 神经网络<a aria-label="锚" class="anchor" href="#NN"><i class="fas fa-link"></i></a>
+</h1>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>神经网络（NNs）是一个非常丰富和复杂的主题。在本章中，我们介绍 NNs 最简单架构背后的简单思想和概念。对于 NN 特性的更详尽的处理，我们参考了专着 <span class="citation">Haykin (<a href="solutions-to-exercises.html#ref-haykin2009neural" role="doc-biblioref">2009</a>)</span>, <span class="citation">K.-L. Du and Swamy (<a href="solutions-to-exercises.html#ref-du2013neural" role="doc-biblioref">2013</a>)</span> 和 <span class="citation">Goodfellow et al. (<a href="solutions-to-exercises.html#ref-goodfellow2016deep" role="doc-biblioref">2016</a>)</span>。后者可在线免费获取：www.deeplearningbook.org。对于实用的介绍，我们推荐这本伟大的书 <span class="citation">Chollet (<a href="solutions-to-exercises.html#ref-chollet2017deep" role="doc-biblioref">2017</a>)</span>.</p>
+<p>首先，我们简要评论一下“神经网络”这个资格。大多数专家都认为这个术语选择得不太好，因为 NNs 与人脑的工作原理关系不大（我们对此知之甚少）。这解释了为什么它们经常被称为“人工神经网络”——为了符号简单起见，我们不使用该形容词。因为我们认为它更合适，我们回顾一下 François Chollet 给出的 NNs 的定义：“<em>可微分、参数化几何函数链，通过梯度下降进行训练（通过链式法则获得梯度）</em>”.</p>
+<p>神经网络在金融领域的早期参考文献是 <span class="citation">Bansal and Viswanathan (<a href="solutions-to-exercises.html#ref-bansal1993no" role="doc-biblioref">1993</a>)</span> 和 <span class="citation">Eakins, Stansell, and Buck (<a href="solutions-to-exercises.html#ref-eakins1998analyzing" role="doc-biblioref">1998</a>)</span>。两者都有非常不同的目标。在第一个中，作者的目的是估计 <strong>非线性形式</strong> 为定价内核。第二个目标是确定和量化股票的机构投资与公司属性之间的关系（对因子投资的早期贡献）。早期审查（<span class="citation">Burrell and Folarin (<a href="solutions-to-exercises.html#ref-burrell1997impact" role="doc-biblioref">1997</a>)</span>）列出了 20 世纪 90 年代 NNs 的金融应用。最近， <span class="citation">Sezer, Gudelek, and Ozbayoglu (<a href="solutions-to-exercises.html#ref-sezer2019financial" role="doc-biblioref">2019</a>)</span>, <span class="citation">W. Jiang (<a href="solutions-to-exercises.html#ref-jiang2020applications" role="doc-biblioref">2020</a>)</span> 和 <span class="citation">Lim and Zohren (<a href="solutions-to-exercises.html#ref-lim2020time" role="doc-biblioref">2021</a>)</span> 调查主要由计算机科学学者使用深度学习模型预测金融时间序列的尝试。</p>
+<p>NNs 在金融市场中的纯粹预测能力是一个热门话题，我们进一步举出例子 <span class="citation">Kimoto et al. (<a href="solutions-to-exercises.html#ref-kimoto1990stock" role="doc-biblioref">1990</a>)</span>, <span class="citation">Enke and Thawornwong (<a href="solutions-to-exercises.html#ref-enke2005use" role="doc-biblioref">2005</a>)</span>, <span class="citation">Y. Zhang and Wu (<a href="solutions-to-exercises.html#ref-zhang2009stock" role="doc-biblioref">2009</a>)</span>, <span class="citation">Guresen, Kayakutlu, and Daim (<a href="solutions-to-exercises.html#ref-guresen2011using" role="doc-biblioref">2011</a>)</span>, <span class="citation">Krauss, Do, and Huck (<a href="solutions-to-exercises.html#ref-krauss2017deep" role="doc-biblioref">2017</a>)</span>, <span class="citation">Fischer and Krauss (<a href="solutions-to-exercises.html#ref-fischer2018deep" role="doc-biblioref">2018</a>)</span>, <span class="citation">Aldridge and Avellaneda (<a href="solutions-to-exercises.html#ref-aldridge2019neural" role="doc-biblioref">2019</a>)</span>, <span class="citation">Babiak and Barunik (<a href="solutions-to-exercises.html#ref-babiak2020deep" role="doc-biblioref">2020</a>)</span>, <span class="citation">Y. Ma, Han, and Wang (<a href="solutions-to-exercises.html#ref-ma2020portfolio" role="doc-biblioref">2020</a>)</span>, 和 <span class="citation">Soleymani and Paquet (<a href="solutions-to-exercises.html#ref-soleymani2020financial" role="doc-biblioref">2020</a>)</span>^[神经网络最近也被应用于衍生品定价和对冲，例如参见 <span class="citation">Buehler et al. (<a href="solutions-to-exercises.html#ref-buehler2019deep" role="doc-biblioref">2019</a>)</span> 和 <span class="citation">Andersson and Oosterlee (<a href="solutions-to-exercises.html#ref-andersson2020deep" role="doc-biblioref">2020</a>)</span> 以及调查 <span class="citation">Ruf and Wang (<a href="solutions-to-exercises.html#ref-ruf2019neural" role="doc-biblioref">2019</a>)</span>。在 <span class="citation">Wu et al. (<a href="solutions-to-exercises.html#ref-wu2020cross" role="doc-biblioref">2020</a>)</span>，发现深度学习对于选择表现良好的对冲基金是有效的。一些文章发现 NNs 在股票市场预测任务中表现不佳（以及更普遍的表格数据）。 <span class="citation">Y. Wei (<a href="solutions-to-exercises.html#ref-wei2021absolute" role="doc-biblioref">2021</a>)</span> 认为这是因为 RMSE 不适合股票收益率预测，因为方向才是重要的（当然，方向也可能是标签！）。</p>
+<p>限价订单簿建模也是神经网络应用的一个不断扩展的领域（<span class="citation">Sirignano and Cont (<a href="solutions-to-exercises.html#ref-sirignano2019universal" role="doc-biblioref">2019</a>)</span>, <span class="citation">Wallbridge (<a href="solutions-to-exercises.html#ref-wallbridge2020transformers" role="doc-biblioref">2020</a>)</span>).] 最后一个参考甚至结合了嵌入总体强化学习结构中的几种类型的 NNs。这个列表远非详尽无遗。在金融经济学领域，神经网络的最新研究包括：</p>
+<ul>
+<li>
+<span class="citation">Feng, Polson, and Xu (<a href="solutions-to-exercises.html#ref-feng2019deep" role="doc-biblioref">2019</a>)</span> 使用神经网络找到最能解释股票收益横截面的因素。<br/>
+</li>
+<li>
+<span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2018empirical" role="doc-biblioref">2020b</a>)</span> 将公司属性和宏观经济变量映射到未来收益率。这创建了一个强大的预测工具，能够非常准确地预测未来的收益率。<br/>
+</li>
+<li>
+<span class="citation">Luyang Chen, Pelger, and Zhu (<a href="solutions-to-exercises.html#ref-chen2019deep" role="doc-biblioref">2020</a>)</span> 使用包括生成对抗网络的复杂神经网络结构来估计定价内核。这再次提供了有关预期股票收益率结构的重要信息，并可用于投资组合构建（通过建立准确的最大夏普比率策略）。</li>
+</ul>
+<div class="section level2" id="the-original-perceptron" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> 原始感知器<a aria-label="锚" class="anchor" href="#the-original-perceptron"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+NNs 的起源至少可以追溯到 <span class="citation">Rosenblatt (<a href="solutions-to-exercises.html#ref-rosenblatt1958perceptron" role="doc-biblioref">1958</a>)</span>。其目标是二元分类。为了简单起见，我们假设输出是 <span class="math inline">\(\{0\)</span> = 不投资<span class="math inline">\(\}\)</span> 与 <span class="math inline">\(\{1\)</span> = 投资<span class="math inline">\(\}\)</span> （例如，从收益率、负值与正值导出）。给定当前的命名法，感知器可以定义为激活的线性映射。模型如下：</p>
+<p><span class="math display">\[f(\mathbf{x})=\left\{ \begin{array}{lll}
+1 &amp; \text{if } \mathbf{x}'\mathbf{w}+b &gt;0\\
+0  &amp;\text{otherwise}
+\end{array}\right.\]</span>
+权重向量 <span class="math inline">\(\mathbf{w}\)</span> 缩放变量和偏差 <span class="math inline">\(b\)</span> 改变决策障碍。给定值 <span class="math inline">\(b\)</span> 和 <span class="math inline">\(w_i\)</span>，错误是 <span class="math inline">\(\epsilon_i=y_i-1_{\left\{\sum_{j=1}^Jx_{i,j}w_j+w_0&gt;0\right\}}\)</span>。按照惯例，我们设置 <span class="math inline">\(b=w_0\)</span> 并添加一个初始常量列 <span class="math inline">\(x\)</span>: <span class="math inline">\(x_{i,0}=1\)</span>，这样 <span class="math inline">\(\epsilon_i=y_i-1_{\left\{\sum_{j=0}^Jx_{i,j}w_j&gt;0\right\}}\)</span>。与回归相反，感知器没有封闭式解决方案。最佳权重只能是近似值。就像回归一样，获得良好权重的一种方法是最小化误差平方和。为此，最简单的方法是</p>
+<ol style="list-style-type: decimal">
+<li>计算该点的当前模型值 <span class="math inline">\(\textbf{x}_i\)</span>: <span class="math inline">\(\tilde{y}_i=1_{\left\{\sum_{j=0}^Jw_jx_{i,j}&gt;0\right\}}\)</span>,</li>
+<li>调整权重向量： <span class="math inline">\(w_j \leftarrow w_j + \eta (y_i-\tilde{y}_i)x_{i,j}\)</span>,</li>
+</ol>
+<p>这相当于将重量朝这个方向移动。就像树方法一样，缩放因子 <span class="math inline">\(\eta\)</span> 是学习率。一个大 <span class="math inline">\(\eta\)</span> 将意味着巨大的转变：学习会很快，但收敛可能很慢，甚至可能不会发生。一个小 <span class="math inline">\(\eta\)</span> 通常是更可取的，因为它有助于降低过度拟合的风险。</p>
+<p>图中 <a href="NN.html#fig:perceptron">7.1</a>，我们说明了这种机制。初始模型（灰色虚线）在 7 个点（3 个红色和 4 个蓝色）上进行训练。一个新的黑点出现了。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:perceptron" style="display:block;"></span>
+<img alt="感知器示意图。" src="images/NN_percep_scheme.png" width="450px"/><p class="caption">
+图 7.1：感知器方案。
+</p>
+</div>
+<ul>
+<li>如果该点为红色，则无需调整：它被正确标记，因为它位于边框的右侧。<br/>
+</li>
+<li>如果该点是蓝色的，则需要适当更新模型。根据上述规则，这意味着向下调整线的斜率。取决于 <span class="math inline">\(\eta\)</span>，这种转变将足以改变新点的分类——或者不改变。</li>
+</ul>
+<p>在其诞生之初，感知器是一项巨大的突破，受到了媒体的广泛报道（参见 <span class="citation">Olazaran (<a href="solutions-to-exercises.html#ref-olazaran1996sociological" role="doc-biblioref">1996</a>)</span> 和 <span class="citation">Anderson and Rosenfeld (<a href="solutions-to-exercises.html#ref-anderson2000talking" role="doc-biblioref">2000</a>)</span>）。其相当简单的结构逐渐推广到感知器网络（组合）。它们中的每一个都是一个简单的单元，单元又被聚集成一层。下一节描述简单多层感知器 (MLPs) 的组织。</p>
+</div>
+<div class="section level2" id="multilayer-perceptron" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> 多层感知器<a aria-label="锚" class="anchor" href="#multilayer-perceptron"><i class="fas fa-link"></i></a>
+</h2>
+<p></p>
+<div class="section level3" id="introduction-and-notations" number="7.2.1">
+<h3>
+<span class="header-section-number">7.2.1</span> 简介和注释<a aria-label="锚" class="anchor" href="#introduction-and-notations"><i class="fas fa-link"></i></a>
+</h3>
+<p>感知器可以被视为应用了特定函数的线性模型：Heaviside（阶跃）函数。其他功能选择自然也是可能的。在 NN 行话中，它们被称为激活函数。它们的目的是在其他非常线性的模型中引入非线性。</p>
+<p>就像带有树的随机森林一样，神经网络背后的想法是将类似感知器的构建块组合起来。神经网络的一种流行表示如图所示 <a href="NN.html#fig:NNnaive">7.2</a>。这张示意图过于简化。它隐藏了真正发生的事情：每个绿色圆圈中有一个感知器，每个输出在发送到最终输出聚合之前都由某个函数激活。这就是为什么这样的模型被称为多层感知器（MLP）。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:NNnaive" style="display:block;"></span>
+<img alt="多层感知器的简化示意图。" src="images/nn.png" width="480px"/><p class="caption">
+图 7.2：多层感知器的简化示意图。
+</p>
+</div>
+<p>图中更忠实地描述了正在发生的事情 <a href="NN.html#fig:MLperceptron">7.3</a>.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:MLperceptron" style="display:block;"></span>
+<img alt="具有 2 个中间层的感知器的详细示意图。" src="images/NN_scheme.png" width="793"/><p class="caption">
+图 7.3：具有 2 个中间层的感知器的详细示意图。
+</p>
+</div>
+<p>在继续进行评论之前，我们先介绍一些将在本章中使用的符号。</p>
+<ul>
+<li>数据被分成一个矩阵 <span class="math inline">\(\textbf{X}=x_{i,j}\)</span> 特征和输出值向量 <span class="math inline">\(\textbf{y}=y_i\)</span>. <span class="math inline">\(\textbf{x}\)</span> 或 <span class="math inline">\(\textbf{x}_i\)</span> 表示一行 <span class="math inline">\(\textbf{X}\)</span>.</li>
+<li>神经网络将具有 <span class="math inline">\(L\ge1\)</span> 层和每层 <span class="math inline">\(l\)</span>，单位数为 <span class="math inline">\(U_l\ge1\)</span>.</li>
+<li>单位权重 <span class="math inline">\(k\)</span> 位于层 <span class="math inline">\(l\)</span> 表示为 <span class="math inline">\(\textbf{w}_{k}^{(l)}=w_{k,j}^{(l)}\)</span> 以及相应的偏差 <span class="math inline">\(b_{k}^{(l)}\)</span>。长度为 <span class="math inline">\(\textbf{w}_{k}^{(l)}\)</span> 等于 <span class="math inline">\(U_{l-1}\)</span>. <span class="math inline">\(k\)</span> 指单元在图层中的位置 <span class="math inline">\(l\)</span> 同时 <span class="math inline">\(j\)</span> 到层中的单元 <span class="math inline">\(l-1\)</span>.</li>
+<li>输出（激活后）表示为 <span class="math inline">\(o_{i,k}^{(l)}\)</span> 例如 <span class="math inline">\(i\)</span>, 层 <span class="math inline">\(l\)</span> 和单位 <span class="math inline">\(k\)</span>.</li>
+</ul>
+<p>过程如下。当进入网络时，数据经过初始线性映射：<br/><span class="math display">\[v_{i,k}^{(1)}=\textbf{x}_i'\textbf{w}^{(1)}_k+b_k^{(1)},  \text{for } l=1, \quad k \in [1,U_1],  \]</span><br/>
+然后通过非线性函数进行变换 <span class="math inline">\(f^{1}\)</span>。然后，此更改的结果将作为下一层的输入给出，依此类推。网络的每一层都会重复线性形式（具有不同的权重）：
+<span class="math display">\[v_{i,k}^{(l)}=(\textbf{o}^{(l-1)}_i)'\textbf{w}^{(l)}_k+b_k^{(l)}, \text{for } l \ge 2,  \quad k \in [1,U_l]. \]</span><br/>
+层之间的连接就是所谓的输出，它们基本上是激活函数到的线性映射 <span class="math inline">\(f^{(l)}\)</span> 已被应用。层的输出 <span class="math inline">\(l\)</span> 是层的输入 <span class="math inline">\(l+1\)</span>.
+<span class="math display">\[o_{i,k}^{(l)}=f^{(l)}\left(v_{i,k}^{(l)}\right).\]</span><br/>
+最后，终端阶段聚合最后一层的输出：<br/><span class="math display">\[\tilde{y}_i =f^{(L+1)} \left((\textbf{o}^{(L)}_i)'\textbf{w}^{(L+1)}+b^{(L+1)}\right).\]</span></p>
+<p>在输入的前向传播中，激活函数自然发挥着重要作用。图中 <a href="NN.html#fig:activationf">7.4</a>，我们绘制了神经网络库最常用的激活函数。有关激活函数的详尽列表，我们参考 <span class="citation">Dubey, Singh, and Chaudhuri (<a href="solutions-to-exercises.html#ref-dubey2022comprehensive" role="doc-biblioref">2022</a>)</span>.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:activationf" style="display:block;"></span>
+<img alt="最常见的激活函数图。" src="images/activation.png" width="450"/><p class="caption">
+图 7.4：最常见的激活函数图。
+</p>
+</div>
+<p>让我们从因子投资的角度重新表述这个过程。输入 <span class="math inline">\(\textbf{x}\)</span> 是企业的特点。第一步是将它们的值乘以权重并添加偏差。这是针对第一层的所有单元执行的。输出是输入的线性组合，然后由激活函数进行转换。每个单元提供一个值，所有这些值都按照相同的过程馈送到第二层。如此迭代直至网络结束。最后一层的目的是产生与标签相对应的输出形状：如果标签是数字，则输出是单个数字，如果是分类，则通常是长度等于类别数的向量。该向量指示该值属于某一特定类别的概率。</p>
+<p>可以在输出后使用最终激活函数。这对结果非常重要。事实上，如果标签是收益率，那么在最后应用 sigmoid 函数将是灾难性的，因为 sigmoid 始终为正。</p>
+</div>
+<div class="section level3" id="universal-approximation" number="7.2.2">
+<h3>
+<span class="header-section-number">7.2.2</span> 万能近似<a aria-label="锚" class="anchor" href="#universal-approximation"><i class="fas fa-link"></i></a>
+</h3>
+<p></p>
+<p>神经网络运作良好的原因之一是它们 <em>万能逼近器</em>。给定任何有界连续函数，存在一个单层网络可以将该函数近似到任意精度（参见 <span class="citation">Cybenko (<a href="solutions-to-exercises.html#ref-cybenko1989approximation" role="doc-biblioref">1989</a>)</span> 对于早期参考，请参阅第 4.2 节 <span class="citation">K.-L. Du and Swamy (<a href="solutions-to-exercises.html#ref-du2013neural" role="doc-biblioref">2013</a>)</span> 和第 6.4.1 节 <span class="citation">Goodfellow et al. (<a href="solutions-to-exercises.html#ref-goodfellow2016deep" role="doc-biblioref">2016</a>)</span> 获取更详尽的论文列表，以及 <span class="citation">Guliyev and Ismailov (<a href="solutions-to-exercises.html#ref-guliyev2018approximation" role="doc-biblioref">2018</a>)</span> 以获得最近的结果）。</p>
+<p>形式上，单层感知器定义为
+<span class="math display">\[f_n(\textbf{x})=\sum_{l=1}^nc_l\phi(\textbf{x}\textbf{w}_l+\textbf{b}_l)+c_0,\]</span>
+其中 <span class="math inline">\(\phi\)</span> 是（非常数）有界连续函数。那么，对于任意 <span class="math inline">\(\epsilon&gt;0\)</span>, 可以找到一个 <span class="math inline">\(n\)</span> 这样对于任何连续函数 <span class="math inline">\(f\)</span> 在单位超立方体上 <span class="math inline">\([0,1]^d\)</span>,
+<span class="math display">\[|f(\textbf{x})-f_n(\textbf{x})|&lt; \epsilon, \quad \forall \textbf{x} \in [0,1]^d.\]</span></p>
+<p>这个结果相当直观：只需向图层添加单元即可提高拟合度。该过程或多或少类似于多项式逼近，尽管根据激活函数的属性（有界性、平滑性、凸性等）会出现一些微妙之处。我们参考 <span class="citation">Costarelli, Spigler, and Vinti (<a href="solutions-to-exercises.html#ref-costarelli2016survey" role="doc-biblioref">2016</a>)</span> 有关此主题的调查。</p>
+<p>万能逼近的原始结果意味着任何表现良好的函数 <span class="math inline">\(f\)</span> 只要单元数量可以任意大，就可以通过简单的神经网络充分接近。现在，它们与学习阶段（即模型针对特定数据集进行优化时）没有直接关系。在一系列论文中（<span class="citation">Barron (<a href="solutions-to-exercises.html#ref-barron1993universal" role="doc-biblioref">1993</a>)</span> 和 <span class="citation">Barron (<a href="solutions-to-exercises.html#ref-barron1994approximation" role="doc-biblioref">1994</a>)</span>，值得注意的是），巴伦对神经网络可以实现的目标给出了更精确的描述。在 <span class="citation">Barron (<a href="solutions-to-exercises.html#ref-barron1993universal" role="doc-biblioref">1993</a>)</span> 例如，它被证明是通用逼近的更精确版本：对于特定的神经网络（具有 sigmoid 激活）， <span class="math inline">\(\mathbb{E}[(f(\textbf{x})-f_n(\textbf{x}))^2]\le c_f/n\)</span>，它给出了与网络规模相关的收敛速度。在期望中，随机项是 <span class="math inline">\(\textbf{x}\)</span>：这对应于数据被视为独立同分布样本的情况。固定分布的观察（这是机器学习中最常见的假设）。</p>
+<p>下面，我们陈述一个易于解释的重要结果；它取自 <span class="citation">Barron (<a href="solutions-to-exercises.html#ref-barron1994approximation" role="doc-biblioref">1994</a>)</span>.</p>
+<p>在续集中， <span class="math inline">\(f_n\)</span> 对应于一个可能受到惩罚的神经网络，只有一个中间层 <span class="math inline">\(n\)</span> 单位和 sigmoid 激活函数。此外，假设预测变量和标签的支持都是有界的（这不是主要约束）。回归练习中最重要的指标是均方误差 (MSE)，主要结果是该量的界限（按数量级）。对于 <span class="math inline">\(N\)</span> 随机采样 i.i.d点 <span class="math inline">\(y_i=f(x_i)+\epsilon_i\)</span> 其上 <span class="math inline">\(f_n\)</span> 经过训练，最好的经验 MSE 的行为类似于</p>
+<p><span class="math display" id="eq:univapprox">\[\begin{equation}
+\tag{7.1}
+\mathbb{E}\left[(f(x)-f_n(x))^2 \right]=\underbrace{O\left(\frac{c_f}{n} \right)}_{\text{size of network}}+\ \underbrace{O\left(\frac{nK \log(N)}{N} \right)}_{\text{size of sample}},
+\end{equation}\]</span>
+其中 <span class="math inline">\(K\)</span> 是输入的维度（列数）并且 <span class="math inline">\(c_f\)</span> 是一个取决于生成器函数的常数 <span class="math inline">\(f\)</span>。上述数量提供了给定数据集大小的最佳神经网络可以实现的误差范围 <span class="math inline">\(N\)</span>.</p>
+<p>这个界限的分解显然有两个组成部分。第一个与网络的复杂性有关。正如最初的万能逼近定理一样，误差随着网络中单元数量的增加而减小。但这还不够！事实上，样本量当然是学习质量（独立同分布观察）的关键驱动因素。界限的第二个组成部分表明，相对于观测值的数量，误差以稍慢的速度下降（<span class="math inline">\(\log(N)/N\)</span>）并且与单元数量和输入大小呈线性关系。这清楚地强调了样本大小和模型复杂性之间的联系（权衡？）：如果样本很小，那么拥有非常复杂的模型是没有用的，就像简单的模型无法捕捉大型数据集中的精细关系一样。</p>
+<p>总的来说，神经网络可能是一个非常复杂的函数，具有很多参数。在线性回归中，可以通过虚假添加外生变量来增加拟合度。在神经网络中，通过向层任意添加单元来增加参数数量就足够了。这当然是一个非常糟糕的主意，因为高维网络将主要捕获它们所训练的样本的特殊性。</p>
+</div>
+<div class="section level3" id="backprop" number="7.2.3">
+<h3>
+<span class="header-section-number">7.2.3</span> 通过反向传播学习<a aria-label="锚" class="anchor" href="#backprop"><i class="fas fa-link"></i></a>
+</h3>
+<p></p>
+<p>就像树方法一样，神经网络是通过最小化某些损失函数进行训练的，并受到一些惩罚：
+<span class="math display">\[O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},\]</span>
+其中 <span class="math inline">\(\tilde{y}_i\)</span> 是模型获得的值， <span class="math inline">\(y_i\)</span> 是 <em>真实</em> 实例的值。简化计算的一个简单要求是损失函数可微。最常见的选择是回归任务的平方误差和分类任务的交叉熵。我们将在下一小节中讨论分类的技术细节。</p>
+<p>神经网络的训练相当于改变所有层中所有单元的权重（和偏差），以便 <span class="math inline">\(O\)</span> 上面定义的是最小的可能值。为了简化符号并考虑到 <span class="math inline">\(y_i\)</span> 是固定的，让我们写 <span class="math inline">\(D(\tilde{y}_i(\textbf{W}))=\text{loss}(y_i,\tilde{y}_i)\)</span>, 其中 <span class="math inline">\(\textbf{W}\)</span> 表示网络中的权重和偏差的整体。权重的更新将通过梯度下降来执行，即通过</p>
+<p><span class="math display" id="eq:graddesc">\[\begin{equation}
+\tag{7.2}
+\textbf{W} \leftarrow \textbf{W}-\eta  \frac{\partial D(\tilde{y}_i) }{\partial \textbf{W}}.
+\end{equation}\]</span></p>
+<p> </p>
+<p>这种机制是优化文献中最经典的，我们在图中进行了说明 <a href="NN.html#fig:newton">7.5</a>。我们强调大学习率可能存在次优性。在图中，与高相关的下降 <span class="math inline">\(\eta\)</span> 会围绕最优点振荡，而与小 eta 相关的点会更直接地收敛。</p>
+<p>上式中的复杂任务是计算梯度（导数），它告诉应该在哪个方向进行调整。问题在于连续的嵌套层和关联的激活需要链式法则的多次迭代才能微分。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:newton" style="display:block;"></span>
+<img alt="梯度下降的概述。" src="images/Newton.png" width="288"/><p class="caption">
+图 7.5：梯度下降的轮廓。
+</p>
+</div>
+<p>近似导数的最常见方法可能是有限差分法。在通常的假设下（损失是两次可微的），中心差满足：</p>
+<p><span class="math display">\[\frac{\partial D(\tilde{y}_i(w_k))}{\partial w_k} = \frac{D(\tilde{y}_i(w_k+h))-D(\tilde{y}_i(w_k-h))}{2h}+O(h^2),\]</span>
+其中 <span class="math inline">\(h&gt;0\)</span> 是某个任意小的数字。尽管其表面上很简单，但该方法的计算成本很高，因为它需要进行与权重数量相当的大量操作。</p>
+<p>幸运的是，有一个小技巧可以大大简化并加快计算速度。这个想法是简单地遵循链式法则并沿途循环使用术语。让我们先回顾一下
+<span class="math display">\[\tilde{y}_i =f^{(L+1)} \left((\textbf{o}^{(L)}_i)'\textbf{w}^{(L+1)}+b^{(L+1)}\right)=f^{(L+1)}\left(b^{(L+1)}+\sum_{k=1}^{U_L} w^{(L+1)}_ko^{(L)}_{i,k} \right),\]</span> 因此，如果我们用最直接的权重和偏差进行微分，我们会得到：
+<span class="math display" id="eq:backprop1">\[\begin{align}
+\frac{\partial D(\tilde{y}_i)}{\partial w_k^{(L+1)}}&amp;=D'(\tilde{y}_i) \left(f^{(L+1)} \right)'\left( b^{(L+1)}+\sum_{k=1}^{U_L} w^{(L+1)}_ko^{(L)}_{i,k}  \right)o^{(L)}_{i,k} \\   \tag{7.3}
+&amp;= D'(\tilde{y}_i) \left(f^{(L+1)} \right)'\left( v^{(L+1)}_{i,k}  \right)o^{(L)}_{i,k} \\
+\frac{\partial D(\tilde{y}_i)}{\partial b^{(L+1)}}&amp;=D'(\tilde{y}_i) \left(f^{(L+1)} \right)'\left( b^{(L+1)}+\sum_{k=1}^{U_L} w^{(L+1)}_ko^{(L)}_{i,k}  \right).
+\end{align}\]</span></p>
+<p>这是最简单的部分。我们现在必须返回一层，这只能通过链式法则来完成。至接入层 <span class="math inline">\(L\)</span>，我们回忆起身份 <span class="math inline">\(v_{i,k}^{(L)}=(\textbf{o}^{(L-1)}_i)'\textbf{w}^{(L)}_k+b_k^{(L)}=b_k^{(L)}+\sum_{j=1}^{U_L}o^{(L-1)}_{i,j}w^{(L)}_{k,j}\)</span>。
+然后我们可以继续：</p>
+<p><span class="math display">\[\begin{align}
+\frac{\partial D(\tilde{y}_i)}{\partial w_{k,j}^{(L)}}&amp;=\frac{\partial D(\tilde{y}_i)}{\partial v^{(L)}_{i,k}}\frac{\partial v^{(L)}_{i,k}}{\partial w_{k,j}^{(L)}} = \frac{\partial D(\tilde{y}_i)}{\partial v^{(L)}_{i,k}}o^{(L-1)}_{i,j}\\
+&amp;=\frac{\partial D(\tilde{y}_i)}{\partial o^{(L)}_{i,k}} \frac{\partial o^{(L)}_{i,k} }{\partial v^{(L)}_{i,k}}  o^{(L-1)}_{i,j} = \frac{\partial D(\tilde{y}_i)}{\partial o^{(L)}_{i,k}}  (f^{(L)})'(v_{i,k}^{(L)})  o^{(L-1)}_{i,j} \\
+&amp;=\underbrace{D'(\tilde{y}_i) \left(f^{(L+1)} \right)'\left(v^{(L+1)}_{i,k}  \right)}_{\text{computed above!}} w^{(L+1)}_k (f^{(L)})'(v_{i,k}^{(L)})  o^{(L-1)}_{i,j},
+\end{align}\]</span></p>
+<p>其中，正如我们在最后一行所示，导数的一部分已经在上一步中计算出来（方程 <a href="NN.html#eq:backprop1">(7.3)</a>）。因此，我们可以回收这个数字，只关注表达式的正确部分。</p>
+<p>所谓反向传播的神奇之处在于，这对于微分的每一步都适用。计算层中权重和偏差的梯度时 <span class="math inline">\(l\)</span>，将有两部分：一部分可以从前一层回收，另一部分是本地部分，仅取决于当前层的值和激活函数。 Google 开发团队给出了这个过程的一个很好的说明：playground.tensorflow.org。</p>
+<p>当使用张量格式化数据时，可以诉诸矢量化，以便将调用数量限制在网络中节点（单元）数量的数量级。</p>
+<p>反向传播算法可以总结如下。给定一个点样本（可能只有一个）：</p>
+<ol style="list-style-type: decimal">
+<li>数据从左侧流动，如图所示 <a href="NN.html#fig:backp">7.6</a>。蓝色箭头显示 <strong>向前传球</strong>;<br/>
+</li>
+<li>这允许计算误差或损失函数；<br/>
+</li>
+<li>该函数的所有导数（相对于权重和偏差）都被计算，从最后一层开始并向左扩散（因此称为反向传播） - 绿色箭头显示 <strong>向后传递</strong>;<br/>
+</li>
+<li>所有权重和偏差都可以更新以考虑样本点（调整模型以减少这些点引起的损失/误差）。</li>
+</ol>
+<div class="figure" style="text-align: center">
+<span id="fig:backp" style="display:block;"></span>
+<img alt="反向传播图。" src="images/backprop.png" width="768"/><p class="caption">
+图 7.6：反向传播图。
+</p>
+</div>
+<p>此操作可以使用不同的样本大小执行任意多次。我们在章节中讨论这个问题 <a href="NN.html#howdeep">7.3</a>.</p>
+<p>学习率 <span class="math inline">\(\eta\)</span> 可以细化。减少过度拟合的一种选择是在每个epoch之后强制减少更新的强度。一种可能的参数形式是 <span class="math inline">\(\eta=\alpha e^{- \beta t}\)</span>, 其中 <span class="math inline">\(t\)</span> 是纪元并且 <span class="math inline">\(\alpha,\beta&gt;0\)</span>。另一种更复杂的方法是诉诸所谓的 <em>动量</em> （其源于 <span class="citation">Polyak (<a href="solutions-to-exercises.html#ref-polyak1964some" role="doc-biblioref">1964</a>)</span>):
+<span class="math display" id="eq:gradmom">\[\begin{align}
+\tag{7.4}
+\textbf{W}_{t+1} &amp; \leftarrow  \textbf{W}_{t} - \textbf{m}_t \quad \text{with} \nonumber \\
+\textbf{m}_t &amp; \leftarrow \eta  \frac{\partial D(\tilde{y}_i)}{\partial \textbf{W}_{t}}+\gamma \textbf{m}_{t-1},
+\end{align}\]</span>
+其中 <span class="math inline">\(t\)</span> 是权重更新的索引。动量的想法是通过包含上次调整的记忆项来加速收敛（<span class="math inline">\(\textbf{m}_{t-1}\)</span>）并在当前更新中朝着相同的方向前进。参数 <span class="math inline">\(\gamma\)</span> 通常取0.9。</p>
+<p>更复杂和增强的方法已逐步开发出来：<br/>
+- <span class="citation">Nesterov (<a href="solutions-to-exercises.html#ref-nesterov1983method" role="doc-biblioref">1983</a>)</span> 通过预测参数的未来变化来改进动量项；<br/>
+- 阿达格勒（<span class="citation">Duchi, Hazan, and Singer (<a href="solutions-to-exercises.html#ref-duchi2011adaptive" role="doc-biblioref">2011</a>)</span>）对每个参数使用不同的学习率；<br/>
+- 阿达德尔塔 (<span class="citation">Zeiler (<a href="solutions-to-exercises.html#ref-zeiler2012adadelta" role="doc-biblioref">2012</a>)</span>）和亚当（<span class="citation">Kingma and Ba (<a href="solutions-to-exercises.html#ref-kingma2014adam" role="doc-biblioref">2014</a>)</span>）结合了Adagrad和Momentum的思想。</p>
+<p>最后，在某些退化情况下，某些梯度可能会爆炸并使权重远离其最佳值。为了避免这种现象，学习库实现了梯度裁剪。用户指定梯度的最大幅度，通常表示为范数。每当梯度超过这个幅度时，它就会重新调整以达到授权的阈值。因此，方向保持不变，但调整幅度较小。</p>
+</div>
+<div class="section level3" id="NNclass" number="7.2.4">
+<h3>
+<span class="header-section-number">7.2.4</span> 分类的更多细节<a aria-label="锚" class="anchor" href="#NNclass"><i class="fas fa-link"></i></a>
+</h3>
+<p></p>
+<p>在决策树中，最终目标是创建同构集群，前一章概述了实现此目标的过程。对于神经网络，事情的工作方式有所不同，因为目标明确是最小化预测之间的误差 <span class="math inline">\(\tilde{\textbf{y}}_i\)</span> 和目标标签 <span class="math inline">\(\textbf{y}_i\)</span>。再说一遍，这里 <span class="math inline">\(\textbf{y}_i\)</span> 是一个充满零且只有一个的向量 <em>一</em> 表示实例的类。</p>
+<p>面对分类问题，诀窍是在网络的最末端使用适当的激活函数。网络终端输出的维度应等于 <span class="math inline">\(J\)</span> （要预测的类的数量），如果为了简单起见，我们写 <span class="math inline">\(\textbf{x}_i\)</span> 对于此输出的值，最常用的激活是所谓的 <em>softmax</em> 功能：</p>
+<p><span class="math display">\[\tilde{\textbf{y}}_i=s(\textbf{x})_i=\frac{e^{x_i}}{\sum_{j=1}^Je^{x_j}}.\]</span></p>
+<p>这种选择的理由很简单：它可以将任何值作为输入（在实线上），并且其总和为任何（有限值）输出的一。与树类似，这会产生类别上的“概率”向量。通常，所选择的损失是用于树的熵的概括。给定目标标签 <span class="math inline">\(\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)\)</span> 和预测输出 <span class="math inline">\(\tilde{\textbf{y}}_i=(\tilde{y}_{i,1},\dots,\tilde{y}_{i,L})\)</span>，交叉熵定义为</p>
+<p><span class="math display" id="eq:crossentropy">\[\begin{equation}
+\tag{7.5}
+\text{CE}(\textbf{y}_i,\tilde{\textbf{y}}_i)=-\sum_{j=1}^J\log(\tilde{y}_{i,j})y_{i,j}.
+\end{equation}\]</span></p>
+<p>基本上，它是两个论点之间差异的代表。一种简单的解释如下。对于非零标签值，损失为 <span class="math inline">\(-\log(\tilde{y}_{i,l})\)</span>，而对于所有其他人来说，它为零。在日志中，如果 <span class="math inline">\(\tilde{y}_{i,l}=1\)</span>，这正是我们所寻求的（即 <span class="math inline">\(y_{i,l}=\tilde{y}_{i,l}\)</span>）。在应用中，这种最好的情况不会发生，并且当以下情况时，损耗只会增加： <span class="math inline">\(\tilde{y}_{i,l}\)</span> 向下漂移远离一个。</p>
+</div>
+</div>
+<div class="section level2" id="howdeep" number="7.3">
+<h2>
+<span class="header-section-number">7.3</span> 我们应该走多深以及其他实际问题<a aria-label="锚" class="anchor" href="#howdeep"><i class="fas fa-link"></i></a>
+</h2>
+<p>除了前面几节中介绍的自由度之外，用户在构建神经网络时还面临许多自由度。我们提出了构建和训练神经网络时可用的一些经典选择。</p>
+<div class="section level3" id="architectural-choices" number="7.3.1">
+<h3>
+<span class="header-section-number">7.3.1</span> 架构选择<a aria-label="锚" class="anchor" href="#architectural-choices"><i class="fas fa-link"></i></a>
+</h3>
+<p>可以说，第一个选择与网络结构有关。超越前馈与循环的二分法（参见第 <a href="#recurrent-networks"><strong>??</strong></a>），迫在眉睫的问题是：网络应该有多大（或多深）。
+首先，让我们计算网络中估计（优化）的参数数量（即权重加偏差）。</p>
+<ul>
+<li>对于第一层，这给出 <span class="math inline">\((U_0+1)U_1\)</span> 参数，其中 <span class="math inline">\(U_0\)</span> 是列数 <span class="math inline">\(\mathbb{X}\)</span> （即解释变量的数量）和 <span class="math inline">\(U_1\)</span> 是层中的单元数。<br/>
+</li>
+<li>对于层 <span class="math inline">\(l\in[2,L]\)</span>，参数个数为 <span class="math inline">\((U_{l-1}+1)U_l\)</span>.<br/>
+</li>
+<li>对于最终的输出，只需 <span class="math inline">\(U_L+1\)</span> 参数。<br/>
+</li>
+<li>总的来说，这意味着要优化的值总数是
+<span class="math display">\[\mathcal{N}=\left(\sum_{l=1}^L(U_{l-1}+1)U_l\right)+U_L+1\]</span>
+</li>
+</ul>
+<p>与任何模型一样，参数的数量应远小于实例的数量。没有固定的比例，但如果样本量是最好的 <em>至少</em> 比参数数量大十倍。比率低于 5，过度拟合的风险很高。考虑到可用的数据量，这种限制很少成为问题，除非希望使用非常大的网络。</p>
+<p>当前金融应用中隐藏层的数量很少超过三到四个。每层单元数 <span class="math inline">\((U_k)\)</span> 通常选择遵循几何金字塔规则（参见，例如， <span class="citation">Masters (<a href="solutions-to-exercises.html#ref-masters1993practical" role="doc-biblioref">1993</a>)</span>）。如果有 <span class="math inline">\(L\)</span> 隐藏层，具有 <span class="math inline">\(I\)</span> 输入中的特征和 <span class="math inline">\(O\)</span> 输出中的维度（对于回归任务， <span class="math inline">\(O=1\)</span>），那么对于 <span class="math inline">\(k^{th}\)</span> 层，单位数量的经验法则是
+<span class="math display">\[U_k\approx \left\lfloor O\left( \frac{I}{O}\right)^{\frac{L+1-k}{L+1}}\right\rfloor.\]</span>
+如果只有一层中间层，推荐的代理是 <span class="math inline">\(\sqrt{IO}\)</span>。如果不是，网络以许多单元开始，并且单元的数量以指数方式减少到输出大小。通常，层数是 2 的幂，因为在高维度中，网络是在图形处理单元 (GPUs) 或张量处理单元 (TPUs) 上进行训练的。当输入的大小等于 2 的幂时，这两种硬件都可以得到最佳使用。</p>
+<p>多项研究表明，非常大的架构并不总是比更浅的架构表现得更好（例如， <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2018empirical" role="doc-biblioref">2020b</a>)</span> 和 <span class="citation">Orimoloye et al. (<a href="solutions-to-exercises.html#ref-orimoloye2019comparing" role="doc-biblioref">2019</a>)</span> 对于高频数据，即不基于因子）。根据经验，最多三个隐藏层似乎足以满足预测目的。</p>
+</div>
+<div class="section level3" id="frequency-of-weight-updates-and-learning-duration" number="7.3.2">
+<h3>
+<span class="header-section-number">7.3.2</span> 权重更新频率和学习持续时间<a aria-label="锚" class="anchor" href="#frequency-of-weight-updates-and-learning-duration"><i class="fas fa-link"></i></a>
+</h3>
+<p>在表达式中 <a href="NN.html#eq:graddesc">(7.2)</a>，这隐含着计算是针对一个给定实例执行的。如果样本量非常大（数十万或数百万个实例），则根据每个点更新权重的计算成本太高。然后，对称为批次的实例组执行更新。样本被（随机）分成固定大小的批次，并且每次更新都按照以下规则执行：</p>
+<p><span class="math display" id="eq:gradbatch">\[\begin{equation}
+\tag{7.6}
+\textbf{W} \leftarrow \textbf{W}-\eta  \frac{\partial \sum_{i \in \text{batch}} D(\tilde{y}_i)/\text{card}(\text{batch}) }{\partial \textbf{W}}.
+\end{equation}\]</span></p>
+<p>权重的变化是根据批次中所有实例计算的平均损失来计算的。培训术语包括：</p>
+<ul>
+<li>
+<strong>纪元</strong>：当样本的每个实例都对权重更新（即训练）做出贡献时，就达到一个 epoch。通常，训练 NN 需要几个epoch，最多需要几十个epoch。<br/>
+</li>
+<li>
+<strong>批量大小</strong>：批量大小是用于一次权重更新的样本数量。<br/>
+</li>
+<li>
+<strong>迭代</strong>：迭代次数可以是样本大小除以批量大小的比率，也可以是该比率乘以epoch数。它要么是达到一个 epoch 所需的权重更新次数，要么是整个训练过程中的更新总数。</li>
+</ul>
+<p>当批次仅等于一个实例时，该方法称为“随机梯度下降”（SGD）：随机选择实例。当批量大小严格高于 1 且低于实例总数时，学习将通过“迷你”批量（即小批量实例）执行。批次也是随机选择的，但在样本中没有替换，因为对于一个epoch，批次的并集必须等于完整的训练样本。</p>
+<p>不可能提前知道多少个 epoch 是合适的。有时，网络在仅仅 5 个 epoch 后就停止学习（验证损失不再减少）。在某些情况下，当验证样本是从接近训练样本分布的分布中抽取时，网络即使在 200 个 epoch 后仍会继续学习。由用户测试不同的值来评估学习速度。在下面的示例中，出于计算目的，我们将epoch 数量保持在较低水平。</p>
+</div>
+<div class="section level3" id="penalizations-and-dropout" number="7.3.3">
+<h3>
+<span class="header-section-number">7.3.3</span> 处罚和 dropout<a aria-label="锚" class="anchor" href="#penalizations-and-dropout"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+在每个级别（层），可以对权重（和偏差）施加约束或惩罚。就像树方法一样，这有助于减慢学习速度，以防止训练样本过度拟合。惩罚直接对损失函数执行，目标函数采用以下形式</p>
+<p><span class="math display">\[O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \sum_{k} \lambda_k||\textbf{W}_k||_1+ \sum_j\delta_j||\textbf{W}_j||_2^2,\]</span>
+其中下标 <span class="math inline">\(k\)</span> 和 <span class="math inline">\(j\)</span> 与权重有关 <span class="math inline">\(L^1\)</span> 和（或） <span class="math inline">\(L^2\)</span> 予以处罚。</p>
+<p>此外，可以在训练期间直接对权重施加特定约束。通常，使用两种类型的约束：</p>
+<ul>
+<li>范数约束：权重向量或矩阵的最大范数是固定的；<br/>
+</li>
+<li>非负约束：所有权重必须为正或零。</li>
+</ul>
+<p>最后，降低过度拟合风险的另一种（有点奇特的）方法是减少模型的大小（参数数量）。 <span class="citation">Srivastava et al. (<a href="solutions-to-exercises.html#ref-srivastava2014dropout" role="doc-biblioref">2014</a>)</span> 建议在训练期间省略单元（因此术语“<strong>dropout</strong>’）。训练期间随机选择的单元的权重设置为零。所有来自和到该单元的链接都会被忽略，这会机械地缩小网络。在测试阶段，所有单元都回来了，但必须缩放值（权重）以考虑训练阶段期间丢失的激活。</p>
+<p>有兴趣的读者可以查看编译的建议 <span class="citation">Bengio (<a href="solutions-to-exercises.html#ref-bengio2012practical" role="doc-biblioref">2012</a>)</span>, <span class="citation">Hanin and Rolnick (<a href="solutions-to-exercises.html#ref-hanin2018start" role="doc-biblioref">2018</a>)</span>, 和 <span class="citation">L. N. Smith (<a href="solutions-to-exercises.html#ref-smith2018disciplined" role="doc-biblioref">2018</a>)</span> 有关如何配置神经网络的更多提示。一篇致力于股票收益预测超参数调参的论文是 <span class="citation">S. I. Lee (<a href="solutions-to-exercises.html#ref-lee2020hyperparameter" role="doc-biblioref">2020</a>)</span>.</p>
+</div>
+</div>
+<div class="section level2" id="code-samples-and-comments-for-vanilla-mlp" number="7.4">
+<h2>
+<span class="header-section-number">7.4</span> vanilla MLP 的代码示例和注释<a aria-label="锚" class="anchor" href="#code-samples-and-comments-for-vanilla-mlp"><i class="fas fa-link"></i></a>
+</h2>
+<p>有多种框架和库可以实现稳健且灵活的神经网络构建。其中，Keras 和 Tensorflow（由 Google 开发）可能是我们撰写本书时使用最多的（来自 Facebook 的 PyTorch 是一种替代方案）。为简单起见，并且因为我们相信这是最佳选择，我们使用 Keras 实现 NN（这是 Tensorflow 的高级 API，请参阅 <a class="uri" href="https://www.tensorflow.org">https://www.tensorflow.org</a>）。原始 Python 实现参考 <a class="uri" href="https://keras.io">https://keras.io</a>，R 版本的详细信息可以在这里找到： <a class="uri" href="https://keras.rstudio.com">https://keras.rstudio.com</a>。我们建议在继续之前进行彻底的安装。因为 Tensorflow 和 Keras 的本机版本是用 Python 编写的（并由 R 通过 <em>reticulate</em> 包调用），下面需要可运行的 Python 版本。要安装 Keras，请按照以下网址提供的说明进行操作： <a class="uri" href="https://keras.rstudio.com">https://keras.rstudio.com</a>.</p>
+<p>在本节中，我们详细（尽管远非详尽）说明如何使用 Keras 训练神经网络。为了完整起见，我们分两步进行。第一个涉及非常简单的回归练习。其目的是让读者熟悉Keras的语法。在第二步中，我们列出了 Keras 提出的许多选项来执行分类练习。通过这两个例子，我们涵盖了前馈多层感知器范围内的大多数主流主题。</p>
+<div class="section level3" id="regression-example" number="7.4.1">
+<h3>
+<span class="header-section-number">7.4.1</span> 回归示例<a aria-label="锚" class="anchor" href="#regression-example"><i class="fas fa-link"></i></a>
+</h3>
+<p>在我们进入 NN 的核心之前，需要进行一个简短的数据准备阶段。正如惩罚回归（glmnet 包）和提升树（xgboost 包）一样，数据必须分为四个部分，即两个二分法的组合：训练与测试以及标签与特征。我们在下面定义相应的变量。为简单起见，第一个示例是回归练习。下面将详细介绍分类任务。</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">NN_train_features</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">training_sample</span>, <span class="va">features</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>    <span class="co"># Training features</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>                                                      <span class="co"># Matrix = important</span>
+<span class="va">NN_train_labels</span> <span class="op">&lt;-</span> <span class="va">training_sample</span><span class="op">$</span><span class="va">R1M_Usd</span>                           <span class="co"># Training labels</span>
+<span class="va">NN_test_features</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">testing_sample</span>, <span class="va">features</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>      <span class="co"># Testing features</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>                                                      <span class="co"># Matrix = important</span>
+<span class="va">NN_test_labels</span> <span class="op">&lt;-</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span>                             <span class="co"># Testing labels</span></code></pre></div>
+<p></p>
+<p>在Keras中，神经网络的训练通过三个步骤进行：</p>
+<ol style="list-style-type: decimal">
+<li>定义网络的结构/架构；<br/>
+</li>
+<li>设置损失函数和学习过程（权重更新选项）；<br/>
+</li>
+<li>通过指定批量大小和轮数（epoch）进行训练。</li>
+</ol>
+<p>我们从一个非常简单的架构开始，有两个隐藏层。</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://keras.rstudio.com">keras</a></span><span class="op">)</span>
+<span class="co"># install_keras() # To complete installation</span>
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">model</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>   <span class="co"># This defines the structure of the network, i.e. how layers are organized</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">16</span>, activation <span class="op">=</span> <span class="st">'relu'</span>, input_shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">NN_train_features</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">8</span>, activation <span class="op">=</span> <span class="st">'tanh'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># No activation means linear activation: f(x) = x.</span></code></pre></div>
+<p></p>
+<p>结构体的定义非常直观，使用了 <em>顺序的</em> 一种语法，其中一个输入由一层迭代转换，直到最后一次迭代给出输出。每层取决于两个参数：单元数量和应用于该层输出的激活函数。一个重要的点是第一层的 input_shape 参数。它是第一层所必需的，等于特征数。对于后续层，input_shape 由前一层的单元数量决定；因此它不是必需的。当前可用的激活列于 <a class="uri" href="https://keras.io/activations/">https://keras.io/activations/</a>。我们在倒数第二层中使用双曲正切，因为它会产生正输出和负输出。当然，最后一层也可以生成负值，但最好在最终输出之前满足此属性。</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/compile.html">compile</a></span><span class="op">(</span>                             <span class="co"># Model specification</span>
+  loss <span class="op">=</span> <span class="st">'mean_squared_error'</span>,               <span class="co"># Loss function</span>
+  optimizer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/optimizer_rmsprop.html">optimizer_rmsprop</a></span><span class="op">(</span><span class="op">)</span>,           <span class="co"># Optimisation method (weight updating)</span>
+  metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'mean_absolute_error'</span><span class="op">)</span>         <span class="co"># Output metric</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>                                 <span class="co"># Model architecture</span></code></pre></div>
+<pre><code>## Model: "sequential"
+## __________________________________________________________________________________________
+## Layer (type)                            Output Shape                        Param #       
+## ==========================================================================================
+## dense_2 (Dense)                         (None, 16)                          1504          
+## __________________________________________________________________________________________
+## dense_1 (Dense)                         (None, 8)                           136           
+## __________________________________________________________________________________________
+## dense (Dense)                           (None, 1)                           9             
+## ==========================================================================================
+## Total params: 1,649
+## Trainable params: 1,649
+## Non-trainable params: 0
+## __________________________________________________________________________________________</code></pre>
+<p></p>
+<p>模型的摘要按从输入到输出（前向传递）的顺序列出了各层。因为我们使用 93 个特征，所以第一层的参数数量（16 个单元）为 93 加一（偏差）乘以 16，即 1504。对于第二层，输入数量等于前一层输出的大小 (16)。因此，考虑到第二层有 8 个单元，参数总数为 (16+1)*8 = 136。</p>
+<p>我们将损失函数设置为标准均方误差。其他损失列于 <a class="uri" href="https://keras.io/losses/">https://keras.io/losses/</a>，其中一些仅适用于回归（MSE、MAE），其他仅适用于分类（分类交叉熵，请参阅方程 <a href="NN.html#eq:crossentropy">(7.5)</a>）。 RMS 传播优化器是经典的小批量反向传播实现。对于其他权重更新算法，我们参考 <a class="uri" href="https://keras.io/optimizers/">https://keras.io/optimizers/</a>。度量是用于评估模型质量的函数。它可能与损失不同：例如，使用熵进行训练，使用准确性作为性能指标。</p>
+<p>最后阶段将模型与数据进行拟合，并需要一些额外的训练参数：</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_NN</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">NN_train_features</span>,                                       <span class="co"># Training features</span>
+      <span class="va">NN_train_labels</span>,                                         <span class="co"># Training labels</span>
+      epochs <span class="op">=</span> <span class="fl">10</span>, batch_size <span class="op">=</span> <span class="fl">512</span>,                           <span class="co"># Training parameters</span>
+      validation_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">NN_test_features</span>, <span class="va">NN_test_labels</span><span class="op">)</span> <span class="co"># Test data</span>
+  <span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit_NN</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span>                                   <span class="co"># Plot, evidently!</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:NN3" style="display:block;"></span>
+<img alt="经过训练的神经网络的输出（回归任务）。" src="ML_factor_files/figure-html/NN3-1.png" width="480"/><p class="caption">
+图 7.7：经过训练的神经网络的输出（回归任务）。
+</p>
+</div>
+<p></p>
+<p>批量大小是相当任意的。由于与 GPUs 训练相关的技术原因，这些大小通常是 2 的幂。</p>
+<p>在 Keras 中，训练模型的绘图显示了四种不同的曲线（如图所示） <a href="NN.html#fig:NN3">7.7</a>）。上图显示了随着 epoch 数量的增加，损失的改善（或缺乏）。通常，算法首先快速学习，然后收敛到任何额外的epoch都不会改善拟合的点。在上面的例子中，这一点来得相当快，因为​​在第四个epoch之后很难注意到任何增益。两种颜色显示两个样本的性能：训练样本和测试样本。通过构造，训练样本的损失总是会有所改善（甚至略有改善）。当对测试样本的影响可以忽略不计时（曲线是平坦的，就像这里的情况一样），模型无法泛化样本外：通过对原始样本进行训练获得的增益不会转化为先前未见过的数据的增益；因此，该模型似乎正在学习噪声。</p>
+<p>第二张图显示了相同的行为，但使用度量函数计算。两条曲线（损耗和指标）之间的相关性（绝对值）通常很高。如果其中一个是平的，另一个也应该是平的。</p>
+<p>为了获取模型的参数，用户可以调用get_weights(model)。<a class="footnote-ref" href="solutions-to-exercises.html#fn18" id="fnref18"><sup>18</sup></a> 我们不执行这里的代码，因为输出的大小太大，因为有数千个权重。</p>
+<p>最后，从实际的角度来看，预测是通过通常的predict()函数获得的。我们在测试样本上使用下面的这个函数来计算命中率。</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">NN_test_features</span><span class="op">)</span> <span class="op">*</span> <span class="va">NN_test_labels</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.5456358</code></pre>
+<p></p>
+<p>同样，命中率介于 50% 到 55% 之间，即 <em>似乎</em> 相当不错。大多数时候，神经网络的权重是随机初始化的。因此，具有相同架构和相同训练数据的两个独立训练的网络很可能会导致非常不同的预测和性能！绕过此问题的一种方法是冻结随机数生成器。还可以通过 set_weights() 函数加载权重来轻松交换模型。</p>
+</div>
+<div class="section level3" id="classification-example" number="7.4.2">
+<h3>
+<span class="header-section-number">7.4.2</span> 分类示例<a aria-label="锚" class="anchor" href="#classification-example"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+我们通过一个更详细的例子来探索神经网络。目的是对二进制标签 R1M_Usd_C 进行分类任务。在继续之前，我们需要正确设置标签格式。为此，我们采用 one-hot 编码（参见第 1 节） <a href="Data.html#categorical-labels">4.5.2</a>).</p>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.decisionpatterns.com">dummies</a></span><span class="op">)</span>                                            <span class="co"># Package for one-hot encoding</span>
+<span class="va">NN_train_labels_C</span> <span class="op">&lt;-</span> <span class="va">training_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/dummies/man/dummy.html">dummy</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># One-hot encoding of the label</span>
+<span class="va">NN_test_labels_C</span> <span class="op">&lt;-</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/dummies/man/dummy.html">dummy</a></span><span class="op">(</span><span class="op">)</span>    <span class="co"># One-hot encoding of the label</span></code></pre></div>
+<p></p>
+<p>标签 NN_train_labels_C 和 NN_test_labels_C 有两列：第一列标记回报率高于中值的实例，第二列标记回报率低于中值的实例。请注意，我们不会更改特征变量：它们保持不变。下面，我们设置的网络结构与第一个网络相比具有许多附加特性。</p>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">model_C</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>   <span class="co"># This defines the structure of the network, i.e. how layers are organized</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">16</span>, activation <span class="op">=</span> <span class="st">'tanh'</span>,               <span class="co"># Nb units &amp; activation</span>
+              input_shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">NN_train_features</span><span class="op">)</span>,         <span class="co"># Size of input</span>
+              kernel_initializer <span class="op">=</span> <span class="st">"random_normal"</span>,          <span class="co"># Initialization of weights</span>
+              kernel_constraint <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/constraints.html">constraint_nonneg</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>   <span class="co"># Weights should be nonneg</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dropout.html">layer_dropout</a></span><span class="op">(</span>rate <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>                             <span class="co"># Dropping out 25% units</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">8</span>, activation <span class="op">=</span> <span class="st">'elu'</span>,                 <span class="co"># Nb units &amp; activation</span>
+              bias_initializer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/initializer_constant.html">initializer_constant</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span>,  <span class="co"># Initialization of biases</span>
+              kernel_regularizer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/regularizer_l1.html">regularizer_l2</a></span><span class="op">(</span><span class="fl">0.01</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="co"># Penalization of weights </span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">2</span>, activation <span class="op">=</span> <span class="st">'softmax'</span><span class="op">)</span>             <span class="co"># Softmax for categorical output</span></code></pre></div>
+<p></p>
+<p>在我们开始评论上面使用的许多选项之前，我们强调 Keras 模型与许多 R 变量不同，是可变对象。这意味着调用模型后的任何管道%&gt;%都会改变它。因此，后续的训练不是从头开始，而是从前一次训练的结果开始。</p>
+<p>首先，选择上面和下面使用的选项作为说明性示例，并不用于特别提高模型的质量。与部分相比的第一个变化 <a href="NN.html#regression-example">7.4.1</a> 是激活函数。前两个只是新情况，而第三个（对于输出层）是必需的。事实上，由于目标是分类，因此输出的维度必须等于标签的类别数。产生多元变量的激活是 softmax 函数。请注意，我们还必须指定输出层中的类（类别）数量。</p>
+<p>第二个主要创新是与参数相关的选项。一系列选项涉及权重和偏差的初始化。在 Keras 中，权重被称为“kernel”。初始化器列表很长，我们建议感兴趣的读者查看 Keras 参考（<a class="uri" href="https://keras.io/initializers/">https://keras.io/initializers/</a>）。其中大多数是随机的，但也有一些是恒定的。</p>
+<p>另一个选项是在训练期间应用于权重和偏差的约束和规范惩罚。在上面的示例中，第一层的权重被强制为非负数，而第二层的权重的大小受到因子 (0.01) 乘以其权重的惩罚。 <span class="math inline">\(L^2\)</span> 规范。 </p>
+<p>最后，最后的新颖之处是 dropout 层（参见第 1 节） <a href="NN.html#penalizations-and-dropout">7.3.3</a>）在第一层和第二层之间。根据这一层，第一层中四分之一的单元将在训练期间被（随机）省略。</p>
+<p>培训的具体内容概述如下。</p>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_C</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/compile.html">compile</a></span><span class="op">(</span>                               <span class="co"># Model specification</span>
+  loss <span class="op">=</span> <span class="st">'binary_crossentropy'</span>,                  <span class="co"># Loss function</span>
+  optimizer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/optimizer_adam.html">optimizer_adam</a></span><span class="op">(</span>lr <span class="op">=</span> <span class="fl">0.005</span>,         <span class="co"># Optimisation method (weight updating)</span>
+                             beta_1 <span class="op">=</span> <span class="fl">0.9</span>, 
+                             beta_2 <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>,        
+  metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'categorical_accuracy'</span><span class="op">)</span>            <span class="co"># Output metric</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model_C</span><span class="op">)</span>                                   <span class="co"># Model structure</span></code></pre></div>
+<pre><code>## Model: "sequential_1"
+## __________________________________________________________________________________________
+## Layer (type)                            Output Shape                        Param #       
+## ==========================================================================================
+## dense_5 (Dense)                         (None, 16)                          1504          
+## __________________________________________________________________________________________
+## dropout (Dropout)                       (None, 16)                          0             
+## __________________________________________________________________________________________
+## dense_4 (Dense)                         (None, 8)                           136           
+## __________________________________________________________________________________________
+## dense_3 (Dense)                         (None, 2)                           18            
+## ==========================================================================================
+## Total params: 1,658
+## Trainable params: 1,658
+## Non-trainable params: 0
+## __________________________________________________________________________________________</code></pre>
+<p></p>
+<p>这里再次进行了许多更改：所有级别都已修改。现在的损失就是交叉熵。因为我们处理两个类别，所以我们采用特定的选择（二元交叉熵），但更通用的形式是选项 categorical_crossentropy 并且适用于任意数量的类别（严格高于 1）。优化器也不同，允许使用多个参数，我们参考 <span class="citation">Kingma and Ba (<a href="solutions-to-exercises.html#ref-kingma2014adam" role="doc-biblioref">2014</a>)</span>。简而言之，两个 beta 参数控制权重更新中使用的指数加权移动平均线的衰减率。这两个平均值是梯度一阶矩和二阶矩的估计，可用于提高学习速度。上述块中的性能指标是分类准确性。在多类分类中，准确度定义为所有类别和所有预测的平均准确度。由于一个实例的预测是一个权重向量，因此“终端”预测是与最大权重相关的类别。然后，准确性衡量预测等于实现值（即模型正确猜测类别时）的时间比例。</p>
+<p>最后，我们继续进行模型的训练。</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_NN_C</span> <span class="op">&lt;-</span> <span class="va">model_C</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">NN_train_features</span>,                                   <span class="co"># Training features</span>
+      <span class="va">NN_train_labels_C</span>,                                   <span class="co"># Training labels</span>
+      epochs <span class="op">=</span> <span class="fl">20</span>, batch_size <span class="op">=</span> <span class="fl">512</span>,                       <span class="co"># Training parameters</span>
+      validation_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">NN_test_features</span>, 
+                             <span class="va">NN_test_labels_C</span><span class="op">)</span>,            <span class="co"># Test data</span>
+      verbose <span class="op">=</span> <span class="fl">0</span>,                                         <span class="co"># No comments from algo</span>
+      callbacks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+        <span class="fu"><a href="https://rdrr.io/pkg/keras/man/callback_early_stopping.html">callback_early_stopping</a></span><span class="op">(</span>monitor <span class="op">=</span> <span class="st">"val_loss"</span>,    <span class="co"># Early stopping:</span>
+                                min_delta <span class="op">=</span> <span class="fl">0.001</span>,       <span class="co"># Improvement threshold</span>
+                                patience <span class="op">=</span> <span class="fl">3</span>,            <span class="co"># Nb epochs with no improvmt </span>
+                                verbose <span class="op">=</span> <span class="fl">0</span>              <span class="co"># No warnings</span>
+        <span class="op">)</span>
+      <span class="op">)</span>
+  <span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit_NN_C</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:NN3C" style="display:block;"></span>
+<img alt="来自训练有素的神经网络（分类任务）的输出，具有早期停止功能。" src="ML_factor_files/figure-html/NN3C-1.png" width="400px"/><p class="caption">
+图 7.8：提前停止的经过训练的神经网络（分类任务）的输出。
+</p>
+</div>
+<p></p>
+<p>与之前的培训通话相比，这里只有一个主要区别。在Keras中，回调是可以在学习过程的给定阶段使用的函数。在上面的示例中，我们使用一个这样的函数来在一段时间没有取得任何进展时停止算法。</p>
+<p>当数据集很大时，训练可能会很长，特别是当批量较小和/或轮数较多时。不能保证达到全部纪元数是有用的，因为损失或度量函数可能会更快达到稳定水平。因此，如果在指定时间范围内没有实现任何改进，可以非常方便地停止该过程。我们将纪元数设置为 20，但该过程可能会在此之前停止。</p>
+<p>在上面的代码中，改进主要集中在验证准确性（“val_loss”；一种替代方案是“val_acc”）。 min_delta 值设置算法继续运行所需的最小改进。因此，除非验证准确率在每个 epoch 获得 0.001 分，否则训练将停止。尽管如此，通过耐心参数引入了一些灵活性，在我们的例子中，该参数断言仅在连续三个epoch没有任何改进后才做出停止决定。在该选项中，详细参数指示函数发出的注释数量。为简单起见，我们不需要任何注释，因此该值设置为零。</p>
+<p>图中 <a href="NN.html#fig:NN3C">7.8</a>，这两个图产生非常不同的曲线。原因之一是第二张图的比例。精度范围非常窄。该范围内的任何变化并不代表总体上有太大变化。训练样本上的模式相对清晰：损失减少，而准确度提高。不幸的是，这并没有转化为测试样本，这表明该模型不能很好地概括样本外。</p>
+</div>
+<div class="section level3" id="custloss" number="7.4.3">
+<h3>
+<span class="header-section-number">7.4.3</span> 海关损失<a aria-label="锚" class="anchor" href="#custloss"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+在Keras中，可以定义用户指定的损失函数。在某些情况下这可能很有趣。例如，二次误差有三项 <span class="math inline">\(y_i^2\)</span>, <span class="math inline">\(\tilde{y}_i^2\)</span> 和 <span class="math inline">\(-2y_i\tilde{y}_i\)</span>。在实践中，更多地关注后一项是有意义的，因为它是最重要的：我们确实希望预测和实现的值具有相同的符号！下面我们展示如何优化 Keras 中的简单（产品）功能， <span class="math inline">\(l(y_i,\tilde{y}_i)=(\tilde{y}_i-\tilde{m})^2-\gamma (y_i-m)(\tilde{y}_i-\tilde{m})\)</span>, 其中 <span class="math inline">\(m\)</span> 和 <span class="math inline">\(\tilde{m}\)</span> 是样本平均值 <span class="math inline">\(y_i\)</span> 和 <span class="math inline">\(\tilde{y}_i\)</span>。与 <span class="math inline">\(\gamma&gt;2\)</span>，我们给予交叉项更多的权重。我们从一个简单的架构开始。</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_custom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">model_custom</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>   <span class="co"># This defines the structure of the network, i.e. how layers are organized</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">16</span>, activation <span class="op">=</span> <span class="st">'relu'</span>, input_shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">NN_train_features</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">8</span>, activation <span class="op">=</span> <span class="st">'sigmoid'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># No activation means linear activation: f(x) = x.</span></code></pre></div>
+<p></p>
+<p>然后我们对损失函数进行编码并将其集成到模型中。重要的技巧是求助于特定于库的函数（k_<em>功能</em>）。我们对预测值的方差减去实现值和预测值之间的缩放协方差进行编码。下面我们使用五级。</p>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Defines the loss, we use gamma = 5</span>
+<span class="va">metric_cust</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/custom_metric.html">custom_metric</a></span><span class="op">(</span><span class="st">"custom_loss"</span>, 
+                             <span class="kw">function</span><span class="op">(</span><span class="va">y_true</span>, <span class="va">y_pred</span><span class="op">)</span> <span class="op">{</span>
+                               <span class="fu"><a href="https://rdrr.io/pkg/keras/man/k_mean.html">k_mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">y_pred</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/k_mean.html">k_mean</a></span><span class="op">(</span><span class="va">y_pred</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">y_pred</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/k_mean.html">k_mean</a></span><span class="op">(</span><span class="va">y_pred</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">-</span><span class="fl">5</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/pkg/keras/man/k_mean.html">k_mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">y_true</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/k_mean.html">k_mean</a></span><span class="op">(</span><span class="va">y_true</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">y_pred</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/k_mean.html">k_mean</a></span><span class="op">(</span><span class="va">y_pred</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+                             <span class="op">}</span><span class="op">)</span>
+
+<span class="va">model_custom</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/compile.html">compile</a></span><span class="op">(</span>                                          <span class="co"># Model specification</span>
+  loss <span class="op">=</span>  <span class="va">metric_cust</span>, <span class="co">#function(y_true, y_pred) custom_loss(y_true, y_pred),  # New loss function!</span>
+  optimizer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/optimizer_rmsprop.html">optimizer_rmsprop</a></span><span class="op">(</span><span class="op">)</span>,                               <span class="co"># Optim method </span>
+  metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'mean_absolute_error'</span><span class="op">)</span>                             <span class="co"># Output metric</span>
+<span class="op">)</span></code></pre></div>
+<p></p>
+<p>最后，我们准备好训练并简要评估模型的性能。</p>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_NN_cust</span> <span class="op">&lt;-</span> <span class="va">model_custom</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">NN_train_features</span>,                                       <span class="co"># Training features</span>
+      <span class="va">NN_train_labels</span>,                                         <span class="co"># Training labels</span>
+      epochs <span class="op">=</span> <span class="fl">10</span>, batch_size <span class="op">=</span> <span class="fl">512</span>,                           <span class="co"># Training parameters</span>
+      validation_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">NN_test_features</span>, <span class="va">NN_test_labels</span><span class="op">)</span> <span class="co"># Test data</span>
+  <span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit_NN_cust</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span>  </code></pre></div>
+<div class="inline-figure"><img src="ML_factor_files/figure-html/NN2cust-1.png" style="display: block; margin: auto;" width="672"/></div>
+<p></p>
+<p>曲线可能朝相反的方向发展。原因之一是，在提高实现值和预测值之间的相关性的同时，我们还增加了预测收益率的平方和。</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model_custom</span>, <span class="va">NN_test_features</span><span class="op">)</span> <span class="op">*</span> <span class="va">NN_test_labels</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.4469434</code></pre>
+<p></p>
+<p>结果可能会有所改善。有几个方向可以提供帮助。其中之一可以说是模型应该是动态的而不是静态的（参见章节 <a href="backtest.html#backtest">12</a>).</p>
+</div>
+</div>
+<div class="section level2" id="RNN" number="7.5">
+<h2>
+<span class="header-section-number">7.5</span> 循环网络<a aria-label="锚" class="anchor" href="#RNN"><i class="fas fa-link"></i></a>
+</h2>
+<div class="section level3" id="presentation" number="7.5.1">
+<h3>
+<span class="header-section-number">7.5.1</span> 介绍<a aria-label="锚" class="anchor" href="#presentation"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+多层感知器是前馈网络，因为数据从左向右流动，中间没有循环。对于某些具有顺序链接的特定任务（例如时间序列或语音识别），跟踪前一个样本发生的情况可能很有用（即存在自然排序）。对“记忆”进行建模的一种简单方法是考虑以下仅具有一个中间层的网络：
+<span class="math display">\[\begin{align*}
+\tilde{y}_i&amp;=f^{(y)}\left(\sum_{j=1}^{U_1}h_{i,j}w^{(y)}_j+b^{(2)}\right) \\
+\textbf{h}_{i} &amp;=f^{(h)}\left(\sum_{k=1}^{U_0}x_{i,k}w^{(h,1)}_k+b^{(1)}+ \underbrace{\sum_{k=1}^{U_1}  w^{(h,2)}_{k}h_{i-1,k}}_{\text{memory part}} \right),
+\end{align*}\]</span></p>
+<p>其中 <span class="math inline">\(h_0\)</span> 通常设置为零（向量方式）。</p>
+<p>这些类型的模型通常被称为 <span class="citation">Elman (<a href="solutions-to-exercises.html#ref-elman1990finding" role="doc-biblioref">1990</a>)</span> 模型或 <span class="citation">Jordan (<a href="solutions-to-exercises.html#ref-jordan1997serial" role="doc-biblioref">1997</a>)</span> 模型如果在后一种情况下 <span class="math inline">\(h_{i-1}\)</span> 被替换为 <span class="math inline">\(y_{i-1}\)</span> 在计算中 <span class="math inline">\(h_i\)</span>。这两种类型的模型都属于循环神经网络 (RNNs) 的总体范围。</p>
+<p>的 <span class="math inline">\(h_i\)</span> 通常称为状态层或隐藏层。该模型的训练很复杂，必须通过在所有实例上展开网络以获得简单的前馈网络并定期对其进行训练来完成。我们用图来说明展开原理 <a href="NN.html#fig:recnet">7.9</a>。它显示了一个非常深的网络。第一个输入影响第一层，然后通过 <span class="math inline">\(h_1\)</span> 以及所有后续层以相同的方式。同样，第二个输入影响除第一个和每个实例之外的所有层 <span class="math inline">\(i-1\)</span> 会影响输出 <span class="math inline">\(\tilde{y}_i\)</span> 和所有输出 <span class="math inline">\(\tilde{y}_j\)</span> 为了 <span class="math inline">\(j \ge i\)</span>。图中 <a href="NN.html#fig:recnet">7.9</a>，训练的参数以蓝色显示。事实上，它们在展开网络的每个层面上都出现了很多次。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:recnet" style="display:block;"></span>
+<img alt="展开循环网络。" src="images/RN.png" width="680px"/><p class="caption">
+图 7.9：展开循环网络。
+</p>
+</div>
+<p>上述架构的主要问题是由以下原因引起的内存损失： <strong>梯度消失</strong>。由于模型的深度，反向传播中使用的链式法则将意味着大量激活函数导数的乘积。现在如图所示 <a href="NN.html#fig:activationf">7.4</a>，这些函数非常平滑，并且它们的导数大多数时候都小于 1（绝对值）。因此，将许多小于一的数字相乘会导致非常小的数字：在某些层之外，学习不会传播，因为调整太小。</p>
+<p>引入了一种防止内存逐渐减少的方法 <span class="citation">Hochreiter and Schmidhuber (<a href="solutions-to-exercises.html#ref-hochreiter1997long" role="doc-biblioref">1997</a>)</span> （长短期记忆 - LSTM 模型）。该模型随后被作者简化 <span class="citation">Chung et al. (<a href="solutions-to-exercises.html#ref-chung2015gated" role="doc-biblioref">2015</a>)</span> 我们在下面介绍这个更简洁的模型。门控循环单元（GRU）是上面定义的普通循环网络的稍微复杂的版本。它具有以下表示形式：
+<span class="math display">\[\begin{align*}
+\tilde{y}_i&amp;=z_i\tilde{y}_{i-1}+ (1-z_i)\tanh \left(\textbf{w}_y'\textbf{x}_i+ b_y+ u_yr_i\tilde{y}_{i-1}\right) \quad \text{output (prediction)} \\
+z_i &amp;= \text{sig}(\textbf{w}_z'\textbf{x}_i+b_z+u_z\tilde{y}_{i-1})  \hspace{9mm} \text{`update gate'} \ \in (0,1)\\
+r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{9mm} \text{`reset gate'}  \ \in (0,1).
+\end{align*}\]</span>
+以紧凑的形式，这给出
+<span class="math display">\[\tilde{y}_i=\underbrace{z_i}_{\text{weight}}\underbrace{\tilde{y}_{i-1}}_{\text{past value}}+ \underbrace{(1-z_i)}_{\text{weight}}\underbrace{\tanh \left(\textbf{w}_y'\textbf{x}_i+ b_y+ u_yr_i\tilde{y}_{i-1}\right)}_{\text{candidate value (classical RNN)}}, \]</span></p>
+<p>哪里的 <span class="math inline">\(z_i\)</span> 决定当前值和过去值之间的最佳组合。对于候选值， <span class="math inline">\(r_i\)</span> 决定保留多少过去/记忆。 <span class="math inline">\(r_i\)</span> 通常被称为‘<em>重置门</em>’和 <span class="math inline">\(z_i\)</span> 到‘<em>更新门</em>’.</p>
+<p>循环网络的训练有一些微妙之处。事实上，由于实例之间的链接，每个批次必须对应于一个连贯的时间序列。因此，合理的选择是每个资产一批，实例（逻辑上）按时间顺序排列。最后，某些框架中的一个选项是通过传递最终值来在批次之间保留一些内存 <span class="math inline">\(\tilde{y}_i\)</span> 到下一批（对于这将是 <span class="math inline">\(\tilde{y}_0\)</span>）。这通常称为有状态模式，应仔细考虑。如果批量大小对应于每个资产的所有观察结果，那么在投资组合预测设置中似乎并不理想：资产之间没有特定的联系。如果针对每个给定资产将数据集分为多个部分，则必须非常谨慎地处理训练。</p>
+<p>循环网络和 LSTM 尤其被发现是金融环境中良好的预测工具（例如，参见 <span class="citation">Fischer and Krauss (<a href="solutions-to-exercises.html#ref-fischer2018deep" role="doc-biblioref">2018</a>)</span>, <span class="citation">W. Wang et al. (<a href="solutions-to-exercises.html#ref-wang2019portfolio" role="doc-biblioref">2020</a>)</span>, 和 <span class="citation">Fister, Perc, and Jagrič (<a href="solutions-to-exercises.html#ref-fister2021two" role="doc-biblioref">2021</a>)</span>).</p>
+</div>
+<div class="section level3" id="code-and-results-2" number="7.5.2">
+<h3>
+<span class="header-section-number">7.5.2</span> 代码和结果<a aria-label="锚" class="anchor" href="#code-and-results-2"><i class="fas fa-link"></i></a>
+</h3>
+<p>与多层感知器相比，循环网络理论上更加复杂。在实践中，它们的实施也更具挑战性。事实上，与前馈架构相比，串行连接需要更多的关注。在资产定价框架中，我们必须将资产分开，因为特定于股票的时间序列不能捆绑在一起。学习将按顺序进行，一次一只股票。</p>
+<p>变量的维度至关重要。在Keras中，它们为RNNs定义为：</p>
+<ol style="list-style-type: decimal">
+<li>批次的大小：在我们的例子中，它将是资产的数量。事实上，递归关系在资产级别成立，因此每个资产将代表模型将学习的新批次。<br/>
+</li>
+<li>时间步长：在我们的例子中，它只是日期的数量。<br/>
+</li>
+<li>特征数量：在我们的例子中，只有一个可能的数字，即预测变量的数量。</li>
+</ol>
+<p>为了简单起见并减少计算时间，我们将使用与第 1 节中相同的股票子集 <a href="lasso.html#sparseex">5.2.2</a>。这会产生一个完美的矩形数据集，其中所有日期都具有相同数量的观测值。</p>
+<p>首先，我们创建一些新的中间变量。</p>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_rnn</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>                                  <span class="co"># Dedicated dataset</span>
+  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">stock_ids_short</span><span class="op">)</span>
+<span class="va">training_sample_rnn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">data_rnn</span>, <span class="va">date</span> <span class="op">&lt;</span> <span class="va">separation_date</span><span class="op">)</span>
+<span class="va">testing_sample_rnn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">data_rnn</span>, <span class="va">date</span> <span class="op">&gt;</span> <span class="va">separation_date</span><span class="op">)</span>
+<span class="va">nb_stocks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">stock_ids_short</span><span class="op">)</span>                     <span class="co"># Nb stocks </span>
+<span class="va">nb_feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span>                             <span class="co"># Nb features</span>
+<span class="va">nb_dates_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">training_sample</span><span class="op">)</span> <span class="op">/</span> <span class="va">nb_stocks</span>      <span class="co"># Nb training dates (size of sample)</span>
+<span class="va">nb_dates_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">testing_sample</span><span class="op">)</span> <span class="op">/</span> <span class="va">nb_stocks</span>        <span class="co"># Nb testing dates</span></code></pre></div>
+<p></p>
+<p>然后，我们构造将作为参数传递的变量。我们记得数据文件首先按股票排序，然后按日期排序（请参阅第 <a href="notdata.html#dataset">1.2</a>).</p>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">train_features_rnn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="va">NN_train_features</span>,           <span class="co"># Formats the training data into array</span>
+                            dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">nb_dates_train</span>, <span class="va">nb_stocks</span>, <span class="va">nb_feats</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="co"># Tricky order</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/aperm.html">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span>                                      <span class="co"># The order is: stock, date, feature </span>
+<span class="va">test_features_rnn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="va">NN_test_features</span>,             <span class="co"># Formats the testing data into array</span>
+                           dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">nb_dates_test</span>, <span class="va">nb_stocks</span>, <span class="va">nb_feats</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>  <span class="co"># Tricky order</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/aperm.html">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span>                                      <span class="co"># The order is: stock, date, feature </span>
+<span class="va">train_labels_rnn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">NN_train_labels</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span>dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">nb_dates_train</span>, <span class="va">nb_stocks</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+<span class="va">test_labels_rnn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">NN_test_labels</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span>dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">nb_dates_test</span>, <span class="va">nb_stocks</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p></p>
+<p>最后，我们进入训练部分。为了简单起见，我们只考虑一个只有一层的简单 RNN。其结构概述如下。在循环结构方面，我们选择门控循环单元（GRU）。 </p>
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_RNN</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_gru.html">layer_gru</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">16</span>,                              <span class="co"># Nb units in hidden layer</span>
+            batch_input_shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">nb_stocks</span>,         <span class="co"># Dimensions = tricky part!</span>
+                                  <span class="va">nb_dates_train</span>, 
+                                  <span class="va">nb_feats</span><span class="op">)</span>, 
+            activation <span class="op">=</span> <span class="st">'tanh'</span>,                     <span class="co"># Activation function</span>
+            return_sequences <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>             <span class="co"># Return all the sequence</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>                             <span class="co"># Final aggregation layer</span>
+<span class="va">model_RNN</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/compile.html">compile</a></span><span class="op">(</span>
+  loss <span class="op">=</span> <span class="st">'mean_squared_error'</span>,                       <span class="co"># Loss = quadratic</span>
+  optimizer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/optimizer_rmsprop.html">optimizer_rmsprop</a></span><span class="op">(</span><span class="op">)</span>,                   <span class="co"># Backprop</span>
+  metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'mean_absolute_error'</span><span class="op">)</span>                 <span class="co"># Output metric MAE</span>
+<span class="op">)</span></code></pre></div>
+<p></p>
+<p>循环层有许多可用选项。对于GRUs，我们参考Keras文档 <a class="uri" href="https://keras.rstudio.com/reference/layer_gru.html">https://keras.rstudio.com/reference/layer_gru.html</a>。我们简要评论我们激活的选项 return_sequences。在许多情况下，输出只是序列的最终值。如果我们不需要返回完整的序列，我们将面临维度问题，因为标签确实是一个完整的序列。
+结构确定后，我们就可以进入训练阶段。</p>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_RNN</span> <span class="op">&lt;-</span> <span class="va">model_RNN</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">train_features_rnn</span>,   <span class="co"># Training features        </span>
+                             <span class="va">train_labels_rnn</span>,                <span class="co"># Training labels</span>
+                             epochs <span class="op">=</span> <span class="fl">10</span>,                     <span class="co"># Number of rounds</span>
+                             batch_size <span class="op">=</span> <span class="va">nb_stocks</span>,          <span class="co"># Length of sequences</span>
+                             verbose <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>                     <span class="co"># No comments</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit_RNN</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:RNN2" style="display:block;"></span>
+<img alt="来自训练有素的循环神经网络的输出（回归任务）。" src="ML_factor_files/figure-html/RNN2-1.png" width="600"/><p class="caption">
+图 7.10：经过训练的循环神经网络的输出（回归任务）。
+</p>
+</div>
+<p></p>
+<p>与我们之前的模型相比，主要区别在于输出（图上的图表） <a href="NN.html#fig:RNN2">7.10</a>）和输入（代码）是缺乏验证（或测试）数据。原因之一是 Keras 对 RNNs 的限制非常严格，并且强制训练样本和测试样本共享相同的维度。在我们的情况下，显然情况并非如此，因此我们必须通过复制模型来绕过这个障碍。</p>
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">new_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_gru.html">layer_gru</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">16</span>, 
+            batch_input_shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">nb_stocks</span>,          <span class="co"># New dimensions</span>
+                                  <span class="va">nb_dates_test</span>, 
+                                  <span class="va">nb_feats</span><span class="op">)</span>, 
+            activation <span class="op">=</span> <span class="st">'tanh'</span>,                      <span class="co"># Activation function</span>
+            return_sequences <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span>              <span class="co"># Return the full sequence</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>                              <span class="co"># Output dimension</span>
+<span class="va">new_model</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu">keras</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/keras/man/get_weights.html">set_weights</a></span><span class="op">(</span><span class="fu">keras</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/keras/man/get_weights.html">get_weights</a></span><span class="op">(</span><span class="va">model_RNN</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p></p>
+<p>最后，一旦新模型准备就绪并具有匹配的维度，我们就可以继续预测测试值。我们求助于 Predict() 函数并立即计算模型获得的命中率。</p>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pred_rnn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">new_model</span>, <span class="va">test_features_rnn</span>, batch_size <span class="op">=</span> <span class="va">nb_stocks</span><span class="op">)</span> <span class="co"># Predictions</span>
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">pred_rnn</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="va">test_labels_rnn</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>           <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.5007738</code></pre>
+<p></p>
+<p>命中率接近 50%，因此该模型的效果并不比抛硬币好多少。</p>
+<p>在我们结束关于 RNNs 的这一节之前，我们提到一种新型架构，称为 <span class="math inline">\(\alpha\)</span>-RNN 与 LSTMs 和 GRUs 相比更简单。它们由普通的 RNNs 组成，添加了一个简单的自相关性以生成长期记忆。我们参考论文 <span class="citation">Matthew F. Dixon (<a href="solutions-to-exercises.html#ref-dixon2020industrial" role="doc-biblioref">2020</a>)</span> 有关此主题的更多详细信息。</p>
+</div>
+</div>
+<div class="section level2" id="tabular-networks-tabnets" number="7.6">
+<h2>
+<span class="header-section-number">7.6</span> 表格网络 (TabNets)<a aria-label="锚" class="anchor" href="#tabular-networks-tabnets"><i class="fas fa-link"></i></a>
+</h2>
+<p> </p>
+<p>神经网络在计算机视觉和Python notebooks相关任务中的优越性现已得到充分证实。然而，在 2010 年的许多 ML 锦标赛中，神经网络在处理表格数据时常常被树模型超越（参见 <span class="citation">Shwartz-Ziv and Armon (<a href="solutions-to-exercises.html#ref-shwartz2021tabular" role="doc-biblioref">2021</a>)</span>）。这个难题鼓励研究人员构建更适合表格数据库的新颖的 NN 结构。例子包括 <span class="citation">Arik and Pfister (<a href="solutions-to-exercises.html#ref-arik2019tabnet" role="doc-biblioref">2020</a>)</span> 和 <span class="citation">Popov, Morozov, and Babenko (<a href="solutions-to-exercises.html#ref-popov2019neural" role="doc-biblioref">2019</a>)</span>。令人惊讶的是，相反的想法也存在： <span class="citation">Nuti, Rugama, and Thommen (<a href="solutions-to-exercises.html#ref-nuti2019adaptive" role="doc-biblioref">2019</a>)</span> 尝试调整树和随机森林，使它们的行为更像神经网络。有兴趣的读者可以看看原文。在本小节中，我们详细介绍了中介绍的架构 <span class="citation">Arik and Pfister (<a href="solutions-to-exercises.html#ref-arik2019tabnet" role="doc-biblioref">2020</a>)</span>，即所谓的TabNets。即使他们还很年轻，表格数据的神经网络已经有了自己的调查， <span class="citation">Borisov et al. (<a href="solutions-to-exercises.html#ref-borisov2021deep" role="doc-biblioref">2021</a>)</span> 并且它们不断得到改进（参见 <span class="citation">Gorishniy, Rubachev, and Babenko (<a href="solutions-to-exercises.html#ref-gorishniy2022embeddings" role="doc-biblioref">2022</a>)</span>).</p>
+<div class="section level3" id="the-zoo-of-layers" number="7.6.1">
+<h3>
+<span class="header-section-number">7.6.1</span> 图层动物园<a aria-label="锚" class="anchor" href="#the-zoo-of-layers"><i class="fas fa-link"></i></a>
+</h3>
+<p>图中 <a href="NN.html#fig:MLperceptron">7.3</a>，两个层的类型相同。它们采用输入向量并返回一个数字，该数字是这些输入的线性组合。在 ML 行话中，这种类型的层称为“<em>完全连接</em>” (FC)。在 Keras 语法中，它们被称为“<em>layer_dense</em>”.</p>
+<p></p>
+<p>还有许多其他图层类型。上一节中描述的循环层 <a href="NN.html#RNN">7.5</a> 是一个例子和卷积层（参见下一节 <a href="NN.html#CNN">7.7.3</a>）是另一个层族。一个简单但有用的层是批量归一化（BN）。这个想法是，在处理前一层的输出之前，我们想要规范化进入新层的信息。在我们的大多数应用程序中，输入和输出都是矩阵，BN 相当于对这些矩阵的列执行相同的两个操作。第一个操作是检索平均值，以便列平均值为零。第二个操作是除以标准差，使列方差等于 1。一个有用的特性是所有输入都具有相对相似的统计特性（尽管不一定具有相同的分布）。</p>
+<p>因此，在 ML 论文中，模型和架构被表示为一系列层。简而言之，如图 <a href="NN.html#fig:MLperceptron">7.3</a> 可以写成：
+<span class="math display">\[\text{input} \rightarrow FC \rightarrow FC \rightarrow \text{output},\]</span></p>
+<p>它的优点是紧凑，但也省略了一些重要的细节，例如每层的单元数量和激活函数的性质。现代深度学习模型非常复杂，像这样的简洁概述更容易阅读。</p>
+<p>
+另一种有趣的层类型是门控线性单元 (GLU)。给定一个矩阵输入 <span class="math inline">\(\textbf{X}\)</span>，GLU 产量
+<span class="math display">\[\text{GLU}(\textbf{X}) = (\textbf{XW} + \textbf{b}) \cdot \sigma(\textbf{XW} + \textbf{b}),\]</span>
+其中“<span class="math inline">\(\cdot\)</span>” 是 Hadamard（逐元素）矩阵乘积， <span class="math inline">\(\sigma\)</span> 是 sigmoid 函数（GLUs 可以推广到其他容易微分的函数）。</p>
+</div>
+<div class="section level3" id="sparsemax-activation" number="7.6.2">
+<h3>
+<span class="header-section-number">7.6.2</span> 稀疏最大激活<a aria-label="锚" class="anchor" href="#sparsemax-activation"><i class="fas fa-link"></i></a>
+</h3>
+<p></p>
+<p>在我们直接介绍 TabNets 之前，我们需要介绍一个有趣的概念
+<span class="citation">Martins and Astudillo (<a href="solutions-to-exercises.html#ref-martins2016softmax" role="doc-biblioref">2016</a>)</span>：sparsemax 变换。 sparsemax 的最初想法是简化多类输出的 softmax 激活函数。在分类网络的最后阶段（参见第 <a href="NN.html#NNclass">7.2.4</a>），激活通常被认为是 <span class="math inline">\(e^{x_i}/\sum_{j=1}^Je^{x_j}\)</span>，其中向量 <span class="math inline">\(\textbf{x}\)</span> 是最后一层的输出。由于指数函数的特性，这意味着所有类别最终都会获得严格的正分数或概率。这是不可取的，因为我们通常更喜欢明确的决策，即当不可能的类别的概率为零时。</p>
+<p>为了将弱值强制为零， <span class="citation">Martins and Astudillo (<a href="solutions-to-exercises.html#ref-martins2016softmax" role="doc-biblioref">2016</a>)</span> 诉诸一种特殊的投影，他们称之为 sparsemax。起点是 <span class="math inline">\(N-1\)</span>维单纯形</p>
+<p><span class="math display">\[ \mathbb{S}_N=\left\{ \mathbf{x} \in \mathbb{R}^N \left|\sum_{n=1}^Nx_n=1, \ x_n\ge 0, \ \forall n=1,\dots N.\right.\right\} \]</span>
+该空间包含分类结果的所有可能的概率组合 <span class="math inline">\(N\)</span> 类。给定一个向量 <span class="math inline">\(\textbf{x}\)</span>，sparsemax函数定义为
+<span class="math display">\[\text{sparsemax}(\textbf{x}) = \underset{\textbf{z} \in \mathbb{S}_N}{\text{argmin}} \ ||\textbf{z} - \textbf{x}||,\]</span>
+这等于投影 <span class="math inline">\(\textbf{x}\)</span> 到 <span class="math inline">\(\mathbb{S}_N\)</span>。我们在图1中说明了softmax和sparsemax函数在维度1上的区别 <a href="NN.html#fig:sparsemax">7.11</a>。显然，sparsemax 函数的结果更加清晰：当输入较小时，输出为零，当输入较大时，输出为 1。这会产生更容易处理的差异。在大维度中，这会产生稀疏输出，其具有所需的属性（较小的编码大小，更简单的解释）。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:sparsemax" style="display:block;"></span>
+<img alt="一维中的 Softmax 与 sparsemax。" src="ML_factor_files/figure-html/sparsemax-1.png" width="600"/><p class="caption">
+图 7.11： 一维中的 Softmax 与 sparsemax。
+</p>
+</div>
+</div>
+<div class="section level3" id="feature-selection-1" number="7.6.3">
+<h3>
+<span class="header-section-number">7.6.3</span> 特征选择<a aria-label="锚" class="anchor" href="#feature-selection-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>TabNets 的一个关键要素是它们是这样的事实，可以这么说“<em>一刀切</em>（类似于 Auto-ML，他们的目标是提供一个可以解决大量问题的打包解决方案。）。这就是批量归一化层非常有用的原因：它们可以处理非常不同类型的数字输入。</p>
+<p>TabNets的第一个重要组成部分是特征选择。其基本原理是，我们希望从重要的预测变量中更深入地学习，而不是在噪声变量上浪费时间。按照“vanilla”NNs 的惯例，我们考虑矩形（矩阵形状）批次的情况 <span class="math inline">\(\textbf{f}\)</span> 尺寸的 <span class="math inline">\(B \times K\)</span>。在TabNets中，特征的选择采用以下形式： <em>面具</em>，即另一个相同维度的矩阵，乘以（即折扣）其值。如果元素的掩码值为 1，则该特征仍然存在，如果为零，则该特征消失（比喻而言），在两者之间，其重要性被简单地减弱。</p>
+<p>在 TabNets 中，学习是连续的，包括 <em>步骤</em>。每个步骤的索引为 <span class="math inline">\(i\)</span>。步骤中应用于特征的掩模 <span class="math inline">\(i\)</span> 是 <span class="math inline">\(\textbf{M}[i]\)</span>，这样屏蔽的特征是 <span class="math inline">\(\textbf{M}[i] \cdot \textbf{f}\)</span>，又在其中 <span class="math inline">\(\cdot\)</span> 表示哈达玛积。</p>
+<p>[待完成]</p>
+</div>
+<div class="section level3" id="the-full-architecture" number="7.6.4">
+<h3>
+<span class="header-section-number">7.6.4</span> 完整的架构<a aria-label="锚" class="anchor" href="#the-full-architecture"><i class="fas fa-link"></i></a>
+</h3>
+<p>[建设中]</p>
+</div>
+<div class="section level3" id="code-and-results-3" number="7.6.5">
+<h3>
+<span class="header-section-number">7.6.5</span> 代码和结果<a aria-label="锚" class="anchor" href="#code-and-results-3"><i class="fas fa-link"></i></a>
+</h3>
+<p>在 R 中，TabNets 通过以下方式编码 <strong>torch</strong> 框架。它们需要安装 torch 和 tabnet 两个软件包。我们首先定义网络结构，即设置超参数。我们也诉诸套餐 <strong>防风草</strong> 从 <strong>tidymodels</strong> suite，它允许模型声明中使用统一的语法。</p>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://torch.mlverse.org/docs">torch</a></span><span class="op">)</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"torch"</span>, <span class="st">"tabnet"</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://torch.mlverse.org/docs">torch</a></span><span class="op">)</span>          <span class="co"># General framework for NNs</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/tabnet">tabnet</a></span><span class="op">)</span>         <span class="co"># Package for tabular networks</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/recipes">recipes</a></span><span class="op">)</span>        <span class="co"># Uniform ML models</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/parsnip">parsnip</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>            <span class="co"># Random seed</span>
+
+<span class="va">tab_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tabnet/man/tabnet.html">tabnet</a></span><span class="op">(</span>
+  mode <span class="op">=</span> <span class="st">"regression"</span>,  <span class="co"># ML task</span>
+  epochs <span class="op">=</span> <span class="fl">5</span>,           <span class="co"># Nb epochs / rounds</span>
+  batch_size <span class="op">=</span> <span class="fl">4000</span>,    <span class="co"># Batch size</span>
+  virtual_batch_size <span class="op">=</span> <span class="fl">1024</span>,
+  penalty <span class="op">=</span> <span class="fl">1</span>,
+  learn_rate <span class="op">=</span> <span class="fl">0.01</span>,
+  decision_width <span class="op">=</span> <span class="fl">16</span>,
+  attention_width <span class="op">=</span> <span class="fl">8</span>,
+  num_independent <span class="op">=</span> <span class="fl">1</span>,
+  num_shared <span class="op">=</span> <span class="fl">1</span>,
+  num_steps <span class="op">=</span> <span class="fl">5</span>,
+  momentum <span class="op">=</span> <span class="fl">0.02</span>
+<span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span><span class="op">(</span><span class="st">"torch"</span><span class="op">)</span> </code></pre></div>
+<p>接下来，我们提供学习所需的特征和标签。为了简单起见，我们在较小的数据集上对其进行训练。请注意，语法与 R 中的简单模型（例如广义线性模型）相同。</p>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_short</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>         <span class="co"># Shorter dataset</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">stock_ids_short</span>,
+         <span class="va">date</span> <span class="op">&lt;</span> <span class="st">"2010-01-01"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stock_id"</span>, <span class="st">"date"</span>, <span class="va">features_short</span>, <span class="st">"R1M_Usd"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">fit_tabnet</span> <span class="op">&lt;-</span> <span class="va">tab_model</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">R1M_Usd</span> <span class="op">~</span> <span class="va">Div_Yld</span> <span class="op">+</span> <span class="va">Eps</span> <span class="op">+</span> <span class="va">Mkt_Cap_12M_Usd</span> <span class="op">+</span> <span class="va">Mom_11M_Usd</span> <span class="op">+</span> <span class="va">Pb</span> <span class="op">+</span> <span class="va">Vol1Y_Usd</span>, 
+      data <span class="op">=</span> <span class="va">data_short</span><span class="op">)</span>   </code></pre></div>
+<p>最后，我们做出一些预测并计算命中率。</p>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tab_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_tabnet</span>,
+                    <span class="va">data_ml</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>                                                <span class="co"># A test set</span>
+                      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">stock_ids_short</span>,
+                                    <span class="va">date</span> <span class="op">&gt;</span> <span class="st">"2010-01-01"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+                      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"stock_id"</span>, <span class="st">"date"</span>, <span class="va">features_short</span>, <span class="st">"R1M_Usd"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">data_ml</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>                                                <span class="co"># A test set</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">stock_ids_short</span>,
+                <span class="va">date</span> <span class="op">&gt;</span> <span class="st">"2010-01-01"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">R1M_Usd</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="va">tab_pred</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] 0.5061184</code></pre>
+</div>
+</div>
+<div class="section level2" id="other-common-architectures" number="7.7">
+<h2>
+<span class="header-section-number">7.7</span> 其他常见架构<a aria-label="锚" class="anchor" href="#other-common-architectures"><i class="fas fa-link"></i></a>
+</h2>
+<p>在本节中，我们将介绍其他网络结构。因为它们不太主流并且通常更难实现，所以我们不提供代码示例并坚持理论介绍。</p>
+<div class="section level3" id="generative-aversarial-networks" number="7.7.1">
+<h3>
+<span class="header-section-number">7.7.1</span> 生成对抗网络<a aria-label="锚" class="anchor" href="#generative-aversarial-networks"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+生成对抗网络（GANs）的想法是通过尝试欺骗经典神经网络来提高其准确性。这个非常流行的想法是由 <span class="citation">Goodfellow et al. (<a href="solutions-to-exercises.html#ref-goodfellow2014generative" role="doc-biblioref">2014</a>)</span>。想象一下，您是毕加索画作的专家，并且您吹嘘能够轻松识别画家的任何作品。提高技能的一种方法是与造假者进行测试。真正的专家应该能够区分真正的毕加索原作和赝品。这就是GANs的原理。</p>
+<p>GANs 由两个神经网络组成：第一个神经网络尝试学习，第二个神经网络尝试愚弄第一个神经网络（使其出错）。就像上面的例子一样，也有两组数据：一组（<span class="math inline">\(\textbf{x}\)</span>）是真实的（或正确的），源于经典训练样本和另一个（<span class="math inline">\(\textbf{z}\)</span>）是假的，由造假者网络生成。</p>
+<p>在 GAN 命名法中，学习的网络是 <span class="math inline">\(D\)</span> 因为它应该是歧视性的，而伪造者则是 <span class="math inline">\(G\)</span> 因为它会产生虚假数据。在他们最初的表述中，GANs 的目的是分类。为了方便演示，我们保留了这个范围。判别网络有一个简单的（标量）输出：其输入来自真实数据（与假数据）的概率。输入为 <span class="math inline">\(G\)</span> 是一些任意噪声，其输出与输入具有相同的形状/形式 <span class="math inline">\(D\)</span>.</p>
+<p>我们直接陈述一个GAN的理论公式并在下面进行评论。 <span class="math inline">\(D\)</span> 和 <span class="math inline">\(G\)</span> 玩以下极小极大游戏：
+<span class="math display" id="eq:GAN">\[\begin{equation}
+\tag{7.7}
+\underset{G}{\min} \ \underset{D}{\max} \ \left\{ \mathbb{E}[\log(D(\textbf{x}))]+\mathbb{E}[\log(1-D(G(\textbf{z})))] \right\}.
+\end{equation}\]</span></p>
+<p>首先，让我们将该表达式分解为两个部分（优化器）。第一部分（即第一个最大值）是经典部分：算法寻求最大化为其试图分类的所有示例分配正确标签的概率。正如经济学和金融学中所做的那样，该计划并没有最大化 <span class="math inline">\(D(\textbf{x})\)</span> 本身是平均的，而是一种函数形式（如效用函数）。</p>
+<p>在左侧，由于期望是由 <span class="math inline">\(\textbf{x}\)</span>，目标必须是增加产量。在右侧，通过假实例评估期望，正确的分类是相反的，即， <span class="math inline">\(1-D(G(\textbf{z}))\)</span>.</p>
+<p>第二个总体部分旨在最小化算法在模拟数据上的性能：它的目标是缩小 <span class="math inline">\(D\)</span> 发现数据确实已损坏。下图提供了网络结构的摘要版本 <a href="NN.html#eq:GAN2">(7.8)</a>.</p>
+<p><span class="math display" id="eq:GAN2">\[\begin{equation}
+\tag{7.8}
+\left. \begin{array}{rlll}
+\text{training sample}  = \textbf{x} = \text{true data} &amp;&amp; \\
+\text{noise}= \textbf{z} \quad \overset{G}{\rightarrow} \quad  \text{fake data}  &amp;
+\end{array} \right\} \overset{D}{\rightarrow} \text{output = probability for label}
+\end{equation}\]</span></p>
+<p>在ML-based资产定价中，GANs最引人注目的应用被引入 <span class="citation">Luyang Chen, Pelger, and Zhu (<a href="solutions-to-exercises.html#ref-chen2019deep" role="doc-biblioref">2020</a>)</span>。他们的目的是利用矩表达的方法
+<span class="math display">\[\mathbb{E}[M_{t+1}r_{t+1,n}g(I_t,I_{t,n})]=0,\]</span>
+这是方程的应用 <a href="factor.html#eq:SDFGMM">(3.7)</a> 其中工具变量 <span class="math inline">\(I_{t,n}\)</span> 取决于公司（例如特征和属性），而 <span class="math inline">\(I_t\)</span> 是宏观经济变量（总股息收益率、波动水平、信用利差、期限利差等）。功能 <span class="math inline">\(g\)</span> 产生一个 <span class="math inline">\(d\)</span>- 维输出，因此上面的方程导致 <span class="math inline">\(d\)</span> 矩条件。诀窍是将 SDF 建模为未知的资产组合 <span class="math inline">\(M_{t+1}=1-\sum_{n=1}^Nw(I_t,I_{t,n})r_{t+1,n}\)</span>。主要歧视网络（<span class="math inline">\(D\)</span>) 是通过权重近似 SDF 的值 <span class="math inline">\(w(I_t,I_{t,n})\)</span>。二次生成网络是通过以下方式创造时刻条件的网络： <span class="math inline">\(g(I_t,I_{t,n})\)</span> 在上面的等式中。</p>
+<p>程序给出了网络的完整规范：
+<span class="math display">\[\underset{w}{\text{min}} \ \underset{g}{\text{max}} \ \sum_{j=1}^N \left\| \mathbb{E} \left[\left(1-\sum_{n=1}^Nw(I_t,I_{t,n})r_{t+1,n} \right)r_{t+1,j}g(I_t,I_{t,j})\right] \right\|^2,\]</span></p>
+<p>哪里的 <span class="math inline">\(L^2\)</span> 规范适用于 <span class="math inline">\(d\)</span> 通过生成的值 <span class="math inline">\(g\)</span>。资产定价方程（矩）不被视为等式，而是被视为近似关系。网络定义为 <span class="math inline">\(\textbf{w}\)</span> 是资产定价建模者，并尝试确定最佳可能的模型，而网络定义为 <span class="math inline">\(\textbf{g}\)</span> 试图找到最坏的可能条件，从而使模型表现不佳。我们参考原始文章来了解这两个网络的完整规范。在他们的实证部分， <span class="citation">Luyang Chen, Pelger, and Zhu (<a href="solutions-to-exercises.html#ref-chen2019deep" role="doc-biblioref">2020</a>)</span> 报告指出，与纯粹的预测性“普通”方法（例如在 <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2018empirical" role="doc-biblioref">2020b</a>)</span>。十分位排序投资组合的样本外行为（基于模型的预测）显示出相对于十分位顺序的单调模式。</p>
+<p>GANs 还可以用于生成人工金融数据（参见 <span class="citation">Efimov and Xu (<a href="solutions-to-exercises.html#ref-efimov2019using" role="doc-biblioref">2019</a>)</span>, <span class="citation">Marti (<a href="solutions-to-exercises.html#ref-marti2019corrgan" role="doc-biblioref">2019</a>)</span>, <span class="citation">Wiese et al. (<a href="solutions-to-exercises.html#ref-wiese2019quant" role="doc-biblioref">2020</a>)</span>, <span class="citation">Ni et al. (<a href="solutions-to-exercises.html#ref-ni2020conditional" role="doc-biblioref">2020</a>)</span>，并且相关地， <span class="citation">Buehler et al. (<a href="solutions-to-exercises.html#ref-buehler2020generating" role="doc-biblioref">2020</a>)</span>），但这个主题超出了本书的范围。</p>
+</div>
+<div class="section level3" id="autoencoders" number="7.7.2">
+<h3>
+<span class="header-section-number">7.7.2</span> 自动编码器<a aria-label="锚" class="anchor" href="#autoencoders"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+在最近的文献中，自动编码器（AEs）用于 <span class="citation">Huck (<a href="solutions-to-exercises.html#ref-huck2019large" role="doc-biblioref">2019</a>)</span> （投资组合管理），以及 <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2019autoencoder" role="doc-biblioref">2020a</a>)</span> （资产定价）。<br/>
+AEs 是一个奇怪的神经网络家族，因为它们属于非监督算法。用监督术语来说，它们的标签等于输入。与 GANS 一样，自动编码器由两个网络组成，尽管结构非常不同：第一个网络将输入编码为某种中间输出（通常称为代码），第二个网络将代码解码为输入的修改版本。</p>
+<p><span class="math display">\[\begin{array}{ccccccccc}
+\textbf{x} &amp; &amp;\overset{E}{\longrightarrow} &amp;&amp; \textbf{z} &amp;&amp; \overset{D}{\longrightarrow} &amp;&amp; \textbf{x}' \\
+\text{input} &amp;&amp; \text{encoder} &amp;&amp; \text{code} &amp;&amp; \text{decoder} &amp;&amp; \text{modified input}
+\end{array}\]</span></p>
+<p>由于自动编码器不属于监督算法大家族，因此我们将其展示推迟到第 1 节 <a href="unsup.html#ae">15.2.3</a>.</p>
+<p>文章 <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2019autoencoder" role="doc-biblioref">2020a</a>)</span> 诉诸 AEs 的想法，同时增加了其资产定价模型的复杂性。从简单的规格来看 <span class="math inline">\(r_t=\boldsymbol{\beta}_{t-1}\textbf{f}_t+e_t\)</span> （为了符号简单起见，我们省略了资产依赖性），他们添加了贝塔取决于公司特征的假设，而这些因素可能是收益率本身的非线性函数。该模型采用以下形式：
+<span class="math display" id="eq:AEgu">\[\begin{equation}
+\tag{7.9}
+r_{t,i}=\textbf{NN}_{\textbf{beta}}(\textbf{x}_{t-1,i})+\textbf{NN}_{\textbf{factor}}(\textbf{r}_t)+e_{t,i},
+\end{equation}\]</span>
+其中 <span class="math inline">\(\textbf{NN}_{\textbf{beta}}\)</span> 和 <span class="math inline">\(\textbf{NN}_{\textbf{factor}}\)</span> 是两个神经网络。上式 <em>看起来</em> 就像自动编码器一样，因为收益率既是输入又是输出。然而，额外的复杂性来自第二个神经网络 <span class="math inline">\(\textbf{NN}_{\textbf{beta}}\)</span>。现代神经网络库（例如 Keras）允许自定义模型（如上面的模型）。该结构的编码留作练习（见下文）。</p>
+</div>
+<div class="section level3" id="CNN" number="7.7.3">
+<h3>
+<span class="header-section-number">7.7.3</span> 关于卷积网络的一句话<a aria-label="锚" class="anchor" href="#CNN"><i class="fas fa-link"></i></a>
+</h3>
+<p>由于计算机视觉竞赛中的一系列成功，神经网络在 2010 年开始流行。这些进步背后的算法是卷积神经网络 (CNNs)。虽然它们对于金融预测来说似乎是一个令人惊讶的选择，但计算机科学领域的几个研究团队已经提出了依赖于这种神经网络变体的方法（<span class="citation">J.-F. Chen et al. (<a href="solutions-to-exercises.html#ref-chen2016financial" role="doc-biblioref">2016</a>)</span>, <span class="citation">Loreggia et al. (<a href="solutions-to-exercises.html#ref-loreggia2016deep" role="doc-biblioref">2016</a>)</span>, <span class="citation">Dingli and Fournier (<a href="solutions-to-exercises.html#ref-dingli2017financial" role="doc-biblioref">2017</a>)</span>, <span class="citation">Tsantekidis et al. (<a href="solutions-to-exercises.html#ref-tsantekidis2017forecasting" role="doc-biblioref">2017</a>)</span>, <span class="citation">Hoseinzade and Haratizadeh (<a href="solutions-to-exercises.html#ref-hoseinzade2019cnnpred" role="doc-biblioref">2019</a>)</span>）。最近， <span class="citation">J. Jiang, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-jiang2020re" role="doc-biblioref">2020</a>)</span> 提出从价格趋势图像中提取信号。
+因此，我们在神经网络的最后一节中简要介绍了其原理。我们为二维的 CNNs 进行了演示，但它们也可以用于一维或三维。</p>
+<p>CNNs 之所以有用，是因为它们允许通过保留本地信息来逐步减少大型数据集的维度。图像是像素的矩形。每个像素通常通过三层进行编码，一层对应一种颜色：红色、蓝色和绿色。但为了简单起见，我们只考虑一层，例如 1,000 x 1,000 像素，每个像素都有一个值。为了分析该图像的内容， <strong>卷积层</strong> 将通过一些卷积来减少输入的维度。从视觉上看，这种简化是通过使用具有任意权重的矩形扫描和更改值来执行的。</p>
+<p>图 <a href="NN.html#fig:cnnscheme">7.12</a> 勾勒出这个过程（它的强烈灵感来自于 <span class="citation">Hoseinzade and Haratizadeh (<a href="solutions-to-exercises.html#ref-hoseinzade2019cnnpred" role="doc-biblioref">2019</a>)</span>）。原始数据是一个矩阵 <span class="math inline">\((I\times K)\)</span> <span class="math inline">\(x_{i,k}\)</span> 权重也是一个矩阵 <span class="math inline">\(w_{j,l}\)</span> 尺寸的 <span class="math inline">\((J\times L)\)</span> 与 <span class="math inline">\(J&lt;I\)</span> 和 <span class="math inline">\(L&lt;K\)</span>。扫描变换每个矩形的大小 <span class="math inline">\((J\times L)\)</span> 化为一个实数。因此，输出的大小较小： <span class="math inline">\((I-J+1)\times(K-L+1)\)</span>。如果 <span class="math inline">\(I=K=1,000\)</span> 和 <span class="math inline">\(J=L=201\)</span>，则输出具有维度 <span class="math inline">\((800\times 800)\)</span> 这已经小得多了。输出值由下式给出
+<span class="math display">\[o_{i,k}=\sum_{j=1}^J\sum_{l=1}^Lw_{j,l}x_{i+j-1,k+l-1}.\]</span></p>
+<div class="figure" style="text-align: center">
+<span id="fig:cnnscheme" style="display:block;"></span>
+<img alt="卷积单元示意图。注：尺寸为一般尺寸，与方格数无关。" src="images/cnn_scheme.png" width="480px"/><p class="caption">
+图 7.12：卷积单元示意图。注：尺寸为一般尺寸，与方格数无关。
+</p>
+</div>
+<p>通过像上面介绍的那样的卷积层序列迭代地减少输出的维度将导致计算成本高昂，并且可能会导致过度拟合，因为权重的数量将非常大。为了有效地减少输出的大小， <strong>池化层</strong> 经常被使用。池化单元的作用是通过将矩阵简化为简单的度量（例如矩阵的最小值、最大值或平均值）来简化矩阵：</p>
+<p><span class="math display">\[o_{i,k}=f(x_{i+j-1,k+l-1}, 1\le j\le J, 1 \le l\le L),\]</span></p>
+<p>其中 <span class="math inline">\(f\)</span> 是最小值、最大值或平均值。我们在图中展示了池化的例子 <a href="NN.html#fig:cnnpooling">7.13</a> 下面。为了提高压缩速度，可以增加步幅以省略单元格。步幅值为 <span class="math inline">\(v\)</span> 将仅执行该操作 <span class="math inline">\(v\)</span> 值，从而绕过中间步骤。图中 <a href="NN.html#fig:cnnpooling">7.13</a>，左边的两种情况没有采用池化，因此维度的减少正好等于池化大小。当跨步开始行动时（右窗格），减少的程度更加明显。从 1,000 x 1,000 输入，步长为 2 的 2 x 2 池化层将产生 500 x 500 输出：尺寸缩小四倍，如图右侧示意图所示 <a href="NN.html#fig:cnnpooling">7.13</a>.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:cnnpooling" style="display:block;"></span>
+<img alt="池化单元示意图。" src="images/cnn_pooling.png" width="500px"/><p class="caption">
+图 7.13：池化单元示意图。
+</p>
+</div>
+<p>有了这些工具，就有可能构建新的预测工具。在 <span class="citation">Hoseinzade and Haratizadeh (<a href="solutions-to-exercises.html#ref-hoseinzade2019cnnpred" role="doc-biblioref">2019</a>)</span>，价格报价、技术指标和宏观经济数据等预测因素被输入到 6 层的复杂神经网络中，以预测价格变化的迹象。虽然这显然是一项有趣的计算机科学练习，但这种架构选择背后的深层经济动机仍不清楚。 <span class="citation">Sangadiev et al. (<a href="solutions-to-exercises.html#ref-sangadiev2020deepfolio" role="doc-biblioref">2020</a>)</span> 使用 CNN 依靠限价订单簿数据构建投资组合。</p>
+</div>
+</div>
+<div class="section level2" id="coding-exercises-3" number="7.8">
+<h2>
+<span class="header-section-number">7.8</span> 编码练习<a aria-label="锚" class="anchor" href="#coding-exercises-3"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>本练习的目的是对中描述的自动编码器模型进行编码 <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2019autoencoder" role="doc-biblioref">2020a</a>)</span> （见章节 <a href="NN.html#autoencoders">7.7.2</a>）。编码 NNs 时，必须严格报告尺寸。这就是为什么我们重现图中模型的图 <a href="NN.html#fig:AEgu">7.14</a> 它清楚地显示了输入和输出及其尺寸。</li>
+</ol>
+<div class="figure" style="text-align: center">
+<span id="fig:AEgu" style="display:block;"></span>
+<img alt="自动编码器定价模型示意图。" src="images/AE.png" width="500px"/><p class="caption">
+图 7.14：自动编码器定价模型示意图。
+</p>
+</div>
+<p>为了充分发挥 Keras 的潜力，必须改用更通用的 NNs 配方。这可以通过所谓的 <em>功能API</em>: <a class="uri" href="https://keras.rstudio.com/articles/functional_api.html">https://keras.rstudio.com/articles/functional_api.html</a>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>本练习的目的是演示简单 NNs 的通用近似。让我们采用一个简单的函数，例如区间 [0,6] 上的 sin(x)。使用具有一层和 16 个单元的简单前馈神经网络来模拟此功能。然后尝试使用 128 个单位，看看它如何改善贴合度。</li>
+</ol>
+<div class="figure" style="text-align: center">
+<span id="fig:exoUA" style="display:block;"></span>
+<img alt="目标：近似这个简单的函数。" src="ML_factor_files/figure-html/exoUA-1.png" width="400px"/><p class="caption">
+图 7.15： 目标：近似这个简单函数。
+</p>
+</div>
+</div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="trees.html"><span class="header-section-number">6</span> 树模型</a></div>
+<div class="next"><a href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页目录" data-toggle="toc" id="toc"><h2>本页目录</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#NN"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="nav-link" href="#the-original-perceptron"><span class="header-section-number">7.1</span> 原始感知器</a></li>
+<li>
+<a class="nav-link" href="#multilayer-perceptron"><span class="header-section-number">7.2</span> 多层感知器</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#introduction-and-notations"><span class="header-section-number">7.2.1</span> 简介和注释</a></li>
+<li><a class="nav-link" href="#universal-approximation"><span class="header-section-number">7.2.2</span> 万能近似</a></li>
+<li><a class="nav-link" href="#backprop"><span class="header-section-number">7.2.3</span> 通过反向传播学习</a></li>
+<li><a class="nav-link" href="#NNclass"><span class="header-section-number">7.2.4</span> 分类的更多细节</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#howdeep"><span class="header-section-number">7.3</span> 我们应该走多深以及其他实际问题</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#architectural-choices"><span class="header-section-number">7.3.1</span> 架构选择</a></li>
+<li><a class="nav-link" href="#frequency-of-weight-updates-and-learning-duration"><span class="header-section-number">7.3.2</span> 权重更新频率和学习持续时间</a></li>
+<li><a class="nav-link" href="#penalizations-and-dropout"><span class="header-section-number">7.3.3</span> 处罚和 dropout</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#code-samples-and-comments-for-vanilla-mlp"><span class="header-section-number">7.4</span> vanilla MLP 的代码示例和注释</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#regression-example"><span class="header-section-number">7.4.1</span> 回归示例</a></li>
+<li><a class="nav-link" href="#classification-example"><span class="header-section-number">7.4.2</span> 分类示例</a></li>
+<li><a class="nav-link" href="#custloss"><span class="header-section-number">7.4.3</span> 海关损失</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#RNN"><span class="header-section-number">7.5</span> 循环网络</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#presentation"><span class="header-section-number">7.5.1</span> 介绍</a></li>
+<li><a class="nav-link" href="#code-and-results-2"><span class="header-section-number">7.5.2</span> 代码和结果</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#tabular-networks-tabnets"><span class="header-section-number">7.6</span> 表格网络 (TabNets)</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#the-zoo-of-layers"><span class="header-section-number">7.6.1</span> 图层动物园</a></li>
+<li><a class="nav-link" href="#sparsemax-activation"><span class="header-section-number">7.6.2</span> 稀疏最大激活</a></li>
+<li><a class="nav-link" href="#feature-selection-1"><span class="header-section-number">7.6.3</span> 特征选择</a></li>
+<li><a class="nav-link" href="#the-full-architecture"><span class="header-section-number">7.6.4</span> 完整的架构</a></li>
+<li><a class="nav-link" href="#code-and-results-3"><span class="header-section-number">7.6.5</span> 代码和结果</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#other-common-architectures"><span class="header-section-number">7.7</span> 其他常见架构</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#generative-aversarial-networks"><span class="header-section-number">7.7.1</span> 生成对抗网络</a></li>
+<li><a class="nav-link" href="#autoencoders"><span class="header-section-number">7.7.2</span> 自动编码器</a></li>
+<li><a class="nav-link" href="#CNN"><span class="header-section-number">7.7.3</span> 关于卷积网络的一句话</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#coding-exercises-3"><span class="header-section-number">7.8</span> 编码练习</a></li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>"<strong>因子投资中的机器学习</strong>” 由 Guillaume Coqueret 和 Tony Guida 编写。最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

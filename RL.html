@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 16 章 强化学习 | Machine Learning for Factor Investing</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 16 章 强化学习 | Machine Learning for Factor Investing" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 16 章 强化学习 | Machine Learning for Factor Investing" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content=".container-fluid main { max-width: 60rem; } Due to its increasing popularity within the Machine Learning community, we dedicate a chapter to reinforcement learning (RL). In 2019 only, more than 25..." name="description"/>
+<meta content=".container-fluid main { max-width: 60rem; } Due to its increasing popularity within the Machine Learning community, we dedicate a chapter to reinforcement learning (RL). In 2019 only, more than 25..." property="og:description"/>
+<meta content=".container-fluid main { max-width: 60rem; } Due to its increasing popularity within the Machine Learning community, we dedicate a chapter to reinforcement learning (RL). In 2019 only, more than 25..." name="twitter:description"/></head>
+<body data-spy="scroll" data-target="#toc"><div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">Machine Learning for Factor Investing</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">导论</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号和数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 简介</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资和资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归和最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 基于树的方法</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="active" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据描述</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习题答案</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="RL" number="16">
+<h1><span class="header-section-number">16</span> 强化学习<a aria-label="锚" class="anchor" href="#RL"><i class="fas fa-link"></i></a></h1>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>由于强化学习 (RL) 在ML社区中越来越受欢迎，我们专门用一章来介绍它。仅 2019 年，就有超过 25 篇致力于 RL 的论文以 <strong>q:fin</strong>（量化金融）分类提交至（或更新）arXiv。交易应用包括 <span class="citation">Xiong et al. (<a href="solutions-to-exercises.html#ref-xiong2018practical" role="doc-biblioref">2018</a>)</span> 和 <span class="citation">Théate and Ernst (<a href="solutions-to-exercises.html#ref-theate2020application" role="doc-biblioref">2020</a>)</span>。市场微观结构是一个焦点框架（<span class="citation">H. Wei et al. (<a href="solutions-to-exercises.html#ref-wei2019model" role="doc-biblioref">2019</a>)</span>、<span class="citation">Ferreira (<a href="solutions-to-exercises.html#ref-ferreira2020reinforced" role="doc-biblioref">2020</a>)</span>、<span class="citation">Karpe et al. (<a href="solutions-to-exercises.html#ref-karpe2020multi" role="doc-biblioref">2020</a>)</span>）.<br/>
+此外，<span class="citation">Sato (<a href="solutions-to-exercises.html#ref-sato2019model" role="doc-biblioref">2019</a>)</span> 中汇编了基于强化学习的投资组合的早期调查（另请参见 <span class="citation">Z. Zhang, Zohren, and Roberts (<a href="solutions-to-exercises.html#ref-zhang2020deep" role="doc-biblioref">2020</a>)</span>），并且在 <span class="citation">Kolm and Ritter (<a href="solutions-to-exercises.html#ref-kolm2019modern" role="doc-biblioref">2019b</a>)</span>、<span class="citation">Meng and Khushi (<a href="solutions-to-exercises.html#ref-meng2019reinforcement" role="doc-biblioref">2019</a>)</span>、<span class="citation">Charpentier, Elie, and Remlinger (<a href="solutions-to-exercises.html#ref-charpentier2020reinforcement" role="doc-biblioref">2020</a>)</span> 和 <span class="citation">Mosavi et al. (<a href="solutions-to-exercises.html#ref-mosavi2020comprehensive" role="doc-biblioref">2020</a>)</span> 中讨论了一般金融应用。这再次表明强化学习最近在量化金融界获得了关注。<a class="footnote-ref" href="solutions-to-exercises.html#fn33" id="fnref33"><sup>33</sup></a></p>
+<p>虽然强化学习不仅仅是一种特定算法，而是一个框架，但正如我们将要展示的，它在投资组合管理中的有效应用并不简单。对于 RL 算法泛化能力的讨论，我们参考 <span class="citation">Packer et al. (<a href="solutions-to-exercises.html#ref-packer2018assessing" role="doc-biblioref">2018</a>)</span> 和 <span class="citation">D. Ghosh et al. (<a href="solutions-to-exercises.html#ref-ghosh2021generalization" role="doc-biblioref">2021</a>)</span>。</p>
+<div class="section level2" id="theoretical-layout" number="16.1">
+<h2><span class="header-section-number">16.1</span>理论框架<a aria-label="锚" class="anchor" href="#theoretical-layout"><i class="fas fa-link"></i></a></h2>
+<div class="section level3" id="general-framework" number="16.1.1">
+<h3><span class="header-section-number">16.1.1</span> 总体框架<a aria-label="锚" class="anchor" href="#general-framework"><i class="fas fa-link"></i></a></h3>
+<p>在本节中，我们将介绍 RL 的核心概念，并相对紧密地遵循以下符号（和布局）：
+<span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 与 <span class="citation">Bertsekas (<a href="solutions-to-exercises.html#ref-bertsekas2017dynamic" role="doc-biblioref">2017</a>)</span> 一起被广泛认为是该领域的可靠参考。该领域的一个核心工具称为 <strong>马尔可夫决策过程</strong>（MDP，请参阅 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 中的第 3 章）。</p>
+<p>MDP 与所有 RL 框架一样，涉及 <strong>代理</strong>（例如，交易者或投资组合经理）和 <strong>环境</strong>（例如，金融市场）之间的交互。代理执行可能改变环境状态的 <strong>动作</strong> 并为每个动作获得奖励（可能是负的）。这个短序列可以重复任意次数，如图 <a href="RL.html#fig:mdpscheme">16.1</a> 所示。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:mdpscheme" style="display:block;"></span>
+<img alt="马尔可夫决策过程方案。 R、S 和 A 分别代表奖励、状态和行动。" src="images/MDP_scheme.png" width="500px"/><p class="caption">图 16.1： 马尔可夫决策过程方案。 R、S 和 A 分别代表奖励、状态和行动。</p>
+</div>
+<p>给定环境状态（<span class="math inline">\(S_0\)</span>）和奖励（通常是<span class="math inline">\(R_0=0\)</span>）的初始值，代理执行一项操作（例如，投资某些资产）。这会产生奖励 <span class="math inline">\(R_1\)</span>（例如回报、利润、夏普比率）以及未来的环境状态 (<span class="math inline">\(S_1\)</span>)。在此基础上，代理执行新的操作并且序列继续。当状态、动作和奖励的集合是有限的时，MDP 在逻辑上被称为 <em>有限</em>。在金融框架中，这有点不现实，我们稍后讨论这个问题。然而，不难想到简化和离散的金融问题。例如，奖励可以是二元的：赢钱还是输钱。在只有一种资产的情况下，行动也可以是双重的：投资与不投资。当资产数量足够小时，可以设定固定的比例，从而产生合理数量的投资组合选择组合等。</p>
+<p>我们用有限的 MDP 来追求我们的曝光；它们在文献中最常见，而且它们的正式处理也更简单。 MDP 相对简单，有助于掌握其他 RL 技术的常见概念。与马尔可夫对象的常见情况一样，关键概念是 <strong>转移概率</strong>：</p>
+<p><span class="math display" id="eq:transprob">\[\begin{equation}
+\tag{16.1}
+p(s',r|s,a)=\mathbb{P}\left[S_t=s',R_t=r | S_{t-1}=s,A_{t-1}=a \right],
+\end{equation}\]</span></p>
+<p>这是在时间 <span class="math inline">\(t\)</span> 达到状态 <span class="math inline">\(s'\)</span> 并奖励 <span class="math inline">\(r\)</span> 的概率，条件是处于状态 <span class="math inline">\(s\)</span> 并在时间 <span class="math inline">\(t-1\)</span> 执行操作 <span class="math inline">\(a\)</span>。今后，状态和动作的有限集将用 <span class="math inline">\(\mathcal{S}\)</span> 和 <span class="math inline">\(\mathcal{A}\)</span> 表示。
+有时，这个概率是对奖励集合求平均，从而得到以下分解：
+<span class="math display" id="eq:transprob2">\[\begin{align}
+\tag{16.2}
+\sum_r rp(s',r|s,a)&amp;=\mathcal{P}_{ss'}^a \mathcal{R}_{ss'}^a, \quad \text{ where } \\
+\mathcal{P}_{ss'}^a &amp;=\mathbb{P}\left[S_t=s' | S_{t-1}=s,A_{t-1}=a \right],  \quad \text{ and } \nonumber \\
+\mathcal{R}_{ss'}^a &amp;= \mathbb{E}\left[R_t | S_{t-1}=s,S_t=s', A_{t-1}=a \right]. \nonumber
+\end{align}\]</span></p>
+<p>代理的目标是最大化奖励流的某个函数。该收益通常定义为
+<span class="math display" id="eq:gain6">\[\begin{align}
+G_t&amp;=\sum_{k=0}^T\gamma^kR_{t+k+1} \nonumber \\   \tag{16.3}
+&amp;=R_{t+1} +\gamma G_{t+1},
+\end{align}\]</span></p>
+<p>即，它是奖励的折扣版本，其中折扣系数为 <span class="math inline">\(\gamma \in (0,1]\)</span>。地平线 <span class="math inline">\(T\)</span> 可能是无限的，这就是最初引入 <span class="math inline">\(\gamma\)</span> 的原因。假设奖励是有限的，则 <span class="math inline">\(\gamma=1\)</span> 的无限总和可能会发散。如果奖励不随时间减少，而且没有理由减少，那就是这种情况。
+当 <span class="math inline">\(\gamma &lt;1\)</span> 和奖励有界时，收敛就得到保证。当 <span class="math inline">\(T\)</span> 有限时，任务称为 <em>情节性的</em>，否则称为 <em>连续的</em>。</p>
+<p>在 RL 中，要优化或学习的焦点未知数是 <strong>策略</strong> <span class="math inline">\(\pi\)</span>，它驱动代理的操作。更准确地说，<span class="math inline">\(\pi(a,s)=\mathbb{P}[A_t=a|S_t=s]\)</span>，即 <span class="math inline">\(\pi\)</span> 等于在环境状态为 <span class="math inline">\(s\)</span> 的情况下采取行动 <span class="math inline">\(a\)</span> 的概率。这意味着行动会受到随机性的影响，就像博弈论中的混合策略一样。虽然这可能看起来令人失望，因为投资者希望确保采取最佳行动，但这也很好地提醒我们，面对随机结果的最佳方法很可能也是随机行动。</p>
+<p>最后，为了尝试确定<em>最佳</em>策略，一个关键指标就是所谓的价值函数：
+<span class="math display" id="eq:RLvalue">\[\begin{equation}
+\tag{16.4}
+v_\pi(s)=\mathbb{E}_\pi\left[ G_t | S_t=s \right],
+\end{equation}\]</span></p>
+<p>其中时间索引 <span class="math inline">\(t\)</span> 不是很相关，并且在函数的符号中被省略。期望运算符 <span class="math inline">\(\mathbb{E}[\cdot]\)</span> 下的索引 <span class="math inline">\(\pi\)</span> 仅指示执行策略 <span class="math inline">\(\pi\)</span> 时取平均值。值函数简单地等于状态等于 <span class="math inline">\(s\)</span> 时的平均增益。从财务角度来说，这相当于当市场环境为 <span class="math inline">\(s\)</span> 时，代理人采取 <span class="math inline">\(\pi\)</span> 驱动的行动的平均利润。更一般地说，不仅可以以状态为条件，还可以以所采取的行动为条件。因此，我们引入 <span class="math inline">\(q_\pi\)</span> 动作值函数：
+<span class="math display" id="eq:RLQ">\[\begin{equation}
+\tag{16.5}
+q_\pi(s,a)=\mathbb{E}_\pi\left[ G_t | S_t=s, \ A_t=a \right].
+\end{equation}\]</span></p>
+<p><span class="math inline">\(q_\pi\)</span> 函数非常重要，因为它给出了状态和动作固定时的平均增益。因此，如果当前状态已知，那么一个明显的选择是选择 <span class="math inline">\(q_\pi(s,\cdot)\)</span> 最高的操作。当然，如果已知 <span class="math inline">\(q_\pi\)</span> 的最佳值，这就是最佳解决方案，但实际情况并非总是如此。可以通过 <span class="math inline">\(q_\pi\)</span>: <span class="math inline">\(v_\pi(s)=\sum_a \pi(a,s)q_\pi(s,a)\)</span> 轻松访问值函数。</p>
+<p>最优 <span class="math inline">\(v_\pi\)</span> 和 <span class="math inline">\(q_\pi\)</span> 直接定义为
+<span class="math display">\[v_*(s)=\underset{\pi}{\max} \, v_\pi(s), \ \forall s\in \mathcal{S}, \quad \text{ and } \quad q_*(s,a) =\underset{\pi}{\max} \, q_\pi(s,a), \ \forall (s,a)\in \mathcal{S}\times \mathcal{A}.\]</span></p>
+<p>如果仅知道 <span class="math inline">\(v_*(s)\)</span>，则代理必须跨越一组操作并找到那些对于任何给定状态 <span class="math inline">\(s\)</span> 产生最大值的操作。</p>
+<p>找到这些最佳值是一项非常复杂的任务，许多文章致力于解决这一挑战。找到最佳 <span class="math inline">\(q_\pi(s,a)\)</span> 很困难的一个原因是它一方面取决于两个元素（<span class="math inline">\(s\)</span> 和 <span class="math inline">\(a\)</span>），另一方面取决于 <span class="math inline">\(\pi\)</span>。通常，对于固定策略 <span class="math inline">\(\pi\)</span>，针对给定的操作、状态和奖励流评估 <span class="math inline">\(q_\pi(s,a)\)</span> 可能非常耗时。一旦估计出<span class="math inline">\(q_\pi(s,a)\)</span>，就必须测试和评估新策略<span class="math inline">\(\pi'\)</span>，以确定它是否比原来的策略更好。
+因此，反复寻找好的策略可能需要很长时间。有关策略改进和价值函数更新的更多详细信息，我们推荐 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 的第 4 章，该章专门讨论动态规划。</p>
+</div>
+<div class="section level3" id="q-learning" number="16.1.2">
+<h3><span class="header-section-number">16.1.2</span> Q-学习<a aria-label="锚" class="anchor" href="#q-learning"><i class="fas fa-link"></i></a></h3>
+<p>解决查找 <span class="math inline">\(v_*(s)\)</span> 和 <span class="math inline">\(q_*(s,a)\)</span> 问题的一个有趣的捷径是消除对策略的依赖。因此，当然不需要迭代改进它。执行此操作所需的核心关系是 <span class="math inline">\(q_\pi(s,a)\)</span> 满足的所谓贝尔曼方程。我们在下面详细介绍它的推导过程。首先，我们记得
+<span class="math display">\[\begin{align*}
+q_\pi(s,a) &amp;= \mathbb{E}_\pi[G_t|S_t=s,A_t=a] \\
+&amp;= \mathbb{E}_\pi[R_{t+1}+ \gamma G_{t+1}|S_t=s,A_t=a],
+\end{align*}\]</span>
+其中第二个等式源自 <a href="RL.html#eq:gain6">(16.3)</a>。表达式 <span class="math inline">\(\mathbb{E}_\pi[R_{t+1}|S_t=s,A_t=a]\)</span> 可以进一步分解。由于期望超过 <span class="math inline">\(\pi\)</span>，我们需要总结所有可能的操作 <span class="math inline">\(a'\)</span> 和状态 <span class="math inline">\(s'\)</span> 并诉诸 <span class="math inline">\(\pi(a',s')\)</span>。此外，概率 <span class="math inline">\(p(s',r|s,a)=\mathbb{P}\left[S_{t+1}=s',R_{t+1}=r | S_t=s,A_t=a \right]\)</span> 的 <span class="math inline">\(s'\)</span> 和 <span class="math inline">\(r\)</span> 参数的总和可以访问随机对 <span class="math inline">\((S_{t+1},R_{t+1})\)</span> 的分布，以便最终 <span class="math inline">\(\mathbb{E}_\pi[R_{t+1}|S_t=s,A_t=a]=\sum_{a', r,s'}\pi(a',s')p(s',r|s,a) r\)</span>。类似的推理适用于 <span class="math inline">\(q_\pi\)</span> 的第二部分，并且：
+<span class="math display" id="eq:bellman">\[\begin{align}
+q_\pi(s,a) &amp;=\sum_{a',r, s'}\pi(a',s')p(s',r|s,a) \left[ r+\gamma \mathbb{E}_\pi[ G_{t+1}|S_t=s',A_t=a']\right] \nonumber \\  \tag{16.6}
+&amp;=\sum_{a',r,s'}\pi(a',s')p(s',r|s,a) \left[ r+\gamma q_\pi(s',a')\right].
+\end{align}\]</span></p>
+<p>该方程将 <span class="math inline">\(q_\pi(s,a)\)</span> 从可从 <span class="math inline">\((s,a)\)</span> 访问的状态和动作 <span class="math inline">\((s',a')\)</span> 连接到未来 <span class="math inline">\(q_\pi(s',a')\)</span>。</p>
+<p>值得注意的是，方程 <a href="RL.html#eq:bellman">(16.6)</a> 对于最优动作值函数 <span class="math inline">\(q_*=\underset{\pi}{\max} \, q_\pi(s,a)\)</span> 也成立：</p>
+<p><span class="math display" id="eq:bellmanq">\[\begin{align}
+q_*(s,a) &amp;= \underset{a'}{\max} \sum_{r,s'}p(s',r|s,a) \left[ r+\gamma q_*(s',a')\right], \\
+&amp;= \mathbb{E}_{\pi^*}[r|s,a]+ \gamma \, \sum_{r,s'}p(s',r|s,a) \left(  \underset{a'}{\max}  q_*(s',a') \right)  \tag{16.7}
+\end{align}\]</span></p>
+<p>，因为一个最优策略是对于给定状态 <span class="math inline">\(s\)</span> 以及所有可能的动作 <span class="math inline">\(a\)</span> 而言最大化 <span class="math inline">\(q_\pi(s,a)\)</span> 的策略。该表达式是强化学习中称为 <span class="math inline">\(Q\)</span> 学习的基石算法的核心（<span class="citation">Watkins and Dayan (<a href="solutions-to-exercises.html#ref-watkins1992q" role="doc-biblioref">1992</a>)</span> 中概述了收敛的形式证明）。在<span class="math inline">\(Q\)</span>-学习中，状态-行动函数不再依赖于策略，而是用大写<span class="math inline">\(Q\)</span>书写。过程如下：</p>
+<p>初始化所有状态 <span class="math inline">\(s\)</span> 和操作 <span class="math inline">\(a\)</span> 的值 <span class="math inline">\(Q(s,a)\)</span>。对于每个情节：<br/><span class="math display">\[ (\textbf{QL}) \quad \left\{
+\begin{array}{l}
+\text{0. Initialize state } S_0 \text{ and for each iteration } i \text{ until the end of the episode;}   \\
+\text{1. observe state } s_i;    \\
+\text{2. perform action } a_i \text{(depending on } Q);   \\
+\text{3. receive reward }r_{i+1} \text{ and observe state } s_{i+1};  \\
+\text{4. Update } Q \text{ as follows: }
+\end{array} \right.\]</span></p>
+<p><span class="math display" id="eq:QLupdate">\[\begin{equation}
+\tag{16.8}
+Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(\underbrace{r_{i+1}+\gamma \, \underset{a}{\max} \, Q_i(s_{i+1},a)}_{\text{echo of Bellman eq.}}-Q_i(s_i,a_i) \right)
+\end{equation}\]</span></p>
+<p>此更新规则起作用的根本原因可以与收缩映射的不动点定理联系起来。如果函数<span class="math inline">\(f\)</span>满足<span class="math inline">\(|f(x)-f(y)|&lt; \delta |x-y|\)</span>（Lipshitz连续性），则可以通过<span class="math inline">\(z \leftarrow f(z)\)</span>迭代获得满足<span class="math inline">\(f(z)=z\)</span>的不动点<span class="math inline">\(z\)</span>。该更新规则收敛于固定点。方程 <a href="RL.html#eq:bellmanq">(16.7)</a> 可以使用类似的原理来求解，只不过学习率 <span class="math inline">\(\eta\)</span> 减慢了学习过程，但在技术上确保了技术假设下的收敛。</p>
+<p>更一般地说，<a href="RL.html#eq:QLupdate">(16.8)</a> 具有强化学习中广泛使用的形式，如 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 的方程 (2.4) 所示：
+<span class="math display" id="eq:RLeq">\[\begin{equation}
+\tag{16.9}
+\text{New estimate} \leftarrow \text{Old estimate + Step size (}i.e., \text{ learning rate)} \times (\text{Target - Old estimate}),
+\end{equation}\]</span></p>
+<p>其中最后一部分可以被视为错误项。因此，从旧的估计开始，新的估计朝着“正确”（或寻求的）方向前进，以折扣项为模，确保该方向的幅度不会太大。 <a href="RL.html#eq:QLupdate">(16.8)</a> 中的更新规则通常被称为“<em>时间差异</em>”学习，因为它是由 <span class="math inline">\(t+1\)</span>（目标）时间已知的估计与 <span class="math inline">\(t\)</span> 时间已知的估计所产生的改进驱动的。</p>
+<p><em>Q</em> 学习序列 (<strong>QL</strong>) 的一个重要步骤是选择动作 <span class="math inline">\(a_i\)</span> 的第二步。在强化学习中，最好的算法结合了两个特征：<strong>利用</strong> 和 <strong>探索</strong>。利用是指机器利用当前可处理的信息来选择下一步行动。在这种情况下，对于给定状态 <span class="math inline">\(s_i\)</span>，它选择使预期奖励 <span class="math inline">\(Q_i(s_i,a_i)\)</span> 最大化的操作 <span class="math inline">\(a_i\)</span>。虽然显而易见，但如果当前函数 <span class="math inline">\(Q_i\)</span> 距离 <em>真实</em> <span class="math inline">\(Q\)</span> 相对较远，则此选择不是最佳选择。重复局部最优策略可能会支持有限数量的操作，这将略微提高 <span class="math inline">\(Q\)</span> 函数的准确性。</p>
+<p>为了收集来自尚未经过太多测试的操作的新信息（但可能会产生更高的奖励），需要进行探索。这是随机选择操作 <span class="math inline">\(a_i\)</span> 的情况。结合这两个概念的最常见方法称为 <span class="math inline">\(\epsilon\)</span> - 贪婪探索。操作 <span class="math inline">\(a_i\)</span> 根据以下条件分配：</p>
+<p><span class="math display" id="eq:egreedy">\[\begin{equation}
+\tag{16.10}
+a_i=\left\{ \begin{array}{c l}
+\underset{a}{\text{argmax}} \ Q_i(s_i,a) &amp; \text{ with probability } 1-\epsilon \\
+\text{randomly (uniformly) over } \mathcal{A} &amp; \text{ with probability } \epsilon
+\end{array}\right. .
+\end{equation}\]</span></p>
+<p>因此，算法以 <span class="math inline">\(\epsilon\)</span> 的概率进行探索，并以 <span class="math inline">\(1-\epsilon\)</span> 的概率利用当前对预期奖励的了解并选择最佳操作。由于所有动作被选择的概率不为零，因此该策略被称为“软”。事实上，那么最佳动作的选择概率等于 <span class="math inline">\(1-\epsilon(1-\text{card}(\mathcal{A})^{-1})\)</span>，而所有其他动作的选择概率为 <span class="math inline">\(\epsilon/\text{card}(\mathcal{A})\)</span>。</p>
+</div>
+<div class="section level3" id="sarsa" number="16.1.3">
+<h3>
+<span class="header-section-number">16.1.3</span> SARSA<a aria-label="锚" class="anchor" href="#sarsa"><i class="fas fa-link"></i></a>
+</h3>
+<p>在 <span class="math inline">\(Q\)</span>-学习中，算法寻求找到最优策略的动作价值函数。因此，选择操作所遵循的策略与（通过 <span class="math inline">\(Q\)</span>）学习到的策略不同。此类算法称为 <em>离策略</em>。 <em>在策略</em> 算法寻求通过根据策略 <span class="math inline">\(\pi\)</span> 持续行动来改进动作价值函数 <span class="math inline">\(q_\pi\)</span> 的估计。在策略学习的一个典型例子是 SARSA 方法，它需要两个连续的状态和动作 <strong>SA</strong>R<strong>SA</strong>。下面介绍五元组 <span class="math inline">\((S_t,A_t,R_{t+1}, S_{t+1}, A_{t+1})\)</span> 的处理方式。</p>
+<p><span class="math inline">\(Q\)</span>学习和SARSA的主要区别在于更新规则。在 SARSA 中，它由下式给出：
+<span class="math display" id="eq:SARSAupdate">\[\begin{equation}
+\tag{16.11}
+Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, Q_i(s_{i+1},a_{i+1})-Q_i(s_i,a_i) \right)
+\end{equation}\]</span></p>
+<p>改进仅来自基于新状态和动作（<span class="math inline">\(s_{i+1},a_{i+1}\)</span>）的 <strong>局部</strong> 点 <span class="math inline">\(Q_i(s_{i+1},a_{i+1})\)</span>，而在 <span class="math inline">\(Q\)</span> 学习中，它来自于所有可能的动作，其中仅保留最好的动作 <span class="math inline">\(\underset{a}{\max} \, Q_i(s_{i+1},a)\)</span>。预计</p>
+<p>SARSA 的一个更强大但计算要求更高的版本是期望 SARSA，其中目标 <span class="math inline">\(Q\)</span> 函数对所有操作进行平均：
+<span class="math display" id="eq:exSARSAupdate">\[\begin{equation}
+\tag{16.12}
+Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \sum_a \pi(a,s_{i+1}) Q_i(s_{i+1},a) -Q_i(s_i,a_i) \right)
+\end{equation}\]</span></p>
+<p>预期 SARSA 的波动性小于 SARSA，因为后者受到 <span class="math inline">\(a_{i+1}\)</span> 随机选择的强烈影响。在预期的 SARSA 中，平均值使学习过程更加顺畅。</p>
+</div>
+</div>
+<div class="section level2" id="the-curse-of-dimensionality" number="16.2">
+<h2><span class="header-section-number">16.2</span> 维度诅咒<a aria-label="锚" class="anchor" href="#the-curse-of-dimensionality"><i class="fas fa-link"></i></a></h2>
+<p>让我们首先回顾一下，强化学习是一个不与特定算法关联的框架。事实上，不同的工具可以很好地共存于 RL 任务中（AlphaGo 结合了树方法和神经网络，参见 <span class="citation">Silver et al. (<a href="solutions-to-exercises.html#ref-silver2016mastering" role="doc-biblioref">2016</a>)</span>）。尽管如此，任何强化学习尝试都将始终依赖于三个关键概念：状态、动作和奖励。在因子投资中，它们相当容易识别，尽管总有解释的空间。行动显然是由投资组合构成来定义的。状态可以被视为描述经济的当前值：作为一阶近似，可以假设特征级别履行这一角色（可能以宏观经济数据为条件或补充）。奖励也更加直接。回报或任何相关绩效指标<a class="footnote-ref" href="solutions-to-exercises.html#fn34" id="fnref34"><sup>34</sup></a> 都可以算作奖励。</p>
+<p>一个主要问题在于状态和动作的维度。假设没有杠杆作用（没有负权重），动作在单纯形上取值
+<span class="math display" id="eq:simplex">\[\begin{equation}
+\tag{16.13}
+\mathbb{S}_N=\left\{ \mathbf{x} \in \mathbb{R}^N\left|\sum_{n=1}^Nx_n=1, \ x_n\ge 0, \ \forall n=1,\dots,N \right.\right\}
+\end{equation}\]</span>
+假设所有特征都已统一，则它们的空间为 <span class="math inline">\([0,1]^{NK}\)</span>。不用说，这两个空间的尺寸在数字上都是不切实际的。</p>
+<p>解决这个问题的一个简单方法是离散化：将每个空间划分为少量类别。有些作者确实采取了这条路线。在 <span class="citation">S. Y. Yang, Yu, and Almahdi (<a href="solutions-to-exercises.html#ref-yang2018investor" role="doc-biblioref">2018</a>)</span> 中，状态空间根据波动性被离散化为三个值，并且动作也被分为三类。 <span class="citation">Bertoluzzo and Corazza (<a href="solutions-to-exercises.html#ref-bertoluzzo2012testing" role="doc-biblioref">2012</a>)</span>、<span class="citation">Xiong et al. (<a href="solutions-to-exercises.html#ref-xiong2018practical" role="doc-biblioref">2018</a>)</span> 和 <span class="citation">Taghian, Asadi, and Safabakhsh (<a href="solutions-to-exercises.html#ref-taghian2020learning" role="doc-biblioref">2020</a>)</span> 也选择三种可能的操作（买入、持有、卖出）。在 <span class="citation">Almahdi and Yang (<a href="solutions-to-exercises.html#ref-almahdi2019constrained" role="doc-biblioref">2019</a>)</span> 中，学习器预计会产生买入或做空的二元信号。 <span class="citation">Garcı́a-Galicia, Carsteanu, and Clempner (<a href="solutions-to-exercises.html#ref-garcia2019continuous" role="doc-biblioref">2019</a>)</span> 考虑更大的状态空间（8 个元素），但将动作集限制为 3 个选项。 <a class="footnote-ref" href="solutions-to-exercises.html#fn35" id="fnref35"><sup>35</sup></a> 在状态空间方面，所有文章都假设经济状况由价格（或回报）决定。</p>
+<p>这些方法的一个重大限制是它们所暗示的显着简化。当投资多种资产时，现实的离散化在数值上是很棘手的。事实上，将单位间隔分割为 <span class="math inline">\(h\)</span> 点会产生 <span class="math inline">\(h^{NK}\)</span> 种特征值可能性。权重组合的选项数量随着 <span class="math inline">\(N\)</span> 呈指数级增加。举个例子：10 只股票的 10 个特征的 10 个可能值会产生 <span class="math inline">\(10^{100}\)</span> 排列。</p>
+<p>上述问题当然不仅限于投资组合构建。已经提出了许多解决方案来解决连续空间中的马尔可夫决策过程。例如，我们参考 <span class="citation">Powell and Ma (<a href="solutions-to-exercises.html#ref-powell2011review" role="doc-biblioref">2011</a>)</span> 中的第 4 节来回顾早期方法（外部财务）。</p>
+<p>这种维数灾难伴随着训练数据的基本问题。可以想到两种选择：市场数据与模拟。在给定的受控样本生成器下，很难想象该算法会击败最大化给定效用函数的解决方案。如果有的话，它应该在固定数据生成过程下收敛到静态最优解（例如，参见 <span class="citation">Chaouki et al. (<a href="solutions-to-exercises.html#ref-chaouki2020deep" role="doc-biblioref">2020</a>)</span> 交易任务），顺便说一句，这是一个非常强的建模假设。</p>
+<p>这使得市场数据成为首选解决方案，但即使使用大型数据集，也几乎没有机会覆盖上述所有（操作、状态）组合。基于特征的数据集的深度可以贯穿数十年的月度数据，这意味着最多数百个时间戳。到目前为止，这太有限了，无法实现可靠的学习过程。总是可以生成合成数据（如 <span class="citation">Yu et al. (<a href="solutions-to-exercises.html#ref-yu2019model" role="doc-biblioref">2019</a>)</span> 中），但尚不清楚这是否会切实提高算法的性能。</p>
+</div>
+<div class="section level2" id="policy-gradient" number="16.3">
+<h2><span class="header-section-number">16.3</span> 策略梯度<a aria-label="锚" class="anchor" href="#policy-gradient"><i class="fas fa-link"></i></a></h2>
+<div class="section level3" id="principle-2" number="16.3.1">
+<h3><span class="header-section-number">16.3.1</span> 原理<a aria-label="锚" class="anchor" href="#principle-2"><i class="fas fa-link"></i></a></h3>
+<p>除了动作和状态空间的离散化之外，一个强大的技巧是 <strong>参数化</strong>。当 <span class="math inline">\(a\)</span> 和 <span class="math inline">\(s\)</span> 可以取离散值时，必须为所有对 <span class="math inline">\((a,s)\)</span> 计算动作值函数，这可能非常麻烦。规避这个问题的一个优雅方法是假设该策略是由数量相对较少的参数驱动的。然后，学习过程的重点是优化这组参数 <span class="math inline">\(\boldsymbol{\theta}\)</span>。然后我们将 <span class="math inline">\(\pi_{\boldsymbol{\theta}}(a,s)\)</span> 写为在状态 <span class="math inline">\(s\)</span> 中选择动作 <span class="math inline">\(a\)</span> 的概率。定义 <span class="math inline">\(\pi_{\boldsymbol{\theta}}(a,s)\)</span> 的一种直观方法是采用 soft-max 形式：
+<span class="math display" id="eq:policyex">\[\begin{equation}
+\tag{16.14}
+\pi_{\boldsymbol{\theta}}(a,s) = \frac{e^{\boldsymbol{\theta}'\textbf{h}(a,s)}}{\sum_{b}e^{\boldsymbol{\theta}'\textbf{h}(b,s)}},
+\end{equation}\]</span>
+其中函数 <span class="math inline">\(\textbf{h}(a,s)\)</span> 的输出与 <span class="math inline">\(\boldsymbol{\theta}\)</span> 具有相同的维度，称为表示 <span class="math inline">\((a,s)\)</span> 对的特征向量。通常，<span class="math inline">\(\textbf{h}\)</span> 很可能是一个简单的神经网络，具有两个输入单元和等于 <span class="math inline">\(\boldsymbol{\theta}\)</span> 长度的输出维度。</p>
+<p><span class="math inline">\(\pi_{\boldsymbol{\theta}}\)</span> 所需的一个属性是它相对于 <span class="math inline">\(\boldsymbol{\theta}\)</span> 是可微的，以便可以通过某种梯度方法改进 <span class="math inline">\(\boldsymbol{\theta}\)</span>。关于策略梯度的最简单和直观的结果是在情景任务（有限视野）的情况下已知的，其寻求最大化平均增益 <span class="math inline">\(\mathbb{E}_{\boldsymbol{\theta}}[G_t]\)</span> ，其中增益在方程 <a href="RL.html#eq:gain6">(16.3)</a> 中定义。期望是根据依赖于 <span class="math inline">\(\boldsymbol{\theta}\)</span> 的特定策略计算的，这就是我们使用简单下标的原因。一个核心结果是所谓的策略梯度定理，该定理指出</p>
+<p><span class="math display" id="eq:PGT">\[\begin{equation}
+\tag{16.15}
+\nabla \mathbb{E}_{\boldsymbol{\theta}}[G_t]=\mathbb{E}_{\boldsymbol{\theta}} \left[G_t\frac{\nabla \pi_{\boldsymbol{\theta}}}{\pi_{\boldsymbol{\theta}}} \right].
+\end{equation}\]</span></p>
+<p>然后该结果可用于 <strong>梯度上升</strong>：当寻求最大化数量时，参数变化必须向上：</p>
+<p><span class="math display" id="eq:ascent">\[\begin{equation}
+\tag{16.16}
+\boldsymbol{\theta} \leftarrow \boldsymbol{\theta} + \eta \nabla \mathbb{E}_{\boldsymbol{\theta}}[G_t].
+\end{equation}\]</span></p>
+<p>这个简单的更新规则称为 <strong>REINFORCE</strong> 算法。对这个简单想法的一个改进是添加一个基线，我们参考 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 的第 13.4 节了解有关此主题的详细说明。</p>
+</div>
+<div class="section level3" id="extensions-2" number="16.3.2">
+<h3><span class="header-section-number">16.3.2</span> 扩展<a aria-label="锚" class="anchor" href="#extensions-2"><i class="fas fa-link"></i></a></h3>
+<p>REINFORCE 的一个流行扩展是所谓的 <strong>Actor-Critic</strong>（AC，行动者-评论家）方法，它将策略梯度与 <span class="math inline">\(Q\)</span>- 或 <span class="math inline">\(v\)</span>- 学习相结合。 AC 算法可以被视为策略梯度和 SARSA 之间的某种混合。一个核心要求是状态值函数 <span class="math inline">\(v(\cdot)\)</span> 是某个参数向量 <span class="math inline">\(\textbf{w}\)</span> （通常被视为神经网络）的可微函数。那么更新规则就是</p>
+<p><span class="math display" id="eq:ascentAC">\[\begin{equation}
+\tag{16.17}
+\boldsymbol{\theta} \leftarrow \boldsymbol{\theta} + \eta \left(R_{t+1}+\gamma v(S_{t+1},\textbf{w})-v(S_t,\textbf{w}) \right)\frac{\nabla \pi_{\boldsymbol{\theta}}}{\pi_{\boldsymbol{\theta}}},
+\end{equation}\]</span>
+但诀窍是向量 <span class="math inline">\(\textbf{w}\)</span> 也必须更新。行动者对应策略端，负责驱动决策；评论家对应价值函数端，用来评估行动者的表现。随着学习的进展（每次更新两组参数），双方都会进步。确切的算法公式有点长，我们参考 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 中的第 13.5 节来了解 AC 的精确步骤顺序。</p>
+<p><span class="citation">Aboussalah and Lee (<a href="solutions-to-exercises.html#ref-aboussalah2020continuous" role="doc-biblioref">2020</a>)</span> 中概述了参数策略的另一个有趣的应用。在他们的文章中，作者定义了基于循环神经网络的交易策略。因此，本例中的参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 包含网络中的所有权重和偏差。</p>
+<p>参数策略的另一个有利特征是它们与连续的操作集兼容。除了 <a href="RL.html#eq:policyex">(16.14)</a> 形式之外，还有其他方法来塑造 <span class="math inline">\(\pi_{\boldsymbol{\theta}}\)</span>。如果 <span class="math inline">\(\mathcal{A}\)</span> 是 <span class="math inline">\(\mathbb{R}\)</span> 的子集，并且 <span class="math inline">\(f_{\boldsymbol{\Omega}}\)</span> 是参数为 <span class="math inline">\(\boldsymbol{\Omega}\)</span> 的密度函数，则 <span class="math inline">\(\pi_{\boldsymbol{\theta}}\)</span> 的候选形式为</p>
+<p><span class="math display" id="eq:parpol">\[\begin{equation}
+\tag{16.18}
+\pi_{\boldsymbol{\theta}} = f_{\boldsymbol{\Omega}(s,\boldsymbol{\theta})}(a),
+\end{equation}\]</span>
+其中参数 <span class="math inline">\(\boldsymbol{\Omega}\)</span> 依次是状态和底层（二阶）参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 的函数。</p>
+<p>虽然高斯分布（参见 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 中的第 13.7 节）通常是首选，但它们需要进行一些处理才能位于单位间隔内。获得此类值的一种简单方法是将正态累积分布函数应用于输出。在<span class="citation">H. Wang and Zhou (<a href="solutions-to-exercises.html#ref-wang2019continuous" role="doc-biblioref">2019</a>)</span>中，从理论上探讨了多元高斯策略，但它假设权重没有限制。</p>
+<p>一些自然参数分布作为替代方案出现。如果只交易一种资产，则可以使用伯努利分布来确定是否购买该资产。如果有无风险资产可用，则贝塔分布提供更大的灵活性，因为投资于风险资产的比例值跨越整个区间；剩余的可以投资于安全资产。当许多资产被交易时，由于预算限制，事情变得更加复杂。狄利克雷分布是一种理想的候选分布，因为它是在单纯形上定义的（参见方程 <a href="RL.html#eq:simplex">(16.13)</a>）：
+<span class="math display">\[f_{\boldsymbol{\alpha}}(w_1,\dots,w_n)=\frac{1}{B(\boldsymbol{\alpha})}\prod_{n=1}^Nw_n^{\alpha_n-1},\]</span>
+其中 <span class="math inline">\(B(\boldsymbol{\alpha})\)</span> 是多项式 beta 函数：
+<span class="math display">\[B(\boldsymbol{\alpha})=\frac{\prod_{n=1}^N\Gamma(\alpha_n)}{\Gamma\left(\sum_{n=1}^N\alpha_n \right)}.\]</span></p>
+<p>如果我们设置<span class="math inline">\(\pi=\pi_{\boldsymbol{\alpha}}=f_{\boldsymbol{\alpha}}\)</span>，则可以通过<span class="math inline">\({\boldsymbol{\alpha}}\)</span>以线性形式对因素或特征的联系进行编码：
+<span class="math display">\[\begin{equation}
+(\textbf{F1}) \quad  \alpha_{n,t}=\theta_{0,t} + \sum_{k=1}^K \theta_{t}^{(k)}x_{t,n}^{(k)},
+\end{equation}\]</span>
+这是非常容易处理的，但对于 <span class="math inline">\(\theta_{k,t}\)</span> 的某些值可能会违反 <span class="math inline">\(\alpha_{n,t}&gt;0\)</span> 的条件。事实上，在学习过程中，<span class="math inline">\(\boldsymbol{\theta}\)</span> 的更新可能会产生 <span class="math inline">\(\boldsymbol{\alpha}_t\)</span> 可行集合之外的值。在这种情况下，可以诉诸在线学习中广泛使用的技巧（例如，参见 <span class="citation">Hoi et al. (<a href="solutions-to-exercises.html#ref-hoi2018online" role="doc-biblioref">2018</a>)</span> 中的 2.3.1 节）。这个想法只是找到最接近算法建议的可接受的解决方案。如果我们将 <span class="math inline">\(\boldsymbol{\theta}^*\)</span> 称为给定算法的更新规则的结果，那么最接近的可行向量是
+<span class="math display">\[\begin{equation}
+\boldsymbol{\theta}= \underset{\textbf{z} \in \Theta(\textbf{x}_t)}{\min} ||\boldsymbol{\theta}^*-\textbf{z}||^2,
+\end{equation}\]</span>
+其中 <span class="math inline">\(||\cdot||\)</span> 是欧几里得范数，<span class="math inline">\(\Theta(\textbf{x}_t)\)</span> 是可行集，即使得 <span class="math inline">\(\alpha_{n,t}=\theta_{0,t} + \sum_{k=1}^K \theta_{t}^{(k)}x_{t,n}^{(k)}\)</span> 均为非负的向量 <span class="math inline">\(\boldsymbol{\theta}\)</span> 的集合。</p>
+<p>策略形式的第二个选项 <span class="math inline">\(\pi^2_{\boldsymbol{\theta}_t}\)</span> 稍微复杂一些，但始终有效（即具有正 <span class="math inline">\(\alpha_{n,t}\)</span> 值）：
+<span class="math display">\[\begin{equation}
+(\textbf{F2}) \quad  \alpha_{n,t}=\exp \left(\theta_{0,t} + \sum_{k=1}^K \theta_{t}^{(k)}x_{t,n}^{(k)}\right),
+\end{equation}\]</span>
+这只是第一个版本的指数。通过一些代数，可以推导出策略梯度。策略 <span class="math inline">\(\pi^j_{\boldsymbol{\theta}_t}\)</span> 由上面的方程 <span class="math inline">\((\textbf{Fj})\)</span> 定义。让 <span class="math inline">\(\digamma\)</span> 表示二伽玛函数。让 <span class="math inline">\(\textbf{1}\)</span> 表示所有 1 的 <span class="math inline">\(\mathbb{R}^N\)</span> 向量。我们有
+<span class="math display">\[\begin{align*}
+\frac{\nabla_{\boldsymbol{\theta}_t} \pi^1_{\boldsymbol{\theta}_t}}{\pi^1_{\boldsymbol{\theta}_t}}&amp;= \sum_{n=1}^N \left( \digamma \left( \textbf{1}'\textbf{X}_t\boldsymbol{\theta}_t \right) - \digamma(\textbf{x}_{t,n}\boldsymbol{\theta}_t) + \ln w_n \right) \textbf{x}_{t,n}' \\
+\frac{\nabla_{\boldsymbol{\theta}_t} \pi^2_{\boldsymbol{\theta}_t}}{\pi^2_{\boldsymbol{\theta}_t}}&amp;= \sum_{n=1}^N \left( \digamma \left( \textbf{1}'e^{\textbf{X}_{t}\boldsymbol{\theta}_t} \right) - \digamma(e^{\textbf{x}_{t,n}\boldsymbol{\theta}_t}) + \ln w_n \right) e^{\textbf{x}_{t,n}\boldsymbol{\theta}_t} \textbf{x}_{t,n}'
+\end{align*}\]</span>
+其中 <span class="math inline">\(e^{\textbf{X}}\)</span> 是矩阵 <span class="math inline">\(\textbf{X}\)</span> 的按元素指数。</p>
+<p>然后可以通过直接采样或使用分布平均值 <span class="math inline">\((\textbf{1}'\boldsymbol{\alpha})^{-1}\boldsymbol{\alpha}\)</span> 进行分配。最后，技术说明：狄利克雷分布只能用于小型投资组合，因为对于较大的 <span class="math inline">\(N\)</span> 值（例如，高于 50），密度的缩放常数在数值上变得难以处理。关于这个想法的更多细节在 <span class="citation">André and Coqueret (<a href="solutions-to-exercises.html#ref-andre2020dirichlet" role="doc-biblioref">2020</a>)</span> 中列出。</p>
+</div>
+</div>
+<div class="section level2" id="simple-examples" number="16.4">
+<h2><span class="header-section-number">16.4</span> 简单示例<a aria-label="锚" class="anchor" href="#simple-examples"><i class="fas fa-link"></i></a></h2>
+<div class="section level3" id="q-learning-with-simulations" number="16.4.1">
+<h3><span class="header-section-number">16.4.1</span> 通过模拟进行 Q 学习<a aria-label="锚" class="anchor" href="#q-learning-with-simulations"><i class="fas fa-link"></i></a></h3>
+<p>为了说明上述问题的要点，我们提出了 <span class="math inline">\(Q\)</span>-learning 的两种实现方式。为简单起见，第一个基于模拟。这有助于在简化的框架中理解学习​​过程。我们考虑两种资产：一种有风险，一种无风险，回报为零。风险过程的回报遵循一阶自回归模型 (AR(1))：<span class="math inline">\(r_{t+1}=a+\rho r_t+\epsilon_{t+1}\)</span> 以及 <span class="math inline">\(|\rho|&lt;1\)</span> 和 <span class="math inline">\(\epsilon\)</span> 遵循方差为 <span class="math inline">\(\sigma^2\)</span> 的标准白噪声。在实践中，个体（每月）回报很少是自相关的，但调整自相关有助于了解算法是否正确学习（参见下面的练习）。</p>
+<p>该环境仅包含观察过去的返回 <span class="math inline">\(r_t\)</span>。由于我们寻求估计 <span class="math inline">\(Q\)</span> 函数，因此我们需要离散化该状态变量。最简单的选择是使用二元变量：如果 <span class="math inline">\(r_t&lt;0\)</span> 则等于 -1（负），如果 <span class="math inline">\(r_t\ge 0\)</span> 则等于 +1（正）。这些行动按投资于风险资产的数量进行总结。它可以取 5 个值：0（无风险投资组合）、0.25、0.5、0.75 和 1（完全投资于风险资产）。例如，这与 <span class="citation">Pendharkar and Cusatis (<a href="solutions-to-exercises.html#ref-pendharkar2018trading" role="doc-biblioref">2018</a>)</span> 中的选择相同。</p>
+<p>用于强化学习的 R 库的情况出人意料地稀疏。我们求助于 <em>强化学习</em> 包，它具有 <span class="math inline">\(Q\)</span> 学习的直观实现（另一个选项是 <em>强化学习</em> 包）。它需要一个包含通常输入的数据集：状态、动作、奖励和后续状态。我们首先模拟回报：它们驱动状态和奖励（投资组合收益率）。动作是随机采样的。从技术上讲，包的主要功能要求状态和操作是字符类型。数据构建在下面的块中。</p>
+<div class="sourceCode" id="cb245"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">ReinforcementLearning</span><span class="op">)</span>                              <span class="co"># Package for RL</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>                                                <span class="co"># Fixing the random seed</span>
+<span class="va">n_sample</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">^</span><span class="fl">5</span>                                            <span class="co"># Number of samples to be generated</span>
+<span class="va">rho</span> <span class="op">&lt;-</span> <span class="fl">0.8</span>                                                  <span class="co"># Autoregressive parameter</span>
+<span class="va">sd</span> <span class="op">&lt;-</span> <span class="fl">0.4</span>                                                   <span class="co"># Std. dev. of noise</span>
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">0.06</span> <span class="op">*</span> <span class="va">rho</span>                                             <span class="co"># Scaled mean of returns</span>
+<span class="va">data_RL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>returns <span class="op">=</span> <span class="va">a</span><span class="op">/</span><span class="va">rho</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.sim.html">arima.sim</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n_sample</span>, <span class="co"># Returns via AR(1) simulation</span>
+                                      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>ar <span class="op">=</span> <span class="va">rho</span><span class="op">)</span>,       
+                                      sd <span class="op">=</span> <span class="va">sd</span><span class="op">)</span>,
+                  action <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">n_sample</span><span class="op">)</span><span class="op">*</span><span class="fl">4</span><span class="op">)</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>  <span class="co"># Random action (portfolio)</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>new_state <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">returns</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="st">"neg"</span>, <span class="st">"pos"</span><span class="op">)</span>,  <span class="co"># Coding of state</span>
+           reward <span class="op">=</span> <span class="va">returns</span> <span class="op">*</span> <span class="va">action</span>,                       <span class="co"># Reward = portfolio return</span>
+           state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">new_state</span><span class="op">)</span>,                          <span class="co"># Next state</span>
+           action <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">action</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span>                                               <span class="co"># Remove one missing state</span>
+<span class="va">data_RL</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/Rgraphviz/man/AgEdge-class.html">head</a></span><span class="op">(</span><span class="op">)</span>                                          <span class="co"># Show first lines</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   returns action new_state  reward state
+##     &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1  -0.474 0.5    neg       -0.237  neg  
+## 2  -0.185 0.25   neg       -0.0463 neg  
+## 3   0.146 0.25   pos        0.0364 neg  
+## 4   0.543 0.75   pos        0.407  pos  
+## 5   0.202 0.75   pos        0.152  pos  
+## 6   0.376 0.25   pos        0.0940 pos</code></pre>
+<p></p>
+<p><em>Q</em>-学习算法的实现中有3个参数：</p>
+<ul>
+<li><span class="math inline">\(\eta\)</span>，是更新方程 <a href="RL.html#eq:QLupdate">(16.8)</a> 中的学习率。在 <em>强化学习</em> 中，编码为 <em>alpha</em>;<br/></li>
+<li><span class="math inline">\(\gamma\)</span>，奖励的折扣率（也如公式 <a href="RL.html#eq:QLupdate">(16.8)</a> 所示）；<br/></li>
+<li>和 <span class="math inline">\(\epsilon\)</span>，控制探索与利用的速率（参见公式 <a href="RL.html#eq:egreedy">(16.10)</a>）。</li>
+</ul>
+<div class="sourceCode" id="cb247"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">control</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.1</span>,                       <span class="co"># Learning rate</span>
+                gamma <span class="op">=</span> <span class="fl">0.7</span>,                       <span class="co"># Discount factor for rewards</span>
+                epsilon <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>                     <span class="co"># Exploration rate</span>
+
+<span class="va">fit_RL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ReinforcementLearning/man/ReinforcementLearning.html">ReinforcementLearning</a></span><span class="op">(</span><span class="va">data_RL</span>,           <span class="co"># Main RL function</span>
+                               s <span class="op">=</span> <span class="st">"state"</span>, 
+                               a <span class="op">=</span> <span class="st">"action"</span>, 
+                               r <span class="op">=</span> <span class="st">"reward"</span>, 
+                               s_new <span class="op">=</span> <span class="st">"new_state"</span>, 
+                               control <span class="op">=</span> <span class="va">control</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit_RL</span><span class="op">)</span>   <span class="co"># Show the output</span></code></pre></div>
+<pre><code>## State-Action function Q
+##          0.25         0         1      0.75      0.5
+## neg 0.2473169 0.4216894 0.1509653 0.1734538 0.229004
+## pos 1.0721669 0.7561417 1.4739050 1.1214795 1.045047
+## 
+## Policy
+## neg pos 
+## "0" "1" 
+## 
+## Reward (last iteration)
+## [1] 2588.659</code></pre>
+<p></p>
+<p>输出显示 <em>Q</em> 函数，该函数自然取决于状态和操作。当状态为负时，大风险仓位（行动等于 0.75 或 1.00）与最小平均奖励相关，而小仓位产生最高平均奖励。当状态为正时，最大分配的平均奖励最高。这两种情况下的回报几乎都是风险资产投资比例的单调函数。因此，算法（即策略）的建议是在积极状态下充分投资，在消极状态下避免投资。考虑到基本过程的正自相关，这确实有道理。</p>
+<p>基本上，该算法只是了解到正（<em>分别</em> 负）回报更有可能跟随正（<em>分别</em>.负）回报。虽然这有点让人放心，但绝不令人印象深刻，而且更简单的工具也会产生类似的结论和指导。</p>
+</div>
+<div class="section level3" id="RLemp2" number="16.4.2">
+<h3><span class="header-section-number">16.4.2</span> 利用市场数据进行 Q 学习<a aria-label="锚" class="anchor" href="#RLemp2"><i class="fas fa-link"></i></a></h3>
+<p></p>
+<p>第二个应用程序基于金融数据集。为了降低问题的维度，我们假设：<br/>
+- 只有一项特征（市净率）捕捉到了环境的状态。此功能经过处理，因此仅具有有限数量的可能值；<br/>
+- 行动采用由三个头寸组成的离散集合的值：+1（买入市场）、-1（卖出市场）和 0（不持有风险头寸）；<br/>
+- 仅交易两种资产：stock_id 等于 3 和 4 的资产 - 它们都有 245 天的交易数据。</p>
+<p>数据集的构造在下面进行了不优雅的编码。</p>
+<div class="sourceCode" id="cb249"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">return_3</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op">==</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">R1M_Usd</span><span class="op">)</span>  <span class="co"># Return of asset 3</span>
+<span class="va">return_4</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op">==</span> <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">R1M_Usd</span><span class="op">)</span>  <span class="co"># Return of asset 4</span>
+<span class="va">pb_3</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op">==</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">Pb</span><span class="op">)</span>           <span class="co"># P/B ratio of asset 3</span>
+<span class="va">pb_4</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op">==</span> <span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">Pb</span><span class="op">)</span>           <span class="co"># P/B ratio of asset 4</span>
+<span class="va">action_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">pb_3</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="fl">3</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>                     <span class="co"># Action for asset 3 (random)</span>
+<span class="va">action_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">pb_4</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="fl">3</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>                     <span class="co"># Action for asset 4 (random)</span>
+
+<span class="va">RL_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span><span class="va">return_3</span>, <span class="va">return_4</span>,                            <span class="co"># Building the dataset</span>
+                  <span class="va">pb_3</span>, <span class="va">pb_4</span>,
+                  <span class="va">action_3</span>, <span class="va">action_4</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>action <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">action_3</span>, <span class="va">action_4</span><span class="op">)</span>,                   <span class="co"># Uniting actions</span>
+           pb_3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">5</span> <span class="op">*</span> <span class="va">pb_3</span><span class="op">)</span>,                               <span class="co"># Simplifying states (P/B)</span>
+           pb_4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">5</span> <span class="op">*</span> <span class="va">pb_4</span><span class="op">)</span>,                               <span class="co"># Simplifying states (P/B)</span>
+           state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">pb_3</span>, <span class="va">pb_4</span><span class="op">)</span>,                            <span class="co"># Uniting states</span>
+           reward <span class="op">=</span> <span class="va">action_3</span><span class="op">*</span><span class="va">return_3</span> <span class="op">+</span> <span class="va">action_4</span><span class="op">*</span><span class="va">return_4</span>,       <span class="co"># Computing rewards</span>
+           new_state <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html">lead</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                          <span class="co"># Infer new state</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">pb_3</span>, <span class="op">-</span><span class="va">pb_4</span>, <span class="op">-</span><span class="va">action_3</span>,                       <span class="co"># Remove superfluous vars.</span>
+                  <span class="op">-</span><span class="va">action_4</span>, <span class="op">-</span><span class="va">return_3</span>, <span class="op">-</span><span class="va">return_4</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/pkg/Rgraphviz/man/AgEdge-class.html">head</a></span><span class="op">(</span><span class="va">RL_data</span><span class="op">)</span>                                                    <span class="co"># Showing the result</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   action state reward new_state
+##   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;    
+## 1 -1 -1  1 1   -0.061 1 1      
+## 2 0 1    1 1    0     1 1      
+## 3 -1 0   1 1   -0.018 1 1      
+## 4 0 -1   1 1    0.011 1 1      
+## 5 -1 1   1 1   -0.036 1 1      
+## 6 -1 -1  1 1   -0.056 1 1</code></pre>
+<p></p>
+<p>必须合并操作和状态才能产生所有可能的组合。为了简化状态，我们将市净率四舍五入 5 倍。</p>
+<p>我们保留与上一个示例相同的超参数。下面的列代表操作：第一个（<span class="math inline">\(resp.\)</span> 第二个）数字表示第一个（<span class="math inline">\(resp.\)</span> 第二个）资产中的位置。行对应于状态。缩放后的市净率以点分隔（例如，“X2.3”表示第一个（<span class="math inline">\(resp.\)</span> 第二个）资产的缩放后的市净率为 2 (<span class="math inline">\(resp.\)</span> 3)。</p>
+<div class="sourceCode" id="cb251"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_RL2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ReinforcementLearning/man/ReinforcementLearning.html">ReinforcementLearning</a></span><span class="op">(</span><span class="va">RL_data</span>,           <span class="co"># Main RL function</span>
+                               s <span class="op">=</span> <span class="st">"state"</span>, 
+                               a <span class="op">=</span> <span class="st">"action"</span>, 
+                               r <span class="op">=</span> <span class="st">"reward"</span>, 
+                               s_new <span class="op">=</span> <span class="st">"new_state"</span>, 
+                               control <span class="op">=</span> <span class="va">control</span><span class="op">)</span>
+<span class="va">fit_RL2</span><span class="op">$</span><span class="va">Q</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit_RL2</span><span class="op">$</span><span class="va">Q</span>, <span class="fl">3</span><span class="op">)</span> <span class="co"># Round the Q-matrix</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit_RL2</span><span class="op">)</span>                   <span class="co"># Show the output </span></code></pre></div>
+<pre><code>## State-Action function Q
+##       0 0    0 1   0 -1  -1 -1   -1 0   -1 1   1 -1    1 0    1 1
+## 0 2 0.000  0.000  0.000 -0.017  0.000  0.000  0.000  0.002  0.000
+## 0 3 0.000  0.000  0.003  0.000  0.000  0.000  0.030  0.000  0.000
+## 3 1 0.002  0.000  0.005  0.000 -0.002  0.000  0.000  0.000  0.000
+## 2 1 0.005  0.018  0.009 -0.028  0.010 -0.003  0.021  0.008 -0.004
+## 2 2 0.000  0.010  0.000  0.014  0.000  0.000 -0.013  0.006  0.000
+## 2 3 0.000  0.000  0.000  0.000  0.000  0.020  0.000 -0.034  0.000
+## 1 1 0.002 -0.005 -0.022 -0.011 -0.002 -0.009 -0.020 -0.014 -0.023
+## 1 2 0.006  0.016  0.006  0.028 -0.001  0.001  0.020  0.020 -0.001
+## 1 3 0.001  0.004  0.004 -0.011  0.000  0.003  0.005  0.003  0.010
+## 
+## Policy
+##     0 2     0 3     3 1     2 1     2 2     2 3     1 1     1 2     1 3 
+##   "1 0"  "1 -1"  "0 -1"  "1 -1" "-1 -1"  "-1 1"   "0 0" "-1 -1"   "1 1" 
+## 
+## Reward (last iteration)
+## [1] -1.296</code></pre>
+<p></p>
+<p>输出显示有许多数据未涵盖的状态和动作组合：基本上，<span class="math inline">\(Q\)</span> 函数有一个零，并且很可能尚未探索该组合。有些州似乎更常被代表（“X1.1”、“X1.2”和“X2.1”），而另一些则较少（“X3.1”和“X3.2”）。很难理解这些建议。一些州关闭“X0.1”和“X1.1”，但与它们相关的结果非常不同（买入和做空与持有和买入）。此外，关于个体状态值的行为不存在连贯性和单调性：状态的低值可能与非常不同的行为相关联。</p>
+<p>这些结论看起来不可信的原因之一与数据大小有关。由于只有 200 多个时间点和 99 个状态-动作对（11 乘以 9），因此平均只产生两个数据点来计算 <span class="math inline">\(Q\)</span> 函数。这可以通过测试更多随机动作来改进，但无论如何最终都会（迅速）达到样本大小的限制。这留作练习（见下文）。</p>
+</div>
+</div>
+<div class="section level2" id="concluding-remarks" number="16.5">
+<h2><span class="header-section-number">16.5</span> 结束语<a aria-label="锚" class="anchor" href="#concluding-remarks"><i class="fas fa-link"></i></a></h2>
+<p>强化学习长期以来一直应用于金融问题。 20 世纪 90 年代末的早期贡献包括 <span class="citation">Neuneier (<a href="solutions-to-exercises.html#ref-neuneier1996optimal" role="doc-biblioref">1996</a>)</span>、<span class="citation">Moody and Wu (<a href="solutions-to-exercises.html#ref-moody1997optimization" role="doc-biblioref">1997</a>)</span>、<span class="citation">Moody et al. (<a href="solutions-to-exercises.html#ref-moody1998performance" role="doc-biblioref">1998</a>)</span> 和 <span class="citation">Neuneier (<a href="solutions-to-exercises.html#ref-neuneier1998enhancing" role="doc-biblioref">1998</a>)</span>。从那时起，计算机科学领域的许多研究人员都试图将强化学习技术应用于投资组合问题。海量数据集的出现和维度的增加使得强化学习工具很难很好地适应因子投资中遇到的非常丰富的环境。</p>
+<p>最近，一些方法试图使强化学习适应连续动作空间（<span class="citation">H. Wang and Zhou (<a href="solutions-to-exercises.html#ref-wang2019continuous" role="doc-biblioref">2019</a>)</span>、<span class="citation">Aboussalah and Lee (<a href="solutions-to-exercises.html#ref-aboussalah2020continuous" role="doc-biblioref">2020</a>)</span>），但不适应高维状态空间。这些空间是因子投资所需要的，因为所有公司都会产生数百个表征其经济状况的数据点。此外，与许多典型的强化学习任务相比，强化学习在金融框架中的应用具有特殊性：在金融市场中，智能体的行为具有<strong>对环境无影响</strong>（除非智能体能够执行大规模交易，这种情况很少见且不明智，因为它将价格推向错误的方向）。缺乏行动影响可能会降低传统强化学习方法的效率。</p>
+<p>为了使 RL 能够与替代（监督）方法竞争，需要解决这些挑战。尽管如此，强化学习的渐进式（类似在线）工作方式似乎适合非平稳环境：随着新数据的到来，算法会慢慢改变范式。在固定环境中，研究表明强化学习能够收敛到最优解（<span class="citation">Kong et al. (<a href="solutions-to-exercises.html#ref-kong2019new" role="doc-biblioref">2019</a>)</span>、<span class="citation">Chaouki et al. (<a href="solutions-to-exercises.html#ref-chaouki2020deep" role="doc-biblioref">2020</a>)</span>）。因此，在非平稳市场中，强化学习可以成为建立适应不断变化的宏观经济条件的动态预测的手段。该领域需要在大维数据集上进行更多研究。</p>
+<p>我们在本章结束时强调强化学习也已被用于估计复杂的理论模型（<span class="citation">Halperin and Feldshteyn (<a href="solutions-to-exercises.html#ref-halperin2018market" role="doc-biblioref">2018</a>)</span>、<span class="citation">Garcı́a-Galicia, Carsteanu, and Clempner (<a href="solutions-to-exercises.html#ref-garcia2019continuous" role="doc-biblioref">2019</a>)</span>）。该领域的研究极其多样化，并且面向多个方向。引人入胜的作品很可能会在不久的将来出版。</p>
+</div>
+<div class="section level2" id="exercises" number="16.6">
+<h2><span class="header-section-number">16.6</span> 练习<a aria-label="锚" class="anchor" href="#exercises"><i class="fas fa-link"></i></a></h2>
+<ol style="list-style-type: decimal">
+<li><p>测试如果生成回报的过程具有负自相关会发生什么。对 <span class="math inline">\(Q\)</span> 功能和策略有什么影响？</p></li>
+<li><p>保持与 <a href="RL.html#RLemp2">16.4.2</a> 节中相同的 2 个资产，通过测试每个原始数据点的 <strong>所有可能的操作组合</strong> 来增加 RL_data 的大小。重新运行 <span class="math inline">\(Q\)</span>-learning 函数，看看会发生什么。</p></li>
+</ol>
+</div>
+</div>
+
+
+
+.container-fluid main {
+最大宽度：60rem；
+}
+
+<div class="chapter-nav">
+<div class="prev"><a href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></div>
+<div class="next"><a href="data-description.html"><span class="header-section-number">17</span> 数据描述</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页" data-toggle="toc" id="toc"><h2>本页</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#RL"><span class="header-section-number">16</span> 强化学习</a></li>
+<li>
+<a class="nav-link" href="#theoretical-layout"><span class="header-section-number">16.1</span> 理论框架</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#general-framework"><span class="header-section-number">16.1.1</span> 总体框架</a></li>
+<li><a class="nav-link" href="#q-learning"><span class="header-section-number">16.1.2</span> Q-learning</a></li>
+<li><a class="nav-link" href="#sarsa"><span class="header-section-number">16.1.3</span> SARSA</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#the-curse-of-dimensionality"><span class="header-section-number">16.2</span> 维数诅咒</a></li>
+<li>
+<a class="nav-link" href="#policy-gradient"><span class="header-section-number">16.3</span> 策略梯度</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#principle-2"><span class="header-section-number">16.3.1</span> 原理</a></li>
+<li><a class="nav-link" href="#extensions-2"><span class="header-section-number">16.3.2</span> 扩展</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#simple-examples"><span class="header-section-number">16.4</span> 简单示例</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#q-learning-with-simulations"><span class="header-section-number">16.4.1</span> 通过模拟进行 Q 学习</a></li>
+<li><a class="nav-link" href="#RLemp2"><span class="header-section-number">16.4.2</span> 通过市场数据进行 Q 学习</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#concluding-remarks"><span class="header-section-number">16.5</span> 结束语</a></li>
+<li><a class="nav-link" href="#exercises"><span class="header-section-number">16.6</span> 练习</a></li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div>
+ .container 
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>“<strong>Machine Learning for Factor Investing</strong>”由 Guillaume Coqueret 和 Tony Guida 编写。它最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+</div>
+</div></div>
+</footer> 动态加载 mathjax 以与独立的 <script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script> 兼容</body>
+</html>

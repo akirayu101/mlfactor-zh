@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 5 章 惩罚回归与最小方差投资组合的稀疏对冲 | 因子投资中的机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 5 章 惩罚回归与最小方差投资组合的稀疏对冲 | 因子投资中的机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 5 章 惩罚回归与最小方差投资组合的稀疏对冲 | 因子投资中的机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="在本章中，我们介绍了线性模型中广泛应用的正则化概念。事实上，这些模型有多种可能的应用。第一个很简单：度假村..." name="description"/>
+<meta content="在本章中，我们介绍了线性模型中广泛应用的正则化概念。事实上，这些模型有多种可能的应用。第一个很简单：度假村..." property="og:description"/>
+<meta content="在本章中，我们介绍了线性模型中广泛应用的正则化概念。事实上，这些模型有多种可能的应用。第一个很简单：度假村..." name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">因子投资中的机器学习</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">引言</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号与数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 引言</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督学习算法</li>
+<li><a class="active" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 树模型</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性与非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 习题解答</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="lasso" number="5">
+<h1>
+<span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲<a aria-label="锚" class="anchor" href="#lasso"><i class="fas fa-link"></i></a>
+</h1>
+<p></p>
+<p>在本章中，我们介绍了线性模型中广泛应用的正则化概念。事实上，这些模型有多种可能的应用。第一个很简单：利用惩罚来提高基于因子的预测回归的稳健性。然后，结果可用于推动分配方案。例如， <span class="citation">Han et al. (<a href="solutions-to-exercises.html#ref-han2018firm" role="doc-biblioref">2019</a>)</span> 和 <span class="citation">D. Rapach and Zhou (<a href="solutions-to-exercises.html#ref-rapach2019time" role="doc-biblioref">2019</a>)</span> 在组合来自个体特征的预测时，使用惩罚回归来改进股票收益预测。</p>
+<p>例如，可以为宏观经济预测提出类似的想法，如 <span class="citation">Uematsu and Tanaka (<a href="solutions-to-exercises.html#ref-uematsu2019high" role="doc-biblioref">2019</a>)</span>。
+第二个应用源于一个鲜为人知的结果，该结果源自 <span class="citation">Stevens (<a href="solutions-to-exercises.html#ref-stevens1998inverse" role="doc-biblioref">1998</a>)</span>。它将最优均值方差投资组合的权重与特定的横截面回归联系起来。那么想法是不同的，目的是提高均值方差驱动的投资组合权重的质量。在介绍线性模型的正则化技术之后，我们提出了下面的两种方法。</p>
+<p>惩罚的金融应用的其他例子可以在 <span class="citation">d’Aspremont (<a href="solutions-to-exercises.html#ref-d2011identifying" role="doc-biblioref">2011</a>)</span>, <span class="citation">Ban, El Karoui, and Lim (<a href="solutions-to-exercises.html#ref-ban2016machine" role="doc-biblioref">2016</a>)</span> 和 <span class="citation">Kremer et al. (<a href="solutions-to-exercises.html#ref-kremer2019sparse" role="doc-biblioref">2019</a>)</span>。无论如何，这个想法与开创性论文中的想法相同 <span class="citation">Tibshirani (<a href="solutions-to-exercises.html#ref-tibshirani1996regression" role="doc-biblioref">1996</a>)</span>：标准（无约束）优化程序可能会导致噪声估计，因此添加结构约束有助于消除一些噪声（以可能的偏差为代价）。例如， <span class="citation">Kremer et al. (<a href="solutions-to-exercises.html#ref-kremer2019sparse" role="doc-biblioref">2019</a>)</span> 使用这个概念来构建更稳健的均值方差（<span class="citation">Markowitz (<a href="solutions-to-exercises.html#ref-markowitz1952portfolio" role="doc-biblioref">1952</a>)</span>）投资组合和 <span class="citation">Freyberger, Neuhierl, and Weber (<a href="solutions-to-exercises.html#ref-freyberger2020dissecting" role="doc-biblioref">2020</a>)</span> 用它来挑选出以下特征 <em>真的</em> 帮助解释股票收益率的横截面。</p>
+<div class="section level2" id="penalized-regressions" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> 惩罚回归<a aria-label="锚" class="anchor" href="#penalized-regressions"><i class="fas fa-link"></i></a>
+</h2>
+<p></p>
+<div class="section level3" id="penreg" number="5.1.1">
+<h3>
+<span class="header-section-number">5.1.1</span> 简单回归<a aria-label="锚" class="anchor" href="#penreg"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+线性模型背后的思想至少有两个世纪的历史了（<span class="citation">Legendre (<a href="solutions-to-exercises.html#ref-legendre1805nouvelles" role="doc-biblioref">1805</a>)</span> 是关于最小二乘优化的早期参考）。给定一个预测变量矩阵 <span class="math inline">\(\textbf{X}\)</span>，我们寻求分解输出向量 <span class="math inline">\(\textbf{y}\)</span> 作为列的线性函数 <span class="math inline">\(\textbf{X}\)</span> （写成 <span class="math inline">\(\textbf{X}\boldsymbol{\beta}\)</span>) 加上一个误差项 <span class="math inline">\(\boldsymbol{\epsilon}\)</span>: <span class="math inline">\(\textbf{y}=\textbf{X}\boldsymbol{\beta}+\boldsymbol{\epsilon}\)</span>.</p>
+<p>最好的选择 <span class="math inline">\(\boldsymbol{\beta}\)</span> 自然是误差最小化的一个。对于分析易处理性，它是最小化的平方误差之和： <span class="math inline">\(L=\boldsymbol{\epsilon}'\boldsymbol{\epsilon}=\sum_{i=1}^I\epsilon_i^2\)</span>。损失 <span class="math inline">\(L\)</span> 称为残差平方和 (SSR)。为了找到最优的 <span class="math inline">\(\boldsymbol{\beta}\)</span>，必须对这个损失进行微分 <span class="math inline">\(L\)</span> 关于 <span class="math inline">\(\boldsymbol{\beta}\)</span> 因为一阶条件要求梯度为零：
+<span class="math display">\[\begin{align*}
+\nabla_{\boldsymbol{\beta}} L&amp;=\frac{\partial}{\partial \boldsymbol{\beta}}(\textbf{y}-\textbf{X}\boldsymbol{\beta})'(\textbf{y}-\textbf{X}\boldsymbol{\beta})=\frac{\partial}{\partial \boldsymbol{\beta}}\boldsymbol{\beta}'\textbf{X}'\textbf{X}\boldsymbol{\beta}-2\textbf{y}'\textbf{X}\boldsymbol{\beta} \\
+&amp;=2\textbf{X}'\textbf{X}\boldsymbol{\beta}  -2\textbf{X}'\textbf{y}
+\end{align*}\]</span>
+使得一阶条件 <span class="math inline">\(\nabla_{\boldsymbol{\beta}}=\textbf{0}\)</span> 满意如果
+<span class="math display" id="eq:regbeta">\[\begin{equation}
+\tag{5.1}
+\boldsymbol{\beta}^*=(\textbf{X}'\textbf{X})^{-1}\textbf{X}'\textbf{y},
+\end{equation}\]</span>
+这就是所谓的标准 <strong>普通最小二乘法</strong> (OLS) 线性模型的解。如果矩阵 <span class="math inline">\(\textbf{X}\)</span> 有尺寸 <span class="math inline">\(I \times K\)</span>，那么 <span class="math inline">\(\textbf{X}'\textbf{X}\)</span> 仅当行数满足条件时才能反转 <span class="math inline">\(I\)</span> 严格优于列数 <span class="math inline">\(K\)</span>。在某些情况下，这可能不成立；预测变量多于实例，并且没有唯一值 <span class="math inline">\(\boldsymbol{\beta}\)</span> 从而最大限度地减少损失。如果 <span class="math inline">\(\textbf{X}'\textbf{X}\)</span> 是非奇异的（或正定的），那么二阶条件确保 <span class="math inline">\(\boldsymbol{\beta}^*\)</span> 产生全局最小损失 <span class="math inline">\(L\)</span> （二阶导数 <span class="math inline">\(L\)</span> 关于 <span class="math inline">\(\boldsymbol{\beta}\)</span>，Hessian 矩阵恰好是 <span class="math inline">\(\textbf{X}'\textbf{X}\)</span>).</p>
+<p>到目前为止，我们还没有对上述任何数量做出分布假设。标准假设如下：<br/>
+- <span class="math inline">\(\mathbb{E}[\textbf{y}|\textbf{X}]=\textbf{X}\boldsymbol{\beta}\)</span>: <strong>回归函数的线性形状</strong>;<br/>
+- <span class="math inline">\(\mathbb{E}[\boldsymbol{\epsilon}|\textbf{X}]=\textbf{0}\)</span>: 错误是 <strong>独立于预测变量</strong>;<br/>
+- <span class="math inline">\(\mathbb{E}[\boldsymbol{\epsilon}\boldsymbol{\epsilon}'| \textbf{X}]=\sigma^2\textbf{I}\)</span>: <strong>同方差性</strong> - 误差不相关且具有相同的方差；<br/>
+- 的 <span class="math inline">\(\epsilon_i\)</span> 呈正态分布。</p>
+<p>在这些假设下，可以进行与 <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> 系数。我们参考第 2 章至第 4 章 <span class="citation">Greene (<a href="solutions-to-exercises.html#ref-greene2018econometric" role="doc-biblioref">2018</a>)</span> 有关线性模型的彻底处理，以及同一本书的第 5 章有关相应测试的详细信息。</p>
+</div>
+<div class="section level3" id="forms-of-penalizations" number="5.1.2">
+<h3>
+<span class="header-section-number">5.1.2</span> 惩罚形式<a aria-label="锚" class="anchor" href="#forms-of-penalizations"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+自从 <span class="citation">Tibshirani (<a href="solutions-to-exercises.html#ref-tibshirani1996regression" role="doc-biblioref">1996</a>)</span>。这个想法是对回归系数施加约束，即限制它们的总大小。在他的原始论文中， <span class="citation">Tibshirani (<a href="solutions-to-exercises.html#ref-tibshirani1996regression" role="doc-biblioref">1996</a>)</span> 建议估计以下模型（LASSO）：
+<span class="math display" id="eq:lasso1">\[\begin{equation}
+\tag{5.2}
+y_i = \sum_{j=1}^J \beta_jx_{i,j} + \epsilon_i, \quad i =1,\dots,I, \quad \text{s.t.} \quad \sum_{j=1}^J |\beta_j| &lt; \delta,
+\end{equation}\]</span>
+对于一些严格的正常数 <span class="math inline">\(\delta\)</span>。在最小二乘最小化下，这相当于求解拉格朗日公式：
+<span class="math display" id="eq:lasso2">\[\begin{equation}
+\tag{5.3}
+\underset{\mathbf{\beta}}{\min} \, \left\{ \sum_{i=1}^I\left(y_i - \sum_{j=1}^J \beta_jx_{i,j} \right)^2+\lambda \sum_{j=1}^J |\beta_j| \right\},
+\end{equation}\]</span>
+为了某种价值 <span class="math inline">\(\lambda&gt;0\)</span> 这自然取决于 <span class="math inline">\(\delta\)</span> （越低 <span class="math inline">\(\delta\)</span>，越高 <span class="math inline">\(\lambda\)</span>：约束更具约束力）。该规范似乎接近岭回归（<span class="math inline">\(L^2\)</span> 正则化），实际上位于 Lasso 之前：
+<span class="math display" id="eq:ridge">\[\begin{equation}
+\tag{5.4}
+\underset{\mathbf{\beta}}{\min} \, \left\{ \sum_{i=1}^I\left(y_i - \sum_{j=1}^J\beta_jx_{i,j} \right)^2+\lambda \sum_{j=1}^J \beta_j^2 \right\},
+\end{equation}\]</span>
+相当于估计以下模型
+<span class="math display" id="eq:ridge6">\[\begin{equation}
+\tag{5.5}
+y_i = \sum_{j=1}^J \beta_jx_{i,j} + \epsilon_i, \quad i =1,\dots,I, \quad \text{s.t.} \quad \sum_{j=1}^J \beta_j^2 &lt; \delta,
+\end{equation}\]</span>
+但结果实际上完全不同，这证明了单独处理的合理性。从机制上看，随着 <span class="math inline">\(\lambda\)</span> 增大，惩罚强度增加（或等价地，方程 <a href="lasso.html#eq:ridge6">(5.5)</a> 中的 <span class="math inline">\(\delta\)</span> <em>减小</em>），岭回归的系数都会缓慢收缩到零。在 LASSO 的情况下，收缩更陡峭，因为一些系数会很快变为零。当 <span class="math inline">\(\lambda\)</span> 足够大时，只有一个系数保持非零，而在岭回归中，所有系数只是渐近趋近于零。我们邀请有兴趣的读者查看 <span class="citation">Hastie (<a href="solutions-to-exercises.html#ref-hastie2020ridge" role="doc-biblioref">2020</a>)</span> 的综述，了解岭回归在数据科学中的各种应用，以及它与交叉验证、dropout 正则化等主题的联系。</p>
+<p>为了描述 Lasso 和岭回归之间的差异，让我们考虑如图 <a href="lasso.html#fig:lassoridge">5.1</a> 所示的 <span class="math inline">\(K=2\)</span> 个预测变量情形。最优无约束解 <span class="math inline">\(\boldsymbol{\beta}^*\)</span> 位于空间中间的红色区域。问题在于它并不满足施加的约束。这些约束以浅灰色显示：LASSO 对应正方形 <span class="math inline">\(|\beta_1|+|\beta_2| \le \delta\)</span>，岭回归对应圆形 <span class="math inline">\(\beta_1^2+\beta_2^2 \le \delta\)</span>。为了满足这些约束，优化必须在 <span class="math inline">\(\boldsymbol{\beta}^*\)</span> 附近寻找一个允许更大误差的点。这些误差水平在图中显示为橙色椭圆。当误差约束足够宽松时，一个椭圆触及可接受边界（灰色），约束解就位于该接触点。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:lassoridge" style="display:block;"></span>
+<img alt="Lasso（左）与 Ridge（右）回归的示意图。" src="images/lassoridge.png" width="800px"/><p class="caption">
+图 5.1：Lasso（左）与 ridge（右）回归的示意图。
+</p>
+</div>
+<p>当外生变量的数量超过观测值的数量时，即在经典回归定义不明确的情况下，这两种方法都有效。这在岭回归的情况下很容易看出，OLS 的解很简单
+<span class="math display">\[\hat{\boldsymbol{\beta}}=(\mathbf{X}'\mathbf{X}+\lambda \mathbf{I}_N)^{-1}\mathbf{X}'\mathbf{Y}.\]</span>
+附加项 <span class="math inline">\(\lambda \mathbf{I}_N\)</span> 相比方程 <a href="lasso.html#eq:regbeta">(5.1)</a> 可以确保只要 <span class="math inline">\(\lambda&gt;0\)</span>，逆矩阵就总是明确定义的。随着 <span class="math inline">\(\lambda\)</span> 增加，<span class="math inline">\(\hat{\beta}_i\)</span> 的幅度减小，这解释了为什么惩罚方法有时被称为 <strong>收缩</strong> 方法（估计系数的值会缩小）。 </p>
+<p><span class="citation">Zou and Hastie (<a href="solutions-to-exercises.html#ref-zou2005regularization" role="doc-biblioref">2005</a>)</span> 提议以凸方式结合两种惩罚（他们称之为 <strong>elastic net</strong>):
+<span class="math display" id="eq:elasticnet">\[\begin{equation}
+\tag{5.6}
+y_i = \sum_{j=1}^J \beta_jx_{i,j} + \epsilon_i, \quad \text{s.t.} \quad \alpha \sum_{j=1}^J |\beta_j| +(1-\alpha)\sum_{j=1}^J \beta_j^2&lt; \delta, \quad i =1,\dots,N,
+\end{equation}\]</span>
+与优化程序相关
+<span class="math display" id="eq:elastic">\[\begin{equation}
+\tag{5.7}
+\underset{\mathbf{\beta}}{\min} \, \left\{ \sum_{i=1}^I\left(y_i - \sum_{j=1}^J\beta_jx_{i,j} \right)^2+\lambda \left(\alpha\sum_{j=1}^J |\beta_j|+ (1-\alpha)\sum_{j=1}^J \beta_j^2\right) \right\}.
+\end{equation}\]</span></p>
+<p>与岭回归相比，LASSO 的主要优点是它的变量选择能力。事实上，给定大量变量（或预测变量），LASSO 会逐步排除那些最不相关的变量。elastic net 保留了这种选择能力，并且 <span class="citation">Zou and Hastie (<a href="solutions-to-exercises.html#ref-zou2005regularization" role="doc-biblioref">2005</a>)</span> 认为在某些情况下，它甚至比 LASSO 更有效。参数 <span class="math inline">\(\alpha \in [0,1]\)</span> 调节系数收缩到零的平滑程度。<span class="math inline">\(\alpha\)</span> 越接近零，收缩越平滑。</p>
+</div>
+<div class="section level3" id="illustrations" number="5.1.3">
+<h3>
+<span class="header-section-number">5.1.3</span> 示例<a aria-label="锚" class="anchor" href="#illustrations"><i class="fas fa-link"></i></a>
+</h3>
+<p>我们从惩罚回归的简单示例开始。我们从 LASSO 开始。作者最初的实现是用 R 语言完成的，使用起来很方便。与通常的线性模型相比，语法略有不同。这些示例在整个数据集上运行。首先，我们估计系数。默认情况下，该函数会选择大量惩罚值，以便立即显示不同惩罚强度（<span class="math inline">\(\lambda\)</span>）下的结果。</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://glmnet.stanford.edu">glmnet</a></span><span class="op">)</span>
+<span class="va">y_penalized</span> <span class="op">&lt;-</span> <span class="va">data_ml</span><span class="op">$</span><span class="va">R1M_Usd</span>                              <span class="co"># Dependent variable</span>
+<span class="va">x_penalized</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                  <span class="co"># Predictors</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span> 
+<span class="va">fit_lasso</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/glmnet.html">glmnet</a></span><span class="op">(</span><span class="va">x_penalized</span>, <span class="va">y_penalized</span>, alpha <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>    <span class="co"># Model alpha = 1: LASSO</span></code></pre></div>
+<p></p>
+<p>一旦计算出系数，绘图之前还需要做一些整理。此外，系数太多，所以我们只绘制其中一个子集。</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">lasso_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit_lasso</span><span class="op">$</span><span class="va">beta</span><span class="op">)</span>                        <span class="co"># Extract LASSO coefs</span>
+<span class="va">lambda</span> <span class="op">&lt;-</span> <span class="va">fit_lasso</span><span class="op">$</span><span class="va">lambda</span>                                  <span class="co"># Values of the penalisation const</span>
+<span class="va">lasso_res</span><span class="op">$</span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="va">lambda</span><span class="op">[</span><span class="va">lasso_res</span><span class="op">$</span><span class="va">j</span><span class="op">]</span>                     <span class="co"># Put the labels where they belong</span>
+<span class="va">lasso_res</span><span class="op">$</span><span class="va">Feature</span> <span class="op">&lt;-</span> <span class="va">features</span><span class="op">[</span><span class="va">lasso_res</span><span class="op">$</span><span class="va">i</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># Add names of variables to output</span>
+<span class="va">lasso_res</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">120</span>,<span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                       <span class="co"># Take the first 120 estimates</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lambda</span>, y <span class="op">=</span> <span class="va">x</span>, color <span class="op">=</span> <span class="va">Feature</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>       <span class="co"># Plot!</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"beta"</span><span class="op">)</span> <span class="op">+</span>        <span class="co"># Change aspect ratio of graph</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">)</span>             <span class="co"># Reduce legend font size</span></code></pre></div>
+<div class="figure">
+<span id="fig:lassoresults" style="display:block;"></span>
+<img alt="LASSO 模型。因变量是未来 1 个月收益率。" src="ML_factor_files/figure-html/lassoresults-1.png" width="400px"/><p class="caption">
+图 5.2： LASSO 模型。因变量是未来 1 个月收益率。
+</p>
+</div>
+<p></p>
+<p>该图绘制了随着惩罚强度 <span class="math inline">\(\lambda\)</span> 增加，系数如何演变。对于某些特征，例如 Ebit_Ta（橙色），系数很快收缩到零。其他变量对惩罚的抵抗更久，例如 Mkt_Cap_3M_Usd，它是最后一个消失的变量。本质上，这意味着在我们的样本中，从一阶意义上看，该变量是未来 1 个月收益率的重要驱动因素。此外，其系数的负号也确认了规模异象（同样是在这个样本中）：根据该异象，小公司比大公司获得更高的未来收益率。</p>
+<p>接下来，我们转向岭回归。</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_ridge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/glmnet.html">glmnet</a></span><span class="op">(</span><span class="va">x_penalized</span>, <span class="va">y_penalized</span>, alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>                  <span class="co"># alpha = 0: ridge</span>
+<span class="va">ridge_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit_ridge</span><span class="op">$</span><span class="va">beta</span><span class="op">)</span>                                      <span class="co"># Extract ridge coefs</span>
+<span class="va">lambda</span> <span class="op">&lt;-</span> <span class="va">fit_ridge</span><span class="op">$</span><span class="va">lambda</span>                                                <span class="co"># Penalisation const</span>
+<span class="va">ridge_res</span><span class="op">$</span><span class="va">Feature</span> <span class="op">&lt;-</span> <span class="va">features</span><span class="op">[</span><span class="va">ridge_res</span><span class="op">$</span><span class="va">i</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">ridge_res</span><span class="op">$</span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="va">lambda</span><span class="op">[</span><span class="va">ridge_res</span><span class="op">$</span><span class="va">j</span><span class="op">]</span>                                   <span class="co"># Set labels right</span>
+<span class="va">ridge_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Feature</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span><span class="op">(</span><span class="va">lasso_res</span><span class="op">$</span><span class="va">Feature</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">120</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="co"># Keep same features </span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lambda</span>, y <span class="op">=</span> <span class="va">x</span>, color <span class="op">=</span> <span class="va">Feature</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"beta"</span><span class="op">)</span> <span class="op">+</span>      <span class="co"># Plot!</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="fl">45</span><span class="op">)</span> <span class="op">+</span>                     <span class="co"># Aspect ratio </span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<span id="fig:sparseridge" style="display:block;"></span>
+<img alt="岭回归。因变量是未来 1 个月收益率。" src="ML_factor_files/figure-html/sparseridge-1.png" width="576"/><p class="caption">
+图 5.3：岭回归。因变量是未来 1 个月收益率。
+</p>
+</div>
+<p></p>
+<p>在图 <a href="lasso.html#fig:sparseridge">5.3</a> 中，系数收缩到零的过程更加平滑。我们强调，x 轴（惩罚强度）采用对数刻度。这样可以更清楚地看到早期模式（接近零、位于左侧的区域）。如上图所示，Mkt_Cap_3M_Usd 预测变量明显占主导地位，同样具有较大的负系数。尽管如此，随着 <span class="math inline">\(\lambda\)</span> 增加，它对其他预测变量的支配作用会减弱。</p>
+<p>根据定义，elastic net 将产生类似于上述两种方法混合的曲线。尽管如此，只要 <span class="math inline">\(\alpha &gt;0\)</span>，LASSO 的选择性属性就会保留：某些特征的系数将迅速收缩到零。事实上，LASSO 的强度使得两种惩罚的平衡组合不是在 <span class="math inline">\(\alpha = 1/2\)</span> 处取得，而是在小得多的值处取得（可能低于 0.1）。</p>
+</div>
+</div>
+<div class="section level2" id="sparse-hedging-for-minimum-variance-portfolios" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> 最小方差投资组合的稀疏对冲<a aria-label="锚" class="anchor" href="#sparse-hedging-for-minimum-variance-portfolios"><i class="fas fa-link"></i></a>
+</h2>
+<p></p>
+<div class="section level3" id="presentation-and-derivations" number="5.2.1">
+<h3>
+<span class="header-section-number">5.2.1</span> 说明与推导<a aria-label="锚" class="anchor" href="#presentation-and-derivations"><i class="fas fa-link"></i></a>
+</h3>
+<p>构建稀疏投资组合的想法本身并不新鲜（参见，例如， <span class="citation">Brodie et al. (<a href="solutions-to-exercises.html#ref-brodie2009sparse" role="doc-biblioref">2009</a>)</span>, <span class="citation">Fastrich, Paterlini, and Winker (<a href="solutions-to-exercises.html#ref-fastrich2015constructing" role="doc-biblioref">2015</a>)</span>），它与 LASSO 选择性属性的联系在经典二次规划中也相当直接。请注意，选择 <span class="math inline">\(L^1\)</span> 范数是必要的，因为如果采用简单的 <span class="math inline">\(L^2\)</span> 范数，投资组合的多元化程度会增加（见 <span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2015diversified" role="doc-biblioref">2015</a>)</span>）。</p>
+<p>本节背后的想法源于 <span class="citation">Goto and Xu (<a href="solutions-to-exercises.html#ref-goto2015improving" role="doc-biblioref">2015</a>)</span> 但基石结果首先由 <span class="citation">Stevens (<a href="solutions-to-exercises.html#ref-stevens1998inverse" role="doc-biblioref">1998</a>)</span> 我们在下面介绍它。我们提供详细信息，因为这些推导在文献中并不常见。</p>
+<p>在通常的均值方差分配中，核心要素之一是资产的逆协方差矩阵 <span class="math inline">\(\mathbf{\Sigma}^{-1}\)</span>。例如，最大夏普比率 (MSR) 投资组合由下式给出</p>
+<p><span class="math display" id="eq:MSR">\[\begin{equation}
+\tag{5.8}
+\mathbf{w}^{\text{MSR}}=\frac{\mathbf{\Sigma}^{-1}\boldsymbol{\mu}}{\mathbf{1}'\mathbf{\Sigma}^{-1}\boldsymbol{\mu}},
+\end{equation}\]</span>
+其中 <span class="math inline">\(\mathbf{\mu}\)</span> 是预期（超额）收益率的向量。取 <span class="math inline">\(\mathbf{\mu}=\mathbf{1}\)</span> 会产生最小方差投资组合，它对预期收益率的一阶矩持不可知立场（因此通常比许多试图估计 <span class="math inline">\(\boldsymbol{\mu}\)</span>、但经常失败的替代方案更稳健）。</p>
+<p>通常，传统的方法是估计 <span class="math inline">\(\boldsymbol{\Sigma}\)</span> 并将其反转以获得 MSR 权重。然而，有几种方法旨在估计 <span class="math inline">\(\boldsymbol{\Sigma}^{-1}\)</span> 下面我们介绍其中之一。我们一次处理一项资产，即一行 <span class="math inline">\(\boldsymbol{\Sigma}^{-1}\)</span> 一次。<br/>
+如果我们分解矩阵 <span class="math inline">\(\mathbf{\Sigma}\)</span> 进入：
+<span class="math display">\[\mathbf{\Sigma}= \left[\begin{array}{cc} \sigma^2 &amp; \mathbf{c}' \\
+\mathbf{c}&amp; \mathbf{C}\end{array} \right],\]</span>
+经典分块结果（例如 Schur 补集）意味着
+<span class="math display">\[\small \mathbf{\Sigma}^{-1}= \left[\begin{array}{cc} (\sigma^2 -\mathbf{c}'\mathbf{C}^{-1}\mathbf{c})^{-1} &amp; - (\sigma^2 -\mathbf{c}'\mathbf{C}^{-1}\mathbf{c})^{-1}\mathbf{c}'\mathbf{C}^{-1} \\
+- (\sigma^2 -\mathbf{c}'\mathbf{C}^{-1}\mathbf{c})^{-1}\mathbf{C}^{-1}\mathbf{c}&amp; \mathbf{C}^{-1}+ (\sigma^2 -\mathbf{c}'\mathbf{C}^{-1}\mathbf{c})^{-1}\mathbf{C}^{-1}\mathbf{cc}'\mathbf{C}^{-1}\end{array} \right].\]</span>
+我们对第一行感兴趣，它有两个组成部分：因子 <span class="math inline">\((\sigma^2 -\mathbf{c}'\mathbf{C}^{-1}\mathbf{c})^{-1}\)</span> 和线向量 <span class="math inline">\(\mathbf{c}'\mathbf{C}^{-1}\)</span>. <span class="math inline">\(\mathbf{C}\)</span> 是资产的协方差矩阵 <span class="math inline">\(2\)</span> 到 <span class="math inline">\(N\)</span> 和 <span class="math inline">\(\mathbf{c}\)</span> 是第一个资产和所有其他资产之间的协方差。第一行 <span class="math inline">\(\mathbf{\Sigma}^{-1}\)</span> 是
+<span class="math display" id="eq:sparse1">\[\begin{equation}
+\tag{5.9}
+(\sigma^2 -\mathbf{c}'\mathbf{C}^{-1}\mathbf{c})^{-1} \left[1 \quad  \underbrace{-\mathbf{c}'\mathbf{C}^{-1}}_{N-1 \text{ terms}} \right].
+\end{equation}\]</span></p>
+<p>我们现在考虑另一种设置。我们将第一个资产的收益率对所有其他资产的收益率进行回归：
+<span class="math display" id="eq:sparseeq">\[\begin{equation}
+\tag{5.10}
+r_{1,t}=a_1+\sum_{n=2}^N\beta_{1|n}r_{n,t}+\epsilon_t, \quad \text{ i.e., } \quad  \mathbf{r}_1=a_1\mathbf{1}_T+\mathbf{R}_{-1}\mathbf{\beta}_1+\epsilon_1,
+\end{equation}\]</span>
+其中 <span class="math inline">\(\mathbf{R}_{-1}\)</span> 收集除第一个资产之外的所有资产的收益率。 OLS 估计器 <span class="math inline">\(\mathbf{\beta}_1\)</span> 是
+<span class="math display" id="eq:sparse2">\[\begin{equation}
+\tag{5.11}
+\hat{\mathbf{\beta}}_{1}=\mathbf{C}^{-1}\mathbf{c},
+\end{equation}\]</span></p>
+<p>这是源自 Frisch-Waugh-Lovell 定理的分区形式（当回归中包含常数时）（请参见第 3 章） <span class="citation">Greene (<a href="solutions-to-exercises.html#ref-greene2018econometric" role="doc-biblioref">2018</a>)</span>).</p>
+<p>此外，
+<span class="math display" id="eq:sparse3">\[\begin{equation}
+\tag{5.12}
+(1-R^2)\sigma_{\mathbf{r}_1}^2=\sigma_{\mathbf{r}_1}^2- \mathbf{c}'\mathbf{C}^{-1}\mathbf{c} =\sigma^2_{\epsilon_1}.
+\end{equation}\]</span>
+最后一个事实的证明如下。</p>
+<p>令 <span class="math inline">\(\mathbf{X}\)</span> 为 <span class="math inline">\(\mathbf{1}_T\)</span> 与收益率矩阵 <span class="math inline">\(\mathbf{R}_{-1}\)</span> 的拼接，并令 <span class="math inline">\(\mathbf{y}=\mathbf{r}_1\)</span>，则 <span class="math inline">\(R^2\)</span> 的经典表达式为 <span class="math display">\[R^2=1-\frac{\mathbf{\epsilon}'\mathbf{\epsilon}}{T\sigma_Y^2}=1-\frac{\mathbf{y}'\mathbf{y}-\hat{\mathbf{\beta}'}\mathbf{X}'\mathbf{X}\hat{\mathbf{\beta}}}{T\sigma_Y^2}=1-\frac{\mathbf{y}'\mathbf{y}-\mathbf{y}'\mathbf{X}\hat{\mathbf{\beta}}}{T\sigma_Y^2},\]</span>
+具有拟合值 <span class="math inline">\(\mathbf{X}\hat{\mathbf{\beta}}= \hat{a_1}\mathbf{1}_T+\mathbf{R}_{-1}\mathbf{C}^{-1}\mathbf{c}\)</span>。因此，
+<span class="math display">\[\begin{align*}
+T\sigma_{\mathbf{r}_1}^2R^2&amp;=T\sigma_{\mathbf{r}_1}^2-\mathbf{r}'_1\mathbf{r}_1+\hat{a_1}\mathbf{1}'_T\mathbf{r}_1+\mathbf{r}'_1\mathbf{R}_{-1}\mathbf{C}^{-1}\mathbf{c} \\
+T(1-R^2)\sigma_{\mathbf{r}_1}^2&amp;=\mathbf{r}'_1\mathbf{r}_1-\hat{a_1}\mathbf{1}'_T\mathbf{r}_1-\left(\mathbf{\tilde{r}}_1+\frac{\mathbf{1}_T\mathbf{1}'_T}{T}\mathbf{r}_1\right)'\left(\tilde{\mathbf{R}}_{-1}+\frac{\mathbf{1}_T\mathbf{1}'_T}{T}\mathbf{R}_{-1}\right)\mathbf{C}^{-1}\mathbf{c} \\
+T(1-R^2)\sigma_{\mathbf{r}_1}^2&amp;=\mathbf{r}'_1\mathbf{r}_1-\hat{a_1}\mathbf{1}'_T\mathbf{r}_1-T\mathbf{c}'\mathbf{C}^{-1}\mathbf{c} -\mathbf{r}'_1\frac{\mathbf{1}_T\mathbf{1}'_T}{T}\mathbf{R}_{-1} \mathbf{C}^{-1}\mathbf{c} \\
+T(1-R^2)\sigma_{\mathbf{r}_1}^2&amp;=\mathbf{r}'_1\mathbf{r}_1-\frac{(\mathbf{1}'_T\mathbf{r}_1)^2}{T}- T\mathbf{c}'\mathbf{C}^{-1}\mathbf{c} \\
+(1-R^2)\sigma_{\mathbf{r}_1}^2&amp;=\sigma_{\mathbf{r}_1}^2- \mathbf{c}'\mathbf{C}^{-1}\mathbf{c}
+\end{align*}\]</span>
+我们在第四个等式中插入了 <span class="math inline">\(\hat{a}_1=\frac{\mathbf{1'}_T}{T}(\mathbf{r}_1-\mathbf{R}_{-1}\mathbf{C}^{-1}\mathbf{c})\)</span>。请注意，可能有一个更简单的证明，请参见，例如，第 3.5 节 <span class="citation">Greene (<a href="solutions-to-exercises.html#ref-greene2018econometric" role="doc-biblioref">2018</a>)</span>.</p>
+<p>结合（<a href="lasso.html#eq:sparse1">(5.9)</a>, (<a href="lasso.html#eq:sparse2">(5.11)</a>) 和 (<a href="lasso.html#eq:sparse3">(5.12)</a>），我们得到第一行 <span class="math inline">\(\mathbf{\Sigma}^{-1}\)</span> 等于
+<span class="math display" id="eq:sparsehedgeeq2">\[\begin{equation}
+\tag{5.13}
+\frac{1}{\sigma^2_{\epsilon_1}}\times \left[ 1 \quad  -\hat{\boldsymbol{\beta}}_1'\right].
+\end{equation}\]</span></p>
+<p>给定 <span class="math inline">\(\mathbf{\Sigma}^{-1}\)</span> 的第一行，只需乘以 <span class="math inline">\(\boldsymbol{\mu}\)</span>，即可得到第一个资产的投资组合权重（差一个缩放常数）。</p>
+<p>上述结果背后有一个很好的经济直觉，这证明了“稀疏对冲”一词的合理性。我们以最小方差投资组合为例，其中 <span class="math inline">\(\boldsymbol{\mu}=\boldsymbol{1}\)</span>。在方程中 <a href="lasso.html#eq:sparseeq">(5.10)</a>，我们尝试用所有其他资产的收益率来解释资产 1 的收益率。在上面的等式中，在达到比例常数的情况下，投资组合在第一个资产中具有单位头寸，并且 <span class="math inline">\(-\hat{\boldsymbol{\beta}}_1\)</span> 所有其他资产的头寸。因此，所有其他资产的目的显然是为了对冲第一个资产的收益率。事实上，这些头寸的目的是最小化第一个资产的总投资组合的平方误差（这些误差恰好是 <span class="math inline">\(\mathbf{\epsilon}_1\)</span>）。此外，缩放因子 <span class="math inline">\(\sigma^{-2}_{\epsilon_1}\)</span> 解释起来也很简单：我们越相信回归输出（因为一个小的 <span class="math inline">\(\sigma^{2}_{\epsilon_1}\)</span>），我们对资产的对冲投资组合的投资就越多。</p>
+<p>这个推理很容易推广到 <span class="math inline">\(\mathbf{\Sigma}^{-1}\)</span> 的任何一行：通过将资产 <span class="math inline">\(i\)</span> 的收益率对所有其他资产的收益率做回归即可得到。如果给定 <span class="math inline">\(\boldsymbol{\mu}\)</span> 时，分配方案的形式为（<a href="lasso.html#eq:MSR">(5.8)</a>），那么稀疏投资组合策略的伪代码如下。</p>
+<p>在每个日期（为了符号方便我们省略了），</p>
+<ul>
+<li>对于所有股票 <span class="math inline">\(i\)</span>,<br/>
+</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>在 <span class="math inline">\(t=1,\dots,T\)</span> 样本上估计 elastic net 回归，以获得 <span class="math inline">\(\hat{\mathbf{\Sigma}}^{-1}\)</span> 的第 <span class="math inline">\(i\)</span> 行：
+<span class="math display">\[ \small \left[\hat{\mathbf{\Sigma}}^{-1}\right]_{i,\cdot}= \underset{\mathbf{\beta}_{i|}}{\text{argmin}}\, \left\{\sum_{t=1}^T\left( r_{i,t}-a_i+\sum_{n\neq i}^N\beta_{i|n}r_{n,t}\right)^2+\lambda \alpha ||  \mathbf{\beta}_{i|}||_1+\lambda (1-\alpha)||\mathbf{\beta}_{i|}||_2^2\right\}
+\]</span><br/>
+</li>
+<li>为获得资产 <span class="math inline">\(i\)</span> 的权重，我们计算 <span class="math inline">\(\mathbf{\mu}\)</span> 加权总和：
+<span class="math inline">\(w_i= \sigma_{\epsilon_i}^{-2}\left(\mu_i- \sum_{j\neq i}\mathbf{\beta}_{i|j}\mu_j\right)\)</span>,</li>
+</ol>
+<p>回忆向量 <span class="math inline">\(\mathbf{\beta}_{i|}=[\mathbf{\beta}_{i|1},\dots,\mathbf{\beta}_{i|i-1},\mathbf{\beta}_{i|i+1},\dots,\mathbf{\beta}_{i|N}]\)</span> 是资产 <span class="math inline">\(i\)</span> 的收益率对所有其他资产收益率回归得到的系数。<br/>
+与 <span class="citation">Stevens (<a href="solutions-to-exercises.html#ref-stevens1998inverse" role="doc-biblioref">1998</a>)</span> 的原始方法相比，引入 <strong>惩罚范数</strong> 是新的成分。好处有两点：首先，引入约束可以产生更稳健的权重，并且在估计 <span class="math inline">\(\mathbf{\mu}\)</span> 时受误差影响更小；其次，由于稀疏性，权重更稳定，杠杆率更低，因此该策略受交易成本的影响更小。在转向数值应用之前，我们还提到一种更直接的估计 <strong>鲁棒逆协方差矩阵</strong> 的方法：图 LASSO。GLASSO 通过最大似然估计精度矩阵（逆协方差矩阵），同时对矩阵的权重施加约束/惩罚。当惩罚足够强时，就会产生稀疏矩阵，即一些系数（可能有许多系数）为零的矩阵。关于这一主题的更多细节，我们参考原文 <span class="citation">J. Friedman, Hastie, and Tibshirani (<a href="solutions-to-exercises.html#ref-friedman2008sparse" role="doc-biblioref">2008</a>)</span>。</p>
+</div>
+<div class="section level3" id="sparseex" number="5.2.2">
+<h3>
+<span class="header-section-number">5.2.2</span> 示例<a aria-label="锚" class="anchor" href="#sparseex"><i class="fas fa-link"></i></a>
+</h3>
+<p>稀疏对冲投资组合的目的是提出一种稳健的方法来估计最小方差策略。事实上，由于预期收益率向量 <span class="math inline">\(\boldsymbol{\mu}\)</span> 通常噪声很大，一个简单的解决方案是设置 <span class="math inline">\(\boldsymbol{\mu}=\boldsymbol{1}\)</span>，采取不可知立场。为了测试稀疏约束的附加价值，我们必须进行完整的回测。在此过程中，我们会预先用到第 <a href="backtest.html#backtest">12</a> 章的内容。</p>
+<p>我们首先准备变量。稀疏投资组合仅基于收益率；因此，我们的分析基于矩阵/矩形格式的专用变量（<em>收益率</em>）在本章末尾创建 <a href="notdata.html#notdata">1</a>.</p>
+<p>然后，我们初始化输出变量：投资组合权重和投资组合收益率。我们想要比较三种策略：所有股票的等权重 (EW) 基准、经典的全局最小方差投资组合 (GMV) 和最小方差的稀疏对冲方法。</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">t_oos</span> <span class="op">&lt;-</span> <span class="va">returns</span><span class="op">$</span><span class="va">date</span><span class="op">[</span><span class="va">returns</span><span class="op">$</span><span class="va">date</span> <span class="op">&gt;</span> <span class="va">separation_date</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>            <span class="co"># Out-of-sample dates </span>
+    <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                                     <span class="co"># Remove duplicates</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/yearmon.html">as.Date</a></span><span class="op">(</span>origin <span class="op">=</span> <span class="st">"1970-01-01"</span><span class="op">)</span>                                   <span class="co"># Transform in date format</span>
+<span class="va">Tt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">)</span>                                                  <span class="co"># Nb of dates, avoid T </span>
+<span class="va">nb_port</span> <span class="op">&lt;-</span> <span class="fl">3</span>                                                         <span class="co"># Nb of portfolios/strats.</span>
+<span class="va">portf_weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">0</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Tt</span>, <span class="va">nb_port</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>   <span class="co"># Initial portf. weights</span>
+<span class="va">portf_returns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">0</span>, nrow <span class="op">=</span> <span class="va">Tt</span>, ncol <span class="op">=</span> <span class="va">nb_port</span><span class="op">)</span>                <span class="co"># Initial portf. returns </span></code></pre></div>
+<p></p>
+<p>接下来，因为这是本节的目的，我们将稀疏对冲投资组合的权重计算分开。在最小方差投资组合的情况下，当 <span class="math inline">\(\boldsymbol{\mu}=\boldsymbol{1}\)</span>，资产 1 的权重只是方程中所有项的总和 <a href="lasso.html#eq:sparsehedgeeq2">(5.13)</a> 其他权重也有类似的形式。</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">weights_sparsehedge</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">returns</span>, <span class="va">alpha</span>, <span class="va">lambda</span><span class="op">)</span><span class="op">{</span>  <span class="co"># The parameters are defined here</span>
+    <span class="va">w</span> <span class="op">&lt;-</span> <span class="fl">0</span>                                                <span class="co"># Initiate weights</span>
+    <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>                            <span class="co"># Loop on the assets</span>
+        <span class="va">y</span> <span class="op">&lt;-</span> <span class="va">returns</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span>                                  <span class="co"># Dependent variable</span>
+        <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">returns</span><span class="op">[</span>,<span class="op">-</span><span class="va">i</span><span class="op">]</span>                                 <span class="co"># Independent variable</span>
+        <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/glmnet.html">glmnet</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>, family <span class="op">=</span> <span class="st">"gaussian"</span>, alpha <span class="op">=</span> <span class="va">alpha</span>, lambda <span class="op">=</span> <span class="va">lambda</span><span class="op">)</span>
+        <span class="va">err</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">x</span><span class="op">)</span>                          <span class="co"># Prediction errors</span>
+        <span class="va">w</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">beta</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">err</span><span class="op">)</span>                <span class="co"># Output: weight of asset i</span>
+    <span class="op">}</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">w</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span><span class="op">)</span>                                    <span class="co"># Normalisation of weights</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>为了对我们的策略进行基准测试，我们定义了一个嵌入三种策略的元加权函数：(1) EW 基准，(2) 经典的 GMV 和 (3) 稀疏对冲最小方差。对于 GMV，由于资产比日期多得多，因此协方差矩阵是奇异的。因此，我们有一个小的启发式收缩项。为了更严格地处理该技术，我们参考了原始文章 <span class="citation">Olivier Ledoit and Wolf (<a href="solutions-to-exercises.html#ref-ledoit2004well" role="doc-biblioref">2004</a>)</span> 以及最近提到的改进 <span class="citation">Olivier Ledoit and Wolf (<a href="solutions-to-exercises.html#ref-ledoit2017nonlinear" role="doc-biblioref">2017</a>)</span>。简而言之，我们使用 <span class="math inline">\(\hat{\boldsymbol{\Sigma}}=\boldsymbol{\Sigma}_S+\delta \boldsymbol{I}\)</span> 对于一些小常数 <span class="math inline">\(\delta\)</span> （等于下面代码中的 0.01）。</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">weights_multi</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">returns</span>,<span class="va">j</span>, <span class="va">alpha</span>, <span class="va">lambda</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span>
+    <span class="kw">if</span><span class="op">(</span><span class="va">j</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">{</span>                                    <span class="co"># j = 1 =&gt; EW</span>
+        <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">N</span>,<span class="va">N</span><span class="op">)</span><span class="op">)</span>
+    <span class="op">}</span>
+    <span class="kw">if</span><span class="op">(</span><span class="va">j</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span><span class="op">{</span>                                    <span class="co"># j = 2 =&gt; Minimum Variance</span>
+        <span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">returns</span><span class="op">)</span> <span class="op">+</span> <span class="fl">0.01</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span>     <span class="co"># Covariance matrix + regularizing term</span>
+        <span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/solve-methods.html">solve</a></span><span class="op">(</span><span class="va">sigma</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="va">N</span><span class="op">)</span>             <span class="co"># Inverse &amp; multiply</span>
+        <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">w</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span><span class="op">)</span>                         <span class="co"># Normalize</span>
+    <span class="op">}</span>
+    <span class="kw">if</span><span class="op">(</span><span class="va">j</span> <span class="op">==</span> <span class="fl">3</span><span class="op">)</span><span class="op">{</span>                                    <span class="co"># j = 3 =&gt; Penalised / elasticnet</span>
+        <span class="va">w</span> <span class="op">&lt;-</span> <span class="fu">weights_sparsehedge</span><span class="op">(</span><span class="va">returns</span>, <span class="va">alpha</span>, <span class="va">lambda</span><span class="op">)</span>
+    <span class="op">}</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>最后，我们进入回测循环。考虑到资产的数量，循环的执行需要几分钟。在循环结束时，我们计算投资组合收益率的标准差（每月波动率）。这是关键指标，因为最小方差旨在最小化这一特定指标。</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">for</span><span class="op">(</span><span class="va">t</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>                                                 <span class="co"># Loop = rebal. dates</span>
+    <span class="va">temp_data</span> <span class="op">&lt;-</span> <span class="va">returns</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                               <span class="co"># Data for weights</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">&lt;</span> <span class="va">t_oos</span><span class="op">[</span><span class="va">t</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                        <span class="co"># Expand. window</span>
+        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+        <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span> 
+    <span class="va">realised_returns</span> <span class="op">&lt;-</span> <span class="va">returns</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                        <span class="co"># OOS returns</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">==</span>  <span class="va">t_oos</span><span class="op">[</span><span class="va">t</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span><span class="op">)</span>
+    <span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nb_port</span><span class="op">)</span><span class="op">{</span>                                                   <span class="co"># Loop over strats</span>
+        <span class="va">portf_weights</span><span class="op">[</span><span class="va">t</span>,<span class="va">j</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">weights_multi</span><span class="op">(</span><span class="va">temp_data</span>, <span class="va">j</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span><span class="op">)</span>       <span class="co"># Hard-coded params!</span>
+        <span class="va">portf_returns</span><span class="op">[</span><span class="va">t</span>,<span class="va">j</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">portf_weights</span><span class="op">[</span><span class="va">t</span>,<span class="va">j</span>,<span class="op">]</span> <span class="op">*</span> <span class="va">realised_returns</span><span class="op">)</span>  <span class="co"># Portf. returns</span>
+    <span class="op">}</span>
+<span class="op">}</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">portf_returns</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"EW"</span>, <span class="st">"MV"</span>, <span class="st">"Sparse"</span><span class="op">)</span> <span class="co"># Colnames</span>
+<span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">portf_returns</span>, <span class="fl">2</span>, <span class="va">sd</span><span class="op">)</span>                        <span class="co"># Portfolio volatilities (monthly scale)</span></code></pre></div>
+<pre><code>##         EW         MV     Sparse 
+## 0.04180422 0.03350424 0.02672169</code></pre>
+<p></p>
+<p>稀疏对冲限制的目的是更好地估计资产的协方差结构，从而使最小方差投资组合权重的估计更加准确。从上面的练习中，我们看到，基于稀疏对冲关系构建协方差矩阵时，月波动率确实降低了。如果我们使用缩小的样本协方差矩阵，则情况并非如此，因为资产之间的相关性估计中可能存在太多噪声。使用每日收益率可能会提高估计的质量。但上述回测表明，即使观察值（日期）数量与资产数量相比较少，惩罚方法也能表现良好。</p>
+</div>
+</div>
+<div class="section level2" id="predictive-regressions" number="5.3">
+<h2>
+<span class="header-section-number">5.3</span> 预测回归<a aria-label="锚" class="anchor" href="#predictive-regressions"><i class="fas fa-link"></i></a>
+</h2>
+<p></p>
+<div class="section level3" id="literature-review-and-principle" number="5.3.1">
+<h3>
+<span class="header-section-number">5.3.1</span> 文献综述及原理<a aria-label="锚" class="anchor" href="#literature-review-and-principle"><i class="fas fa-link"></i></a>
+</h3>
+<p>预测回归主题包含一系列非常有趣的文章。一项有影响力的贡献是 <span class="citation">Stambaugh (<a href="solutions-to-exercises.html#ref-stambaugh1999predictive" role="doc-biblioref">1999</a>)</span>，其中作者展示了自变量自相关的回归的危险。在这种情况下，通常的 OLS 估计是有偏差的，因此必须进行纠正。从那时起，这些结果已向多个方向扩展（参见 <span class="citation">Campbell and Yogo (<a href="solutions-to-exercises.html#ref-campbell2006efficient" role="doc-biblioref">2006</a>)</span> 和 <span class="citation">Hjalmarsson (<a href="solutions-to-exercises.html#ref-hjalmarsson2011new" role="doc-biblioref">2011</a>)</span>，调查于 <span class="citation">Gonzalo and Pitarakis (<a href="solutions-to-exercises.html#ref-gonzalo2018predictive" role="doc-biblioref">2018</a>)</span> 并且，最近的研究 <span class="citation">Xu (<a href="solutions-to-exercises.html#ref-xu2020testing" role="doc-biblioref">2020</a>)</span> 多层面的可预测性）。</p>
+<p>第二个重要主题涉及预测回归中系数的时间依赖性。这个方向的一项贡献是 <span class="citation">Dangl and Halling (<a href="solutions-to-exercises.html#ref-dangl2012predictive" role="doc-biblioref">2012</a>)</span>，其中系数是通过贝叶斯过程估计的。最近 <span class="citation">Kelly, Pruitt, and Su (<a href="solutions-to-exercises.html#ref-kelly2019characteristics" role="doc-biblioref">2019</a>)</span> 使用时间相关的因子载荷对股票收益率的横截面进行建模。预测回归系数的随时间变化的性质进一步记录为 <span class="citation">Henkel, Martin, and Nardari (<a href="solutions-to-exercises.html#ref-henkel2011time" role="doc-biblioref">2011</a>)</span> 为了短期收益率。最后， <span class="citation">Farmer, Schmidt, and Timmermann (<a href="solutions-to-exercises.html#ref-farmer2019pockets" role="doc-biblioref">2019</a>)</span> 引入可预测性的概念：资产或市场经历不同的阶段；在某些阶段，它们是可以预测的，而在另一些阶段则不然。口袋里的钱是通过一个人的天数来衡量的 <em>t</em>- 统计量高于特定阈值并且按该阈值的大小 <span class="math inline">\(R^2\)</span> 在考虑的期限内。正式的统计测试是由 <span class="citation">Demetrescu et al. (<a href="solutions-to-exercises.html#ref-demetrescu2020testing" role="doc-biblioref">2020</a>)</span>.</p>
+<p>在预测回归中引入惩罚至少可以追溯到 <span class="citation">D. E. Rapach, Strauss, and Zhou (<a href="solutions-to-exercises.html#ref-rapach2013international" role="doc-biblioref">2013</a>)</span>，他们用惩罚方法评估美国市场与其他国际证券交易所之间的超前滞后关系。最近， <span class="citation">Alexander Chinco, Clark-Joseph, and Ye (<a href="solutions-to-exercises.html#ref-chinco2019sparse" role="doc-biblioref">2019</a>)</span> 使用 LASSO 回归，根据不同范围内的过去收益率（横截面上）预测高频收益率。他们报告了统计上显著的收益。 <span class="citation">Han et al. (<a href="solutions-to-exercises.html#ref-han2018firm" role="doc-biblioref">2019</a>)</span> 和 <span class="citation">D. Rapach and Zhou (<a href="solutions-to-exercises.html#ref-rapach2019time" role="doc-biblioref">2019</a>)</span> 分别使用 LASSO 和 elastic net 回归来改进预测组合，并筛选出解释股票收益率时重要的特征。最近， <span class="citation">J. H. Lee, Shi, and Gao (<a href="solutions-to-exercises.html#ref-lee2022lasso" role="doc-biblioref">2022</a>)</span> 对 LASSO 做了一些小改动，旨在提高系数估计的一致性。</p>
+<p>这些贡献强调了预测回归和惩罚回归之间重叠的相关性。在基于简单机器学习的资产定价中，我们经常寻求构建诸如方程之类的模型 <a href="factor.html#eq:genML">(3.6)</a>。如果我们坚持线性关系并添加惩罚项，那么模型将变为：
+<span class="math display">\[r_{t+1,n} = \alpha_n + \sum_{k=1}^K\beta_n^kf^k_{t,n}+\epsilon_{t+1,n}, \quad \text{s.t.} \quad (1-\alpha)\sum_{j=1}^J |\beta_j| +\alpha\sum_{j=1}^J \beta_j^2&lt; \theta\]</span>
+其中我们将 <span class="math inline">\(f^k_{t,n}\)</span> 与 <span class="math inline">\(x_{t,n}^k\)</span> 互换使用，<span class="math inline">\(\theta\)</span> 表示某种惩罚强度。同样，正则化的目的之一是生成更稳健的估计。如果提取出的模式在样本外依然存在，那么
+<span class="math display">\[\hat{r}_{t+1,n} = \hat{\alpha}_n + \sum_{k=1}^K\hat{\beta}_n^kf^k_{t,n},\]</span>
+将是未来表现的相对可靠的指标。</p>
+</div>
+<div class="section level3" id="code-and-results" number="5.3.2">
+<h3>
+<span class="header-section-number">5.3.2</span> 代码和结果<a aria-label="锚" class="anchor" href="#code-and-results"><i class="fas fa-link"></i></a>
+</h3>
+<p>考虑到我们数据集的形式，实施惩罚预测回归很容易。</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">y_penalized_train</span> <span class="op">&lt;-</span> <span class="va">training_sample</span><span class="op">$</span><span class="va">R1M_Usd</span>                 <span class="co"># Dependent variable</span>
+<span class="va">x_penalized_train</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                     <span class="co"># Predictors</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>                  
+<span class="va">fit_pen_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glmnet.stanford.edu/reference/glmnet.html">glmnet</a></span><span class="op">(</span><span class="va">x_penalized_train</span>, <span class="va">y_penalized_train</span>, <span class="co"># Model</span>
+                       alpha <span class="op">=</span> <span class="fl">0.1</span>, lambda <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></code></pre></div>
+<p></p>
+<p>然后，我们报告两个关键性能指标：均方误差和命中率，即预测正确猜中收益率符号的次数比例。本书后面第 <a href="backtest.html#backtest">12</a> 章给出了这些度量的详细说明。</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x_penalized_test</span> <span class="op">&lt;-</span> <span class="va">testing_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>                                     <span class="co"># Predictors</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>         
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_pen_pred</span>, <span class="va">x_penalized_test</span><span class="op">)</span> <span class="op">-</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="co"># MSE</span></code></pre></div>
+<pre><code>## [1] 0.03699696</code></pre>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_pen_pred</span>, <span class="va">x_penalized_test</span><span class="op">)</span> <span class="op">*</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.5460346</code></pre>
+<p></p>
+<p>从投资者的角度来看，MSEs（甚至平均绝对误差）很难解释，因为将它们在心理上映射到一些直观的财务指标是很复杂的。从这个角度来说，命中率就更自然了。它告诉我们预测获得正确符号的比例。如果投资者在积极信号中做多并在消极信号中做空，则命中率表示“正确”押注（朝着预期方向发展的头寸）的比例。自然阈值是 50%，但由于交易成本，51% 的准确预测可能不会盈利。 0.546这个数字可以被认为是一个相对较好的命中率，尽管不是一个非常令人印象深刻的命中率。</p>
+</div>
+</div>
+<div class="section level2" id="coding-exercise" number="5.4">
+<h2>
+<span class="header-section-number">5.4</span> 编码练习<a aria-label="锚" class="anchor" href="#coding-exercise"><i class="fas fa-link"></i></a>
+</h2>
+<p>在测试样本上，评估两个 elastic net 参数对样本外精度的影响。</p>
+</div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></div>
+<div class="next"><a href="trees.html"><span class="header-section-number">6</span> 树模型</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页目录" data-toggle="toc" id="toc"><h2>本页目录</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lasso"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></li>
+<li>
+<a class="nav-link" href="#penalized-regressions"><span class="header-section-number">5.1</span> 惩罚回归</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#penreg"><span class="header-section-number">5.1.1</span> 简单回归</a></li>
+<li><a class="nav-link" href="#forms-of-penalizations"><span class="header-section-number">5.1.2</span> 惩罚形式</a></li>
+<li><a class="nav-link" href="#illustrations"><span class="header-section-number">5.1.3</span> 示例</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#sparse-hedging-for-minimum-variance-portfolios"><span class="header-section-number">5.2</span> 最小方差投资组合的稀疏对冲</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#presentation-and-derivations"><span class="header-section-number">5.2.1</span> 说明与推导</a></li>
+<li><a class="nav-link" href="#sparseex"><span class="header-section-number">5.2.2</span> 示例</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#predictive-regressions"><span class="header-section-number">5.3</span> 预测回归</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#literature-review-and-principle"><span class="header-section-number">5.3.1</span> 文献综述及原理</a></li>
+<li><a class="nav-link" href="#code-and-results"><span class="header-section-number">5.3.2</span> 代码和结果</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#coding-exercise"><span class="header-section-number">5.4</span> 编码练习</a></li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>"<strong>因子投资中的机器学习</strong>” 由 Guillaume Coqueret 和 Tony Guida 编写。最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

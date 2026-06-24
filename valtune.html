@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 10 章 验证与调参 | 因子投资中的机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 10 章 验证与调参 | 因子投资中的机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 10 章 验证与调参 | 因子投资中的机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="如第 5 章至第 11 章所示，ML 模型需要用户指定的选择才能进行训练。这些选择包括参数值（学习率、惩罚强度等）或......" name="description"/>
+<meta content="如第 5 章至第 11 章所示，ML 模型需要用户指定的选择才能进行训练。这些选择包括参数值（学习率、惩罚强度等）或......" property="og:description"/>
+<meta content="如第 5 章至第 11 章所示，ML 模型需要用户指定的选择才能进行训练。这些选择包括参数值（学习率、惩罚强度等）或......" name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">因子投资中的机器学习</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">引言</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号与数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 引言</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 树模型</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="active" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性与非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 习题解答</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="valtune" number="10">
+<h1>
+<span class="header-section-number">10</span> 验证与调参<a aria-label="锚" class="anchor" href="#valtune"><i class="fas fa-link"></i></a>
+</h1>
+<p>如章节所示 <a href="lasso.html#lasso">5</a> 到 <a href="ensemble.html#ensemble">11</a>、ML 模型需要用户指定的选择才能进行训练。这些选择包括参数值（学习率、惩罚强度等）或架构选择（例如网络的结构）。 ML 引擎中的替代设计可能会导致不同的预测，因此选择一个好的设计至关重要。我们参考的工作 <span class="citation">Probst, Bischl, and Boulesteix (<a href="solutions-to-exercises.html#ref-probst2018tunability" role="doc-biblioref">2018</a>)</span> 研究超参数调参对模型性能的影响。对于某些模型（神经网络和增强树）来说，自由度非常大，以至于找到正确的参数可能变得复杂且具有挑战性。本章讨论了这些问题，但读者必须意识到构建良好模型没有捷径。制作有效的模型非常耗时，而且通常是多次迭代的结果。</p>
+<div class="section level2" id="mlmetrics" number="10.1">
+<h2>
+<span class="header-section-number">10.1</span> 学习指标<a aria-label="锚" class="anchor" href="#mlmetrics"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+训练前设置的参数值称为 <strong>超参数</strong>。为了能够选择好的超参数，必须定义评估 ML 模型性能的指标。正如 ML 中经常出现的情况一样，寻求预测数字（回归）的模型和尝试预测类别（分类）的模型之间存在二分法。在我们概述常见的评估基准之前，我们先提到计量经济学方法 <span class="citation">J. Li, Liao, and Quaedvlieg (<a href="solutions-to-exercises.html#ref-li2020conditional" role="doc-biblioref">2020</a>)</span>。作者建议与给定基准相比评估预测方法的性能， <strong>有条件的</strong> 一些外部变量。这有助于监控模型在哪些（经济）条件下优于基准。测试的完整实现非常复杂，我们建议感兴趣的读者查看论文中的推导。</p>
+<div class="section level3" id="regression-analysis" number="10.1.1">
+<h3>
+<span class="header-section-number">10.1.1</span> 回归分析<a aria-label="锚" class="anchor" href="#regression-analysis"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+回归分析中的误差通常以直接的方式进行评估。的 <span class="math inline">\(L^1\)</span> 和 <span class="math inline">\(L^2\)</span> 规范是主流；它们都很容易解释和计算。第二个，根 <strong>均方误差</strong> (RMSE) 在任何地方都是可微的，但更难掌握，并且给予异常值更多的权重。第一个，平均绝对误差给出了与实现值的平均距离，但在零时不可微分。正式地，我们将它们定义为
+<span class="math display" id="eq:MSE">\[\begin{align}
+\tag{10.1}
+\text{MAE}(\textbf{y},\tilde{\textbf{y}})&amp;=\frac{1}{I}\sum_{i=1}^I|y_i-\tilde{y}_i|, \\  \tag{10.2}
+\text{MSE}(\textbf{y},\tilde{\textbf{y}})&amp;=\frac{1}{I}\sum_{i=1}^I(y_i-\tilde{y}_i)^2,
+\end{align}\]</span></p>
+<p>RMSE 只是 MSE 的平方根。总是可以通过添加权重来推广这些公式 <span class="math inline">\(w_i\)</span> 产生实例重要性的异质性。让我们简单评论一下MSE。它是迄今为止机器学习中最常见的损失函数，但它不一定是投资组合分配任务中收益率预测的最佳选择。如果我们将损失分解为三项，我们就会得到实现收益平方和、预测收益平方和以及两者之间的乘积（粗略地说，如果我们假设均值为零，则为协方差项）。第一个术语并不重要。第二个控制预测值在零附近的离散度。从分配器的角度来看，第三项是最有趣的。叉积的负数 <span class="math inline">\(-2y_i\tilde{y}_i\)</span> 总是对投资者有利：要么这两项都是正数，模型识别出了有利可图的资产，要么都是负数，模型识别出了一个糟糕的机会。正是当 <span class="math inline">\(y_i\)</span> 和 <span class="math inline">\(\tilde{y}_i\)</span> 没有出现问题的相同迹象。因此，相比于 <span class="math inline">\(\tilde{y}_i^2\)</span>，交叉项更重要。尽管如此，算法并未针对该指标进行优化。<a class="footnote-ref" href="solutions-to-exercises.html#fn21" id="fnref21"><sup>21</sup></a></p>
+<p>这些指标（MSE 和 RMSE）在 ML 之外广泛用于评估预测误差。下面，我们提出了有时也用于量化模型质量的其他指标。根据线性回归， <span class="math inline">\(R^2\)</span> 可以在任何预测练习中进行计算。
+<span class="math display" id="eq:R2">\[\begin{equation}
+\tag{10.3}
+R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\sum_{i=1}^I(y_i-\bar{y})^2},
+\end{equation}\]</span>
+其中 <span class="math inline">\(\bar{y}\)</span> 是标签的样本平均值。与经典的一个重要区别 <span class="math inline">\(R^2\)</span> 上述数量可以计算为 <strong>测试样本</strong> 并且不在 <strong>训练样本</strong>。在这种情况下， <span class="math inline">\(R^2\)</span> 当分子的均方误差大于测试样本的（有偏）方差时，可能为负值。有时，取平均值 <span class="math inline">\(\bar{y}\)</span> 分母中被省略（如 <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2018empirical" role="doc-biblioref">2020b</a>)</span> 例如）。删除平均值的好处在于，它将模型的预测与零预测进行比较。这与收益率特别相关，因为最简单的预测是恒定的零值和 <span class="math inline">\(R^2\)</span> 然后可以测量模型是否超过了这个简单的基准。零预测总是优于样本平均值，因为后者可能非常依赖于周期。另外，删除 <span class="math inline">\(\bar{y}\)</span> 分母中的值使度量更加保守，因为它机械地减少了 <span class="math inline">\(R^2\)</span>.</p>
+<p>除了上面详细介绍的简单指标之外，还存在一些奇异的扩展，它们都包括在取平均值之前改变误差。两个值得注意的示例是平均绝对百分比误差 (MAPE) 和均方百分比误差 (MSPE)。他们不是查看原始误差，而是计算相对于原始值（待预测）的误差。因此，误差以百分比分数表示，平均值简单地等于：
+<span class="math display" id="eq:MSPE">\[\begin{align}
+\tag{10.4}  
+\text{MAPE}(\textbf{y},\tilde{\textbf{y}})&amp;=\frac{1}{I}\sum_{i=1}^I\left|\frac{y_i-\tilde{y}_i}{y_i}\right|, \\ \tag{10.5}
+\text{MSPE}(\textbf{y},\tilde{\textbf{y}})&amp;=\frac{1}{I}\sum_{i=1}^I\left(\frac{y_i-\tilde{y}_i}{y_i}\right)^2,
+\end{align}\]</span></p>
+<p>如果需要，后者可以按平方根缩放。当标签为正且值可能很大时，可以缩放误差的大小，该误差可能非常大。实现此目的的一种方法是诉诸均方根对数误差 (RMSLE)，定义如下：</p>
+<p><span class="math display" id="eq:RMSLE">\[\begin{equation}
+\tag{10.6}
+\text{RMSLE}(\textbf{y},\tilde{\textbf{y}})=\sqrt{\frac{1}{I}\sum_{i=1}^I\log\left(\frac{1+y_i}{1+\tilde{y}_i}\right)},
+\end{equation}\]</span></p>
+<p>很明显当 <span class="math inline">\(y_i=\tilde{y}_i\)</span>，误差度量等于零。</p>
+<p>在我们继续讨论分类损失之前，我们简要评论一下 MSE 的一个缺点，它是迄今为止回归任务中最广泛的指标和目标。简单分解得出：
+<span class="math display">\[\text{MSE}(\textbf{y},\tilde{\textbf{y}})=\frac{1}{I}\sum_{i=1}^I(y_i^2+\tilde{y}_i^2-2y_i\tilde{y}_i).\]</span></p>
+<p>总而言之，第一项已给出，无需采取任何措施，因此模型专注于其他两项的最小化。第二项是模型值的离散度。第三项是叉积。虽然变化 <span class="math inline">\(\tilde{y}_i\)</span> 确实很重要，第三项是迄今为止最重要的，尤其是在横截面中。通过增加来减少 MSE 更有价值 <span class="math inline">\(y_i\tilde{y}_i\)</span>。当两个项具有相同符号时，该乘积确实为正，这正是投资者所寻找的： <strong>正确的方向</strong> 为了赌注。对于某些算法（如神经网络），可以手动指定自定义损失。最大化总和 <span class="math inline">\(y_i\tilde{y}_i\)</span> 可能是普通二次优化的一个很好的替代方案（参见第 <a href="NN.html#custloss">7.4.3</a> 获取实施示例）。</p>
+</div>
+<div class="section level3" id="classification-analysis" number="10.1.2">
+<h3>
+<span class="header-section-number">10.1.2</span> 分类分析<a aria-label="锚" class="anchor" href="#classification-analysis"><i class="fas fa-link"></i></a>
+</h3>
+<p>与数字输出的绩效指标相比，分类结果的绩效指标有很大不同。这些指标中的很大一部分专用于二元类，尽管其中一些指标可以很容易地推广到多类模型。</p>
+<p>我们以复杂性递增的顺序提出与这些指标相关的概念，并从真与假、正与负这两个二分法开始。在二元分类中，可以很方便地考虑真与假。在投资环境中，true 可能与正收益率或高于基准的收益率相关 - false 则相反。</p>
+<p>那么有 4 种可能的预测结果。两种情况是预测正确（预测为真，实现为真，或者预测为错误，结果为错误），两种是预测错误（预测为真，实现为错误，反之亦然）。我们定义如下相应的聚合指标：</p>
+<ul>
+<li>真阳性的频率： <span class="math inline">\(TP=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=1 \}},\)</span><br/>
+</li>
+<li>真阴性的频率： <span class="math inline">\(TN=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=0 \}},\)</span><br/>
+</li>
+<li>误报频率： <span class="math inline">\(FP=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=1,y_i=0 \}},\)</span><br/>
+</li>
+<li>假阴性的频率： <span class="math inline">\(FN=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=0,y_i=1 \}},\)</span>
+</li>
+</ul>
+<p>其中 true 通常编码为 1， false 编码为 0。四个数字之和等于 1。这四个数字对样本外结果的影响截然不同，如图所示 <a href="valtune.html#fig:valconfusion">10.1</a>。在此表中（也称为 <strong>混淆矩阵</strong>），假设模型预测了未来盈利能力的一些代理。每一行代表模型的预测，每一列代表盈利能力的实现。最重要的情况是顶行的情况，此时模型预测为正结果，因为具有正预测盈利能力（可能相对于某些基准）的资产最终可能会出现在投资组合中。当然，如果资产表现良好（左单元格），这不是问题，但如果模型错误，就会受到惩罚，因为投资组合将受到影响。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:valconfusion" style="display:block;"></span>
+<img alt="混淆矩阵：二元结果的总结。" src="images/confusion.png" width="500px"/><p class="caption">
+图 10.1：混淆矩阵：二元结果的总结。
+</p>
+</div>
+<p>在这两类错误中， <strong>Ⅰ型</strong> 对于投资者来说是最令人畏惧的，因为它对投资组合有直接影响。的 <strong>类型 II</strong> 错误只是错失了机会，而且影响力较小。最后，真正的负面资产是那些被正确排除在投资组合之外的资产。</p>
+<p>从四个基准率中，可以得出其他有趣的指标：</p>
+<ul>
+<li>
+<strong>准确度</strong> = <span class="math inline">\(TP+TN\)</span> 是正确预测的百分比；<br/>
+</li>
+<li>
+<strong>召回</strong> = <span class="math inline">\(\frac{TP}{TP+FN}\)</span> 衡量检测获胜策略/资产的能力（左栏分析）。也称为敏感性或真阳性率（TPR）；<br/>
+</li>
+<li>
+<strong>精度</strong> = <span class="math inline">\(\frac{TP}{TP+FP}\)</span> 计算良好投资的概率（顶行分析）；</li>
+<li>
+<strong>特异性</strong> = <span class="math inline">\(\frac{TN}{FP+TN}\)</span> 测量被正确识别的实际阴性的比例（右栏分析）；</li>
+<li>
+<strong>辐射</strong> = <span class="math inline">\(\frac{FP}{FP+TN}=1-\)</span>特异性是误报的概率（或误报率），即算法检测到错误执行资产的频率（右列分析）；<br/>
+</li>
+<li>
+<strong>F分数</strong>, <span class="math inline">\(\mathbf{F}_1=2\frac{\text{recall}\times \text{precision}}{\text{recall}+ \text{precision}}\)</span> 是查全率和查准率的调和平均值。</li>
+</ul>
+<p>所有这些项目都位于单位区间内，当它们增加时，模型被认为表现更好（除了相反的后果）。还有许多其他指标，例如错误发现率或错误遗漏率，但它们并不主流，引用也较少。此外，它们通常是上述函数的简单函数。</p>
+<p>一个流行但更复杂的指标是 (ROC) 曲线下的面积，通常称为 AUC。复杂的部分是ROC曲线，其中ROC代表​​接收器操作特性；这个名字来源于信号理论。我们在下面解释它是如何构建的。</p>
+<p>正如章节中所见 <a href="trees.html#trees">6</a> 和 <a href="NN.html#NN">7</a>，分类器生成的输出是一个实例属于一类的概率。然后通过选择具有最高值的类别将这些概率转换为类别。在二分类中，得分在0.5以上的类基本上获胜。</p>
+<p>实际上，这个 0.5 阈值可能不是最佳的，当概率低于 0.4 时，模型可以很好地正确预测错误实例，否则预测正确实例。因此，测试决策阈值发生变化时会发生什么是一个自然的想法。 ROC 曲线就是这样做的，并将召回率绘制为阈值从零增加到一时的影响函数。</p>
+<p>当阈值等于 0 时，真阳性等于 0，因为模型从不预测正值。因此，召回率和影响率都为零。当阈值等于 1 时，假阴性缩小到零，真阴性也缩小到零，因此召回率和下降率等于 1。他们的关系在这两个极端之间的行为被称为 <strong>ROC曲线</strong>。我们在下面的图中提供了程式化的示例 <a href="valtune.html#fig:ROCcurve">10.2</a>。随机分类器对于召回和后果同样有利，因此 ROC 曲线将是从点 (0,0) 到 (1,1) 的线性线。为了证明这一点，想象一个带有 <span class="math inline">\(p\in (0,1)\)</span> 真实实例的比例和以一定概率随机预测真实实例的分类器 <span class="math inline">\(p'\in (0,1)\)</span>。然后因为样本和预测是独立的， <span class="math inline">\(TP=p'p\)</span>, <span class="math inline">\(FP = p'(1-p)\)</span>, <span class="math inline">\(TN=(1-p')(1-p)\)</span> 和 <span class="math inline">\(FN=(1-p')p\)</span>。考虑到上述定义，召回率和后果都等于 <span class="math inline">\(p'\)</span>.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:ROCcurve" style="display:block;"></span>
+<img alt="程式化的 ROC 曲线。" src="images/ROCcurve.png" width="450px"/><p class="caption">
+图 10.2： 程式化 ROC 曲线。
+</p>
+</div>
+<p>ROC 曲线高于 45° 角的算法的性能优于普通分类器。事实上，该曲线可以被视为利益之间的权衡（在 <span class="math inline">\(y\)</span> 轴）减去成本（在轴上选择错误资产的几率） <span class="math inline">\(x\)</span> 轴）。因此，高于 45° 至关重要。最好的分类器有一条 ROC 曲线，从点 (0,0) 到点 (0,1) 再到点 (1,1)。在点 (0,1) 处，后果为空，因此不存在误报，召回率等于 1，因此也不存在误报：模型总是正确的。反之亦然：在点 (1,0) 处，模型总是错误的。</p>
+<p>下面，我们使用一个特定的包（<em>ca工具</em>）来计算测试样本上给定预测集的 ROC 曲线。</p>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">caTools</span><span class="op">)</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"caTools"</span><span class="op">)</span><span class="op">}</span></code></pre></div>
+<p></p>
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">caTools</span><span class="op">)</span>  <span class="co"># Package for AUC computation</span>
+<span class="fu"><a href="https://rdrr.io/pkg/caTools/man/colAUC.html">colAUC</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_RF_C</span>, <span class="va">testing_sample</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span>, 
+       y <span class="op">=</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span>, 
+       plotROC <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:roc" style="display:block;"></span>
+<img alt="ROC 曲线示例。" src="ML_factor_files/figure-html/roc-1.png" width="450px"/><p class="caption">
+图 10.3： ROC 曲线示例。
+</p>
+</div>
+<pre><code>##                    FALSE      TRUE
+## FALSE vs. TRUE 0.5003885 0.5003885</code></pre>
+<p></p>
+<p>图中 <a href="valtune.html#fig:roc">10.3</a>，曲线非常接近 45° 角，模型看起来与随机分类器一样好（或者更确切地说，一样糟糕）。</p>
+<p>最后，为了比较目的，拥有一整条曲线是不切实际的，因此整条曲线的信息被综合到曲线下方的区域中，即对应函数的积分。 45° 角（象限平分线）的面积为 0.5（它是具有单位面积的单位正方形的一半）。因此，任何好的模型都应具有高于 0.5 的曲线下面积 (AUC)。完美模型的 AUC 为 1。</p>
+<p>我们以多类数据来结束本小节。当输出（即标签）有两个以上类别时，事情会变得更加复杂。仍然可以计算混淆矩阵，但维度更大并且更难以解释。简单的指标如 <span class="math inline">\(TP\)</span>, <span class="math inline">\(TN\)</span>等等，必须以非标准的方式进行概括。在这种情况下，最简单的度量是方程中定义的交叉熵 <a href="NN.html#eq:crossentropy">(7.5)</a>。我们参考章节 <a href="trees.html#treeclass">6.1.2</a> 有关与分类标签相关的损失的更多详细信息。</p>
+</div>
+</div>
+<div class="section level2" id="validation" number="10.2">
+<h2>
+<span class="header-section-number">10.2</span> 验证<a aria-label="锚" class="anchor" href="#validation"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+验证是在开始将模型部署到真实或实时数据（例如，出于交易目的）之前对其进行测试和调整的阶段。不用说，这很关键。</p>
+<div class="section level3" id="the-variance-bias-tradeoff-theory" number="10.2.1">
+<h3>
+<span class="header-section-number">10.2.1</span> 方差与偏差的权衡：理论<a aria-label="锚" class="anchor" href="#the-variance-bias-tradeoff-theory"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+的 <strong>方差-偏差权衡</strong> 是监督学习的核心概念之一。为了解释它，我们假设数据是由简单模型生成的
+<span class="math display">\[y_i=f(\textbf{x}_i)+\epsilon_i, \quad   \mathbb{E}[\boldsymbol{\epsilon}]=0, \quad \mathbb{V}[\boldsymbol{\epsilon}]=\sigma^2,\]</span></p>
+<p>但估计产量的模型</p>
+<p><span class="math display">\[y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i. \]</span></p>
+<p>给定一个未知样本 <span class="math inline">\(\textbf{x}\)</span>，平均平方误差的分解为</p>
+<p><span class="math display" id="eq:biasvariance">\[\begin{align}
+\tag{10.7}
+\mathbb{E}[\hat{\epsilon}^2]&amp;=\mathbb{E}[(y-\hat{f}(\textbf{x}))^2]=\mathbb{E}[(f(\textbf{x})+\epsilon-\hat{f}(\textbf{x}))^2]   \\
+&amp;= \underbrace{\mathbb{E}[(f(\textbf{x})-\hat{f}(\textbf{x}))^2]}_{\text{total quadratic error}}+\underbrace{\mathbb{E}[\epsilon^2]}_{\text{irreducible error}} \nonumber \\
+&amp;= \mathbb{E}[\hat{f}(\textbf{x})^2]+\mathbb{E}[f(\textbf{x})^2]-2\mathbb{E}[f(\textbf{x})\hat{f}(\textbf{x})]+\sigma^2\nonumber\\
+&amp;=\mathbb{E}[\hat{f}(\textbf{x})^2]+f(\textbf{x})^2-2f(\textbf{x})\mathbb{E}[\hat{f}(\textbf{x})]+\sigma^2\nonumber\\
+&amp;=\left[ \mathbb{E}[\hat{f}(\textbf{x})^2]-\mathbb{E}[\hat{f}(\textbf{x})]^2\right]+\left[\mathbb{E}[\hat{f}(\textbf{x})]^2+f(\textbf{x})^2-2f(\textbf{x})\mathbb{E}[\hat{f}(\textbf{x})]\right]+\sigma^2\nonumber\\
+&amp;=\underbrace{\mathbb{V}[\hat{f}(\textbf{x})]}_{\text{variance of model}}+ \quad \underbrace{\mathbb{E}[(f(\textbf{x})-\hat{f}(\textbf{x}))]^2}_{\text{squared bias}}\quad +\quad\sigma^2 \nonumber
+\end{align}\]</span></p>
+<p>在上面的推导中， <span class="math inline">\(f(x)\)</span> 不是随机的，但是 <span class="math inline">\(\hat{f}(x)\)</span> 群岛另外，在第二行中，我们假设 <span class="math inline">\(\mathbb{E}[\epsilon(f(x)-\hat{f}(x))]=0\)</span>，这可能并不总是成立（尽管这是一个非常常见的假设）。因此，平均平方误差具有三个组成部分：</p>
+<ul>
+<li>模型的方差（相对于其预测）；<br/>
+</li>
+<li>模型偏差的平方；<br/>
+</li>
+<li>和一个 <strong>不可约误差</strong> （与特定模型的选择无关）。</li>
+</ul>
+<p>最后一个不受模型变化的影响，因此挑战是最小化前两个的总和。这被称为方差-偏差权衡，因为减少一个往往会导致另一个的增加。因此，我们的目标是评估何时其中一项的小幅增加会导致另一项的大幅下降。</p>
+<p>有多种方法可以表示这种权衡，我们展示了其中两种。第一个与射箭有关（见图 <a href="valtune.html#fig:archery">10.4</a>）如下。最好的情况（左上）是所有射击都集中在中间时：平均而言，弓箭手瞄准正确并且所有箭头都非常接近。最坏的情况（右下）正好相反：平均箭头位于目标中心上方（偏差非零）并且箭头的分散度很大。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:archery" style="display:block;"></span>
+<img alt="方差-偏差权衡的第一个表示。" src="images/var_bias_trade.png" width="450px"/><p class="caption">
+图 10.4：方差-偏差权衡的第一个表示。
+</p>
+</div>
+<p>ML中最常遇到的情况是另外两种配置：要么箭头（预测）集中在一个小周界内，但周界不是目标的中心；要么箭头（预测）集中在一个小周界内，但该周界不是目标的中心；或者箭头平均分布在中心周围，但平均而言远离中心。</p>
+<p>通常描述方差偏差权衡的第二种方式是通过以下概念 <strong>模型复杂度</strong>。最简单的模型是常数模型：预测始终相同，例如等于训练集中标签的平均值。当然，这个预测往往会与测试集的实现值相去甚远（其偏差会很大），但至少其方差为零。另一方面，具有与实例一样多的叶子的决策树具有非常复杂的结构。它可能会有较小的偏差，但毫无疑问，这并不能明显地补偿由于模型的复杂性而引起的方差的增加。</p>
+<p>权衡的这个方面如图所示 <a href="valtune.html#fig:varbiastrade">10.5</a> 下面。在图的左侧，简单模型的方差较小，但偏差较大，而在右侧，复杂模型则相反。好的模型通常位于两者之间，但很难找到最佳组合。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:varbiastrade" style="display:block;"></span>
+<img alt="方差-偏差权衡的第二种表示。" src="images/var_bias_trade2.png" width="450px"/><p class="caption">
+图 10.5：方差-偏差权衡的第二种表示法。
+</p>
+</div>
+<p>方差-偏差权衡最容易处理的理论形式是岭回归。<a class="footnote-ref" href="solutions-to-exercises.html#fn22" id="fnref22"><sup>22</sup></a> 此类回归中的系数估计由下式给出 <span class="math inline">\(\hat{\mathbf{b}}_\lambda=(\mathbf{X}'\mathbf{X}+\lambda \mathbf{I}_N)^{-1}\mathbf{X}'\mathbf{Y}\)</span> （见章节 <a href="lasso.html#penreg">5.1.1</a>），其中 <span class="math inline">\(\lambda\)</span> 是惩罚强度。假设一个 <em>真实</em> 数据生成过程的线性形式（<span class="math inline">\(\textbf{y}=\textbf{Xb}+\boldsymbol{\epsilon}\)</span> 其中 <span class="math inline">\(\textbf{b}\)</span> 未知且 <span class="math inline">\(\sigma^2\)</span> 是误差的方差 - 具有单位相关矩阵），这产生
+<span class="math display" id="eq:vartrade">\[\begin{align}  
+\mathbb{E}[\hat{\textbf{b}}_\lambda]&amp;=\textbf{b}-\lambda(\textbf{X}'\textbf{X}+\lambda \textbf{I}_N)^{-1} \textbf{b}, \\  \tag{10.8}
+\mathbb{V}[\hat{\textbf{b}}_\lambda]&amp;=\sigma^2(\textbf{X}'\textbf{X}+\lambda \textbf{I}_N)^{-1}\textbf{X}'\textbf{X}   (\textbf{X}'\textbf{X}+\lambda \textbf{I}_N)^{-1}.
+\end{align}\]</span></p>
+<p>基本上，这意味着估计器的偏差等于 <span class="math inline">\(-\lambda(\textbf{X}'\textbf{X}+\lambda \textbf{I}_N)^{-1} \textbf{b}\)</span>，在没有惩罚（经典回归）的情况下为零，并且在以下情况下收敛到某个有限数： <span class="math inline">\(\lambda \rightarrow \infty\)</span>，即当模型变得恒定时。请注意，如果估计量的偏差为零，则预测也将是： <span class="math inline">\(\mathbb{E}[\textbf{X}(\textbf{b}-\hat{\textbf{b}})]=\textbf{0}\)</span>.</p>
+<p>无约束回归情况下的（估计值）方差等于 <span class="math inline">\(\mathbb{V}[\hat{\textbf{b}}]=\sigma (\textbf{X}'\textbf{X})^{-1}\)</span>。在方程中 <a href="valtune.html#eq:vartrade">(10.8)</a>, 的 <span class="math inline">\(\lambda\)</span> 减少逆矩阵中数字的大小。总体效果是这样的 <span class="math inline">\(\lambda\)</span> 增大，方差减小，并且在极限内 <span class="math inline">\(\lambda \rightarrow \infty\)</span>，当模型恒定时方差为零。预测的方差是
+<span class="math display">\[\begin{align*}
+\mathbb{V}[\textbf{X}\hat{\textbf{b}}]&amp;=\mathbb{E}[(\textbf{X}\hat{\textbf{b}}-\mathbb{E}[\textbf{X}\hat{\textbf{b}}])(\textbf{X}\hat{\textbf{b}}-\mathbb{E}[\textbf{X}\hat{\textbf{b}}])'] \\
+&amp;= \textbf{X}\mathbb{E}[(\hat{\textbf{b}}-\mathbb{E}[\hat{\textbf{b}}])(\hat{\textbf{b}}-\mathbb{E}[\hat{\textbf{b}}])']\textbf{X}' \\
+&amp;= \textbf{X}\mathbb{V}[\hat{\textbf{b}}]\textbf{X}
+\end{align*}\]</span></p>
+<p>总而言之，岭回归非常方便，因为使用单个参数，它们就能够提供直接调整方差-偏差权衡的游标。</p>
+<p>很容易说明用岭回归显示权衡是多么简单。在下面的例子中，我们回收了章节中训练的岭模型 <a href="lasso.html#lasso">5</a>.</p>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">ridge_errors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_ridge</span>, <span class="va">x_penalized_test</span><span class="op">)</span> <span class="op">-</span>          <span class="co"># Errors from all models</span>
+    <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span>, <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">100</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
+<span class="va">ridge_bias</span> <span class="op">&lt;-</span> <span class="va">ridge_errors</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span>                                <span class="co"># Biases</span>
+<span class="va">ridge_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_ridge</span>, <span class="va">x_penalized_test</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="fl">2</span>, <span class="va">var</span><span class="op">)</span>          <span class="co"># Variance</span>
+<span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="va">ridge_bias</span><span class="op">^</span><span class="fl">2</span>, <span class="va">ridge_var</span>, total <span class="op">=</span> <span class="va">ridge_bias</span><span class="op">^</span><span class="fl">2</span><span class="op">+</span><span class="va">ridge_var</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>  <span class="co"># Plot</span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">Error_Component</span>, value <span class="op">=</span> <span class="va">Value</span>, <span class="op">-</span><span class="va">lambda</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">lambda</span>, y <span class="op">=</span> <span class="va">Value</span>, color <span class="op">=</span> <span class="va">Error_Component</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:ridgetrade" style="display:block;"></span>
+<img alt="岭回归的误差分解。" src="ML_factor_files/figure-html/ridgetrade-1.png" width="480"/><p class="caption">
+图 10.6：岭回归的误差分解。
+</p>
+</div>
+<p></p>
+<p>图中 <a href="valtune.html#fig:ridgetrade">10.6</a>，该图案与图中所示的不同 <a href="valtune.html#fig:varbiastrade">10.5</a>。在图中，当强度 lambda 增加时，参数的大小缩小，模型变得更简单。因此，最简单的模型似乎是最好的选择：增加复杂性会增加方差，但不会改善偏差！一个可能的原因是，特征实际上并不具有太多的预测价值，因此恒定模型与基于不相关变量的更复杂的模型一样好。</p>
+</div>
+<div class="section level3" id="the-variance-bias-tradeoff-illustration" number="10.2.2">
+<h3>
+<span class="header-section-number">10.2.2</span> 方差-偏差权衡：插图<a aria-label="锚" class="anchor" href="#the-variance-bias-tradeoff-illustration"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+方差与偏差的权衡通常以易于理解的理论术语来表示。尽管如此，它对于演示它如何在真正的算法选择上运行仍然很有用。下面，我们以树为例，因为它们的复杂性很容易评估。基本上，具有许多终端节点的树比具有少量簇的树更复杂。</p>
+<p>我们从简约模型开始，我们将在下面对其进行训练。</p>
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_tree_simple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rpart/man/rpart.html">rpart</a></span><span class="op">(</span><span class="va">formula</span>, 
+             data <span class="op">=</span> <span class="va">training_sample</span>,     <span class="co"># Data source: training sample</span>
+             cp <span class="op">=</span> <span class="fl">0.0001</span>,                <span class="co"># Precision: smaller = more leaves</span>
+             maxdepth <span class="op">=</span> <span class="fl">2</span>                <span class="co"># Maximum depth (i.e. tree levels)</span>
+             <span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/pkg/rpart.plot/man/rpart.plot.html">rpart.plot</a></span><span class="op">(</span><span class="va">fit_tree_simple</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:treesimple" style="display:block;"></span>
+<img alt="简单的树。" src="ML_factor_files/figure-html/treesimple-1.png" width="400px"/><p class="caption">
+图 10.7：简单树。
+</p>
+</div>
+<p></p>
+<p>模型如图所示 <a href="valtune.html#fig:treesimple">10.7</a> 只有 4 个簇，这意味着预测只能采用四个值。最小的为 0.011，涵盖了样本的一大部分 (85%)，最大的为 0.062，仅对应于训练样本的 4%。<br/>
+然后我们就可以计算预测的偏差和方差 <em>测试</em> 设置。</p>
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_tree_simple</span>, <span class="va">testing_sample</span><span class="op">)</span> <span class="op">-</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span><span class="op">)</span> <span class="co"># Bias</span></code></pre></div>
+<pre><code>## [1] 0.004973917</code></pre>
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_tree_simple</span>, <span class="va">testing_sample</span><span class="op">)</span><span class="op">)</span>                           <span class="co"># Variance</span></code></pre></div>
+<pre><code>## [1] 0.0001398003</code></pre>
+<p></p>
+<p>平均而言，误差略为正，总体高估为 0.005。正如预期的那样，方差非常小 (10^{-4})。</p>
+<p>对于复杂模型，我们采用在第 1 节中获得的提升树 <a href="trees.html#boostcode">6.4.6</a> （fit_xgb）。该模型聚合了40棵树，最大深度为4，无疑更加复杂。 </p>
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_xgb</span>, <span class="va">xgb_test</span><span class="op">)</span> <span class="op">-</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span><span class="op">)</span> <span class="co"># Bias</span></code></pre></div>
+<pre><code>## [1] 0.003347682</code></pre>
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_xgb</span>, <span class="va">xgb_test</span><span class="op">)</span><span class="op">)</span>                           <span class="co"># Variance</span></code></pre></div>
+<pre><code>## [1] 0.00354207</code></pre>
+<p></p>
+<p>与简单模型相比，偏差确实更小，但作为交换，方差大幅增加。净效应（通过 <em>平方偏差</em>）倾向于更简单的模型。</p>
+</div>
+<div class="section level3" id="the-risk-of-overfitting-principle" number="10.2.3">
+<h3>
+<span class="header-section-number">10.2.3</span> 过度拟合的风险：原则<a aria-label="锚" class="anchor" href="#the-risk-of-overfitting-principle"><i class="fas fa-link"></i></a>
+</h3>
+<p></p>
+<p>的概念 <strong>过拟合</strong> 是机器学习中最重要的之一。当模型过度拟合时，其预测的准确性将令人失望，因此这是导致模型过度拟合的主要原因之一 <em>一些</em> 策略在样本外失败。因此，重要的是不仅要了解什么是过度拟合，还要了解如何减轻其影响。</p>
+<p>最近关于这一主题及其对投资组合策略的影响的参考文献是 <span class="citation">Hsu et al. (<a href="solutions-to-exercises.html#ref-hsu2018asset" role="doc-biblioref">2018</a>)</span>，它建立在 <span class="citation">White (<a href="solutions-to-exercises.html#ref-white2000reality" role="doc-biblioref">2000</a>)</span>。这两个参考文献都不涉及 ML 模型，但原理是相同的。当给定数据集时，足够强度的分析（由人或机器进行）将始终能够检测到某些模式。这些模式是否虚假是关键问题。</p>
+<p>图中 <a href="valtune.html#fig:overfit">10.8</a>，我们用一个简单的视觉示例来说明这个想法。我们尝试找到一个将 x 映射到 y 的模型。 （训练）数据点是小黑圆圈。最简单的模型是常数模型（只有一个参数），但是有两个参数（水平和坡度），拟合已经相当不错了。这用蓝线显示。有了足够数量的参数，就有可能建立一个流经所有点的模型。一个例子是高维多项式。其中一种模型用红线表示。现在数据集中似乎有一个奇怪的点，并且复杂模型非常适合匹配该点。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:overfit" style="display:block;"></span>
+<img alt="过度拟合的说明：紧密匹配训练数据的模型很少是一个好主意。" src="images/overfitting.png" width="450px"/><p class="caption">
+图 10.8：过度拟合的说明：紧密匹配训练数据的模型很少是一个好主意。
+</p>
+</div>
+<p>添加了一个浅绿色的新点。可以公平地说，它遵循了其他要点的一般模式。简单的模型并不完美，误差也是不可忽略的。然而，复杂模型（用灰色虚线显示）产生的误差大约是原来的两倍。这个简化的示例表明，与训练数据太接近的模型将捕获其他数据集中不会出现的特性。一个好的模型会忽略这些特性并坚持数据的持久结构。</p>
+</div>
+<div class="section level3" id="the-risk-of-overfitting-some-solutions" number="10.2.4">
+<h3>
+<span class="header-section-number">10.2.4</span> 过度拟合的风险：一些解决方案<a aria-label="锚" class="anchor" href="#the-risk-of-overfitting-some-solutions"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+显然，避免过度拟合的最简单方法是抵制复杂模型（例如高维神经网络或树集成）的诱惑。</p>
+<p>模型的复杂性通常通过两种度量来衡量：模型参数的数量及其大小（通常通过其范数综合）。这些代理并不完美，因为有些 <em>复杂的</em> 模型可能只需要少量参数（甚至很小的参数值），但至少它们是简单且易于处理的。没有处理过度拟合的通用方法。下面，我们详细介绍一些 ML 工具系列的技巧。</p>
+<p>对于 <strong>回归</strong>，有两种简单的方法来处理过度拟合。首先是参数的数量，即预测变量的数量。有时，最好只选择特征的子样本，特别是当其中一些特征高度相关时（通常，70% 的阈值被认为对于特征之间的绝对相关性来说太高）。第二种解决方案是惩罚（通过 LASSO、ridge 或 elasticnet），这有助于减少估计的幅度，从而减少预测的方差。</p>
+<p>对于树模型，有多种方法可以降低过度拟合的风险。当处理 <strong>简单的树</strong>，唯一的方法是限制叶子的数量。这可以通过多种方式来完成。首先，施加最大深度。如果它等于 <span class="math inline">\(d\)</span>，那么这棵树最多可以有 <span class="math inline">\(2^d\)</span> 终端节点。通常建议不要超出 <span class="math inline">\(d=6\)</span>。复杂度参数为 <em>rpart</em> (cp) 是缩小树大小的另一种方法：任何新的分裂都必须导致损失的减少至少等于 cp。 如果不是，则认为分割没有用，因此不执行分割。因此，当 cp 很大时，树就不会生长。最后两个参数可用 <em>rpart</em> 是每个叶子中所需的最小实例数以及为继续分裂过程而请求的每个集群的最小实例数。这些数字越高（即更具强制性），种植复杂的树就越困难。</p>
+<p>除了这些选项之外， <strong>随机森林</strong> 允许控制森林中树的数量。理论上（参见 <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span>），这个参数不应该影响过度拟合的风险，因为新树只能通过多样化来帮助减少总误差。在实践中，出于计算时间的考虑，不建议超过 1,000 棵树。另外两个超参数是子样本大小（每个学习器都在其上进行训练）和保留用于学习的特征数量。它们不会对偏差和权衡产生直接影响，而是对原始性能产生直接影响。例如，如果子样本太小，树将无法学习足够的知识。如果特征数量太少，也会出现同样的问题。另一方面，选择大量的预测变量（即接近总数）可能会导致每个学习器的预测之间具有较高的相关性，因为训练样本中包含的信息重叠可能很高。</p>
+<p><strong>增强树</strong> 有其他选项可以帮助减轻过度拟合的风险。最明显的是学习率，它将每棵新树的影响打折扣 <span class="math inline">\(\eta \in (0,1)\)</span>。当学习率较高时，算法学习速度过快，容易紧贴训练数据。当它较低时，模型会非常渐进地学习，如果集成中有足够多的树，这会很有效。事实上，学习率和树的数量必须同步选择：如果两者都很低，集成将不会学到任何东西，如果两者都很大，则会过度拟合。提升树参数的库并不止于此。分值和叶子数量的惩罚自然是防止模型过于深入训练样本的特殊性的工具。最后，像章节中提到的那样的单调性约束 <a href="trees.html#boostext">6.4.5</a> 也是一种在模型上强加某种结构并迫使其检测特定模式的有效方法。</p>
+<p>最后 <strong>神经网络</strong> 还有许多旨在防止过度拟合的选项。就像增强树一样，其中一些是学习率以及权重和偏差的惩罚（通过它们的范数）。当模型理论上需要正输入时，约束（如非负约束）也可以提供帮助。最后，dropout 始终是减少网络维度（参数数量）的直接方法。</p>
+</div>
+</div>
+<div class="section level2" id="the-search-for-good-hyperparameters" number="10.3">
+<h2>
+<span class="header-section-number">10.3</span> 寻找好的超参数<a aria-label="锚" class="anchor" href="#the-search-for-good-hyperparameters"><i class="fas fa-link"></i></a>
+</h2>
+<p></p>
+<div class="section level3" id="methods" number="10.3.1">
+<h3>
+<span class="header-section-number">10.3.1</span> 方法<a aria-label="锚" class="anchor" href="#methods"><i class="fas fa-link"></i></a>
+</h3>
+<p>让我们假设有 <span class="math inline">\(p\)</span> 模型运行前定义的参数。最简单的方法是测试这些参数的不同值并选择产生最佳结果的值。执行这些测试主要有两种方法：独立测试和顺序测试。</p>
+<p>独立测试很简单，分为两类：网格（确定性）搜索和随机探索。确定性方法的优点是它均匀地覆盖空间并确保没有遗漏任何角落。缺点是计算时间。事实上，对于每个参数，测试至少五个值似乎是合理的，这使得 <span class="math inline">\(5^p\)</span> 组合。如果 <span class="math inline">\(p\)</span> 很小（小于 3），当回测不太长时这是可以管理的。当 <span class="math inline">\(p\)</span> 很大时，组合的数量可能会变得令人望而却步。这时随机探索会很有用，因为在这种情况下，用户预先指定测试数量，并且参数是随机绘制的（通常在每个参数的给定范围内均匀绘制）。随机搜索的缺陷是参数空间中的某些区域可能未被覆盖，如果最佳选择位于那里，这可能会出现问题。尽管如此，它仍显示在 <span class="citation">Bergstra and Bengio (<a href="solutions-to-exercises.html#ref-bergstra2012random" role="doc-biblioref">2012</a>)</span> 随机探索优于网格搜索。</p>
+<p>网格搜索和随机搜索都不是最优的，因为它们很可能将时间花在不相关的参数空间区域，从而浪费计算时间。给定已测试的多个参数点，最好将搜索集中在最有可能出现最佳点的区域。这可以通过一个交互式过程来实现，该过程在测试每个新点后调整搜索。在金融这个大领域，有几篇致力于调参的论文： <span class="citation">S. I. Lee (<a href="solutions-to-exercises.html#ref-lee2020hyperparameter" role="doc-biblioref">2020</a>)</span> 和 <span class="citation">Nystrup, Lindstrom, and Madsen (<a href="solutions-to-exercises.html#ref-nystrup2020hyperparameter" role="doc-biblioref">2020</a>)</span>.</p>
+<p>这个方向的另一种流行方法是 <strong>贝叶斯优化</strong> （BO）。中心对象是学习过程的目标函数。我们称这个函数为 <span class="math inline">\(O\)</span> 它可以被广泛地视为可能与惩罚和约束相结合的损失函数。为了简单起见，我们不会提及训练/测试样本，它们被认为是固定的。感兴趣的变量是向量 <span class="math inline">\(\textbf{p}=(p_1,\dots,p_l)\)</span> 它综合了影响的超参数（学习率、惩罚强度、模型数量等） <span class="math inline">\(O\)</span>。我们感兴趣的程序是</p>
+<p><span class="math display" id="eq:HPO">\[\begin{equation}
+\tag{10.9}
+\textbf{p}_*=\underset{\textbf{p}}{\text{argmin}} \ O(\textbf{p}).
+\end{equation}\]</span></p>
+<p>这种优化的主要问题是计算 <span class="math inline">\(O(\textbf{p})\)</span> 是非常昂贵的。因此，选择每次试验至关重要 <span class="math inline">\(\textbf{p}\)</span> 明智地。 BO 的一个关键假设是 <span class="math inline">\(O\)</span> 是高斯分布并且 <span class="math inline">\(O\)</span> 可以用以下的线性组合来表示 <span class="math inline">\(p_l\)</span>。换句话说，目标是在输入之间建立贝叶斯线性回归 <span class="math inline">\(\textbf{p}\)</span> 和输出（因变量） <span class="math inline">\(O\)</span>。一旦模型被估计出来，集中在后验密度中的信息 <span class="math inline">\(O\)</span> 用于对在哪里寻找新值进行有根据的猜测 <span class="math inline">\(\textbf{p}\)</span>.</p>
+<p>这个有根据的猜测是基于所谓的 <strong>获取功能</strong>。假设我们已经测试过 <span class="math inline">\(m\)</span> 值 <span class="math inline">\(\textbf{p}\)</span>，我们写的 <span class="math inline">\(\textbf{p}^{(m)}\)</span>。写入当前最佳参数 <span class="math inline">\(\textbf{p}_m^*=\underset{1\le k\le m}{\text{argmin}} \ O(\textbf{p}^{(k)})\)</span>。如果我们测试一个新点 <span class="math inline">\(\textbf{p}\)</span>，那么只有当 <span class="math inline">\(O(\textbf{p})&lt;O(\textbf{p}_m^*)\)</span>，即新目标是否提高了我们已知的最小值。该改进的平均值为
+<span class="math display" id="eq:acquisition">\[\begin{equation}
+\tag{10.10}
+\textbf{EI}_m(\textbf{p})=\mathbb{E}_m[[O(\textbf{p}_m^*)-O(\textbf{p})]_+],
+\end{equation}\]</span></p>
+<p>积极的部分在其中 <span class="math inline">\([\cdot]_+\)</span> 强调当 <span class="math inline">\(O(\textbf{p})\ge O(\textbf{p}_m^*)\)</span>，增益为零。期望的索引为 <span class="math inline">\(m\)</span> 因为它是根据后验分布计算的 <span class="math inline">\(O(\textbf{p})\)</span> 基于 <span class="math inline">\(m\)</span> 样本 <span class="math inline">\(\textbf{p}^{(m)}\)</span>。下一个样本的最佳选择 <span class="math inline">\(\textbf{p}^{m+1}\)</span> 那么就是
+<span class="math display" id="eq:EI">\[\begin{equation}
+\tag{10.11}
+\textbf{p}^{m+1}=\underset{\textbf{p}}{\text{argmax}} \ \textbf{EI}_m(\textbf{p}),
+\end{equation}\]</span>
+这对应于预期改进的最大位置。除了 EI 之外，还可以对其他度量进行优化，例如改进的概率，即 <span class="math inline">\(\mathbb{P}_m[O(\textbf{p})&lt;O(\textbf{p}_m^*)]\)</span>.</p>
+<p>在紧凑的形式中，迭代过程可以概述如下：</p>
+<ul>
+<li>
+<strong>步骤1</strong>：计算 <span class="math inline">\(O(\textbf{p}^{(m)})\)</span> 为了 <span class="math inline">\(m=1,\dots,M_0\)</span> 参数值。<br/>
+</li>
+<li>
+<strong>步骤 2a</strong>：依次计算后验密度 <span class="math inline">\(O\)</span> 在所有可用点上。<br/>
+</li>
+<li>
+<strong>步骤2b</strong>：计算要测试的最佳新点 <span class="math inline">\(\textbf{p}^{(m+1)}\)</span> 方程中给出 <a href="valtune.html#eq:EI">(10.11)</a>.<br/>
+</li>
+<li>
+<strong>步骤2c</strong>：计算新的目标值 <span class="math inline">\(O(\textbf{p}^{(m+1)})\)</span>.<br/>
+</li>
+<li>
+<strong>步骤3</strong>：尽可能重复步骤 2a 至 2c，并返回 <span class="math inline">\(\textbf{p}^{(m)}\)</span> 产生最小的目标值。</li>
+</ul>
+<p>有兴趣的读者可以看看 <span class="citation">Snoek, Larochelle, and Adams (<a href="solutions-to-exercises.html#ref-snoek2012practical" role="doc-biblioref">2012</a>)</span> 和 <span class="citation">Frazier (<a href="solutions-to-exercises.html#ref-frazier2018tutorial" role="doc-biblioref">2018</a>)</span> 有关此方法的数值方面的更多详细信息。</p>
+<p>最后，为了完整起见，我们提到最后一种调整超参数的方法。由于优化方案为 <span class="math inline">\(\underset{\textbf{p}}{\text{argmin}} \ O(\textbf{p})\)</span>，一种自然的方法是利用 <span class="math inline">\(O\)</span> 关于 <span class="math inline">\(\textbf{p}\)</span>。事实上，如果梯度 <span class="math inline">\(\frac{\partial O}{\partial p_l}\)</span> 已知，那么梯度下降总是会提高目标值。问题是很难计算可靠的梯度（有限差分的成本可能会很高）。尽管如此，一些方法（例如， <span class="citation">Maclaurin, Duvenaud, and Adams (<a href="solutions-to-exercises.html#ref-maclaurin2015gradient" role="doc-biblioref">2015</a>)</span>）已成功应用于大维参数空间的优化。</p>
+<p>我们最后提到调查 <span class="citation">Bouthillier and Varoquaux (<a href="solutions-to-exercises.html#ref-bouthillier2020survey" role="doc-biblioref">2020</a>)</span>，涵盖了 2019 年举行的 2 个主要的 AI 会议。它表明大多数论文都诉诸于超参数调参。最常被引用的两种方法是 <em>手动调整</em> （手工采摘）和 <em>网格搜索</em>.</p>
+</div>
+<div class="section level3" id="example-grid-search" number="10.3.2">
+<h3>
+<span class="header-section-number">10.3.2</span> 示例：网格搜索<a aria-label="锚" class="anchor" href="#example-grid-search"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+为了说明网格搜索的过程，我们将尝试找到提升树的最佳参数。我们寻求量化三个参数的影响：</p>
+<ul>
+<li>
+<strong>埃塔</strong>，学习率，<br/>
+</li>
+<li>
+<strong>n轮</strong>，种植的树数量，<br/>
+</li>
+<li>
+<strong>拉姆达</strong>，权重正则化器，通过权重/分数的平方总和来惩罚目标函数。</li>
+</ul>
+<p>下面，我们使用要测试这些参数的值创建一个网格。</p>
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">eta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.7</span>, <span class="fl">0.9</span><span class="op">)</span>         <span class="co"># Values for eta</span>
+<span class="va">nrounds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">50</span>, <span class="fl">100</span><span class="op">)</span>                 <span class="co"># Values for nrounds</span>
+<span class="va">lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span>        <span class="co"># Values for lambda</span>
+<span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span><span class="va">eta</span>, <span class="va">nrounds</span>, <span class="va">lambda</span><span class="op">)</span> <span class="co"># Exploring all combinations!</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pars</span><span class="op">)</span>                                <span class="co"># Let's see the parameters</span></code></pre></div>
+<pre><code>##   Var1 Var2 Var3
+## 1  0.1   10 0.01
+## 2  0.3   10 0.01
+## 3  0.5   10 0.01
+## 4  0.7   10 0.01
+## 5  0.9   10 0.01
+## 6  0.1   50 0.01</code></pre>
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">eta</span> <span class="op">&lt;-</span> <span class="va">pars</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
+<span class="va">nrounds</span> <span class="op">&lt;-</span> <span class="va">pars</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>
+<span class="va">lambda</span> <span class="op">&lt;-</span> <span class="va">pars</span><span class="op">[</span>,<span class="fl">3</span><span class="op">]</span></code></pre></div>
+<p></p>
+<p>考虑到网格搜索的计算成本，我们对具有少量特征的数据集进行探索（我们从本章中回收了这些特征） <a href="trees.html#trees">6</a>）。为了避免循环的负担，我们借助 R 的函数式编程功能，通过 <em>purrr</em> 包。这允许我们定义一个可以减轻和简化代码的函数。该函数（代码如下）接受数据和参数输入并返回算法的错误度量。我们选择均方误差来评估超参数值的影响。</p>
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">grid_par</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">train_matrix</span>, <span class="va">test_features</span>, <span class="va">test_label</span>, <span class="va">eta</span>, <span class="va">nrounds</span>, <span class="va">lambda</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">train_matrix</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> 
+        <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.train.html">xgb.train</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>,                            <span class="co"># Data source (pipe input)</span>
+                  eta <span class="op">=</span> <span class="va">eta</span>,                           <span class="co"># Learning rate</span>
+                  objective <span class="op">=</span> <span class="st">"reg:squarederror"</span>,  <span class="co"># Objective function</span>
+                  max_depth <span class="op">=</span> <span class="fl">5</span>,                       <span class="co"># Maximum depth of trees</span>
+                  lambda <span class="op">=</span> <span class="va">lambda</span>,                     <span class="co"># Penalisation of leaf values</span>
+                  gamma <span class="op">=</span> <span class="fl">0.1</span>,                         <span class="co"># Penalisation of number of leaves</span>
+                  nrounds <span class="op">=</span> <span class="va">nrounds</span>,                   <span class="co"># Number of trees used</span>
+                  verbose <span class="op">=</span> <span class="fl">0</span>                          <span class="co"># No comment from algo</span>
+        <span class="op">)</span>
+    
+    <span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">test_features</span><span class="op">)</span>           <span class="co"># Predictions based on model &amp; test values</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">pred</span><span class="op">-</span><span class="va">test_label</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>             <span class="co"># Mean squared error</span>
+<span class="op">}</span> </code></pre></div>
+<p></p>
+<p>然后可以通过函数编程工具来处理grid_par函数 <strong>映射图</strong> 这将自动对参数值执行循环。</p>
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># grid_par(train_matrix_xgb, xgb_test, testing_sample$R1M_Usd, 0.1, 3, 0.1) # Possible test </span>
+<span class="va">grd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">pmap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">eta</span>, <span class="va">nrounds</span>, <span class="va">lambda</span><span class="op">)</span>,             <span class="co"># Parameters for the grid search</span>
+            <span class="va">grid_par</span>,                               <span class="co"># Function on which to apply the search</span>
+            train_matrix <span class="op">=</span> <span class="va">train_matrix_xgb</span>,        <span class="co"># Input for function: training data</span>
+            test_features <span class="op">=</span> <span class="va">xgb_test</span>,               <span class="co"># Input for function: test features</span>
+            test_label <span class="op">=</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span>     <span class="co"># Input for function: test labels (returns) </span>
+<span class="op">)</span> 
+<span class="va">grd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">eta</span>, <span class="va">nrounds</span>, <span class="va">lambda</span>, error <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">grd</span><span class="op">)</span><span class="op">)</span> <span class="co"># Dataframe with all results</span></code></pre></div>
+<p></p>
+<p>一旦收集了平方平均误差，就可以绘制它们。我们特意选择使用 3 个参数，因为它们的影响可以同时绘制在一张图表上。</p>
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">grd</span><span class="op">$</span><span class="va">eta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">eta</span><span class="op">)</span>                                  <span class="co"># Params as categories (for plot)</span>
+<span class="va">grd</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">eta</span>, y <span class="op">=</span> <span class="va">error</span>, fill <span class="op">=</span> <span class="va">eta</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>      <span class="co"># Plot!</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"identity"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">nrounds</span><span class="op">)</span>, cols <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:gridvisu" style="display:block;"></span>
+<img alt="许多参数值的误差指标 (SMEs) 绘图。图表的每一行对应于 nrounds，每一列对应于 lambda。" src="ML_factor_files/figure-html/gridvisu-1.png" width="550px"/><p class="caption">
+图 10.9： 许多参数值的误差度量图 (SMEs)。图表的每一行对应于 nrounds，每一列对应于 lambda。
+</p>
+</div>
+<p></p>
+<p>图中 <a href="valtune.html#fig:gridvisu">10.9</a>，主要信息是小的学习率（<span class="math inline">\(\eta=0.1\)</span>当树的数量很小时（nrounds=10），这意味着算法学习得不够，这对预测的质量是不利的。</p>
+<p>网格搜索可以分两个阶段执行：第一阶段帮助定位感兴趣的区域（具有最低的损失/目标值），然后使用网格上参数的细化值放大这些区域。根据上述结果，这意味着要考虑许多学习者（超过 50 个，可能超过 100 个），并避免较大的学习率，例如 <span class="math inline">\(\eta=0.9\)</span> 或 <span class="math inline">\(\eta=0.8\)</span>.</p>
+</div>
+<div class="section level3" id="example-bayesian-optimization" number="10.3.3">
+<h3>
+<span class="header-section-number">10.3.3</span> 示例：贝叶斯优化<a aria-label="锚" class="anchor" href="#example-bayesian-optimization"><i class="fas fa-link"></i></a>
+</h3>
+<p>
+R 中有几个与贝叶斯优化相关的包。我们与 <em>rBayesianOptimization</em>，这是通用目的，但也需要更多的编码参与。</p>
+<p>就像网格搜索一样，我们需要编写用于优化超参数的目标函数。下 <em>rBayesianOptimization</em>，输出必须具有特定的形式，带有分数和预测变量。该函数将 <em>最大化</em> 分数，因此我们将其定义为 <em>减号</em> 均方误差。</p>
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">bayes_par_opt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">train_matrix</span> <span class="op">=</span> <span class="va">train_matrix_xgb</span>,        <span class="co"># Input for func: train data</span>
+                          <span class="va">test_features</span> <span class="op">=</span> <span class="va">xgb_test</span>,               <span class="co"># Input for func: test feats</span>
+                          <span class="va">test_label</span> <span class="op">=</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span>,    <span class="co"># Input for func: test label</span>
+                          <span class="va">eta</span>, <span class="va">nrounds</span>, <span class="va">lambda</span><span class="op">)</span><span class="op">{</span>                  <span class="co"># Input for func params</span>
+    <span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">train_matrix</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> 
+        <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.train.html">xgb.train</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>,                       <span class="co"># Data source (pipe input)</span>
+                  eta <span class="op">=</span> <span class="va">eta</span>,                      <span class="co"># Learning rate</span>
+                  objective <span class="op">=</span> <span class="st">"reg:squarederror"</span>, <span class="co"># Objective function</span>
+                  max_depth <span class="op">=</span> <span class="fl">5</span>,                  <span class="co"># Maximum depth of trees</span>
+                  lambda <span class="op">=</span> <span class="va">lambda</span>,                <span class="co"># Penalisation of leaf values</span>
+                  gamma <span class="op">=</span> <span class="fl">0.1</span>,                    <span class="co"># Penalisation of number of leaves</span>
+                  nrounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">nrounds</span><span class="op">)</span>,       <span class="co"># Number of trees used</span>
+                  verbose <span class="op">=</span> <span class="fl">0</span>                     <span class="co"># No comment from algo</span>
+        <span class="op">)</span>
+
+    <span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">test_features</span><span class="op">)</span>           <span class="co"># Forecast based on fitted model &amp; test values</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Score <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">pred</span><span class="op">-</span><span class="va">test_label</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>,      <span class="co"># Minus RMSE</span>
+         Pred <span class="op">=</span> <span class="va">pred</span><span class="op">)</span>                             <span class="co"># Predictions on test set</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>一旦定义了目标函数，就可以将其插入贝叶斯优化器中。</p>
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yanyachen/rBayesianOptimization">rBayesianOptimization</a></span><span class="op">)</span>
+<span class="va">bayes_opt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rBayesianOptimization/man/BayesianOptimization.html">BayesianOptimization</a></span><span class="op">(</span><span class="va">bayes_par_opt</span>,           <span class="co"># Function to maximize</span>
+                     bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>eta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span>,      <span class="co"># Bounds for eta</span>
+                                   lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>,     <span class="co"># Bounds for lambda</span>
+                                   nrounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span>,  <span class="co"># Bounds for nrounds</span>
+                     init_points <span class="op">=</span> <span class="fl">10</span>,            <span class="co"># Nb initial points for first estimation</span>
+                     n_iter <span class="op">=</span> <span class="fl">24</span>,                 <span class="co"># Nb optimization steps/trials</span>
+                     acq <span class="op">=</span> <span class="st">"ei"</span>,                  <span class="co"># Acquisition function = expected improvement</span>
+                     verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code>## 
+##  Best Parameters Found: 
+## Round = 14   eta = 0.3001394 lambda = 0.4517514  nrounds = 10.0000   Value = -0.03793923</code></pre>
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">bayes_opt</span><span class="op">$</span><span class="va">Best_Par</span></code></pre></div>
+<pre><code>##        eta     lambda    nrounds 
+##  0.3001394  0.4517514 10.0000000</code></pre>
+<p></p>
+<p>最终的参数表明建议抵制过度拟合：少量的学习者和大量的惩罚似乎是最好的选择。</p>
+<p>为了确认这些结果，我们绘制了损失（直到符号）和两个超参数之间的关系。每个点对应于优化中测试的一个值。最佳值明显位于左图的左侧和右图的右侧，并且该模式清晰可见。根据这些图表，选择较少数量的树和较大的惩罚因子（最大化减去损失）似乎确实更明智。</p>
+<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://rpkgs.datanovia.com/ggpubr/">"ggpubr"</a></span><span class="op">)</span> <span class="co"># Package for combining plots</span>
+<span class="va">plot_rounds</span> <span class="op">&lt;-</span> <span class="va">bayes_opt</span><span class="op">$</span><span class="va">History</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">nrounds</span>, y <span class="op">=</span> <span class="va">Value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span>
+<span class="va">plot_lambda</span> <span class="op">&lt;-</span> <span class="va">bayes_opt</span><span class="op">$</span><span class="va">History</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">lambda</span>, y <span class="op">=</span> <span class="va">Value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html">ggarrange</a></span><span class="op">(</span><span class="va">plot_rounds</span>, <span class="va">plot_lambda</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:bayesoptfig" style="display:block;"></span>
+<img alt="损失和超参数值之间的关系（减去）。" src="ML_factor_files/figure-html/bayesoptfig-1.png" width="450px"/><p class="caption">
+图 10.10：（减去）损失和超参数值之间的关系。
+</p>
+</div>
+<p></p>
+</div>
+</div>
+<div class="section level2" id="short-discussion-on-validation-in-backtests" number="10.4">
+<h2>
+<span class="header-section-number">10.4</span> 关于回测验证的简短讨论<a aria-label="锚" class="anchor" href="#short-discussion-on-validation-in-backtests"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+回测中的验证主题比看起来更复杂。事实上，它可以在两个范围内运行，具体取决于预测模型是动态的（在每次再平衡时更新）还是固定的。</p>
+<p>让我们从第一个选项开始。在这种情况下，目标是建立一个独特的模型并在不同的时间段对其进行测试。关于在这种情况下适合验证模型的方法一直存在争论。通常，在训练之后的连续日期测试模型是有意义的。这是更有意义的，因为它复制了现场情况下会发生的情况。</p>
+<p>
+在机器学习中，一种流行的方法是将数据分为 <span class="math inline">\(K\)</span> 分区并测试 <span class="math inline">\(K\)</span> 不同的模型：每个模型都在其中一个分区上进行测试，但在 <span class="math inline">\(K-1\)</span> 其他人。这个所谓的 <strong>交叉验证</strong> (CV) 被大多数专家（和常识）禁止，原因很简单：大多数时候，训练集包含来自未来日期的数据和对过去值的测试。尽管如此，一些人主张 CV 的一种特殊形式，旨在确保训练集和测试集之间没有信息重叠（《CV》中的第 7.4 和 12.4 节）。 <span class="citation">De Prado (<a href="solutions-to-exercises.html#ref-de2018advances" role="doc-biblioref">2018</a>)</span>）。前提是，如果收益横截面的结构随时间变化是恒定的，那么只要不存在重叠，对未来点的训练和对过去数据的测试就不会出现问题。论文 <span class="citation">Schnaubelt (<a href="solutions-to-exercises.html#ref-schnaubelt2019comparison" role="doc-biblioref">2019</a>)</span> 提供了许多验证方案的全面而详尽的浏览。</p>
+<p>引用的一个例子 <span class="citation">De Prado (<a href="solutions-to-exercises.html#ref-de2018advances" role="doc-biblioref">2018</a>)</span> 是模型对看不见的危机的反应。 2008 年市场崩盘之后，至少有 11 年没有发生任何重大金融动荡。测试最新模型对碰撞反应的一种选择是在最近几年（例如 2015-2019 年）对其进行训练，并在 2008 年的不同时间点（例如几个月）进行测试，看看它的表现如何。</p>
+<p>固定模型的优点是验证很容易：对于一组超参数，在一组日期上测试模型，并评估模型的性能。对其他参数重复该过程并选择最佳替代方案（或使用贝叶斯优化）。</p>
+<p>第二个主要选项是模型在每次再平衡时更新（重新训练）。这里的基本思想是，收益率结构随着时间的推移而演变，动态模型将捕捉最新的趋势。缺点是验证必须（应该？）在每个再平衡日期重新运行。</p>
+<p>让我们回顾一下回测的维度：<br/>
+- 数量 <strong>策略</strong>：可能有几十个、几百个，甚至更多；<br/>
+- 交易数量 <strong>日期</strong>：每月再平衡数百个；<br/>
+- 数量 <strong>资产</strong>：数百或数千；<br/>
+- 数量 <strong>特点</strong>: 几十个或几百个。</p>
+<p>即使拥有大量的计算能力（GPUs 等），在多个日期训练多个模型也是耗时的，尤其是在参数空间很大时进行超参数调参时。因此，在样本外期间的每个交易日验证模型是不现实的。</p>
+<p>一种解决方案是保留训练数据的早期部分，并对此子样本执行较小规模的验证。超参数在有限数量的日期上进行测试，并且在大多数情况下，它们表现出稳定性：一个日期的令人满意的参数通常对于下一个日期和下一个日期来说也是可以接受的。因此，在每个epoch更新模型时，可以使用这些值进行完整的回测。尽管如此，回测仍然是计算密集型的，因为必须使用每个再平衡日期的最新数据重新训练模型。</p>
+</div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></div>
+<div class="next"><a href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页目录" data-toggle="toc" id="toc"><h2>本页目录</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#valtune"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li>
+<a class="nav-link" href="#mlmetrics"><span class="header-section-number">10.1</span> 学习指标</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#regression-analysis"><span class="header-section-number">10.1.1</span> 回归分析</a></li>
+<li><a class="nav-link" href="#classification-analysis"><span class="header-section-number">10.1.2</span> 分类分析</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#validation"><span class="header-section-number">10.2</span> 验证</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#the-variance-bias-tradeoff-theory"><span class="header-section-number">10.2.1</span> 方差与偏差的权衡：理论</a></li>
+<li><a class="nav-link" href="#the-variance-bias-tradeoff-illustration"><span class="header-section-number">10.2.2</span> 方差-偏差权衡：插图</a></li>
+<li><a class="nav-link" href="#the-risk-of-overfitting-principle"><span class="header-section-number">10.2.3</span> 过度拟合的风险：原则</a></li>
+<li><a class="nav-link" href="#the-risk-of-overfitting-some-solutions"><span class="header-section-number">10.2.4</span> 过度拟合的风险：一些解决方案</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#the-search-for-good-hyperparameters"><span class="header-section-number">10.3</span> 寻找好的超参数</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#methods"><span class="header-section-number">10.3.1</span> 方法</a></li>
+<li><a class="nav-link" href="#example-grid-search"><span class="header-section-number">10.3.2</span> 示例：网格搜索</a></li>
+<li><a class="nav-link" href="#example-bayesian-optimization"><span class="header-section-number">10.3.3</span> 示例：贝叶斯优化</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#short-discussion-on-validation-in-backtests"><span class="header-section-number">10.4</span> 关于回测验证的简短讨论</a></li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>"<strong>因子投资中的机器学习</strong>” 由 Guillaume Coqueret 和 Tony Guida 编写。最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

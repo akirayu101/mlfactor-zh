@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 8 章 支持向量机 | 因子投资中的机器学习</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 8 章 支持向量机 | 因子投资中的机器学习" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 8 章 支持向量机 | 因子投资中的机器学习" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content=".container-fluid main { max-width: 60rem;虽然支持向量机 (SVMs) 的起源很古老（可以追溯到 Vapnik 和 Lerner (1963)），但它们的现代治疗方法是在 Boser 开始的，..." name="description"/>
+<meta content=".container-fluid main { max-width: 60rem;虽然支持向量机 (SVMs) 的起源很古老（可以追溯到 Vapnik 和 Lerner (1963)），但它们的现代治疗方法是在 Boser 开始的，..." property="og:description"/>
+<meta content=".container-fluid main { max-width: 60rem;虽然支持向量机 (SVMs) 的起源很古老（可以追溯到 Vapnik 和 Lerner (1963)），但它们的现代治疗方法是在 Boser 开始的，..." name="twitter:description"/>
+</head>
+<body data-spy="scroll" data-target="#toc">
+<div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">因子投资中的机器学习</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">引言</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号与数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 引言</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资与资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归与最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 树模型</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="active" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性与非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 习题解答</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="svm" number="8">
+<h1>
+<span class="header-section-number">8</span> 支持向量机<a aria-label="锚" class="anchor" href="#svm"><i class="fas fa-link"></i></a>
+</h1>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>
+虽然支持向量机 (SVMs) 的起源很古老（并且可以追溯到 <span class="citation">Vapnik and Lerner (<a href="solutions-to-exercises.html#ref-vapnik1963pattern" role="doc-biblioref">1963</a>)</span>），他们的现代治疗始于 <span class="citation">Boser, Guyon, and Vapnik (<a href="solutions-to-exercises.html#ref-boser1992training" role="doc-biblioref">1992</a>)</span> 和 <span class="citation">Cortes and Vapnik (<a href="solutions-to-exercises.html#ref-cortes1995support" role="doc-biblioref">1995</a>)</span> （二元分类）和 <span class="citation">Drucker et al. (<a href="solutions-to-exercises.html#ref-drucker1997support" role="doc-biblioref">1997</a>)</span> （回归）。我们参考 <a class="uri" href="http://www.kernel-machines.org/books">http://www.kernel-machines.org/books</a> 有关其理论和经验特性的详尽参考书目。 SVMs 自创建以来在机器学习社区中非常受欢迎。尽管如此，其他工具（尤其是神经网络）已经流行起来，并在计算机视觉等许多应用中逐渐取代了 SVMs。</p>
+<div class="section level2" id="svm-for-classification" number="8.1">
+<h2>
+<span class="header-section-number">8.1</span> SVM 用于分类<a aria-label="锚" class="anchor" href="#svm-for-classification"><i class="fas fa-link"></i></a>
+</h2>
+<p>
+正如机器学习中常见的情况，通过二元分类的插图更容易解释复杂的工具。事实上，有时，这就是工具最初的设计方式（例如，感知器）。让我们考虑一个平面上的简单例子，即具有两个特征。图中 <a href="svm.html#fig:svmscheme">8.1</a>，目标是找到一个能够正确分类点的模型：实心圆圈与空心方块。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:svmscheme" style="display:block;"></span>
+<img alt="具有支持向量的二元分类图。" src="images/svm.png" width="500px"/><p class="caption">
+图 8.1：带有支持向量的二元分类图。
+</p>
+</div>
+<p>模型由两个权重组成 <span class="math inline">\(\textbf{w}=(w_1,w_2)\)</span> 加载变量并在平面中创建自然的线性分离。在上面的示例中，我们显示了三个分离。红色不是一个好的分类器，因为它的上方和下方都有圆圈和正方形。蓝线是一个很好的分类器：所有圆圈都在其左侧，所有方块都在其右侧。同样，绿线获得了完美的分类分数。然而，两者之间存在显着差异。</p>
+<p>图表顶部的灰色星星是一个神秘点，考虑到它的位置，如果数据模式成立，它应该是一个圆圈。蓝色模型无法识别它，而绿色模型则成功。该示意图的有趣特征是那些我们尚未提及的特征，即灰色虚线。这些线代表无人区，在执行绿色模型时不会出现任何观测结果。在此区域中，绿线上方和下方的每个条带均可视为模型的误差范围。通常，灰色星星位于该边缘内。</p>
+<p>两个边距计算为使模型与正确分类的最近点（两侧）之间的距离最大化的平行线。这些点称为 <strong>支持向量</strong>，这证明了该技术的名称是正确的。显然，绿色模型比蓝色模型有更大的余量。 SVMs 的核心思想是在分类器不出错的约束下，最大化margin。换句话说，SVMs 尝试在所有产生正确分类的模型中选择最稳健的模型。</p>
+<p>更正式地说，如果我们在数字上将圆定义为 +1，将正方形定义为 -1，则任何“好的”线性模型都应该满足：
+<span class="math display" id="eq:svm0">\[\begin{equation}
+\tag{8.1}
+\left\{\begin{array}{lll}
+\sum_{k=1}^Kw_kx_{i,k}+b \ge +1 &amp; \text{ when } y_i=+1 \\
+\sum_{k=1}^Kw_kx_{i,k}+b \le -1 &amp; \text{ when } y_i=-1,
+\end{array}\right.
+\end{equation}\]</span></p>
+<p>可以概括为紧凑的形式 <span class="math inline">\(y_i \times \left(\sum_{k=1}^K w_kx_{i,k}+b \right)\ge 1\)</span>。现在，绿色模型和灰色虚线上的支持向量之间的边距等于 <span class="math inline">\(||\textbf{w}||^{-1}=\left(\sum_{k=1}^Kw_k^2\right)^{-1/2}\)</span>。该值来自以下事实：点之间的距离 <span class="math inline">\((x_0,y_0)\)</span> 和一条参数化的线 <span class="math inline">\(ax+by+c=0\)</span> 等于 <span class="math inline">\(d=\frac{|ax_0+by_0+c|}{\sqrt{a^2+b^2}}\)</span>。对于上面定义的模型 <a href="svm.html#eq:svm0">(8.1)</a>，分子等于 1，范数为 <span class="math inline">\(\textbf{w}\)</span>。因此，最终的问题如下：</p>
+<p><span class="math display" id="eq:svm1">\[\begin{equation}
+\tag{8.2}
+\underset{\textbf{w}, b}{\text{argmin}} \ \frac{1}{2} ||\textbf{w}||^2 \ \text{ s.t. } y_i\left(\sum_{k=1}^Kw_kx_{i,k}+b \right)\ge 1.
+\end{equation}\]</span></p>
+<p>该程序的双重形式（参见第 5 章） <span class="citation">Boyd and Vandenberghe (<a href="solutions-to-exercises.html#ref-boyd2004convex" role="doc-biblioref">2004</a>)</span>) 是</p>
+<p><span class="math display" id="eq:svm1b">\[\begin{equation}
+\tag{8.3}
+L(\textbf{w},b,\boldsymbol{\lambda})=
+\frac{1}{2}||\textbf{w}||^2 + \sum_{i=1}^I\lambda_i\left(y_i\left(\sum_{k=1}^Kw_kx_{i,k}+b \right)- 1\right),
+\end{equation}\]</span>
+其中任一 <span class="math inline">\(\lambda_i=0\)</span> 或 <span class="math inline">\(y_i\left(\sum_{k=1}^Kw_kx_{i,k}+b \right)= 1\)</span>。因此，只有某些点在解决方案中很重要（所谓的支持向量）。一阶条件要求该拉格朗日函数的导数为零：
+<span class="math display">\[\frac{\partial L}{\partial \textbf{w}}L(\textbf{w},b,\boldsymbol{\lambda})=\textbf{0}, \quad \frac{\partial L}{\partial b}L(\textbf{w},b,\boldsymbol{\lambda})=0,\]</span>
+第一个条件导致
+<span class="math display">\[\textbf{w}^*=\sum_{i=1}^I\lambda_iu_i\textbf{x}_i.\]</span>
+该解决方案确实是特征的线性形式，但只考虑了一些点。他们是那些不平等的人 <a href="svm.html#eq:svm0">(8.1)</a> 是平等的。</p>
+<p>当然，只要无法满足条件，即无论选择什么系数，一条简单的线都无法完美地分隔标签，这个问题就变得不可行。这是最常见的配置，然后逻辑上调用数据集 <em>不是线性可分的</em>。这使过程变得复杂，但可以采取一些技巧。这个想法是引入一些灵活性 <a href="svm.html#eq:svm0">(8.1)</a> 通过添加允许满足条件的修正变量：</p>
+<p><span class="math display" id="eq:svm2">\[\begin{equation}
+\tag{8.4}
+\left\{\begin{array}{lll}
+\sum_{k=1}^Kw_kx_{i,k}+b \ge +1-\xi_i &amp; \text{ when } y_i=+1 \\
+\sum_{k=1}^Kw_kx_{i,k}+b \le -1+\xi_i &amp; \text{ when } y_i=-1,
+\end{array}\right.
+\end{equation}\]</span></p>
+<p>哪里有新奇的东西， <span class="math inline">\(\xi_i\)</span> 是积极的所谓 <strong>“松弛”变量</strong> 使条件变得可行。它们如图所示 <a href="svm.html#fig:svmscheme2">8.2</a>。在这个新配置中，没有简单的线性模型可以完美地区分这两类。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:svmscheme2" style="display:block;"></span>
+<img alt="SVM 的二元分类图 - 线性不可分离的数据。" src="images/svm2.png" width="500px"/><p class="caption">
+图 8.2： SVM 的二元分类图 - 线性不可分数据。
+</p>
+</div>
+<p>那么优化程序就变成了
+<span class="math display" id="eq:svm3">\[\begin{equation}
+\tag{8.5}
+\underset{\textbf{w},b, \boldsymbol{\xi}}{\text{argmin}} \ \frac{1}{2} ||\textbf{w}||^2+C\sum_{i=1}^I\xi_i \ \text{ s.t. } \left\{ y_i\left(\sum_{k=1}^Kw_k\phi(x_{i,k})+b \right)\ge 1-\xi_i \ \text{ and } \ \xi_i\ge 0, \ \forall i  \right\},
+\end{equation}\]</span>
+其中参数 <span class="math inline">\(C&gt;0\)</span> 调整错误分类的成本：as <span class="math inline">\(C\)</span> 增加，错误变得更加惩罚。</p>
+<p>此外，该程序可以通过核函数推广到非线性模型 <span class="math inline">\(\phi\)</span> 应用于输入点 <span class="math inline">\(x_{i,k}\)</span>。非线性核函数可以帮助处理比直线更复杂的模式（见图 <a href="svm.html#fig:svmscheme4">8.3</a>）。常见的核可以是多项式核、径向基核或 sigmoid 核。该解决方案是使用或多或少的约束二次规划标准技术找到的。一旦权重 <span class="math inline">\(\textbf{w}\)</span> 和偏置 <span class="math inline">\(b\)</span> 通过训练设置，对新向量的预测 <span class="math inline">\(\textbf{x}_j\)</span> 是简单地通过计算得出的 <span class="math inline">\(\sum_{k=1}^Kw_k\phi(x_{j,k})+b\)</span> 并根据表达式的符号选择类别。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:svmscheme4" style="display:block;"></span>
+<img alt="非线性核函数的示例。" src="images/kernel.png" width="400px"/><p class="caption">
+图 8.3：非线性内核示例。
+</p>
+</div>
+</div>
+<div class="section level2" id="svm-for-regression" number="8.2">
+<h2>
+<span class="header-section-number">8.2</span> SVM 用于回归<a aria-label="锚" class="anchor" href="#svm-for-regression"><i class="fas fa-link"></i></a>
+</h2>
+<p>分类SVM的思想可以移植到回归练习中，但边际的作用不同。一种通用的表述如下</p>
+<p><span class="math display" id="eq:svm4">\[\begin{align}
+\underset{\textbf{w},b, \boldsymbol{\xi}}{\text{argmin}} \  &amp; \frac{1}{2} ||\textbf{w}||^2+C\sum_{i=1}^I\left(\xi_i+\xi_i^* \right)\\
+\text{ s.t. }&amp;  \sum_{k=1}^Kw_k\phi(x_{i,k})+b -y_i\le \epsilon+\xi_i \\ \tag{8.6}
+&amp;  y_i-\sum_{k=1}^Kw_k\phi(x_{i,k})-b \le \epsilon+\xi_i^* \\
+&amp;\xi_i,\xi_i^*\ge 0, \ \forall i  ,
+\end{align}\]</span></p>
+<p>如图所示 <a href="svm.html#fig:svmscheme3">8.4</a>。用户指定一个 <strong>保证金</strong> <span class="math inline">\(\epsilon\)</span> 并且模型将尝试找到标签之间的线性（直到核变换）关系 <span class="math inline">\(y_i\)</span> 和输入 <span class="math inline">\(\textbf{x}_i\)</span>。就像在分类任务中一样，如果数据点位于带内，则松弛变量 <span class="math inline">\(\xi_i\)</span> 和 <span class="math inline">\(\xi_i^*\)</span> 均设置为零。当点违反阈值时，目标函数（代码的第一行）将受到惩罚。注意设置大 <span class="math inline">\(\epsilon\)</span> 留下更多错误的空间。模型训练完成后，将进行预测 <span class="math inline">\(\textbf{x}_j\)</span> 简直就是 <span class="math inline">\(\sum_{k=1}^Kw_k\phi(x_{j,k})+b\)</span>.</p>
+<div class="figure" style="text-align: center">
+<span id="fig:svmscheme3" style="display:block;"></span>
+<img alt="SVM 回归图。" src="images/svm3.png" width="500px"/><p class="caption">
+图 8.4： SVM 回归图。
+</p>
+</div>
+<p>让我们退一步来简化算法的作用，即：最小化权重平方和 <span class="math inline">\(||\textbf{w}||^2\)</span> 误差足够小（以松弛变量为模）。从本质上讲，这与惩罚线性回归有点相反，惩罚线性回归寻求最小化误差，前提是权重足够小。</p>
+<p>本节中列出的模型是 SVM 发动机领域的预览，并且已经开发了其他几种公式。一个用 C 和 C++ 编码的参考库是 <strong>LIBSVM</strong> 它被许多其他编程语言广泛使用。有兴趣的读者可以看看相应的文章 <span class="citation">Chang and Lin (<a href="solutions-to-exercises.html#ref-chang2011libsvm" role="doc-biblioref">2011</a>)</span> 有关 SVM 动物园的更多详细信息（2019 年 11 月的最新版本也可在线获取）。</p>
+</div>
+<div class="section level2" id="practice" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> 练习<a aria-label="锚" class="anchor" href="#practice"><i class="fas fa-link"></i></a>
+</h2>
+<p>在 R 中，LIBSVM 库在多个包中被利用。其中之一， <em>e1071</em>，是一个不错的选择，因为它还嵌套了许多其他有趣的函数，特别是我们稍后将看到的朴素贝叶斯分类器。</p>
+<p>在 LIBSVM 的实现中，包需要分别指定标签和特征。因此，我们回收用于提升树的变量。此外，训练速度很慢，我们在这些集合的子样本（前一千个实例）上执行它。</p>
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">e1071</span><span class="op">)</span>
+<span class="va">fit_svm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/e1071/man/svm.html">svm</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">train_label_xgb</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">]</span>,      <span class="co"># Train label</span>
+               x <span class="op">=</span> <span class="va">train_features_xgb</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>,<span class="op">]</span>,  <span class="co"># Training features</span>
+               type <span class="op">=</span> <span class="st">"eps-regression"</span>,          <span class="co"># SVM task type (see LIBSVM documentation)</span>
+               kernel <span class="op">=</span> <span class="st">"radial"</span>,                <span class="co"># SVM kernel (or: linear, polynomial, sigmoid)</span>
+               epsilon <span class="op">=</span> <span class="fl">0.1</span>,                    <span class="co"># Width of strip for errors</span>
+               gamma <span class="op">=</span> <span class="fl">0.5</span>,                      <span class="co"># Constant in the radial kernel </span>
+               cost <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>                       <span class="co"># Slack variable penalisation</span>
+<span class="va">test_feat_short</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">testing_sample</span>,<span class="va">features_short</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_svm</span>, <span class="va">test_feat_short</span><span class="op">)</span> <span class="op">-</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="co"># MSE</span></code></pre></div>
+<pre><code>## [1] 0.03839085</code></pre>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_svm</span>, <span class="va">test_feat_short</span><span class="op">)</span> <span class="op">*</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
+<pre><code>## [1] 0.5222197</code></pre>
+<p></p>
+<p>结果比 boosted 树的结果稍好。所有参数都是完全任意的，尤其是内核的选择。我们最后转向一个分类示例。</p>
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_svm_C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/e1071/man/svm.html">svm</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">training_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">]</span>,   <span class="co"># Train label</span>
+               x <span class="op">=</span> <span class="va">training_sample</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>,<span class="op">]</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
+                   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span>,               <span class="co"># Training features</span>
+               type <span class="op">=</span> <span class="st">"C-classification"</span>,                 <span class="co"># SVM task type (see LIBSVM doc.)</span>
+               kernel <span class="op">=</span> <span class="st">"sigmoid"</span>,                        <span class="co"># SVM kernel</span>
+               gamma <span class="op">=</span> <span class="fl">0.5</span>,                               <span class="co"># Parameter in the sigmoid kernel </span>
+               coef0 <span class="op">=</span> <span class="fl">0.3</span>,                               <span class="co"># Parameter in the sigmoid kernel </span>
+               cost <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span>                                <span class="co"># Slack variable penalisation</span>
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_svm_C</span>, 
+             <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">testing_sample</span>,<span class="va">features</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span><span class="op">)</span> <span class="co"># Accuracy</span></code></pre></div>
+<pre><code>## [1] 0.5008973</code></pre>
+<p></p>
+<p>小训练样本和我们选择参数的任意性都可能
+解释一下为什么预测准确度这么差。</p>
+</div>
+<div class="section level2" id="coding-exercises-4" number="8.4">
+<h2>
+<span class="header-section-number">8.4</span> 编码练习<a aria-label="锚" class="anchor" href="#coding-exercises-4"><i class="fas fa-link"></i></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>从上面所示的简单示例开始，将 SVM 模型扩展到其他内核并讨论对拟合的影响。<br/>
+</li>
+<li>训练一个普通的 SVM 模型，其标签为 12 个月远期（即未来）收益，并在测试样本上对其进行评估。对简单的随机森林执行相同的操作。比较。</li>
+</ol>
+</div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="NN.html"><span class="header-section-number">7</span> 神经网络</a></div>
+<div class="next"><a href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页目录" data-toggle="toc" id="toc"><h2>本页目录</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#svm"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="nav-link" href="#svm-for-classification"><span class="header-section-number">8.1</span> SVM 用于分类</a></li>
+<li><a class="nav-link" href="#svm-for-regression"><span class="header-section-number">8.2</span> SVM 用于回归</a></li>
+<li><a class="nav-link" href="#practice"><span class="header-section-number">8.3</span> 练习</a></li>
+<li><a class="nav-link" href="#coding-exercises-4"><span class="header-section-number">8.4</span> 编码练习</a></li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> <!-- .container -->
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>"<strong>因子投资中的机器学习</strong>” 由 Guillaume Coqueret 和 Tony Guida 编写。最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包。</p>
+</div>
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

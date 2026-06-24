@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<title>第 12 章 投资组合回测 | Machine Learning for Factor Investing</title>
+<meta content="Guillaume Coqueret and Tony Guida" name="author"/>
+<meta content="bookdown 0.24 with bs4_book()" name="generator"/>
+<meta content="第 12 章 投资组合回测 | Machine Learning for Factor Investing" property="og:title"/>
+<meta content="book" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="第 12 章 投资组合回测 | Machine Learning for Factor Investing" name="twitter:title"/>
+<!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content=".container-fluid main { max-width: 60rem; } In this section, we introduce the notations and framework that will be used when analyzing and comparing investment strategies. Portfolio backtesting is..." name="description"/>
+<meta content=".container-fluid main { max-width: 60rem; } In this section, we introduce the notations and framework that will be used when analyzing and comparing investment strategies. Portfolio backtesting is..." property="og:description"/>
+<meta content=".container-fluid main { max-width: 60rem; } In this section, we introduce the notations and framework that will be used when analyzing and comparing investment strategies. Portfolio backtesting is..." name="twitter:description"/></head>
+<body data-spy="scroll" data-target="#toc"><div class="container-fluid">
+<div class="row">
+<header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
+<div class="d-flex align-items-start justify-content-between">
+<h1>
+<a href="index.html" title="">Machine Learning for Factor Investing</a>
+</h1>
+<button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
+</div>
+<div class="collapse-lg" id="main-nav">
+<form role="search">
+<input aria-label="搜索" class="form-control" id="search" placeholder="搜索" type="search"/>
+</form>
+<nav aria-label="目录"><h2>目录</h2>
+<ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">前言</a></li>
+<li class="book-part">导论</li>
+<li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号和数据</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 简介</a></li>
+<li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资和资产定价异象</a></li>
+<li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
+<li class="book-part">常见监督学习算法</li>
+<li><a class="" href="lasso.html"><span class="header-section-number">5</span> 惩罚回归和最小方差投资组合的稀疏对冲</a></li>
+<li><a class="" href="trees.html"><span class="header-section-number">6</span> 基于树的方法</a></li>
+<li><a class="" href="NN.html"><span class="header-section-number">7</span> 神经网络</a></li>
+<li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
+<li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
+<li class="book-part">从预测到投资组合</li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
+<li><a class="active" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li class="book-part">其他重要主题</li>
+<li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></li>
+<li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
+<li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
+<li class="book-part">附录</li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据描述</a></li>
+<li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习题答案</a></li>
+</ul>
+<div class="book-extra">
+</div>
+</nav>
+</div>
+</header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="backtest" number="12">
+<h1><span class="header-section-number">12</span> 投资组合回测<a aria-label="锚" class="anchor" href="#backtest"><i class="fas fa-link"></i></a></h1>
+<style>
+.container-fluid main {
+max-width: 60rem;
+}
+</style>
+<p>在本节中，我们介绍分析和比较投资策略时将使用的符号和框架。投资组合回测通常被认为是寻找最佳策略——或者至少是一个稳定盈利的策略。如果彻底实施，这种可能漫长的努力可能会诱使外行人将侥幸与强有力的策略混为一谈。连续发表的两篇论文对 <strong>数据窥探的危险</strong> 发出警告，该漏洞与 <span class="math inline">\(p\)</span> 黑客攻击有关。在这两种情况下，研究人员都会对数据进行拷问，直到找到想要的结果。</p>
+<p><span class="citation">Fabozzi and Prado (<a href="solutions-to-exercises.html#ref-fabozzi2018being" role="doc-biblioref">2018</a>)</span> 承认只有有效的策略才会向公众公布，而数千（至少）已经过测试。当转向真实交易时，选择令人愉悦的异常值（似乎唯一有效的策略）可能会产生失望。同样，<span class="citation">R. Arnott, Harvey, and Markowitz (<a href="solutions-to-exercises.html#ref-arnott2019backtesting" role="doc-biblioref">2019</a>)</span> 提供了任何分析师都应遵循的原则和保障措施列表，以避免在回测策略时出现任何类型的错误。最糟糕的类型可以说是 <strong>误报</strong>，其中策略（通常是通过挑选）在一种非常特定的环境中表现出色，但在实际实施中可能会失败。</p>
+<p>除了这些关于投资组合构建的建议外，<span class="citation">R. Arnott et al. (<a href="solutions-to-exercises.html#ref-arnott2019alice" role="doc-biblioref">2019</a>)</span>还警告不要盲目投资与学术因子相关的smart beta产品的危险。坦率地说，期望不应该设定得太高，否则就会面临失望的风险。他们文章的另一个要点是 <strong>经济周期</strong> 对因子收益率有很大影响：相关性变化很快，在经济严重衰退时期，回撤可能会被放大。</p>
+<p>回测比看起来更复杂，很容易犯一些小错误，从而导致 <em>显然</em> 良好的投资组合策略。本章提出了此练习的严格方法，讨论了一些注意事项，并提出了一个冗长的示例。</p>
+<div class="section level2" id="protocol" number="12.1">
+<h2><span class="header-section-number">12.1</span> 设定流程<a aria-label="锚" class="anchor" href="#protocol"><i class="fas fa-link"></i></a></h2>
+<p>我们考虑一个具有三个维度的数据集：时间 <span class="math inline">\(t=1,\dots,T\)</span>、资产 <span class="math inline">\(n=1,\dots,N\)</span> 和特征 <span class="math inline">\(k=1,\dots,K\)</span>。这些属性之一必须是资产 <span class="math inline">\(n\)</span> 在时间 <span class="math inline">\(t\)</span> 的价格，我们将其表示为 <span class="math inline">\(p_{t,n}\)</span>。由此看来，算术收益率的计算很简单（<span class="math inline">\(r_{t,n}=p_{t,n}/p_{t-1,n}-1\)</span>），任何盈利能力的启发式衡量也是如此。为简单起见，我们假设时间点是等距或均匀的，即 <span class="math inline">\(t\)</span> 是交易日或月份的索引。如果每个时间点 <span class="math inline">\(t\)</span> 都有可用于所有资产的数据，则这将生成一个具有 <span class="math inline">\(I=T\times N\)</span> 行的数据集。</p>
+<p>数据集首先分为两部分：样本外时段和 <strong>初始缓冲区</strong> 时段。需要缓冲期来训练第一个投资组合组合的模型。该周期由训练样本的大小决定。此大小有两种选择：固定（通常等于 2 至 10 年）和扩展。在第一种情况下，训练样本将随时间推移滚动，仅考虑最新数据。在第二种情况下，模型建立在所有可用数据的基础上，数据的大小随着时间的推移而增加。最后一个选项可能会产生问题，因为与最后一个日期相比，回测的第一个日期基于的信息量要少得多。此外，关于包含收益和特征的完整历史记录是否有利仍存在争论。支持者认为这允许模型看到许多不同的 <strong>市场状况</strong>。反对者认为，旧数据从定义上来说已经过时，因此毫无用处，并且可能具有误导性，因为它不能反映当前或未来的短期波动。</p>
+<p>此后，我们为训练样本选择滚动周期选项，如图 <a href="backtest.html#fig:backtestoos">12.1</a> 所示。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:backtestoos" style="display:block;"></span>
+<img alt="使用滚动窗口进行回测。第一个周期的训练集简单来说就是缓冲期。" src="images/backtestoos.png" width="450px"/><p class="caption">图 12.1：使用滚动窗口进行回测。第一个周期的训练集简单来说就是缓冲期。</p>
+</div>
+<p>两个关键的设计选择是计算标签的 <strong>再平衡频率</strong> 和 <strong>地平线</strong>。他们应该平等并不明显，但他们的选择应该有意义。在 12 个月的远期标签（捕捉更长的趋势）上进行培训并按月或按季度进行投资似乎是正确的。然而，反其道而行之，训练短期走势（每月）并进行长期投资似乎很奇怪。</p>
+<p>这些选择直接影响回测的进行方式。如果我们注意到：</p>
+<ul>
+<li><span class="math inline">\(\Delta_h\)</span> 为 2 个再平衡日期之间的持有期限（以天或月为单位）；</li>
+<li><span class="math inline">\(\Delta_s\)</span> 表示所需训练样本的大小（以天或月为单位 - 不考虑资产数量）；</li>
+<li><span class="math inline">\(\Delta_l\)</span> 表示计算标签的时间范围（以天或月为单位），</li>
+</ul>
+<p>那么训练样本的总长度应为 <span class="math inline">\(\Delta_s+\Delta_l\)</span>。事实上，在任何时刻 <span class="math inline">\(t\)</span>，训练样本都应该在 <span class="math inline">\(t-\Delta_l\)</span> 处停止，以便最后一个点对应于直到时间 <span class="math inline">\(t\)</span> 为止计算的标签。这在图 <a href="backtest.html#fig:backtestoos2">12.2</a> 中以红色危险区域的形式突出显示。我们将其称为红色区域，因为任何在 <span class="math inline">\((t-\Delta_l,t]\)</span> 区间内具有时间索引 <span class="math inline">\(s\)</span> 的观察都会产生前瞻性偏差。事实上，如果某个功能由 <span class="math inline">\(s \in (t-\Delta_l,t]\)</span> 索引，那么根据定义，标签将用 <span class="math inline">\(s+\Delta_l&gt;t\)</span> 覆盖句点 <span class="math inline">\([s,s+\Delta_l]\)</span>。在时间<span class="math inline">\(t\)</span>，这需要了解未来，自然是不现实的。</p>
+<div class="figure" style="text-align: center">
+<span id="fig:backtestoos2" style="display:block;"></span>
+<img alt="滚动训练样本的微妙之处。" src="images/backtestoos2.png" width="450px"/><p class="caption">图 12.2：滚动训练样本的微妙之处。</p>
+</div>
+</div>
+<div class="section level2" id="turning-signals-into-portfolio-weights" number="12.2">
+<h2><span class="header-section-number">12.2</span> 将信号转化为投资组合权重<a aria-label="锚" class="anchor" href="#turning-signals-into-portfolio-weights"><i class="fas fa-link"></i></a></h2>
+<p><a href="lasso.html#lasso">5</a> 至 <a href="ensemble.html#ensemble">11</a> 章中概述的预测工具仅旨在提供一个信号，预计会提供有关资产未来盈利能力的一些信息。可以通过多种方式将此信号集成到投资决策中（有关将 ML 工具集成到此任务中的方法，请参阅 <span class="citation">Snow (<a href="solutions-to-exercises.html#ref-snow2020machine" role="doc-biblioref">2020</a>)</span>）。</p>
+<p>首先，投资组合构建过程中至少有两个步骤，并且信号可以在任何这些阶段使用。依赖这两个步骤的信号非常重视预测，只有当预测的置信度很高时才应考虑。</p>
+<p>第一步是 <strong>选择</strong>。虽然可以对大量资产进行预测，但并不强制投资所有这些资产。事实上，对于只做多的投资组合来说，利用该信号排除那些未来可能表现不佳的资产是有意义的。通常，投资组合策略具有固定的规模，从而强制规定固定数量的资产。利用信号的一种启发式方法是选择具有最有利预测的资产并丢弃其他资产。这种幼稚的想法经常在资产定价文献中使用：投资组合是根据基本特征的分位数形成的，如果相应的 <strong>排序投资组合</strong> 表现出截然不同的盈利能力（例如，高分位数的高平均收益率与低分位数的低平均收益率），则某些特征被认为是有趣的。</p>
+<p>例如，这是测试信号相关性的有效方法。如果 <span class="math inline">\(Q\)</span> 投资组合 <span class="math inline">\(q=1,\dots,Q\)</span> 是根据资产相对于信号的排名形成的，那么人们会期望投资组合的样本外表现与 <span class="math inline">\(q\)</span> 单调。虽然严格的单调性测试需要考虑所有投资组合（例如，参见 <span class="citation">Romano and Wolf (<a href="solutions-to-exercises.html#ref-romano2013testing" role="doc-biblioref">2013</a>)</span>），但通常只假设极端投资组合就足够了。如果投资组合编号 1 和投资组合编号 <span class="math inline">\(Q\)</span> 之间的差异很大，则该信号很有价值。只要投资者能够做空资产，这就相当于美元中性策略。</p>
+<p>第二步是 <strong>加权</strong>。如果选择过程依赖于信号，那么简单的加权方案通常是一个好主意。众所周知，等权重投资组合很难被击败（参见 <span class="citation">DeMiguel, Garlappi, and Uppal (<a href="solutions-to-exercises.html#ref-demiguel2007optimal" role="doc-biblioref">2009</a>)</span>），特别是与其上限加权投资组合相比，如 <span class="citation">Plyakha, Uppal, and Vilkov (<a href="solutions-to-exercises.html#ref-plyakha2014equal" role="doc-biblioref">2016</a>)</span> 所示。更先进的计划包括等风险缴款 (<span class="citation">Maillard, Roncalli, and Teiletche (<a href="solutions-to-exercises.html#ref-maillard2010properties" role="doc-biblioref">2010</a>)</span>) 和约束最小方差 (<span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2015diversified" role="doc-biblioref">2015</a>)</span>)。两者仅依赖于资产的协方差矩阵，而不依赖于任何预期收益率向量的代理。</p>
+<p>为了完整起见，我们明确了 <span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2015diversified" role="doc-biblioref">2015</a>)</span> 的泛化，它是一个通用的约束二次规划：
+<span class="math display" id="eq:coq">\[\begin{equation}
+\tag{12.1}
+\underset{\textbf{w}}{\text{min}} \ \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textbf{w}'\boldsymbol{\mu} , \quad \text{s.t.} \quad \begin{array}{ll} \textbf{w}'\textbf{1}=1, \\ (\textbf{w}-\textbf{w}_-)'\boldsymbol{\Lambda}(\textbf{w}-\textbf{w}_-) \le \delta_R,\\
+\textbf{w}'\textbf{w} \le \delta_D,
+\end{array}
+\end{equation}\]</span></p>
+<p>很容易识别左侧常见的 <strong>均值方差优化</strong> 。我们在右侧施加三个约束。<a class="footnote-ref" href="solutions-to-exercises.html#fn23" id="fnref23"><sup>23</sup></a> 第一个是预算约束（权重总和为 1）。第二个通过对角矩阵 <span class="math inline">\(\boldsymbol{\Lambda}\)</span> 惩罚权重的变化（与当前分配 <span class="math inline">\(\textbf{w}_-\)</span> 相比），从而惩罚交易成本。这是一个关键点。投资组合很少是从头开始构建的，大多数时候都是从现有头寸 <strong>调整</strong> 开始构建的。为了减少订单和相应的交易成本，可以惩罚现有投资组合的较大变化。在上面的程序中，当前权重写为 <span class="math inline">\(\textbf{w}_-\)</span> ，所需权重写为 <span class="math inline">\(\textbf{w}\)</span> ，因此 <span class="math inline">\(\textbf{w}-\textbf{w}_-\)</span> 是与当前位置的偏差向量。 <span class="math inline">\((\textbf{w}-\textbf{w}_-)'\boldsymbol{\Lambda}(\textbf{w}-\textbf{w}_-)\)</span> 项是表征偏差平方和的表达式，由对角线系数 <span class="math inline">\(\Lambda_{n,n}\)</span> 加权。这可能会有所帮助，因为由于流动性，某些资产的交易成本可能更高（大盘股流动性更强，交易成本更低）。当<span class="math inline">\(\delta_R\)</span>减小时，旋转减小，因为重量不允许偏离<span class="math inline">\(\textbf{w}_-\)</span>太多。最后一个约束通过投资组合的 Herfindhal-Hirschmann 指数强制执行 <strong>多样化</strong>：<span class="math inline">\(\delta_D\)</span> 越小，投资组合越多元化。</p>
+<p>回想一下宇宙中存在 <span class="math inline">\(N\)</span> 资产，<a href="backtest.html#eq:coq">(12.1)</a> 的拉格朗日形式为：</p>
+<p><span class="math display" id="eq:lagrangew">\[\begin{equation}
+\tag{12.2}
+L(\textbf{w})= \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textbf{w}'\boldsymbol{\mu}-\eta (\textbf{w}'\textbf{1}_N-1)+\kappa_R ( (\textbf{w}-\textbf{w}_-)'\boldsymbol{\Lambda}(\textbf{w}-\textbf{w}_-) - \delta_R)+\kappa_D(\textbf{w}'\textbf{w}-\delta_D),
+\end{equation}\]</span></p>
+<p>以及一阶条件
+<span class="math display">\[\frac{\partial}{\partial \textbf{w}}L(\textbf{w})= \lambda \boldsymbol{\Sigma}\textbf{w}-\boldsymbol{\mu}-\eta\textbf{1}_N+2\kappa_R \boldsymbol{\Lambda}(\textbf{w}-\textbf{w}_-)+2\kappa_D\textbf{w}=0,\]</span>
+产量
+<span class="math display" id="eq:coqw">\[\begin{equation}
+\tag{12.3}
+\textbf{w}^*_\kappa=  (\lambda \boldsymbol{\Sigma}+2\kappa_R \boldsymbol{\Lambda} +2\kappa_D\textbf{I}_N)^{-1} \left(\boldsymbol{\mu} + \eta_{\lambda,\kappa_R,\kappa_D} \textbf{1}_N+2\kappa_R \boldsymbol{\Lambda}\textbf{w}_-\right),
+\end{equation}\]</span>
+与
+<span class="math display">\[\eta_{\lambda,\kappa_R,\kappa_D}=\frac{1- \textbf{1}_N'(\lambda\boldsymbol{\Sigma}+2\kappa_R \boldsymbol{\Lambda}+2\kappa_D\textbf{I}_N)^{-1}(\boldsymbol{\mu}+2\kappa_R\boldsymbol{\Lambda}\textbf{w}_-)}{\textbf{1}'_N(\lambda \boldsymbol{\Sigma}+2\kappa_R \boldsymbol{\Lambda}+2\kappa_D\textbf{I}_N)^{-1}\textbf{1}_N}.\]</span></p>
+<p>该参数确保满足预算约束。 <a href="backtest.html#eq:coqw">(12.3)</a> 中的最佳权重取决于三个调节参数：<span class="math inline">\(\lambda\)</span>、<span class="math inline">\(\kappa_R\)</span> 和 <span class="math inline">\(\kappa_D\)</span>.<br/>
+- 当 <span class="math inline">\(\lambda\)</span> 较大时，重点更多地放在降低风险上，而不是利润最大化（考虑到风险更容易预测，这通常是一个好主意）；<br/>
+- 当<span class="math inline">\(\kappa_R\)</span>很大时，<a href="backtest.html#eq:lagrangew">(12.2)</a>中交易成本的重要性很高，因此，在<span class="math inline">\(\kappa_R \rightarrow \infty\)</span>时的限制下，最优权重等于旧的<span class="math inline">\(\textbf{w}_-\)</span>（对于其他参数的有限值）.<br/>
+- 当 <span class="math inline">\(\kappa_D\)</span> 较大时，投资组合更加多元化，（在其他条件相同的情况下）当 <span class="math inline">\(\kappa_D \rightarrow \infty\)</span> 时，权重均相等（与 <span class="math inline">\(1/N\)</span> 相比）.<br/>
+- 当 <span class="math inline">\(\kappa_R=\kappa_D=0\)</span> 时，我们恢复经典的均值方差权重，该权重是与 <span class="math inline">\((\boldsymbol{\Sigma})^{-1} \boldsymbol{\mu}\)</span> 成比例的最大夏普比率投资组合和与 <span class="math inline">\((\boldsymbol{\Sigma})^{-1} \textbf{1}_N\)</span> 成比例的最小方差投资组合之间的混合。</p>
+<p>这个看似复杂的公式实际上非常灵活且易于处理。在找到 <span class="math inline">\(\lambda\)</span>、<span class="math inline">\(\kappa_R\)</span> 和 <span class="math inline">\(\kappa_D\)</span> 的实际值之前，需要进行一些测试和调整（请参阅本章末尾的练习）。在 <span class="citation">Pedersen, Babu, and Levine (<a href="solutions-to-exercises.html#ref-pedersen2020enhanced" role="doc-biblioref">2020</a>)</span> 中，作者推荐了类似的形式，只不过协方差矩阵向样本方差的对角矩阵收缩，并且预期收益是信号和锚组合之间的混合。作者认为，他们的一般公式与鲁棒优化（另见<span class="citation">W. C. Kim, Kim, and Fabozzi (<a href="solutions-to-exercises.html#ref-kim2014deciphering" role="doc-biblioref">2014</a>)</span>）、贝叶斯推理（<span class="citation">Lai et al. (<a href="solutions-to-exercises.html#ref-lai2011mean" role="doc-biblioref">2011</a>)</span>）、通过随机矩阵理论进行矩阵去噪以及自然地<strong>收缩率</strong>有关。事实上，预期预期收益率收缩已经存在相当长一段时间了（<span class="citation">Jorion (<a href="solutions-to-exercises.html#ref-jorion1985international" role="doc-biblioref">1985</a>)</span>、<span class="citation">Kan and Zhou (<a href="solutions-to-exercises.html#ref-kan2007optimal" role="doc-biblioref">2007</a>)</span> 和 <span class="citation">Bodnar, Parolya, and Schmid (<a href="solutions-to-exercises.html#ref-bodnar2013equivalence" role="doc-biblioref">2013</a>)</span>），只是为了分散风险并降低估计风险。</p>
+</div>
+<div class="section level2" id="perfmet" number="12.3">
+<h2><span class="header-section-number">12.3</span> 绩效指标<a aria-label="锚" class="anchor" href="#perfmet"><i class="fas fa-link"></i></a></h2>
+<p>性能评估是回测的关键阶段。本节虽然并不详尽，但旨在涵盖投资组合评估的最重要方面。</p>
+<div class="section level3" id="discussion-1" number="12.3.1">
+<h3><span class="header-section-number">12.3.1</span> 讨论<a aria-label="锚" class="anchor" href="#discussion-1"><i class="fas fa-link"></i></a></h3>
+<p>虽然对 ML 工具准确性的评估（参见 <a href="valtune.html#mlmetrics">10.1</a> 节）当然很有价值（而且势在必行！），但投资组合收益率是回测期间的最终衡量标准。这种练习中的一个基本要素是 <strong>基准</strong>，因为原始和绝对指标本身并没有多大意义。</p>
+<p>这不仅在产品组合级别如此，在 ML 引擎级别也是如此。在前面章节的大部分试验中，测试集上模型的 MSE 都在 0.037 左右。一个有趣的数字是该集合一个月收益率的方差，它对应于始终为 0 的恒定预测所产生的误差。这个数字等于 0.037，这意味着复杂的算法并没有真正改进朴素的启发式算法。该基准是在 <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2018empirical" role="doc-biblioref">2020b</a>)</span> 的样本外 <span class="math inline">\(R^2\)</span> 中使用的基准。</p>
+<p>在投资组合选择中，最基本的配置是统一配置，即每种资产获得相同的权重。这个看似简单的解决方案实际上是一个令人难以置信的基准，一个很难被一致击败的基准（参见 <span class="citation">DeMiguel, Garlappi, and Uppal (<a href="solutions-to-exercises.html#ref-demiguel2007optimal" role="doc-biblioref">2009</a>)</span> 和 <span class="citation">Plyakha, Uppal, and Vilkov (<a href="solutions-to-exercises.html#ref-plyakha2014equal" role="doc-biblioref">2016</a>)</span>）。从理论上讲，当不确定性、模糊性或估计风险较高时（<span class="citation">Pflug, Pichler, and Wozabal (<a href="solutions-to-exercises.html#ref-pflug20121" role="doc-biblioref">2012</a>)</span>、<span class="citation">Maillet, Tokpavi, and Vaucher (<a href="solutions-to-exercises.html#ref-maillet2015global" role="doc-biblioref">2015</a>)</span>、<span class="citation">L. Zhao and Gao (<a href="solutions-to-exercises.html#ref-zhao2021efficient" role="doc-biblioref">2022</a>)</span>），统一投资组合是最佳的，而根据经验，即使在因子水平（<span class="citation">Dichtl, Drobetz, and Wendt (<a href="solutions-to-exercises.html#ref-dichtl2020build" role="doc-biblioref">2020</a>)</span>），它也无法超越。下面，我们将选择所有股票的 <strong>等权重</strong> (EW) 投资组合作为我们的基准。</p>
+</div>
+<div class="section level3" id="pure-performance-and-risk-indicators" number="12.3.2">
+<h3><span class="header-section-number">12.3.2</span> 纯绩效和风险指标<a aria-label="锚" class="anchor" href="#pure-performance-and-risk-indicators"><i class="fas fa-link"></i></a></h3>
+<p>然后我们转向从业者和学者所使用的常用指标的定义。此后，我们分别用 <span class="math inline">\(r^P=(r_t^P)_{1\le t\le T}\)</span> 和 <span class="math inline">\(r^B=(r_t^B)_{1\le t\le T}\)</span> 表示投资组合的收益率和基准的收益率。当提到一些通用收益率时，我们简单地写成<span class="math inline">\(r_t\)</span>。分析它们的方法有很多，其中大多数依赖于它们的分布。</p>
+<p>最简单的指标是平均收益率：
+<span class="math display">\[\bar{r}_P=\mu_P=\mathbb{E}[r^P]\approx \frac{1}{T}\sum_{t=1}^T r_t^P, \quad \bar{r}_B=\mu_B=\mathbb{E}[r^B]\approx \frac{1}{T}\sum_{t=1}^T r_t^B,\]</span></p>
+<p>显然，如果 <span class="math inline">\(\mathbb{E}[r^P]&gt;\mathbb{E}[r^B]\)</span>，则该投资组合值得注意。请注意，我们使用上面的算术平均值，但几何平均值也是一种选择，在这种情况下：
+<span class="math display">\[\tilde{\mu}_P\approx \left(\prod_{t=1}^T(1+r^P_t) \right)^{1/T}-1 , \quad \tilde{\mu}_B \approx  \left(\prod_{t=1}^T(1+r^B_t) \right)^{1/T}-1.\]</span>
+第二个定义的好处是它考虑了收益率的复利，从而补偿了波动性泵送。要了解这一点，请考虑一个非常简单的两期模型，其返回 <span class="math inline">\(-r\)</span> 和 <span class="math inline">\(+r\)</span>。算术平均值为零，但几何平均值 <span class="math inline">\(\sqrt{1-r^2}-1\)</span> 为负。</p>
+<p>与准确度类似，它用比率来评估仓位处于正确方向的次数比例（实现收益为正时做多，为负时做空）。因此，命中率评估了 <em>很好的猜测</em> 的倾向。这可以在资产层面（正确方向<a class="footnote-ref" href="solutions-to-exercises.html#fn24" id="fnref24"><sup>24</sup></a>的头寸比例）或投资组合层面进行计算。在所有情况下，计算都可以根据原始收益或相对收益（例如，与基准进行比较）来执行。有意义的命中率是策略击败其基准的次数比例。这当然是不够的，因为许多小的收益可以被一些大的损失所抵消。</p>
+<p>最后，一个重要的精度。在书中所有监督学习工具的示例中，我们将命中率与 0.5 进行比较。这实际上是错误的，因为如果投资者看涨，他或她可能总是押注价格上涨。在这种情况下，命中率是收益率为正的时间的百分比。从长远来看，这个概率在0.5以上。在我们的样本中，它等于 0.556，远高于 0.5。这可以被视为一个需要超越的基准。</p>
+<p>纯绩效衡量指标几乎总是伴随着 <strong>风险衡量指标</strong>。收益二阶矩通常用来量化投资组合波动的幅度。较大的方差意味着收益率的大幅变动，从而导致投资组合价值的大幅变动。这就是为什么收益率的标准差被称为投资组合的 <strong>波动性</strong> 。
+<span class="math display">\[\sigma^2_P=\mathbb{V}[r^P]\approx \frac{1}{T-1}\sum_{t=1}^T (r_t^P-\mu_P)^2, \quad \sigma^2_B=\mathbb{V}[r^B]\approx \frac{1}{T-1}\sum_{t=1}^T (r_t^B-\mu_B)^2.\]</span></p>
+<p>在这种情况下，如果与基准相比风险较小，即当 <span class="math inline">\(\sigma_P^2&lt;\sigma_B^2\)</span> 和平均收益率相等（或可比较）时，则可以优先选择该投资组合。</p>
+<p>有时会使用高阶收益率矩（偏度和峰度），但它们不太常见。例如，我们参考 <span class="citation">C. R. Harvey et al. (<a href="solutions-to-exercises.html#ref-harvey2010portfolio" role="doc-biblioref">2010</a>)</span> 作为在投资组合构建过程中考虑到它们的一种方法。</p>
+<p>对于某些人来说，波动性是衡量风险的不完整指标。有人认为，应该将其分解为“良好”波动性（当价格上涨时）与“不良”波动性（当价格下跌时）。向下半方差计算为负收益的方差：
+<span class="math display">\[\sigma^2_-\approx \frac{1}{\text{card}(r_t&lt;0)}\sum_{t=1}^T (r_t-\mu_P)^21_{\{r_t&lt;0\}}.\]</span></p>
+<p>平均收益率和波动率是从业者使用的典型的基于矩的指标。其他指标依赖于收益率分布的不同方面，重点关注尾部和极端事件。 <strong>风险价值</strong> (VaR) 就是这样的一个例子。如果 <span class="math inline">\(F_r\)</span> 是收益率的经验累积分布函数，则置信水平 <span class="math inline">\(\alpha\)</span>（通常取 95%）下的 VaR 为
+<span class="math display">\[\text{VaR}_\alpha(\textbf{r}_t)=F_r(1-\alpha).\]</span></p>
+<p>它等于实现平均预期在 <span class="math inline">\((1-\alpha)\)</span>% 时间内发生的不良情况（收益率）。
+更保守的衡量标准是所谓的 <strong>条件风险价值</strong> (CVaR)，也称为预期缺口，它计算最坏 (<span class="math inline">\(1-\alpha\)</span>)% 情景的平均损失。其实证评价为
+<span class="math display">\[\text{CVaR}_\alpha(\textbf{r}_t)=\frac{1}{\text{Card}(r_t &lt; \text{VaR}_\alpha(\text{r}_t))}\sum_{r_t &lt; \text{VaR}_\alpha(\text{r}_t)}r_t.\]</span></p>
+<p>随着风险措施的严重性逐渐增强，损失的最终评估是<strong>最大回撤</strong>。它等于策略峰值所遭受的最大损失。如果我们写<span class="math inline">\(P_t\)</span>暂时-<span class="math inline">\(t\)</span>投资组合的价值，回撤是<span class="math display">\[D_T^P=\underset{0 \le t \le T}{\text{max}} P_t-P_T ,\]</span>最大回撤是<span class="math display">\[MD_T^P=\underset{0 \le s \le T}{\text{max}} \left(\underset{0 \le t \le s}{\text{max}} P_t-P_s, 0\right) .\]</span></p>
+<p>该数量评估 <span class="math inline">\([0,T]\)</span> 时间范围内的最大损失，因此是所有风险衡量标准中最保守的。</p>
+</div>
+<div class="section level3" id="factor-based-evaluation" number="12.3.3">
+<h3><span class="header-section-number">12.3.3</span> 基于因素的评估<a aria-label="锚" class="anchor" href="#factor-based-evaluation"><i class="fas fa-link"></i></a></h3>
+<p>本着因子模型的精神，性能也可以通过曝光的镜头来评估。如果我们回忆一下方程 <a href="factor.html#eq:apt">(3.1)</a> 的原始公式：
+<span class="math display">\[r_{t,n}= \alpha_n+\sum_{k=1}^K\beta_{t,k,n}f_{t,k}+\epsilon_{t,n}, \]</span></p>
+<p>那么估计的 <span class="math inline">\(\hat{\alpha}_n\)</span> 就是无法用其他因素解释的性能。当收益率为 <em>超出</em> 收益率（超过无风险利率）并且只有一个因素（市场因素）时，该数量称为 Jensen 阿尔法 (<span class="citation">Jensen (<a href="solutions-to-exercises.html#ref-jensen1968performance" role="doc-biblioref">1968</a>)</span>)。通常，它简称为 <em>alpha</em>。另一个估计值 <span class="math inline">\(\hat{\beta}_{t,M,n}\)</span>（<span class="math inline">\(M\)</span> 代表市场）是市场贝塔值。</p>
+<p>由于因子投资的兴起，报告更详尽的回归的 alpha 已成为惯例。添加规模和价值溢价（如<span class="citation">Fama and French (<a href="solutions-to-exercises.html#ref-fama1993common" role="doc-biblioref">1993</a>)</span>），甚至动量（<span class="citation">Carhart (<a href="solutions-to-exercises.html#ref-carhart1997persistence" role="doc-biblioref">1997</a>)</span>）有助于了解策略是否产生超出通过通常因素获得的价值。</p>
+</div>
+<div class="section level3" id="risk-adjusted-measures" number="12.3.4">
+<h3><span class="header-section-number">12.3.4</span> 风险调整指标<a aria-label="锚" class="anchor" href="#risk-adjusted-measures"><i class="fas fa-link"></i></a></h3>
+<p>现在，自 <span class="citation">Markowitz (<a href="solutions-to-exercises.html#ref-markowitz1952portfolio" role="doc-biblioref">1952</a>)</span> 以来，平均收益率与波动性之间的权衡是现代金融的基石。综合这两个指标的最简单方法是通过 <strong>信息比率</strong>：
+<span class="math display">\[IR(P,B)=\frac{\mu_{P-B}}{\sigma_{P-B}},\]</span>
+其中指数 <span class="math inline">\(P-B\)</span> 意味着平均值和标准差是根据收益率为 <span class="math inline">\(r_t^P-r_t^B\)</span> 的多空投资组合计算的。分母 <span class="math inline">\(\sigma_{P-B}\)</span> 有时称为 <strong>跟踪误差</strong>。</p>
+<p>最广泛的信息比率是 <strong>夏普比率</strong> (<span class="citation">Sharpe (<a href="solutions-to-exercises.html#ref-sharpe1966mutual" role="doc-biblioref">1966</a>)</span>)，其基准是某种无风险资产。人们通常习惯比较它们的夏普比率，而不是直接计算两个投资组合或策略之间的信息比率。简单的比较可以从统计测试中受益（例如，参见<span class="citation">Oliver Ledoit and Wolf (<a href="solutions-to-exercises.html#ref-ledoit2008robust" role="doc-biblioref">2008</a>)</span>）。</p>
+<p>更极端的风险衡量标准可以作为风险调整指标的分母。例如，管理账户报告 (MAR) 比率计算如下
+<span class="math display">\[MAR^P = \frac{\tilde{\mu}_P}{MD^P},\]</span>
+而特雷诺比率等于
+<span class="math display">\[\text{Treynor}=\frac{\mu_P}{\hat{\beta}_M},\]</span>
+即（超额）收益率除以市场贝塔值（参见 <span class="citation">Treynor (<a href="solutions-to-exercises.html#ref-treynor1965rate" role="doc-biblioref">1965</a>)</span>）。这个定义被 <span class="citation">Hübner (<a href="solutions-to-exercises.html#ref-hubner2005generalized" role="doc-biblioref">2005</a>)</span> 推广到多因素阐述中，形成广义 Treynor 比率：
+<span class="math display">\[\text{GT}=\mu_P\frac{\sum_{k=1}^K\bar{f}_k}{\sum_{k=1}^K\hat{\beta}_k\bar{f}_k},\]</span>
+其中 <span class="math inline">\(\bar{f}_k\)</span> 是因子 <span class="math inline">\(f_{t,k}\)</span> 的样本平均值。我们参考原始文章来详细说明该比率的分析特性。</p>
+</div>
+<div class="section level3" id="transaction-costs-and-turnover" number="12.3.5">
+<h3><span class="header-section-number">12.3.5</span> 交易成本和换手率<a aria-label="锚" class="anchor" href="#transaction-costs-and-turnover"><i class="fas fa-link"></i></a></h3>
+<p>更新投资组合构成并不是免费的。一般来说，在 <span class="math inline">\(t\)</span> 时间进行一次再平衡的总成本与 <span class="math inline">\(C_t=\sum_{n=1}^N | \Delta w_{t,n}|c_{t,n}\)</span> 成正比，其中 <span class="math inline">\(\Delta w_{t,n}\)</span> 是资产 <span class="math inline">\(n\)</span> 的头寸变化，<span class="math inline">\(c_{t,n}\)</span> 是相应的费用。最后一个数量通常很难预测，因此通常使用取决于市值（大股票拥有更多流动性股票，因此需要较小费用）或买卖差价（较小的差价意味着较小的费用）等的代理。</p>
+<p>作为一阶近似，计算平均换手率通常很有用：
+<span class="math display">\[\text{Turnover}=\frac{1}{T-1}\sum_{t=2}^T\sum_{n=1}^N|w_{t,n}-w_{t-,n}|,\]</span>
+其中 <span class="math inline">\(w_{t,n}\)</span> 是投资组合中所需的 <span class="math inline">\(t\)</span> 时间权重，<span class="math inline">\(w_{t-,n}\)</span> 是再平衡之前的权重。按照惯例，第一周期的位置（发射重量）被排除在计算之外。然后，交易成本可以用换手率的倍数来表示（乘以公司横截面中的平均或中值成本）。这是对已实现成本的一阶估计，未考虑投资组合规模的演变。尽管如此，有一个粗略的数字总比没有好得多。</p>
+<p>一旦交易成本 (TC) 被年化，就可以从平均收益率中扣除，以获得更真实的盈利能力。同样，投资组合 <span class="math inline">\(P\)</span> 的交易成本调整夏普比率由下式给出
+<span class="math display" id="eq:SRTC">\[\begin{equation}
+\tag{12.4}
+SR_{TC}=\frac{\mu_P-TC}{\sigma_P}.
+\end{equation}\]</span></p>
+<p>交易成本在学术文章中经常被忽视，但在现实生活中的交易中可能会产生相当大的影响（例如，参见 <span class="citation">Novy-Marx and Velikov (<a href="solutions-to-exercises.html#ref-novy2015taxonomy" role="doc-biblioref">2015</a>)</span>）。 <span class="citation">DeMiguel et al. (<a href="solutions-to-exercises.html#ref-martin2018transaction" role="doc-biblioref">2020</a>)</span> 展示如何使用因子投资（和风险敞口）来合并和抵消头寸并降低总体费用。</p>
+</div>
+</div>
+<div class="section level2" id="common-errors-and-issues" number="12.4">
+<h2><span class="header-section-number">12.4</span> 常见错误和问题<a aria-label="锚" class="anchor" href="#common-errors-and-issues"><i class="fas fa-link"></i></a></h2>
+<div class="section level3" id="forward-looking-data" number="12.4.1">
+<h3><span class="header-section-number">12.4.1</span> 前瞻性数据<a aria-label="锚" class="anchor" href="#forward-looking-data"><i class="fas fa-link"></i></a></h3>
+<p>投资组合回测中最常见的错误之一是使用前瞻性数据。例如，很容易陷入图 <a href="backtest.html#fig:backtestoos2">12.2</a> 所示危险区域的陷阱。在这种情况下，在 <span class="math inline">\(t\)</span> 时间使用的标签是根据在 <span class="math inline">\(t+1\)</span>、<span class="math inline">\(t+2\)</span> 等时间发生的情况来计算的。值得对代码中的每个步骤进行三次检查，以确保策略不是建立在有先见之明的数据之上。</p>
+</div>
+<div class="section level3" id="backov" number="12.4.2">
+<h3><span class="header-section-number">12.4.2</span> 回测过度拟合<a aria-label="锚" class="anchor" href="#backov"><i class="fas fa-link"></i></a></h3>
+<p>第二个主要问题是回测过度拟合。与训练集过度拟合的类比很容易理解。这是一个众所周知的问题，例如在 <span class="citation">White (<a href="solutions-to-exercises.html#ref-white2000reality" role="doc-biblioref">2000</a>)</span> 和 <span class="citation">Romano and Wolf (<a href="solutions-to-exercises.html#ref-romano2005stepwise" role="doc-biblioref">2005</a>)</span> 中得到了正式化。在投资组合选择中，我们参考 <span class="citation">Bajgrowicz and Scaillet (<a href="solutions-to-exercises.html#ref-bajgrowicz2012technical" role="doc-biblioref">2012</a>)</span>、<span class="citation">D. H. Bailey and Prado (<a href="solutions-to-exercises.html#ref-bailey2014deflated" role="doc-biblioref">2014</a>)</span> 和 <span class="citation">Lopez de Prado and Bailey (<a href="solutions-to-exercises.html#ref-lopez2020false" role="doc-biblioref">2020</a>)</span> 以及其中的参考文献。仅</p>
+<p>在任何给定时刻，回测都<em>只</em>取决于一个特定数据集。通常，由于多种可能的原因，第一次回测的结果不会令人满意。因此，当改变一些可能不是最佳的参数时，很容易再次尝试。第二次测试可能会更好，但还不够好。因此，在第三次试验中，可以测试新的加权方案以及新的预测引擎（更复杂）。迭代地，回测者只能得到一个表现足够好的策略，这只是时间和尝试的问题。</p>
+<p>回测过度拟合的后果之一是，希望在实时交易中获得与回测中获得的夏普比率相同的夏普比率是不切实际的。合理的专业人士至少将夏普比率除以二（<span class="citation">C. R. Harvey and Liu (<a href="solutions-to-exercises.html#ref-harvey2015backtesting" role="doc-biblioref">2015</a>)</span>，<span class="citation">Suhonen, Lennkh, and Perez (<a href="solutions-to-exercises.html#ref-suhonen2017quantifying" role="doc-biblioref">2017</a>)</span>）。在 <span class="citation">D. H. Bailey and Prado (<a href="solutions-to-exercises.html#ref-bailey2014deflated" role="doc-biblioref">2014</a>)</span> 中，作者甚至提出了夏普比率的统计测试，前提是所有测试策略的一些指标都存储在内存中。缩减夏普比率的公式为：
+<span class="math display" id="eq:tSR">\[\begin{equation}
+\tag{12.5}
+t = \phi\left((SR-SR^*)\sqrt{\frac{T-1}{1-\gamma_3SR+\frac{\gamma_4-1}{4}SR^2}} \right),
+\end{equation}\]</span>
+其中 <span class="math inline">\(SR\)</span> 是通过所有测试中的最佳策略获得的夏普比率，并且
+<span class="math display">\[SR^*=\mathbb{E}[SR]+\sqrt{\mathbb{V}[SR]}\left((1-\gamma)\phi^{-1}\left(1-\frac{1}{N}\right)+\gamma \phi^{-1}\left(1-\frac{1}{Ne}\right)  \right),\]</span>
+是理论平均最大SR。此外，</p>
+<ul>
+<li><span class="math inline">\(T\)</span> 为交易日数；<br/></li>
+<li><span class="math inline">\(\gamma_3\)</span> 和 <span class="math inline">\(\gamma_4\)</span> 是所选（最佳）策略收益率的 <span class="math inline">\(skewness\)</span> 和 <span class="math inline">\(kurtosis\)</span>；<br/></li>
+<li><span class="math inline">\(\phi\)</span> 是标准高斯定律的 cdf，<span class="math inline">\(\gamma\approx 0,577\)</span> 是 Euler-Mascheroni 常数；<br/></li>
+<li><span class="math inline">\(N\)</span> 指的是策略尝试的次数。</li>
+</ul>
+<p>如果上面定义的 <span class="math inline">\(t\)</span> 低于某个阈值（例如 0.95），则 <span class="math inline">\(SR\)</span> 不能被视为显着：与所有测试的值相比。可悲的是，大多数时候情况就是如此。在方程 <a href="backtest.html#eq:tSR">(12.5)</a> 中，实现的 SR 必须高于理论最大值 <span class="math inline">\(SR^*\)</span>，并且缩放因子必须足够大，以使 <span class="math inline">\(\phi\)</span> 内的参数足够接近 2，以便 <span class="math inline">\(t\)</span> 超过 0.95。</p>
+<p>在科学界，测试过度拟合也称为 <em>p</em>-hacking。这在金融经济学中相当常见，强烈建议阅读<span class="citation">C. R. Harvey (<a href="solutions-to-exercises.html#ref-harvey2017presidential" role="doc-biblioref">2017</a>)</span>来掌握这种现象的严重程度。 <em>p</em>-黑客攻击也存在于大多数使用统计测试的领域中（例如，参见 <span class="citation">Head et al. (<a href="solutions-to-exercises.html#ref-head2015extent" role="doc-biblioref">2015</a>)</span> 仅引用一篇参考文献）。有几种方法可以应对 <em>p</em>-黑客攻击：</p>
+<ol style="list-style-type: decimal">
+<li>不依赖 <em>p</em>-值 (<span class="citation">Amrhein, Greenland, and McShane (<a href="solutions-to-exercises.html#ref-amrhein2019scientists" role="doc-biblioref">2019</a>)</span>);<br/></li>
+<li>使用检测工具(<span class="citation">Elliott, Kudrin, and Wuthrich (<a href="solutions-to-exercises.html#ref-elliott2019detecting" role="doc-biblioref">2019</a>)</span>);<br/></li>
+<li>，或者最后，使用处理统计数组的高级方法（例如，<em>p</em> 值的贝叶斯化版本，以包括 <span class="citation">C. R. Harvey (<a href="solutions-to-exercises.html#ref-harvey2017presidential" role="doc-biblioref">2017</a>)</span> 的一些先前评估，或其他测试，例如 <span class="citation">Romano and Wolf (<a href="solutions-to-exercises.html#ref-romano2005stepwise" role="doc-biblioref">2005</a>)</span> 和 <span class="citation">Simonsohn, Nelson, and Simmons (<a href="solutions-to-exercises.html#ref-simonsohn2014p" role="doc-biblioref">2014</a>)</span> 中提出的测试）。</li>
+</ol>
+<p>第一个选择是明智的，但缺点是决策过程会被留给另一个任意的标准。</p>
+</div>
+<div class="section level3" id="simple-safeguards" number="12.4.3">
+<h3><span class="header-section-number">12.4.3</span> 简单保障措施<a aria-label="锚" class="anchor" href="#simple-safeguards"><i class="fas fa-link"></i></a></h3>
+<p>正如本章开头提到的，回测的两个常识参考是 <span class="citation">Fabozzi and Prado (<a href="solutions-to-exercises.html#ref-fabozzi2018being" role="doc-biblioref">2018</a>)</span> 和 <span class="citation">R. Arnott, Harvey, and Markowitz (<a href="solutions-to-exercises.html#ref-arnott2019backtesting" role="doc-biblioref">2019</a>)</span>。这两篇文章中提供的建议通常是明智且深思熟虑的。</p>
+<p>一条附加注释与回测的输出有关。一种简单、直观且广泛使用的指标是方程 <a href="backtest.html#eq:SRTC">(12.4)</a> 中定义的交易成本调整夏普比率。在回测中，让我们将 <span class="math inline">\(SR_{TC}^B\)</span> 称为基准的相应值，我们将其定义为交易领域中所有资产的等权重投资组合（在我们的数据集中，大约有 1000 只美国股票）。如果最佳策略的 <span class="math inline">\(SR_{TC}^P\)</span> 高于 <span class="math inline">\(2\times SR_{TC}^B\)</span>，则回测中可能存在问题。</p>
+<p>该标准在两个假设下成立：</p>
+<ol style="list-style-type: decimal">
+<li>足够长的样本外周期和<br/></li>
+<li>多头投资组合。</li>
+</ol>
+<p>从长远来看，任何现实的策略都不可能大幅超越可靠的基准。能够将基准的年化回报率提高 150 个基点（在波动性相当的情况下）已经是一项了不起的成就。如果回测的回报率比基准高出 5% 以上，则值得怀疑。</p>
+</div>
+</div>
+<div class="section level2" id="implication-of-non-stationarity-forecasting-is-hard" number="12.5">
+<h2><span class="header-section-number">12.5</span> 非平稳性的含义：预测很难<a aria-label="锚" class="anchor" href="#implication-of-non-stationarity-forecasting-is-hard"><i class="fas fa-link"></i></a></h2>
+<p>本小节分为两部分：第一部分，我们讨论预测如此困难的任务的原因；第二部分，我们提出最初针对ML开发的重要理论结果，但它为任何面临样本外测试的学科提供了启示。与该主题相关的一项有趣的贡献是 <span class="citation">Farmer, Schmidt, and Timmermann (<a href="solutions-to-exercises.html#ref-farmer2019pockets" role="doc-biblioref">2019</a>)</span> 的研究。作者评估了线性模型随时间变化的预测拟合度：他们表明拟合度变化很大：有时模型表现非常好，有时则不然。ML算法没有理由不出现这种情况。</p>
+<div class="section level3" id="general-comments" number="12.5.1">
+<h3><span class="header-section-number">12.5.1</span> 一般评论<a aria-label="锚" class="anchor" href="#general-comments"><i class="fas fa-link"></i></a></h3>
+<p>细心的读者一定已经注意到，在 <a href="lasso.html#lasso">5</a> 到 <a href="ensemble.html#ensemble">11</a> 章中，ML 引擎的性能并不令人印象深刻。这些令人失望的结果是故意的，并凸显了一个至关重要的事实：ML不是万能药，不是魔杖，也不是可以将数据转化为黄金预测的点金石。大多数基于ML的预测都会失败。事实上，这不仅适用于非常增强和复杂的技术，而且适用于更简单的计量经济学方法 (<span class="citation">Dichtl et al. (<a href="solutions-to-exercises.html#ref-dichtl2019data" role="doc-biblioref">2020</a>)</span>)，这再次强调需要复制结果以挑战其有效性。</p>
+<p>原因之一是数据集充满噪声，提取最少量的信号是一项艰巨的挑战（我们建议仔细阅读 <span class="citation">Timmermann (<a href="solutions-to-exercises.html#ref-timmermann2018forecasting" role="doc-biblioref">2018</a>)</span> 的介绍，以获取有关此主题的更多详细信息）。其原因之一是股票领域因子分析的不断变化的性质。有些因素可能在一年内表现良好，但在下一年表现不佳，并且在完全自动化的基于数据的分配流程中，这些逆转可能代价高昂。</p>
+<p>事实上，这是ML取得巨大进步的许多领域的一个主要区别。在图像识别中，数字总是具有相同的形状，猫、公共汽车等也是如此。同样，动词始终是动词，语言中的语法不会改变。这种不变性虽然有时难以掌握，但 <a class="footnote-ref" href="solutions-to-exercises.html#fn25" id="fnref25"><sup>25</sup></a> 仍然是计算机视觉和Python notebooks取得巨大进步的关键。</p>
+<p>在因子投资中，似乎不存在这样的不变性（参见<span class="citation">Cornell (<a href="solutions-to-exercises.html#ref-cornell2020stock" role="doc-biblioref">2020</a>)</span>）。没有任何因素或因素（可能是非线性的）组合可以解释和准确预测几十年的长期收益率。<a class="footnote-ref" href="solutions-to-exercises.html#fn26" id="fnref26"><sup>26</sup></a> 学术文献尚未找到这样的模型；但即使确实如此，简单的套利推理在逻辑上也会使其结论在未来的数据集中无效。</p>
+</div>
+<div class="section level3" id="the-no-free-lunch-theorem" number="12.5.2">
+<h3><span class="header-section-number">12.5.2</span> 没有免费的午餐定理<a aria-label="锚" class="anchor" href="#the-no-free-lunch-theorem"><i class="fas fa-link"></i></a></h3>
+<p>我们首先认为ML中没有免费午餐定理与同名的资产定价条件无关（例如，参见 <span class="citation">Delbaen and Schachermayer (<a href="solutions-to-exercises.html#ref-delbaen1994general" role="doc-biblioref">1994</a>)</span>，或者最近的 <span class="citation">Cuchiero, Klein, and Teichmann (<a href="solutions-to-exercises.html#ref-cuchiero2016new" role="doc-biblioref">2016</a>)</span>）。最初的公式是由 <span class="citation">Wolpert (<a href="solutions-to-exercises.html#ref-wolpert1992connection" role="doc-biblioref">1992a</a>)</span> 给出的，但我们还建议您查看更新的参考文献 <span class="citation">Y.-C. Ho and Pepyne (<a href="solutions-to-exercises.html#ref-ho2002simple" role="doc-biblioref">2002</a>)</span>。事实上有几个定理，其中两个可以在 <span class="citation">Wolpert and Macready (<a href="solutions-to-exercises.html#ref-wolpert1997no" role="doc-biblioref">1997</a>)</span> 中找到。</p>
+<p>该定理的陈述非常抽象，需要一些符号约定。我们假设任何训练样本 <span class="math inline">\(S=(\{\textbf{x}_1,y_1\}, \dots, \{\textbf{x}_I,y_I\})\)</span> 都存在一个预言机函数 <span class="math inline">\(f\)</span> ，它将特征完美地映射到标签： <span class="math inline">\(y_i=f(\textbf{x}_i)\)</span> 。 oracle 函数 <span class="math inline">\(f\)</span> 属于一个非常大的函数集 <span class="math inline">\(\mathcal{F}\)</span>。此外，我们将 <span class="math inline">\(\mathcal{H}\)</span> 写为一组函数，预测者将使用该函数来近似 <span class="math inline">\(f\)</span>。例如，<span class="math inline">\(\mathcal{H}\)</span> 可以是前馈神经网络的空间，或者决策树的空间，或者两者的结合。 <span class="math inline">\(\mathcal{H}\)</span> 的元素写为 <span class="math inline">\(h\)</span> ，而 <span class="math inline">\(\mathbb{P}[h|S]\)</span> 代表已知样本 <span class="math inline">\(S\)</span> 的 <span class="math inline">\(h\)</span> 的（很大程度上未知的）分布。同样，<span class="math inline">\(\mathbb{P}[f|S]\)</span> 是已知 <span class="math inline">\(S\)</span> 的预言机函数的分布。最后，这些特征有一个给定的法则，<span class="math inline">\(\mathbb{P}[\textbf{x}]\)</span>。平均</p>
+<p>现在让我们考虑两个模型，例如 <span class="math inline">\(h_1\)</span> 和 <span class="math inline">\(h_2\)</span>。定理的陈述通常是针对分类任务制定的。知道 <span class="math inline">\(S\)</span> 后，选择 <span class="math inline">\(h_k\)</span> 时由训练样本 <span class="math inline">\(S\)</span> 之外的样本引起的误差可以量化为：
+<span class="math display" id="eq:nolunch">\[\begin{equation}
+\tag{12.6}
+E_k(S)= \int_{f,h}\int_{\textbf{x}\notin S} \underbrace{ (1-\delta(f(\textbf{x}),h_k(\textbf{x})))}_{\text{error term}} \underbrace{\mathbb{P}[f|S]\mathbb{P}[h|S]\mathbb{P}[\textbf{x}]}_{\text{distributional terms}},
+\end{equation}\]</span>
+其中 <span class="math inline">\(\delta(\cdot,\cdot)\)</span> 是 delta Kronecker 函数：
+<span class="math display" id="eq:deltak">\[\begin{equation}
+\tag{12.7}
+\delta(x,y)=\left\{\begin{array}{ll} 0 &amp; \text{if } x\neq y \\ 1 &amp; \text{if } x = y \end{array} .\right.
+\end{equation}\]</span>
+没有免费午餐定理之一指出 <span class="math inline">\(E_1(S)=E_2(S)\)</span>，即仅凭 <span class="math inline">\(S\)</span> 的知识，不可能有<em>平均而言</em>更好的算法。为了构建有效的算法，分析师或计量经济学家必须对 <span class="math inline">\(y\)</span> 和 <span class="math inline">\(\textbf{x}\)</span> 之间的关系结构有预先的看法，并将这些观点整合到模型的构建中。不幸的是，如果视图不正确，这也可能会产生表现不佳的模型。</p>
+</div>
+</div>
+<div class="section level2" id="first-example-a-complete-backtest" number="12.6">
+<h2><span class="header-section-number">12.6</span> 第一个示例：完整的回测<a aria-label="锚" class="anchor" href="#first-example-a-complete-backtest"><i class="fas fa-link"></i></a></h2>
+<p>最后，我们提出了一个在仔细的回测中运行的基于 ML 的策略的一种实现的完整详细示例。
+以下是 <a href="lasso.html#sparseex">5.2.2</a> 节内容的概括。本着同样的精神，我们将回测分为四个部分：</p>
+<ol style="list-style-type: decimal">
+<li>变量的创建/初始化；<br/></li>
+<li>在一个主函数中定义策略；<br/></li>
+<li>回测循环本身；<br/></li>
+<li>的绩效指标。</li>
+</ol>
+<p>因此，我们从初始化开始。</p>
+<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sep_oos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/yearmon.html">as.Date</a></span><span class="op">(</span><span class="st">"2007-01-01"</span><span class="op">)</span>                            <span class="co"># Starting point for backtest</span>
+<span class="va">ticks</span> <span class="op">&lt;-</span> <span class="va">data_ml</span><span class="op">$</span><span class="va">stock_id</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                               <span class="co"># List of all asset ids</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ticks</span><span class="op">)</span>                                          <span class="co"># Max number of assets</span>
+<span class="va">t_oos</span> <span class="op">&lt;-</span> <span class="va">returns</span><span class="op">$</span><span class="va">date</span><span class="op">[</span><span class="va">returns</span><span class="op">$</span><span class="va">date</span> <span class="op">&gt;</span> <span class="va">sep_oos</span><span class="op">]</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>           <span class="co"># Out-of-sample dates </span>
+    <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                                            <span class="co"># Remove duplicates</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/yearmon.html">as.Date</a></span><span class="op">(</span>origin <span class="op">=</span> <span class="st">"1970-01-01"</span><span class="op">)</span>                          <span class="co"># Transform in date format</span>
+<span class="va">Tt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">)</span>                                         <span class="co"># Nb of dates, avoid T = TRUE</span>
+<span class="va">nb_port</span> <span class="op">&lt;-</span> <span class="fl">2</span>                                                <span class="co"># Nb of portfolios/stragegies</span>
+<span class="va">portf_weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fl">0</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Tt</span>, <span class="va">nb_port</span>, <span class="va">N</span><span class="op">)</span><span class="op">)</span>          <span class="co"># Initialize portfolio weights</span>
+<span class="va">portf_returns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">0</span>, nrow <span class="op">=</span> <span class="va">Tt</span>, ncol <span class="op">=</span> <span class="va">nb_port</span><span class="op">)</span>       <span class="co"># Initialize portfolio returns </span></code></pre></div>
+<p></p>
+<p>这第一步至关重要，它为回测的核心奠定了基础。我们只考虑两种策略：一种基于 ML 和 EW (1/N) 基准。主要（加权）函数将由这两个组件组成，但我们在专用包装器中定义复杂的组件。基于 ML 的权重源自具有 80 棵树、学习率为 0.3 和最大树深度为 4 的 XGBoost 预测。这使模型变得复杂，但也不是特别复杂。一旦获得预测，加权方案就很简单：它是一个针对最好的一半股票（具有高于中值预测的股票）的 EW 投资组合。</p>
+<p>在下面的函数中，所有参数（例如，学习率、<em>埃塔</em> 或树的数量 <em>n轮</em>）都是硬编码的。它们可以轻松地在数据输入旁边的参数中传递。一个非常重要的细节是，与本书的其余部分相比，标签是 12 个月的未来收益率。其主要原因源于 <a href="Data.html#pers">4.6</a> 节的讨论。此外，为了加快计算速度，我们删除了大部分标签分布，只保留前 20% 和后 20%，如 <span class="citation">Coqueret and Guida (<a href="solutions-to-exercises.html#ref-coqueret2019training" role="doc-biblioref">2020</a>)</span> 中建议的那样。过滤级别也可以作为参数传递。</p>
+<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">weights_xgb</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">train_data</span>, <span class="va">test_data</span>, <span class="va">features</span><span class="op">)</span><span class="op">{</span> 
+    <span class="va">train_features</span> <span class="op">&lt;-</span> <span class="va">train_data</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># Indep. variable</span>
+    <span class="va">train_label</span> <span class="op">&lt;-</span> <span class="va">train_data</span><span class="op">$</span><span class="va">R12M_Usd</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">train_data</span><span class="op">$</span><span class="va">Vol1Y_Usd</span><span class="op">)</span>            <span class="co"># Dep. variable</span>
+    <span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">train_label</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">train_label</span>,<span class="fl">0.2</span><span class="op">)</span><span class="op">|</span>                     <span class="co"># Filter</span>
+                   <span class="va">train_label</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">train_label</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span>
+    <span class="va">train_features</span> <span class="op">&lt;-</span> <span class="va">train_features</span><span class="op">[</span><span class="va">ind</span>, <span class="op">]</span>                                   <span class="co"># Filt'd features</span>
+    <span class="va">train_label</span> <span class="op">&lt;-</span> <span class="va">train_label</span><span class="op">[</span><span class="va">ind</span><span class="op">]</span>                                           <span class="co"># Filtered label</span>
+    <span class="va">train_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html">xgb.DMatrix</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">train_features</span>, label <span class="op">=</span> <span class="va">train_label</span><span class="op">)</span>   <span class="co"># XGB format</span>
+    <span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">train_matrix</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
+        <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.train.html">xgb.train</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>,                       <span class="co"># Data source (pipe input)</span>
+                  eta <span class="op">=</span> <span class="fl">0.3</span>,                      <span class="co"># Learning rate</span>
+                  objective <span class="op">=</span> <span class="st">"reg:squarederror"</span>, <span class="co"># Number of random trees</span>
+                  max_depth <span class="op">=</span> <span class="fl">4</span>,                  <span class="co"># Maximum depth of trees</span>
+                  nrounds <span class="op">=</span> <span class="fl">80</span>,                   <span class="co"># Number of trees used</span>
+                  verbose <span class="op">=</span> <span class="fl">0</span>                     <span class="co"># No comments</span>
+        <span class="op">)</span>
+    <span class="va">xgb_test</span> <span class="op">&lt;-</span> <span class="va">test_data</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                     <span class="co"># Test sample =&gt; XGB format</span>
+        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
+        <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+        <span class="fu"><a href="https://rdrr.io/pkg/xgboost/man/xgb.DMatrix.html">xgb.DMatrix</a></span><span class="op">(</span><span class="op">)</span>
+    
+    <span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">xgb_test</span><span class="op">)</span>                <span class="co"># Single prediction</span>
+    <span class="va">w</span> <span class="op">&lt;-</span> <span class="va">pred</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span>                      <span class="co"># Keep only the 50% best predictions</span>
+    <span class="va">w</span><span class="op">$</span><span class="va">weights</span> <span class="op">&lt;-</span> <span class="va">w</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span>
+    <span class="va">w</span><span class="op">$</span><span class="va">names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">$</span><span class="va">stock_id</span><span class="op">)</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span>                                     <span class="co"># Best predictions, equally-weighted</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>与 <a href="trees.html#boostcode">6.4.6</a> 节中提出的结构相比，不同之处在于标签不仅基于 <strong>长期</strong> 收益，而且还依赖于波动性成分。尽管标签中的分母是波动性的指数分位数，但可以公平地说，它是受到夏普比率的启发，并且该模型旨在解释和预测风险调整后的收益率，而不是 <em>原始</em> 收益率。波动性非常低的股票在标签中的回报率将保持不变，而波动性非常高的股票的回报率将除以接近三的因子 (exp(1)=2.718)。</p>
+<p>然后将该函数嵌入到全局加权函数中，该函数仅包含两个方案：EW 基准和基于 ML 的策略。</p>
+<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">portf_compo</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">train_data</span>, <span class="va">test_data</span>, <span class="va">features</span>, <span class="va">j</span><span class="op">)</span><span class="op">{</span> 
+    <span class="kw">if</span><span class="op">(</span><span class="va">j</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">{</span>                                 <span class="co"># This is the benchmark</span>
+        <span class="va">N</span> <span class="op">&lt;-</span> <span class="va">test_data</span><span class="op">$</span><span class="va">stock_id</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>             <span class="co"># Test data dictates allocation</span>
+            <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nlevels.html">nlevels</a></span><span class="op">(</span><span class="op">)</span>
+        <span class="va">w</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="va">N</span>                                <span class="co"># EW portfolio</span>
+        <span class="va">w</span><span class="op">$</span><span class="va">weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">w</span>,<span class="va">N</span><span class="op">)</span>
+        <span class="va">w</span><span class="op">$</span><span class="va">names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">test_data</span><span class="op">$</span><span class="va">stock_id</span><span class="op">)</span>   <span class="co"># Asset names</span>
+        <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span>
+    <span class="op">}</span>
+    <span class="kw">if</span><span class="op">(</span><span class="va">j</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span><span class="op">{</span>                                 <span class="co"># This is the ML strategy.</span>
+        <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu">weights_xgb</span><span class="op">(</span><span class="va">train_data</span>, <span class="va">test_data</span>, <span class="va">features</span><span class="op">)</span><span class="op">)</span>
+    <span class="op">}</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>有了这个函数，我们就可以转向主回测循环了。鉴于我们使用大规模模型，循环的计算时间很长（在具有 CPU 的慢速机器上可能需要几个小时）。诉诸函数式编程可以加速循环（参见本章末尾的练习）。此外，一个简单的基准等权重投资组合只能使用 tidyverse 函数进行编码。</p>
+<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">m_offset</span> <span class="op">&lt;-</span> <span class="fl">12</span>                                          <span class="co"># Offset in months for buffer period</span>
+<span class="va">train_size</span> <span class="op">&lt;-</span> <span class="fl">5</span>                                         <span class="co"># Size of training set in years</span>
+<span class="kw">for</span><span class="op">(</span><span class="va">t</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>                          <span class="co"># Stop before last date: no fwd ret.!</span>
+    <span class="kw">if</span><span class="op">(</span><span class="va">t</span><span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%%</a></span><span class="fl">12</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">[</span><span class="va">t</span><span class="op">]</span><span class="op">)</span><span class="op">}</span>                       <span class="co"># Just checking the date status</span>
+    <span class="va">train_data</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">&lt;</span> <span class="va">t_oos</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">-</span> <span class="va">m_offset</span> <span class="op">*</span> <span class="fl">30</span>,   <span class="co"># Roll window w. buffer</span>
+                                    <span class="va">date</span> <span class="op">&gt;</span> <span class="va">t_oos</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">-</span> <span class="va">m_offset</span> <span class="op">*</span> <span class="fl">30</span> <span class="op">-</span> <span class="fl">365</span> <span class="op">*</span> <span class="va">train_size</span><span class="op">)</span>    
+    <span class="va">test_data</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">==</span> <span class="va">t_oos</span><span class="op">[</span><span class="va">t</span><span class="op">]</span><span class="op">)</span>   <span class="co"># Test sample  </span>
+    <span class="va">realized_returns</span> <span class="op">&lt;-</span> <span class="va">test_data</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                   <span class="co"># Computing returns via:</span>
+        <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">R1M_Usd</span><span class="op">)</span>                          <span class="co"># 1M holding period!</span>
+    <span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nb_port</span><span class="op">)</span><span class="op">{</span>    
+        <span class="va">temp_weights</span> <span class="op">&lt;-</span> <span class="fu">portf_compo</span><span class="op">(</span><span class="va">train_data</span>, <span class="va">test_data</span>, <span class="va">features</span>, <span class="va">j</span><span class="op">)</span> <span class="co"># Weights</span>
+        <span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="va">temp_weights</span><span class="op">$</span><span class="va">names</span>, <span class="va">ticks</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span>           <span class="co"># Index: test vs all</span>
+        <span class="va">portf_weights</span><span class="op">[</span><span class="va">t</span>,<span class="va">j</span>,<span class="va">ind</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">temp_weights</span><span class="op">$</span><span class="va">weights</span>                  <span class="co"># Allocate weights </span>
+        <span class="va">portf_returns</span><span class="op">[</span><span class="va">t</span>,<span class="va">j</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">temp_weights</span><span class="op">$</span><span class="va">weights</span> <span class="op">*</span> <span class="va">realized_returns</span><span class="op">)</span> <span class="co"># Compute returns</span>
+    <span class="op">}</span> 
+<span class="op">}</span>    </code></pre></div>
+<pre><code>## [1] "2007-12-31"
+## [1] "2008-12-31"
+## [1] "2009-12-31"
+## [1] "2010-12-31"
+## [1] "2011-12-31"
+## [1] "2012-12-31"
+## [1] "2013-12-31"
+## [1] "2014-12-31"
+## [1] "2015-12-31"
+## [1] "2016-12-31"
+## [1] "2017-12-31"</code></pre>
+<p></p>
+<p>对于上面的代码有两个重要的注释。第一条注释与第一行中定义的两个参数有关。它们指的是训练样本的大小（5年）和缓冲期的长度，如图<a href="backtest.html#fig:backtestoos2">12.2</a>所示。这个 <strong>缓冲周期是必要的</strong> 因为标签基于长期（12 个月）收益率。这种滞后是强制性的，以避免回测中出现任何前瞻性偏差。</p>
+<p>下面，我们创建一个计算换手率（权重变化）的函数。它需要权重值以及所有资产的收益率，因为再平衡之前的权重取决于前一时期分配的权重，以及在持有期间改变了这些原始权重的资产的收益率。</p>
+<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">turnover</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">weights</span>, <span class="va">asset_returns</span>, <span class="va">t_oos</span><span class="op">)</span><span class="op">{</span> 
+    <span class="va">turn</span> <span class="op">&lt;-</span> <span class="fl">0</span>
+    <span class="kw">for</span><span class="op">(</span><span class="va">t</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+        <span class="va">realised_returns</span> <span class="op">&lt;-</span> <span class="va">returns</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">==</span> <span class="va">t_oos</span><span class="op">[</span><span class="va">t</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span><span class="op">)</span>
+        <span class="va">prior_weights</span> <span class="op">&lt;-</span> <span class="va">weights</span><span class="op">[</span><span class="va">t</span><span class="op">-</span><span class="fl">1</span>,<span class="op">]</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">realised_returns</span><span class="op">)</span> <span class="co"># Before rebalancing</span>
+        <span class="va">turn</span> <span class="op">&lt;-</span> <span class="va">turn</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">weights</span><span class="op">[</span><span class="va">t</span>,<span class="op">]</span> <span class="op">-</span> <span class="va">prior_weights</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">prior_weights</span><span class="op">)</span><span class="op">)</span>,<span class="fl">1</span>,<span class="va">sum</span><span class="op">)</span>
+    <span class="op">}</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">turn</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>定义换手率后，我们将其嵌入到计算几个关键指标的函数中。</p>
+<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">perf_met</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">portf_returns</span>, <span class="va">weights</span>, <span class="va">asset_returns</span>, <span class="va">t_oos</span><span class="op">)</span><span class="op">{</span> 
+    <span class="va">avg_ret</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">portf_returns</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>                     <span class="co"># Arithmetic mean </span>
+    <span class="va">vol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">portf_returns</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>                           <span class="co"># Volatility</span>
+    <span class="va">Sharpe_ratio</span> <span class="op">&lt;-</span> <span class="va">avg_ret</span> <span class="op">/</span> <span class="va">vol</span>                                 <span class="co"># Sharpe ratio</span>
+    <span class="va">VaR_5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">portf_returns</span>, <span class="fl">0.05</span><span class="op">)</span>                        <span class="co"># Value-at-risk</span>
+    <span class="va">turn</span> <span class="op">&lt;-</span> <span class="fl">0</span>                                                     <span class="co"># Initialisation of turnover</span>
+    <span class="kw">for</span><span class="op">(</span><span class="va">t</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">weights</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">{</span>
+        <span class="va">realized_returns</span> <span class="op">&lt;-</span> <span class="va">asset_returns</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">==</span> <span class="va">t_oos</span><span class="op">[</span><span class="va">t</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">date</span><span class="op">)</span>
+        <span class="va">prior_weights</span> <span class="op">&lt;-</span> <span class="va">weights</span><span class="op">[</span><span class="va">t</span><span class="op">-</span><span class="fl">1</span>,<span class="op">]</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">realized_returns</span><span class="op">)</span>
+        <span class="va">turn</span> <span class="op">&lt;-</span> <span class="va">turn</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">weights</span><span class="op">[</span><span class="va">t</span>,<span class="op">]</span> <span class="op">-</span> <span class="va">prior_weights</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">prior_weights</span><span class="op">)</span><span class="op">)</span>,<span class="fl">1</span>,<span class="va">sum</span><span class="op">)</span>
+    <span class="op">}</span>
+    <span class="va">turn</span> <span class="op">&lt;-</span> <span class="va">turn</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>                                <span class="co"># Average over time</span>
+    <span class="va">met</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">avg_ret</span>, <span class="va">vol</span>, <span class="va">Sharpe_ratio</span>, <span class="va">VaR_5</span>, <span class="va">turn</span><span class="op">)</span>    <span class="co"># Aggregation of all of this</span>
+    <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames</a></span><span class="op">(</span><span class="va">met</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"metrics"</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">met</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>最后，我们构建一个在各种策略上循环的函数。</p>
+<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">perf_met_multi</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">portf_returns</span>, <span class="va">weights</span>, <span class="va">asset_returns</span>, <span class="va">t_oos</span>, <span class="va">strat_name</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">J</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">weights</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>              <span class="co"># Number of strategies </span>
+    <span class="va">met</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>                        <span class="co"># Initialization of metrics</span>
+    <span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">J</span><span class="op">)</span><span class="op">{</span>                    <span class="co"># One very ugly loop</span>
+        <span class="va">temp_met</span> <span class="op">&lt;-</span> <span class="fu">perf_met</span><span class="op">(</span><span class="va">portf_returns</span><span class="op">[</span>, <span class="va">j</span><span class="op">]</span>, <span class="va">weights</span><span class="op">[</span>, <span class="va">j</span>, <span class="op">]</span>, <span class="va">asset_returns</span>, <span class="va">t_oos</span><span class="op">)</span>
+        <span class="va">met</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">met</span>, <span class="va">temp_met</span><span class="op">)</span>
+    <span class="op">}</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">met</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">strat_name</span>      <span class="co"># Stores the name of the strat</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">met</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>给定投资组合的权重和收益率，仍然需要计算资产的收益率以将其插入聚合指标函数中。</p>
+<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">asset_returns</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                          <span class="co"># Compute return matrix: start from data</span>
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">stock_id</span>, <span class="va">R1M_Usd</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>        <span class="co"># Keep 3 attributes </span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/spread.html">spread</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">stock_id</span>, value <span class="op">=</span> <span class="va">R1M_Usd</span><span class="op">)</span>           <span class="co"># Shape in matrix format</span>
+<span class="va">asset_returns</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">asset_returns</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span>              <span class="co"># Zero returns for missing points</span>
+
+<span class="va">met</span> <span class="op">&lt;-</span> <span class="fu">perf_met_multi</span><span class="op">(</span>portf_returns <span class="op">=</span> <span class="va">portf_returns</span>,  <span class="co"># Computes performance metrics</span>
+                      weights <span class="op">=</span> <span class="va">portf_weights</span>, 
+                      asset_returns <span class="op">=</span> <span class="va">asset_returns</span>,
+                      t_oos <span class="op">=</span> <span class="va">t_oos</span>,
+                      strat_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"EW"</span>, <span class="st">"XGB_SR"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">met</span>                                                   <span class="co"># Displays perf metrics</span></code></pre></div>
+<pre><code>##            avg_ret        vol Sharpe_ratio       VaR_5      turn
+## EW     0.009697248 0.05642917    0.1718481 -0.07712509 0.0714512
+## XGB_SR 0.012602882 0.06376845    0.1976351 -0.08335864 0.5679932</code></pre>
+<p></p>
+<p>基于ML的策略终于表现良好了！收益主要是通过平均收益获得的，而波动性则高于基准。最终效果是夏普比率比基准有所提高。这种增强并不令人惊叹，但（因此？）它似乎是合理的。值得注意的是，复杂策略的换手率要高得多。去除分子中的成本（例如换手率的 0.005 倍，如 <span class="citation">Goto and Xu (<a href="solutions-to-exercises.html#ref-goto2015improving" role="doc-biblioref">2015</a>)</span>，这是一个保守的数字）只会轻微降低基于ML策略的夏普比率的优势。</p>
+<p>最后，绘制相应的投资组合价值总是很诱人，我们在图 <a href="backtest.html#fig:backtest6">12.3</a> 中显示了两个相关图表。</p>
+<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span> <span class="co"># Date management</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/cowplot/">cowplot</a></span><span class="op">)</span>   <span class="co"># Plot grid management</span>
+<span class="va">g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>date <span class="op">=</span> <span class="va">t_oos</span>,  
+      benchmark <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumprod</a></span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">portf_returns</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>,
+      ml_based <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumprod</a></span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="va">portf_returns</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">strat</span>, value <span class="op">=</span> <span class="va">value</span>, <span class="op">-</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">strat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_grey</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">g2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">)</span>,  
+             benchmark <span class="op">=</span> <span class="va">portf_returns</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>,
+             ml_based <span class="op">=</span> <span class="va">portf_returns</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">strat</span>, value <span class="op">=</span> <span class="va">value</span>, <span class="op">-</span><span class="va">year</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">year</span>, <span class="va">strat</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg_return <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">avg_return</span>, fill <span class="op">=</span> <span class="va">strat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"dodge"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_grey</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:backtest6" style="display:block;"></span>
+<img alt="投资组合表现的图形表示。" src="ML_factor_files/figure-html/backtest6-1.png" width="672"/><p class="caption">图 12.3：投资组合绩效的图形表示。</p>
+</div>
+<p></p>
+<p>在 12 年的回测中，高级策略有 10 年的表现优于基准。在四年的总损失中，有两年（2015 年和 2018 年）的伤害较小。这是一个令人满意的改进，因为 EW 基准很难被击败！</p>
+</div>
+<div class="section level2" id="second-example-backtest-overfitting" number="12.7">
+<h2><span class="header-section-number">12.7</span> 第二个例子：回测过度拟合<a aria-label="锚" class="anchor" href="#second-example-backtest-overfitting"><i class="fas fa-link"></i></a></h2>
+<p>为了结束本章，我们量化 <a href="backtest.html#backov">12.4.2</a> 节的概念。首先，我们构建一个函数，能够为可以批量评估的简单策略生成绩效指标。这些策略是纯因子押注，取决于三个输入：所选特征（例如市值）、阈值水平（特征的分位数）和方向（分布顶部或底部的多头头寸）。</p>
+<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">strat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">feature</span>, <span class="va">thresh</span>, <span class="va">direction</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">data_tmp</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">feature</span>, <span class="va">date</span>, <span class="va">R1M_Usd</span><span class="op">)</span>       <span class="co"># Data</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_tmp</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"feature"</span>                            <span class="co"># Colname</span>
+    <span class="va">data_tmp</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>decision <span class="op">=</span> <span class="va">direction</span> <span class="op">*</span> <span class="va">feature</span> <span class="op">&gt;</span> <span class="va">direction</span> <span class="op">*</span> <span class="va">thresh</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="co"># Investment decision</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                                          <span class="co"># Date-by-date  analysis    </span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>nb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">decision</span><span class="op">)</span>,                                  <span class="co"># Nb assets in portfolio</span>
+               w <span class="op">=</span> <span class="va">decision</span> <span class="op">/</span> <span class="va">nb</span>,                                   <span class="co"># Weights of assets</span>
+               return <span class="op">=</span> <span class="va">w</span> <span class="op">*</span> <span class="va">R1M_Usd</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                            <span class="co"># Asset contribution</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>p_return <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">return</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                       <span class="co"># Portfolio return</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>avg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">p_return</span><span class="op">)</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">p_return</span><span class="op">)</span>, SR <span class="op">=</span> <span class="va">avg</span><span class="op">/</span><span class="va">sd</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="co"># Perf. metrics</span>
+        <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>然后，我们用三元组参数测试该函数。我们选择市净率（Pb）。仓位为正，阈值为 0.3，这意味着该策略买入 Pb 值高于分布 0.3 分位数的股票。</p>
+<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">strat</span><span class="op">(</span><span class="va">data_ml</span>, <span class="st">"Pb"</span>, <span class="fl">0.3</span>, <span class="fl">1</span><span class="op">)</span>   <span class="co"># Large cap</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 3
+##      avg     sd    SR
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.0102 0.0496 0.207</code></pre>
+<p></p>
+<p>输出保留三个对计算统计数据 <a href="backtest.html#eq:tSR">(12.5)</a> 有用的量。我们现在必须为许多策略生成这些指标。我们首先创建参数网格。</p>
+<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">feature</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Div_Yld"</span>, <span class="st">"Ebit_Bv"</span>, <span class="st">"Mkt_Cap_6M_Usd"</span>, <span class="st">"Mom_11M_Usd"</span>, <span class="st">"Pb"</span>, <span class="st">"Vol1Y_Usd"</span><span class="op">)</span>  
+<span class="va">thresh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">0.8</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>                                <span class="co"># Threshold values values</span>
+<span class="va">direction</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="op">-</span><span class="fl">1</span><span class="op">)</span>                                            <span class="co"># Decision direction</span>
+<span class="va">pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span><span class="va">feature</span>, <span class="va">thresh</span>, <span class="va">direction</span><span class="op">)</span>                 <span class="co"># The grid</span>
+<span class="va">feature</span> <span class="op">&lt;-</span> <span class="va">pars</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="op">)</span>                          <span class="co"># re-features</span>
+<span class="va">thresh</span> <span class="op">&lt;-</span> <span class="va">pars</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>                                              <span class="co"># re-thresholds</span>
+<span class="va">direction</span> <span class="op">&lt;-</span> <span class="va">pars</span><span class="op">[</span>,<span class="fl">3</span><span class="op">]</span>                                           <span class="co"># re-directions</span></code></pre></div>
+<p></p>
+<p>这总共有 84 个策略。我们可以继续看看他们的表现如何。我们在下面的图 <a href="backtest.html#fig:backov3">12.4</a> 中绘制了相应的夏普比率。上图显示了投资于特征分布底部的策略，而下图则涉及在这些分布的较低部分做多的投资组合。</p>
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">grd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">pmap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">feature</span>, <span class="va">thresh</span>, <span class="va">direction</span><span class="op">)</span>,      <span class="co"># Parameters for the grid search</span>
+            <span class="va">strat</span>,                                 <span class="co"># Function on which to apply the grid search</span>
+            data <span class="op">=</span> <span class="va">data_ml</span>                         <span class="co"># Data source/input</span>
+<span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
+    <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<span class="va">grd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">feature</span>, <span class="va">thresh</span>, <span class="va">direction</span>, <span class="va">grd</span><span class="op">)</span>              <span class="co"># Gather &amp; reformat results </span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">grd</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"SR"</span><span class="op">)</span>                     <span class="co"># Change colnames</span>
+<span class="va">grd</span> <span class="op">&lt;-</span> <span class="va">grd</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">direction</span><span class="op">)</span>, <span class="va">as.factor</span><span class="op">)</span>            <span class="co"># Change type: factor (for plot)</span>
+<span class="va">grd</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">thresh</span>, y <span class="op">=</span> <span class="va">SR</span>, color <span class="op">=</span> <span class="va">feature</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>      <span class="co"># Plot!</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">direction</span><span class="op">~</span><span class="va">.</span><span class="op">)</span> </code></pre></div>
+<div class="figure" style="text-align: center">
+<span id="fig:backov3" style="display:block;"></span>
+<img alt="所有回测策略的夏普比率。" src="ML_factor_files/figure-html/backov3-1.png" width="750"/><p class="caption">图 12.4：所有回测策略的夏普比率。</p>
+</div>
+<p></p>
+<p>最后一步是计算统计量 <a href="backtest.html#eq:tSR">(12.5)</a>。我们在这里对其进行编码：</p>
+<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">DSR</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">SR</span>, <span class="va">Tt</span>, <span class="va">M</span>, <span class="va">g3</span>, <span class="va">g4</span>, <span class="va">SR_m</span>, <span class="va">SR_v</span><span class="op">)</span><span class="op">{</span> <span class="co"># First, we build the function</span>
+    <span class="va">gamma</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Special.html">digamma</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>                        <span class="co"># Euler-Mascheroni constant</span>
+    <span class="va">SR_star</span> <span class="op">&lt;-</span> <span class="va">SR_m</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">SR_v</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">gamma</span><span class="op">)</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="va">M</span><span class="op">)</span> <span class="op">+</span> <span class="va">gamma</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">qnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fl">1</span><span class="op">/</span><span class="va">M</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># SR*</span>
+    <span class="va">num</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">SR</span><span class="op">-</span><span class="va">SR_star</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">Tt</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>            <span class="co"># Numerator</span>
+    <span class="va">den</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">g3</span><span class="op">*</span><span class="va">SR</span> <span class="op">+</span> <span class="op">(</span><span class="va">g4</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="fl">4</span><span class="op">*</span><span class="va">SR</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>      <span class="co"># Denominator</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">num</span><span class="op">/</span><span class="va">den</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p></p>
+<p>剩下要做的就是评估函数的参数。 “最佳”策略是图 <a href="backtest.html#fig:backov3">12.4</a> 左上角的策略，它基于市值。</p>
+<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">pars</span><span class="op">)</span>             <span class="co"># Number of strategies we tested</span>
+<span class="va">SR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">grd</span><span class="op">$</span><span class="va">SR</span><span class="op">)</span>           <span class="co"># The SR we want to test</span>
+<span class="va">SR_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">grd</span><span class="op">$</span><span class="va">SR</span><span class="op">)</span>        <span class="co"># Average SR across all strategies</span>
+<span class="va">SR_v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">grd</span><span class="op">$</span><span class="va">SR</span><span class="op">)</span>         <span class="co"># Std dev of SR</span>
+<span class="co"># Below, we compute the returns of the strategy by recycling the code of the strat() function</span>
+<span class="va">data_tmp</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">data_ml</span>, <span class="st">"Mkt_Cap_6M_Usd"</span>, <span class="va">date</span>, <span class="va">R1M_Usd</span><span class="op">)</span> <span class="co"># feature = Mkt_Cap  </span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">data_tmp</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"feature"</span>
+<span class="va">returns_DSR</span> <span class="op">&lt;-</span>  <span class="va">data_tmp</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>decision <span class="op">=</span> <span class="va">feature</span> <span class="op">&lt;</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="co"># Investment decision: 0.2 is the best threshold</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                   <span class="co"># Date-by-date computations</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>nb <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">decision</span><span class="op">)</span>,           <span class="co"># Nb assets in portfolio</span>
+               w <span class="op">=</span> <span class="va">decision</span> <span class="op">/</span> <span class="va">nb</span>,            <span class="co"># Portfolio weights</span>
+               return <span class="op">=</span> <span class="va">w</span> <span class="op">*</span> <span class="va">R1M_Usd</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>     <span class="co"># Asset contribution to return</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>p_return <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">return</span><span class="op">)</span><span class="op">)</span>    <span class="co"># Portfolio return</span>
+<span class="va">g3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/e1071/man/skewness.html">skewness</a></span><span class="op">(</span><span class="va">returns_DSR</span><span class="op">$</span><span class="va">p_return</span><span class="op">)</span>         <span class="co"># Function from the e1071 package</span>
+<span class="va">g4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/e1071/man/kurtosis.html">kurtosis</a></span><span class="op">(</span><span class="va">returns_DSR</span><span class="op">$</span><span class="va">p_return</span><span class="op">)</span> <span class="op">+</span> <span class="fl">3</span>     <span class="co"># Function from the e1071 package</span>
+<span class="va">Tt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">returns_DSR</span><span class="op">)</span>                      <span class="co"># Number of dates</span>
+<span class="fu">DSR</span><span class="op">(</span><span class="va">SR</span>, <span class="va">Tt</span>, <span class="va">M</span>, <span class="va">g3</span>, <span class="va">g4</span>, <span class="va">SR_m</span>, <span class="va">SR_v</span><span class="op">)</span>           <span class="co"># The sought value!</span></code></pre></div>
+<pre><code>## [1] 0.6676416</code></pre>
+<p></p>
+<p>值 0.6676416 不够高（未达到 90% 或 95% 阈值），无法使该策略明显优于该批次测试中考虑的其他策略。</p>
+</div>
+<div class="section level2" id="coding-exercises-5" number="12.8">
+<h2><span class="header-section-number">12.8</span> 编码练习<a aria-label="锚" class="anchor" href="#coding-exercises-5"><i class="fas fa-link"></i></a></h2>
+<ol style="list-style-type: decimal">
+<li>仅使用 tidyverse 函数对 EW 投资组合的收益率进行编码（无循环）.<br/></li>
+<li>对公式 <a href="backtest.html#eq:coqw">(12.3)</a>.<br/> 中定义的高级加权函数进行编码</li>
+<li>小回测一下，检查其对参数的敏感度。<br/></li>
+<li>使用函数式编程包 <em>purrr</em>，避免回测中出现循环。</li>
+</ol>
+</div>
+</div>
+<div class="chapter-nav">
+<div class="prev"><a href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></div>
+<div class="next"><a href="interp.html"><span class="header-section-number">13</span> 可解释性</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+<nav aria-label="本页" data-toggle="toc" id="toc"><h2>本页</h2>
+<ul class="nav navbar-nav">
+<li><a class="nav-link" href="#backtest"><span class="header-section-number">12</span> 投资组合回测</a></li>
+<li><a class="nav-link" href="#protocol"><span class="header-section-number">12.1</span> 设定流程</a></li>
+<li><a class="nav-link" href="#turning-signals-into-portfolio-weights"><span class="header-section-number">12.2</span> 将信号转化为投资组合权重</a></li>
+<li>
+<a class="nav-link" href="#perfmet"><span class="header-section-number">12.3</span> 绩效指标</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#discussion-1"><span class="header-section-number">12.3.1</span> 讨论</a></li>
+<li><a class="nav-link" href="#pure-performance-and-risk-indicators"><span class="header-section-number">12.3.2</span> 纯绩效和风险指标</a></li>
+<li><a class="nav-link" href="#factor-based-evaluation"><span class="header-section-number">12.3.3</span> 基于因素的评估</a></li>
+<li><a class="nav-link" href="#risk-adjusted-measures"><span class="header-section-number">12.3.4</span> 风险调整指标</a></li>
+<li><a class="nav-link" href="#transaction-costs-and-turnover"><span class="header-section-number">12.3.5</span> 交易成本和换手率</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#common-errors-and-issues"><span class="header-section-number">12.4</span> 常见错误和问题</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#forward-looking-data"><span class="header-section-number">12.4.1</span> 前瞻性数据</a></li>
+<li><a class="nav-link" href="#backov"><span class="header-section-number">12.4.2</span> 回测过度拟合</a></li>
+<li><a class="nav-link" href="#simple-safeguards"><span class="header-section-number">12.4.3</span> 简单的保障措施</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#implication-of-non-stationarity-forecasting-is-hard"><span class="header-section-number">12.5</span> 非平稳性的含义：预测很难</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#general-comments"><span class="header-section-number">12.5.1</span> 一般评论</a></li>
+<li><a class="nav-link" href="#the-no-free-lunch-theorem"><span class="header-section-number">12.5.2</span> 没有免费的午餐定理</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#first-example-a-complete-backtest"><span class="header-section-number">12.6</span> 第一个示例：完整的回测</a></li>
+<li><a class="nav-link" href="#second-example-backtest-overfitting"><span class="header-section-number">12.7</span> 第二个示例：回测过度拟合</a></li>
+<li><a class="nav-link" href="#coding-exercises-5"><span class="header-section-number">12.8</span> 编码练习</a></li>
+</ul>
+<div class="book-extra">
+<ul class="list-unstyled">
+</ul>
+</div>
+</nav>
+</div>
+</div>
+</div> .容器 
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<div class="col-12 col-md-6 mt-3">
+<p>“<strong>Machine Learning for Factor Investing</strong>”由 Guillaume Coqueret 和 Tony Guida 编写。它最后建成于 2022 年 10 月 18 日。</p>
+</div>
+<div class="col-12 col-md-6 mt-3">
+<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+</div>
+</div></div>
+</footer> 动态加载 mathjax 以与独立的 <script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script> 兼容</body>
+</html>
