@@ -81,7 +81,7 @@ max-width: 60rem;
 <h3><span class="header-section-number">14.1.1</span> 格兰杰因果性<a aria-label="锚" class="anchor" href="#granger"><i class="fas fa-link"></i></a></h3>
 <p><span class="citation">Granger (<a href="solutions-to-exercises.html#ref-granger1969investigating" role="doc-biblioref">1969</a>)</span> 首先提出的最著名的工具可能是最简单的。为简单起见，我们仅考虑两个平稳过程：<span class="math inline">\(X_t\)</span> 和 <span class="math inline">\(Y_t\)</span>。因果性的严格定义如下。 <span class="math inline">\(X\)</span> 可以说是导致 <span class="math inline">\(Y\)</span>，只要对于某个整数 <span class="math inline">\(k\)</span>，
 <span class="math display">\[(Y_{t+1},\dots,Y_{t+k})|(\mathcal{F}_{Y,t}\cup \mathcal{F}_{X,t}) \quad  \overset{d}{\neq} \quad (Y_{t+1},\dots,Y_{t+k})|\mathcal{F}_{Y,t},\]</span>
-也就是说，当以两个过程的知识为条件的 <span class="math inline">\(Y_t\)</span> 未来值的分布与仅以过滤 <span class="math inline">\(\mathcal{F}_{Y,t}\)</span> 知识为基础的分布不同时。因此 <span class="math inline">\(X\)</span> 确实对 <span class="math inline">\(Y\)</span> 有影响，因为它的轨迹改变了 <span class="math inline">\(Y\)</span> 的轨迹。</p>
+也就是说，当以两个过程的知识为条件的 <span class="math inline">\(Y_t\)</span> 未来值的分布与仅以滤过 <span class="math inline">\(\mathcal{F}_{Y,t}\)</span> 的知识为基础的分布不同时。因此 <span class="math inline">\(X\)</span> 确实对 <span class="math inline">\(Y\)</span> 有影响，因为它的轨迹改变了 <span class="math inline">\(Y\)</span> 的轨迹。</p>
 <p>现在，这个公式太模糊，无法用数值来处理，因此我们通过线性公式来简化设置。我们保留与 <span class="citation">Granger (<a href="solutions-to-exercises.html#ref-granger1969investigating" role="doc-biblioref">1969</a>)</span> 原始论文第 5 节相同的符号。该测试由两个回归组成：
 <span class="math display">\[\begin{align*}
 X_t&amp;=\sum_{j=1}^ma_jX_{t-j}+\sum_{j=1}^mb_jY_{t-j} + \epsilon_t \\
