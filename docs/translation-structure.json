@@ -1,0 +1,247 @@
+{
+  "index.html": {
+    "math": 4,
+    "code": 4,
+    "images": 1,
+    "links": 131,
+    "blocks": 152
+  },
+  "preface.html": {
+    "math": 4,
+    "code": 4,
+    "images": 0,
+    "links": 67,
+    "blocks": 148
+  },
+  "notdata.html": {
+    "math": 86,
+    "code": 18,
+    "images": 2,
+    "links": 71,
+    "blocks": 40
+  },
+  "intro.html": {
+    "math": 15,
+    "code": 0,
+    "images": 1,
+    "links": 25,
+    "blocks": 28
+  },
+  "factor.html": {
+    "math": 123,
+    "code": 20,
+    "images": 4,
+    "links": 561,
+    "blocks": 407
+  },
+  "Data.html": {
+    "math": 97,
+    "code": 18,
+    "images": 7,
+    "links": 206,
+    "blocks": 307
+  },
+  "lasso.html": {
+    "math": 133,
+    "code": 26,
+    "images": 3,
+    "links": 165,
+    "blocks": 79
+  },
+  "trees.html": {
+    "math": 147,
+    "code": 68,
+    "images": 6,
+    "links": 200,
+    "blocks": 203
+  },
+  "NN.html": {
+    "math": 236,
+    "code": 56,
+    "images": 16,
+    "links": 359,
+    "blocks": 265
+  },
+  "svm.html": {
+    "math": 35,
+    "code": 12,
+    "images": 4,
+    "links": 34,
+    "blocks": 37
+  },
+  "bayes.html": {
+    "math": 216,
+    "code": 20,
+    "images": 4,
+    "links": 122,
+    "blocks": 112
+  },
+  "valtune.html": {
+    "math": 119,
+    "code": 50,
+    "images": 10,
+    "links": 141,
+    "blocks": 155
+  },
+  "ensemble.html": {
+    "math": 52,
+    "code": 72,
+    "images": 3,
+    "links": 206,
+    "blocks": 88
+  },
+  "backtest.html": {
+    "math": 158,
+    "code": 38,
+    "images": 4,
+    "links": 304,
+    "blocks": 148
+  },
+  "interp.html": {
+    "math": 114,
+    "code": 24,
+    "images": 8,
+    "links": 166,
+    "blocks": 116
+  },
+  "causality.html": {
+    "math": 212,
+    "code": 24,
+    "images": 5,
+    "links": 173,
+    "blocks": 97
+  },
+  "unsup.html": {
+    "math": 161,
+    "code": 38,
+    "images": 3,
+    "links": 148,
+    "blocks": 186
+  },
+  "RL.html": {
+    "math": 218,
+    "code": 16,
+    "images": 1,
+    "links": 134,
+    "blocks": 102
+  },
+  "data-description.html": {
+    "math": 0,
+    "code": 0,
+    "images": 0,
+    "links": 3,
+    "blocks": 201
+  },
+  "python.html": {
+    "math": 0,
+    "code": 0,
+    "images": 0,
+    "links": 18,
+    "blocks": 17
+  },
+  "solutions-to-exercises.html": {
+    "math": 15,
+    "code": 140,
+    "images": 15,
+    "links": 653,
+    "blocks": 194
+  },
+  "python-notebooks.html": {
+    "math": 0,
+    "code": 1,
+    "images": 0,
+    "links": 14,
+    "blocks": 17
+  },
+  "chap_3.html": {
+    "math": 0,
+    "code": 13,
+    "images": 4,
+    "links": 22,
+    "blocks": 706
+  },
+  "chap_4.html": {
+    "math": 0,
+    "code": 11,
+    "images": 7,
+    "links": 26,
+    "blocks": 336
+  },
+  "chap_5.html": {
+    "math": 0,
+    "code": 12,
+    "images": 3,
+    "links": 13,
+    "blocks": 135
+  },
+  "chap_6.html": {
+    "math": 0,
+    "code": 36,
+    "images": 6,
+    "links": 25,
+    "blocks": 245
+  },
+  "chap_7.html": {
+    "math": 0,
+    "code": 29,
+    "images": 15,
+    "links": 33,
+    "blocks": 292
+  },
+  "chap_8.html": {
+    "math": 0,
+    "code": 6,
+    "images": 4,
+    "links": 7,
+    "blocks": 42
+  },
+  "chap_10.html": {
+    "math": 0,
+    "code": 24,
+    "images": 10,
+    "links": 15,
+    "blocks": 158
+  },
+  "chap_11.html": {
+    "math": 0,
+    "code": 32,
+    "images": 3,
+    "links": 12,
+    "blocks": 249
+  },
+  "chap_12.html": {
+    "math": 0,
+    "code": 19,
+    "images": 6,
+    "links": 21,
+    "blocks": 229
+  },
+  "chap_13.html": {
+    "math": 0,
+    "code": 23,
+    "images": 6,
+    "links": 12,
+    "blocks": 115
+  },
+  "chap_14.html": {
+    "math": 0,
+    "code": 11,
+    "images": 5,
+    "links": 10,
+    "blocks": 149
+  },
+  "chap_15.html": {
+    "math": 0,
+    "code": 25,
+    "images": 3,
+    "links": 11,
+    "blocks": 230
+  },
+  "chap_16.html": {
+    "math": 0,
+    "code": 6,
+    "images": 1,
+    "links": 15,
+    "blocks": 200
+  }
+}

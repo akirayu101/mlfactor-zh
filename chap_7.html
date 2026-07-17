@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>第7章</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script><script>
+<title>第 7 章 神经网络</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script><script>
 (function() {
   function addWidgetsRenderer() {
     var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
@@ -14274,41 +14274,41 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>神经网络（NN）是一个极其丰富和复杂的话题。在本章中，我们介绍最简单的神经网络架构背后的简单思想和概念。对于 NN 特性的更详尽的处理，我们参考 Haykin (2009)、Du 和 Swamy (2013) 以及 Goodfellow 等人的专着。 （2016）。后者可在线免费获取：www.deeplearningbook.org. 对于实用的介绍，我们推荐 Chollet (2017) 的伟大著作。</p>
+<p>神经网络（NN）是一个内容极为丰富且复杂的主题。本章介绍最基本神经网络架构背后的核心思想与概念。若要深入了解神经网络的各种特性，可参阅 Haykin（2009）、Du 和 Swamy（2013）以及 Goodfellow 等人（2016）的专著；最后一本可在 www.deeplearningbook.org 免费在线阅读。若希望从实践入门，推荐 Chollet（2017）。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>首先，我们简要评论一下“神经网络”这个资格。大多数专家都认为这个术语的选择不太好，因为神经网络与人脑的工作方式关系不大（我们对此知之甚少）。这解释了为什么它们经常被称为“人工神经网络”——为了符号简单起见，我们不使用该形容词。因为我们认为它更合适，我们回顾一下 François Chollet 给出的神经网络的定义： <em>“可微的、参数化的几何函数链，通过梯度下降进行训练（通过链式法则获得梯度）”。</em></p>
+<p>首先简要谈谈“神经网络”这一称谓。多数专家都认为这个名称并不十分恰当，因为神经网络与人脑的实际工作方式关系不大，而我们对后者本身也所知有限。这也解释了为什么它们常被称为“人工神经网络”；为简化记号，本文省略“人工”二字。François Chollet 给出的定义或许更为贴切：<em>“由可微、参数化的几何函数串联而成，并通过梯度下降训练，其中梯度由链式法则求得。”</em></p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>神经网络在金融领域的早期参考文献是 Bansal 和 Viswanathan (1993) 以及 Eakins、Stansell 和 Buck (1998)。两者都有非常不同的目标。在第一个中，作者的目的是估计 <strong>非线性形式</strong> 为定价内核。第二个目标是确定和量化股票的机构投资与公司属性之间的关系（对因子投资的早期贡献）。早期的评论（Burrell 和 Folarin (1997)）列出了 20 世纪 90 年代神经网络的金融应用。最近，Sezer、Gudelek 和 Ozbayoglu（2019）、Jiang（2020）以及 Lim 和 Zohren（2020）调查了主要由计算机科学学者使用深度学习模型预测金融时间序列的尝试。</p>
+<p>金融领域较早使用神经网络的研究包括 Bansal 和 Viswanathan（1993），以及 Eakins、Stansell 和 Buck（1998），但两者目标截然不同。前者试图估计定价核的<strong>非线性形式</strong>；后者则识别并量化机构持股与公司属性之间的关系，可视为因子投资的早期贡献。Burrell 和 Folarin（1997）的早期综述列举了 20 世纪 90 年代神经网络在金融中的应用。较近的 Sezer、Gudelek 和 Ozbayoglu（2019）、Jiang（2020）以及 Lim 和 Zohren（2020），则回顾了以计算机科学研究者为主、使用深度学习模型预测金融时间序列的工作。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>金融市场中神经网络的纯粹预测能力是一个热门话题，我们进一步引用 Kimoto 等人的例子。 (1990)、Enke 和 Thawornwong (2005)、Zhang 和 Wu (2009)、Guresen、Kayakutlu 和 Daim (2011)、Krauss、Do 和 Huck (2017)、Fischer 和 Krauss (2018)、Aldridge 和 Avellaneda (2019)、Babiak 和 Barunik (2020)、Y. Ma， Han 和 Wang (2020)，以及 Soleymani 和 Paquet (2020)。17 最后一个参考文献甚至结合了嵌入总体强化学习结构中的几种类型的神经网络。这个列表远非详尽无遗。在金融经济学领域，神经网络的最新研究包括：</p>
+<p>神经网络在金融市场中的预测能力一直是热门主题。相关研究还包括 Kimoto 等人（1990）、Enke 和 Thawornwong（2005）、Zhang 和 Wu（2009）、Guresen、Kayakutlu 和 Daim（2011）、Krauss、Do 和 Huck（2017）、Fischer 和 Krauss（2018）、Aldridge 和 Avellaneda（2019）、Babiak 和 Barunik（2020）、Y. Ma、Han 和 Wang（2020），以及 Soleymani 和 Paquet（2020）。17 最后一项研究甚至把多种神经网络嵌入一个整体强化学习框架。这份列表远未穷尽。金融经济学中较新的神经网络研究还包括：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>Feng、Polson 和 Xu（2019）使用神经网络来寻找最能解释股票横截面收益率的因子。</li>
-<li>Gu、Kelly 和 Xiu（2020b）将公司属性和宏观经济变量映射到未来收益率。这创建了一个强大的预测工具，能够非常准确地预测未来收益率。</li>
-<li>Luyang Chen、Pelger 和 Zhu (2020) 使用包括生成对抗网络的复杂神经网络结构来估计定价内核。这再次提供了有关预期股票收益率结构的重要信息，并可用于投资组合构建（通过建立准确的最大夏普比率策略）。</li>
+<li>Feng、Polson 和 Xu（2019）使用神经网络寻找最能解释股票横截面收益率的因子。</li>
+<li>Gu、Kelly 和 Xiu（2020b）把公司属性和宏观经济变量映射到未来收益率，从而构建出预测能力很强的模型。</li>
+<li>Luyang Chen、Pelger 和 Zhu（2020）使用包含生成对抗网络的复杂架构估计定价核，由此揭示预期股票收益率的结构，并通过构造最大夏普比率策略将其用于投资组合构建。</li>
 </ul>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="7.1-The-original-perceptron">7.1 最初的感知机<a class="anchor-link" href="#7.1-The-original-perceptron">¶</a></h2>
+<h2 id="7.1-The-original-perceptron">7.1 原始感知机<a class="anchor-link" href="#7.1-The-original-perceptron">¶</a></h2>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>神经网络的起源至少可以追溯到 Rosenblatt (1958)。其目标是二元分类。为简单起见，我们假设输出为 $\{0$ = 不投资 $\}$ 与 $\{1$= 投资 $\}$（例如，由收益率为负或为正得出）。按现在的术语，感知机可以定义为经过激活的线性映射。模型如下：</p>
+<p>神经网络的起源至少可以追溯到 Rosenblatt（1958），当时的目标是二元分类。为简单起见，假设输出为 $\{0$ = 不投资 $\}$ 或 $\{1$= 投资 $\}$，例如分别对应负收益率和正收益率。用今天的术语说，感知机就是在线性映射之后应用激活函数。模型如下：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14323,21 +14323,21 @@ f(\mathbf{x})=\left\{ \begin{array}{lll}
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>权重向量 $\mathbf{w}$ 缩放变量，偏置 $b$ 会移动决策边界。给定 $b$ 和 $w_i$ 的取值，误差为 $\epsilon_i=y_i-1_{\left\{\sum_{j=1}^Jx_{i,j}w_j+w_0&gt;0\right\}}$。按照惯例，我们设 $b=w_0$，并向 $x$ 添加初始常数列：$x_{i,0}=1$，从而 $\epsilon_i=y_i-1_{\left\{\sum_{j=0}^Jx_{i,j}w_j&gt;0\right\}}$。与回归不同，感知机没有闭式解。最优权重只能通过近似获得。与回归类似，得到较好权重的一种方法是最小化误差平方和。为此，最简单的做法是</p>
+<p>权重向量 $\mathbf{w}$ 对各变量进行缩放，偏置 $b$ 则平移决策边界。给定 $b$ 和 $w_i$，误差为 $\epsilon_i=y_i-1_{\left\{\sum_{j=1}^Jx_{i,j}w_j+w_0&gt;0\right\}}$。通常令 $b=w_0$，并在 $x$ 中加入常数列 $x_{i,0}=1$，于是 $\epsilon_i=y_i-1_{\left\{\sum_{j=0}^Jx_{i,j}w_j&gt;0\right\}}$。与线性回归不同，感知机没有闭式解，只能近似求得最优权重。与回归类似，一种求取合适权重的方法是最小化误差平方和。最简单的更新过程是：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ol>
-<li>计算点 $\textbf{x}_i$ 处的当前模型值：$\tilde{y}_i=1_{\left\{\sum_{j=0}^Jw_jx_{i,j}&gt;0\right\}}$'</li>
-<li>调整权重向量：$w_j \leftarrow w_j + \eta (y_i-\tilde{y}_i)x_{i,j}$</li>
+<li>计算样本 $\textbf{x}_i$ 当前的模型输出：$\tilde{y}_i=1_{\left\{\sum_{j=0}^Jw_jx_{i,j}&gt;0\right\}}$；</li>
+<li>更新权重向量：$w_j \leftarrow w_j + \eta (y_i-\tilde{y}_i)x_{i,j}$。</li>
 </ol>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这相当于将权重朝这个方向移动。就像树模型一样，缩放因子 $\eta$ 是学习率。较大的 $\eta$ 意味着更大的更新步长：学习会很快，但收敛可能很慢，甚至可能不会发生。较小的 $\eta$ 通常更可取，因为它有助于降低过拟合风险。</p>
-<p>在图 7.1 中，我们说明了这种机制。初始模型（灰色虚线）在 7 个点（3 个红色和 4 个蓝色）上进行训练。一个新的黑点出现了。</p>
+<p>这相当于沿相应方向移动权重。与树模型一样，缩放因子 $\eta$ 是学习率。较大的 $\eta$ 会带来更大的更新步长：模型学习得快，但可能收敛缓慢，甚至无法收敛。通常更倾向于较小的 $\eta$，因为它有助于降低过拟合风险。</p>
+<p>图 7.1 展示了这一机制。初始模型用 7 个点训练，其中 3 个红点、4 个蓝点；随后出现一个新的黑点。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14349,14 +14349,14 @@ f(\mathbf{x})=\left\{ \begin{array}{lll}
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>如果该点为红色，则无需调整：它被正确标记，因为它位于边框的右侧。</li>
-<li>如果该点是蓝色的，则需要适当更新模型。根据上述规则，这意味着向下调整线的斜率。根据 $\eta$，偏移是否足以更改新点的分类。</li>
+<li>如果该点实际为红色，就无需调整，因为它位于决策边界右侧，已被正确分类。</li>
+<li>如果该点实际为蓝色，就需要更新模型。按照上述规则，应向下调整直线斜率；调整幅度取决于 $\eta$，因此未必足以改变新点的分类结果。</li>
 </ul>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在其诞生之初，感知机是一项巨大的突破，受到了媒体的广泛报道（参见 Olazaran (1996) 以及 Anderson 和 Rosenfeld (2000)）。其相当简单的结构逐渐推广到感知机网络（组合）。其中每一个都是一个简单单元，单元又被聚集成层。下一节描述简单多层感知机 (MLP) 的组织方式。</p>
+<p>感知机问世时被视为重大突破，也获得了媒体广泛报道，参见 Olazaran（1996）以及 Anderson 和 Rosenfeld（2000）。此后，这一简单结构逐步扩展为多个感知机组成的网络：每个感知机是一个基本单元，多个单元再组织成层。下一节介绍简单多层感知机 (MLP) 的结构。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14366,13 +14366,13 @@ f(\mathbf{x})=\left\{ \begin{array}{lll}
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="7.2.1-Introduction-and-notations">7.2.1 介绍与记号<a class="anchor-link" href="#7.2.1-Introduction-and-notations">¶</a></h3>
+<h3 id="7.2.1-Introduction-and-notations">7.2.1 简介与记号<a class="anchor-link" href="#7.2.1-Introduction-and-notations">¶</a></h3>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>感知机可以被视为应用了特定函数的线性模型：Heaviside（阶跃）函数。当然，也可以选择其他函数。在神经网络术语中，它们被称为激活函数。它们的目的是在原本高度线性的模型中引入非线性。</p>
-<p>就像随机森林组合多棵树一样，神经网络背后的想法是将类似感知机的构建块组合起来。神经网络的一种流行表示如图 7.2 所示。这个示意图过于简化。它隐藏了真正发生的事情：每个绿色圆圈中都有一个感知机，每个输出在发送到最终输出聚合之前都会由某个函数激活。这就是为什么这样的模型被称为多层感知机（MLP）。</p>
+<p>感知机可以看作一个线性模型，再对其输出应用特定函数，即 Heaviside 阶跃函数。当然也可以选择其他函数；在神经网络术语中，这些函数称为激活函数，用于给原本线性的模型引入非线性。</p>
+<p>正如随机森林组合多棵树一样，神经网络把许多类似感知机的基本模块组合起来。图 7.2 是神经网络的常见示意图，但它有所简化：每个绿色圆圈实际上都包含一个感知机，其输出先经过激活函数，再传给最终输出端进行聚合。这类模型因此称为多层感知机（MLP）。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14383,13 +14383,13 @@ f(\mathbf{x})=\left\{ \begin{array}{lll}
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>图 7.3 更准确地描述了正在发生的事情。</p>
+<p>图 7.3 更准确地展示了网络内部的计算过程。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/NN_scheme.png" width="800"/>
-图 7.3：具有 2 个中间层的感知机详细示意图。</p>
+图 7.3：包含 2 个隐藏层的多层感知机详细示意图。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14398,18 +14398,18 @@ f(\mathbf{x})=\left\{ \begin{array}{lll}
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在继续进行评论之前，我们先介绍一些将在本章中使用的符号。</p>
+<p>继续之前，先介绍本章使用的记号。</p>
 <ul>
-<li>数据被分成特征矩阵 $\textbf{X}=x_{i,j}$ 和输出值向量 $\textbf{y}=y_i$ $\textbf{x}$ 或 $\textbf{x}_i$ 表示一行 $\textbf{X}$。 </li>
-<li>神经网络将具有 $L\ge1$ 层，每层 $l$ 的单元数量为 $U_l\ge1$</li>
-<li>位于 $l$ 层中的单元 $k$ 的权重用 $\textbf{w}_{k}^{(l)}=w_{k,j}^{(l)}$ 和相应的偏差 $b_{k}^{(l)}$ 表示。 $\textbf{w}_{k}^{(l)}$ 的长度等于 $U_{l-1}$。 $k$ 指的是层 $l$ 中的单元的位置，而 $j$ 指的是层 $l-1$ 中的单元的位置。</li>
-<li>输出（激活后）表示为 $o_{i,k}^{(l)}$，例如 $i$、层 $l$ 和单元 $k$。 </li>
+<li>数据分为特征矩阵 $\textbf{X}=x_{i,j}$ 和输出值向量 $\textbf{y}=y_i$；$\textbf{x}$ 或 $\textbf{x}_i$ 表示 $\textbf{X}$ 的一行。</li>
+<li>神经网络共有 $L\ge1$ 层，第 $l$ 层的单元数为 $U_l\ge1$。</li>
+<li>第 $l$ 层第 $k$ 个单元的权重记为 $\textbf{w}_{k}^{(l)}=w_{k,j}^{(l)}$，相应偏置记为 $b_{k}^{(l)}$。$\textbf{w}_{k}^{(l)}$ 的长度等于 $U_{l-1}$。其中，$k$ 表示该单元在第 $l$ 层的位置，$j$ 表示与之相连的单元在第 $l-1$ 层的位置。</li>
+<li>激活后的输出记为 $o_{i,k}^{(l)}$，其中 $i$ 表示样本，$l$ 表示层，$k$ 表示单元。</li>
 </ul>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>过程如下。当进入网络时，数据经过初始线性映射：</p>
+<p>计算过程如下。数据进入网络后，首先经过线性映射：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14421,7 +14421,7 @@ v_{i,k}^{(1)}=\textbf{x}_i'\textbf{w}^{(1)}_k+b_k^{(1)},  \text{for } l=1, \quad
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>然后由非线性函数 $f^{1}$ 进行转换。然后，此更改的结果将作为下一层的输入给出，依此类推。网络的每一层都会重复线性形式（具有不同的权重）：</p>
+<p>随后用非线性函数 $f^{1}$ 对结果进行变换，并把变换后的值作为下一层输入。网络各层都会以不同权重重复这一线性映射：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14433,7 +14433,7 @@ v_{i,k}^{(l)}=(\textbf{o}^{(l-1)}_i)'\textbf{w}^{(l)}_k+b_k^{(l)}, \text{for } l
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>层之间的连接就是所谓的输出，它们基本上是应用了激活函数 $f^{(l)}$ 的线性映射。层 $l$ 的输出是层 $l+1$ 的输入。</p>
+<p>层与层之间传递的是各单元的输出，也就是对线性映射应用激活函数 $f^{(l)}$ 后的结果。第 $l$ 层的输出构成第 $l+1$ 层的输入。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14445,7 +14445,7 @@ o_{i,k}^{(l)}=f^{(l)}\left(v_{i,k}^{(l)}\right).
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，终端阶段聚合最后一层的输出：</p>
+<p>最后，输出层汇总最后一个隐藏层的输出：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14457,23 +14457,23 @@ o_{i,k}^{(l)}=f^{(l)}\left(v_{i,k}^{(l)}\right).
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在输入的前向传播中，激活函数自然发挥着重要作用。在图 7.4 中，我们绘制了神经网络库最常用的激活函数。</p>
+<p>在输入数据的前向传播过程中，激活函数发挥着关键作用。图 7.4 绘出了神经网络软件包中最常用的激活函数。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/activation.png" width="800"/>
-图 7.4：最常见的激活函数图。</p>
+图 7.4：常见激活函数。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>让我们从因子投资的角度重新表述这个过程。输入 $\textbf{x}$ 是公司的特征。第一步是将它们的值乘以权重并添加偏差。这是针对第一层的所有单元执行的。输出是输入的线性组合，然后由激活函数进行转换。每个单元提供一个值，所有这些值都按照相同的过程馈送到第二层。如此迭代直至网络结束。最后一层的目的是产生与标签相对应的输出形状：如果标签是数值，则输出是单个数字，如果是分类，则通常是长度等于类别数的向量。该向量指示该值属于某一特定类别的概率。</p>
+<p>从因子投资的角度看，输入 $\textbf{x}$ 就是公司的各项特征。第一步对这些特征加权求和并加入偏置，而且第一层的每个单元都会进行这项计算。所得线性组合再经过激活函数变换。每个单元输出一个值，这些值一同传入第二层，并按相同方式逐层计算，直至网络末端。输出层需要与标签的形式匹配：若标签为数值，输出是一个数；若标签为类别，输出通常是长度等于类别数的向量，向量中的各项表示样本属于相应类别的概率。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>可以在输出后使用最终激活函数。这对结果非常重要。事实上，如果标签是收益率，那么在最后应用 sigmoid 函数将是灾难性的，因为 sigmoid 始终为正。</p>
+<p>输出层也可以使用激活函数，而它的选择会显著影响结果。例如，若标签是收益率，在最后使用 sigmoid 函数就很不合适，因为 sigmoid 的输出始终为正，无法表示负收益率。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14483,12 +14483,12 @@ o_{i,k}^{(l)}=f^{(l)}\left(v_{i,k}^{(l)}\right).
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>神经网络运行良好的原因之一是它们是通用逼近器。给定任何有界连续函数，都存在一个可以将该函数近似到任意精度的单层网络（有关早期参考文献，请参阅 Cybenko (1989)；有关更详尽的论文列表，请参阅 Du 和 Swamy (2013) 的第 4.2 节；有关更详尽的论文列表，请参阅 Goodfellow 等人 (2016) 的第 6.4.1 节；有关最新结果，请参阅 Guliyev 和 Ismailov (2018) ）。</p>
+<p>神经网络表现良好的一个原因，是它们具有通用逼近能力。对于任意有界连续函数，都存在一个单隐藏层网络，能够以任意精度逼近该函数。早期文献可参见 Cybenko（1989）；更完整的文献列表见 Du 和 Swamy（2013）第 4.2 节及 Goodfellow 等人（2016）第 6.4.1 节；较新的结果见 Guliyev 和 Ismailov（2018）。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>形式上，单层感知机定义为</p>
+<p>形式上，单层感知机可写为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14500,7 +14500,7 @@ f_n(\textbf{x})=\sum_{l=1}^nc_l\phi(\textbf{x}\textbf{w}_l+\textbf{b}_l)+c_0,
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $\phi$ 是（非常量）有界连续函数。然后，对于任何 $\epsilon&gt;0$，都可以找到一个 $n$，使得对于单位超立方体 $[0,1]^d$ 上的任何连续函数 $f$，</p>
+<p>其中 $\phi$ 是非常数的有界连续函数。对于任意 $\epsilon&gt;0$，都可以找到某个 $n$，使单位超立方体 $[0,1]^d$ 上的任意连续函数 $f$ 满足</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14512,22 +14512,22 @@ f_n(\textbf{x})=\sum_{l=1}^nc_l\phi(\textbf{x}\textbf{w}_l+\textbf{b}_l)+c_0,
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这个结果相当直观：只需向图层添加单元即可提高拟合度。该过程或多或少类似于多项式逼近，尽管根据激活函数的属性（有界性、平滑性、凸性等）会出现一些微妙之处。我们参考了 Costarelli、Spigler 和 Vinti (2016) 对此主题的调查。</p>
+<p>这一结果相当直观：只要在层中增加单元，就能提高逼近精度。它与多项式逼近颇为相似，不过具体性质还取决于激活函数是否有界、是否平滑、是否凸等。关于该主题的综述，可参见 Costarelli、Spigler 和 Vinti（2016）。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>通用逼近的原始结果意味着，只要单元数量可以任意大，任何性质良好的函数 $f$ 都可以通过简单的神经网络足够接近地逼近。不过，这些结果与学习阶段（即模型针对特定数据集进行优化时）没有直接关系。在一系列论文中（特别是 Barron (1993) 和 Barron (1994)），Barron 对神经网络可以实现的目标给出了更精确的描述。例如，Barron (1993) 证明了通用逼近的更精确版本：对于特定的神经网络（具有 sigmoid 激活），$\mathbb{E}[(f(\textbf{x})-f_n(\textbf{x}))^2]\le c_f/n$，它给出了与网络大小相关的收敛速度。在该期望中，随机项是 $x$：这对应于数据被视为来自固定分布的 i.i.d. 样本的情形（这是机器学习中最常见的假设）。</p>
+<p>最初的通用逼近结果说明，只要允许使用任意多的单元，简单神经网络就能充分逼近任何性质良好的函数 $f$。但这些结果并不直接涉及学习阶段，也就是针对特定数据集优化模型的过程。Barron 在一系列论文中，尤其是 Barron（1993、1994），更精确地刻画了神经网络的能力。例如，Barron（1993）给出了通用逼近定理的一个定量版本：对某类使用 sigmoid 激活函数的网络，有 $\mathbb{E}[(f(\textbf{x})-f_n(\textbf{x}))^2]\le c_f/n$，从而把收敛速度与网络规模联系起来。该期望中的随机变量是 $x$，对应于数据被视为从某个固定分布独立同分布抽取的样本；这是机器学习中最常见的假设。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>下面，我们陈述一个易于解释的重要结果；它取自《巴伦》（Barron，1994）。</p>
+<p>下面给出 Barron（1994）中的一个重要且易于解释的结果。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在续集中，$f_n$ 对应于一个可能受到惩罚的神经网络，只有一个带有 $n$ 单元和 sigmoid 激活函数的中间层。此外，假设预测变量和标签的支持都是有界的（这不是主要约束）。回归任务中最重要的指标是均方误差 (MSE)，主要结果是该量的界限（按数量级）。对于 $N$ 随机采样的 i.i.d.训练 $f_n$ 的点 $y_i=f(x_i)+\epsilon_i$ ，最佳可能的经验 MSE 的行为类似于</p>
+<p>下文中，$f_n$ 表示一个可能带有惩罚项的神经网络，它只有一个包含 $n$ 个单元、使用 sigmoid 激活函数的隐藏层。另假设预测变量和标签的取值范围都有界，这并不是很强的限制。回归任务最重要的指标是均方误差 (MSE)，而主要结果给出了其数量级上界。设从 $N$ 个独立同分布抽取的样本点训练 $f_n$，且样本满足 $y_i=f(x_i)+\epsilon_i$，则可能达到的最优经验 MSE 具有如下数量级：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14540,17 +14540,17 @@ f_n(\textbf{x})=\sum_{l=1}^nc_l\phi(\textbf{x}\textbf{w}_l+\textbf{b}_l)+c_0,
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $K$ 是输入的维度（列数），$c_f$ 是取决于生成器函数 $f$ 的常量。上述数量提供了给定大小为 $N$ 的数据集的最佳神经网络可以实现的误差范围。</p>
+<p>其中 $K$ 是输入维度（列数），$c_f$ 是取决于数据生成函数 $f$ 的常数。上式给出了数据集规模为 $N$ 时，最优神经网络可达到误差的上界。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这个界限的分解显然有两个组成部分。第一个与网络的复杂性有关。正如最初的通用逼近定理一样，误差随着网络中单元数量的增加而减小。但这还不够！事实上，样本量当然是学习质量（独立同分布观测）的关键驱动因素。界限的第二个分量表示误差相对于观测值数量 ($\log(N)/N$) 的下降速度稍慢，并且与单元数量和输入维度呈线性关系。这清楚地强调了样本大小和模型复杂性之间的联系（权衡？）：如果样本很小，那么拥有非常复杂的模型没有用；同样，过于简单的模型也无法捕捉大型数据集中的精细关系。</p>
+<p>这个误差上界由两部分构成。第一部分取决于网络复杂度：与通用逼近定理一致，单元越多，逼近误差越小。但这并非全部。样本量同样决定了从独立同分布观测中学习的质量。第二部分随观测数按 $\log(N)/N$ 的速度下降，并与单元数和输入维度成正比。这清楚体现了样本规模与模型复杂度之间的权衡：样本很小时，过于复杂的模型没有意义；反过来，模型过于简单，也无法捕捉大型数据集中的细微关系。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>总的来说，神经网络可能是一个非常复杂的函数，具有很多参数。在线性回归中，可以通过虚假添加外生变量来增加拟合度。在神经网络中，通过向层任意添加单元来增加参数数量就足够了。这当然是一个非常糟糕的主意，因为高维网络将主要捕获它们所训练的样本的特殊性。</p>
+<p>总体而言，神经网络可以是参数众多、结构复杂的函数。在线性回归中，盲目加入解释变量可以机械地提高样本内拟合度；在神经网络中，只需随意增加各层单元，就能增加参数并取得类似效果。这显然不可取，因为高维网络很容易主要捕捉训练样本的特殊性，而非可推广的规律。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14560,7 +14560,7 @@ f_n(\textbf{x})=\sum_{l=1}^nc_l\phi(\textbf{x}\textbf{w}_l+\textbf{b}_l)+c_0,
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>就像树模型一样，神经网络是通过最小化某些损失函数进行训练的，并受到一些惩罚：</p>
+<p>与树模型类似，神经网络通过最小化带有惩罚项的损失函数来训练：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14572,12 +14572,12 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $\tilde{y}_i$ 是模型获得的值，$y_i$ 是样本的真实值。简化计算的一个简单要求是损失函数可微。最常见的选择是回归任务的平方误差和分类任务的交叉熵。我们将在下一小节中讨论分类的技术细节。</p>
+<p>其中，$\tilde{y}_i$ 是模型预测值，$y_i$ 是样本真实值。为了便于计算，通常要求损失函数可微。回归任务最常用平方误差，分类任务最常用交叉熵。下一小节将讨论分类任务的技术细节。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>神经网络的训练相当于改变所有层中所有单元的权重（和偏差），以便上面定义的 $O$ 尽可能最小。为了简化表示法，并且考虑到 $y_i$ 是固定的，我们将其写为 $D(\tilde{y}_i(\textbf{W}))=\text{loss}(y_i,\tilde{y}_i)$，其中 $\textbf{W}$ 表示网络中的全部权重和偏差。权重的更新将通过梯度下降来执行，即通过</p>
+<p>训练神经网络，就是调整所有层、所有单元的权重与偏置，使上面定义的 $O$ 尽可能小。为简化记号，并注意到 $y_i$ 固定不变，记 $D(\tilde{y}_i(\textbf{W}))=\text{loss}(y_i,\tilde{y}_i)$，其中 $\textbf{W}$ 表示网络中的全部权重和偏置。参数通过梯度下降更新，即</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14590,23 +14590,23 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这种机制是优化文献中最经典的，我们在图 7.5 中对其进行了说明。我们强调大学习率可能存在次优性。在图中，与高 $\eta$ 相关的下降将围绕最佳点振荡，而与小 eta 相关的下降将更直接地收敛。</p>
+<p>这是优化领域最经典的机制之一，图 7.5 给出了示意。图中突出说明了学习率过大可能带来的问题：较大的 $\eta$ 会使迭代在最优点附近来回振荡，而较小的学习率则更直接地收敛。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>上式中的复杂任务是计算梯度（导数），它告诉应该在哪个方向进行调整。问题在于连续的嵌套层和关联的激活需要链式法则的多次迭代才能微分。</p>
+<p>上式真正困难的是计算梯度，也就是确定参数应沿哪个方向调整。由于网络包含多层嵌套计算及相应激活函数，求导时必须反复应用链式法则。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/Newton.png" width="800"/>
-图 7.5：梯度下降的轮廓。</p>
+图 7.5：梯度下降示意图。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>近似导数的最常见方法可能是有限差分法。在通常的假设下（损失是两次可微的），中心差满足：</p>
+<p>近似导数最常见的方法之一是有限差分法。在损失函数二阶可微等常规条件下，中心差分满足：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14618,12 +14618,12 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $h&gt;0$ 是任意小的数字。尽管其表面上很简单，但该方法的计算成本很高，因为它需要进行与权重数量相当的大量操作。</p>
+<p>其中 $h&gt;0$ 是任意小的正数。该方法看似简单，计算成本却很高，因为所需运算次数与权重数量处于同一数量级。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>幸运的是，有一个小技巧可以大大简化并加快计算速度。这个想法是简单地遵循链式法则并沿途循环使用术语。让我们先回顾一下</p>
+<p>幸运的是，可以利用一个技巧大幅简化并加速计算：沿链式法则逐层求导，同时复用已经计算过的中间项。先回顾</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14633,7 +14633,7 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>因此，如果我们用最直接的权重和偏差进行微分，我们会得到：</p>
+<p>因此，先对最靠近输出端的权重和偏置求导，得到：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14647,7 +14647,7 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这是最简单的部分。我们现在必须返回一层，这只能通过链式法则来完成。为了访问层 $L$，我们调用身份 $v_{i,k}^{(L)}=(\textbf{o}^{(L-1)}_i)'\textbf{w}^{(L)}_k+b_k^{(L)}=b_k^{(L)}+\sum_{j=1}^{U_L}o^{(L-1)}_{i,j}w^{(L)}_{k,j}$。  然后我们可以继续：</p>
+<p>这是最简单的一步。接下来要向前回到第 $L$ 层，这需要应用链式法则。利用恒等式 $v_{i,k}^{(L)}=(\textbf{o}^{(L-1)}_i)'\textbf{w}^{(L)}_k+b_k^{(L)}=b_k^{(L)}+\sum_{j=1}^{U_L}o^{(L-1)}_{i,j}w^{(L)}_{k,j}$，可继续写出：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14661,48 +14661,48 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中，正如我们在最后一行所示，导数的一部分已经在上一步中计算出来（方程（7.3））。因此，我们可以回收这个数值，只关注表达式的正确部分。</p>
+<p>如最后一行所示，导数的一部分已在上一步，也就是方程（7.3）中算出。因此可以复用该数值，只需计算表达式中尚未得到的部分。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>所谓反向传播的神奇之处在于，这对于微分的每一步都适用。当计算 $l$ 层中的权重和偏差的梯度时，将有两部分：一部分可以从之前的层中回收，另一部分是局部部分，仅取决于当前层的值和激活函数。 Google 开发团队给出了这个过程的一个很好的说明：playground.tensorflow.org。</p>
+<p>反向传播的关键在于，上述复用可以贯穿求导的每一步。计算第 $l$ 层权重和偏置的梯度时，总能分成两部分：一部分由后续层反向传回，可以直接复用；另一部分是局部项，只取决于当前层的数值和激活函数。Google 开发团队在 playground.tensorflow.org 提供了直观演示。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>当使用张量格式化数据时，可以诉诸矢量化，以便将调用数量限制在网络中节点（单元）数量的数量级。</p>
+<p>当数据以张量形式组织时，还可以使用向量化，把运算调用次数控制在与网络节点（单元）数相当的数量级。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>反向传播算法可以总结如下。给定一个点样本（可能只有一个）：</p>
+<p>反向传播算法可概括如下。给定一批样本点，批次也可以只有一个样本：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ol>
-<li>数据从左侧流动，如图 7.6 所示。蓝色箭头显示 <strong>前向传播</strong>;</li>
-<li>这允许计算误差或损失函数；</li>
-<li>该函数的所有导数（相对于权重和偏差）都被计算，从最后一层开始并向左扩散（因此称为反向传播） - 绿色箭头显示 <strong>反向传播</strong>;</li>
-<li>所有权重和偏差都可以更新以考虑样本点（调整模型以减少这些点引起的损失/误差）。</li>
+<li>数据从左向右流动，如图 7.6 的蓝色箭头所示，这一步称为<strong>前向传播</strong>；</li>
+<li>根据前向传播的输出计算误差或损失函数；</li>
+<li>从最后一层开始，向左逐层计算损失函数对权重和偏置的导数；图中的绿色箭头表示这一<strong>反向传播</strong>过程；</li>
+<li>利用所得梯度更新全部权重和偏置，使模型降低这批样本产生的损失或误差。</li>
 </ol>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/backprop.png" width="800"/>
-图 7.6：反向传播图。</p>
+图 7.6：反向传播示意图。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>此操作可以使用不同的样本大小执行任意多次。我们在 7.3 节中讨论这个问题。</p>
+<p>上述过程可以使用不同批量大小重复任意多次。第 7.3 节将进一步讨论这一问题。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>学习率 $\eta$ 可以细化。减少过度拟合的一种选择是在每个轮之后强制减少更新的强度。一种可能的参数形式是 $\eta=\alpha e^{- \beta t}$，其中 $t$ 是epoch，$\alpha,\beta&gt;0$。另一种更复杂的方法是诉诸所谓的动量（源自 Polyak (1964)）：</p>
+<p>学习率 $\eta$ 还可以进一步调整。降低过拟合风险的一种做法，是在每个训练轮次后减小更新幅度。例如可设 $\eta=\alpha e^{- \beta t}$，其中 $t$ 表示训练轮次（epoch），$\alpha,\beta&gt;0$。另一种更复杂的方法是引入动量，该思想源自 Polyak（1964）：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14716,22 +14716,22 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $t$ 是权重更新的索引。动量的想法是通过包含上次调整的记忆项 $\textbf{m}_{t-1}$ 并在当前更新中朝相同方向前进来加速收敛。参数 $\gamma$ 通常取为 0.9。</p>
+<p>其中，$t$ 是权重更新的序号。动量法通过加入记录上一次调整的记忆项 $\textbf{m}_{t-1}$，让当前更新继续沿相近方向前进，从而加快收敛。参数 $\gamma$ 通常取 0.9。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>更复杂和增强的方法已逐步开发出来：</p>
+<p>此后又逐步发展出更复杂的改进方法：</p>
 <ul>
-<li>Nesterov (1983) 通过预测参数的未来变化改进了动量项；</li>
+<li>Nesterov（1983）通过预估参数下一步的位置改进动量项；</li>
 <li>Adagrad（Duchi、Hazan 和 Singer（2011））对每个参数使用不同的学习率；</li>
-<li>Adadelta (Zeiler (2012)) 和 Adam (Kingma and Ba (2014)) 结合了 Adagrad 和动量的思想。</li>
+<li>Adadelta（Zeiler（2012））和 Adam（Kingma 和 Ba（2014））结合了 Adagrad 与动量法的思想。</li>
 </ul>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，在某些退化情况下，某些梯度可能会爆炸并使权重远离其最佳值。为了避免这种现象，学习库实现了梯度裁剪。用户指定梯度的最大幅度，通常表示为范数。每当梯度超过这个幅度时，它就会重新调整以达到授权的阈值。因此，方向保持不变，但调整幅度较小。</p>
+<p>最后，在某些极端情况下，梯度可能爆炸，把权重推离最优值。为避免这种现象，机器学习软件包通常提供梯度裁剪。用户以范数等形式指定梯度允许的最大幅度；一旦梯度超过阈值，就按比例缩放到该阈值。这样既保持梯度方向不变，又减小更新幅度。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14741,12 +14741,12 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在决策树中，最终目标是创建同质簇，前一章概述了实现此目标的过程。对于神经网络，事情的工作方式有所不同，因为目标明确是最小化预测 $\tilde{\textbf{y}}_i$ 和目标标签 $\textbf{y}_i$ 之间的误差。同样，这里 $\textbf{y}_i$ 是一个充满零的向量，只有一个一表示样本的类。</p>
+<p>决策树的目标是构造同质子群，上一章已经介绍其实现过程。神经网络则不同，它直接最小化预测值 $\tilde{\textbf{y}}_i$ 与目标标签 $\textbf{y}_i$ 之间的误差。这里的 $\textbf{y}_i$ 仍是独热编码向量：除表示样本所属类别的一个分量为 1 外，其余分量均为 0。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>面对分类问题，诀窍是在网络的最末端使用适当的激活函数。网络终端输出的维度应等于 $J$ （要预测的类别数），如果为了简单起见，我们将此输出的值写为 $\textbf{x}_i$ ，那么最常用的激活就是所谓的 softmax 函数：</p>
+<p>处理分类问题的关键，是在网络输出端使用合适的激活函数。输出维度应等于待预测类别数 $J$。为简化记号，将激活前的输出写为 $\textbf{x}_i$，最常用的激活函数就是 softmax：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14758,7 +14758,7 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这种选择的理由很简单：它可以将任何值作为输入（在实线上），并且其总和为任何（有限值）输出的一。与树类似，这会产生类别上的“概率”向量。通常，所选择的损失是用于树的熵的概括。给定目标标签 $\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)$ 和预测输出 $\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)$ ，交叉熵定义为</p>
+<p>选择 softmax 的理由很直接：它可以接受任意实数输入，并把有限维输出转换成各分量之和为 1 的向量。与树模型类似，这可以解释为类别上的“概率”向量。相应损失通常采用树模型中熵的推广形式。给定目标标签 $\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)$ 和预测输出 $\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)$，交叉熵定义为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14771,7 +14771,7 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>基本上，它是两个论点之间差异的代表。一种简单的解释如下。对于非零标签值，损失为 $-\log(\tilde{y}_{i,l})$，而对于所有其他标签值，损失为零。在日志中，如果 $\tilde{y}_{i,l}=1$ ，损失将是最小的，这正是我们所寻求的（即 $y_{i,l}=\tilde{y}_{i,l}$ ）。在应用中，这种最好的情况不会发生，当 $\tilde{y}_{i,l}$ 向下漂移时，损耗只会增加。</p>
+<p>交叉熵衡量两个向量之间的不一致程度。由于目标标签只有正确类别对应的分量非零，损失化简为 $-\log(\tilde{y}_{i,l})$，其余类别对应项均为零。当 $\tilde{y}_{i,l}=1$ 时，损失达到最小值，正好对应 $y_{i,l}=\tilde{y}_{i,l}$。实际应用中很难恰好达到这一理想状态；预测概率 $\tilde{y}_{i,l}$ 越低，损失就越大。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14781,7 +14781,7 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>除了前面几节中介绍的自由度之外，用户在构建神经网络时还面临许多自由度。我们提出了构建和训练神经网络时可用的一些经典选择。</p>
+<p>构建神经网络时，除前几节已经介绍的选择外，还有许多超参数需要决定。下面概述网络构造与训练中的几项常见选择。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14791,17 +14791,17 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>可以说，第一个选择与网络结构有关。除了前馈与循环的二分法（参见第 7.5 节）之外，迫在眉睫的问题是：网络应该有多大（或多深）。首先，让我们计算网络中估计（优化）的参数数量（即权重加偏差）。</p>
+<p>第一类选择涉及网络结构。除前馈网络与循环网络之分外（见第 7.5 节），最直接的问题是网络应当多宽、多深。先计算网络中需要估计或优化的参数总数，即权重与偏置之和。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>对于第一层，这给出了 $(U_0+1)U_1$ 参数，其中 $U_0$ 是 $\mathbb{X}$ 中的列数（即解释变量的数量），<br/>
-$U_1$ 是层中的单元数。 </li>
-<li>对于层 $l\in[2,L]$，参数数量为 $(U_{l-1}+1)U_l$。 </li>
-<li>对于最终输出，只有 $U_L+1$ 参数。</li>
-<li>总的来说，这意味着要优化的值总数是</li>
+<li>第一层共有 $(U_0+1)U_1$ 个参数，其中 $U_0$ 是 $\mathbb{X}$ 的列数，即解释变量数，<br/>
+$U_1$ 是该层的单元数。</li>
+<li>对于第 $l\in[2,L]$ 层，参数数目为 $(U_{l-1}+1)U_l$。</li>
+<li>最终输出层共有 $U_L+1$ 个参数。</li>
+<li>因此，需要优化的参数总数为</li>
 </ul>
 </div>
 </div>
@@ -14814,12 +14814,12 @@ $U_1$ 是层中的单元数。 </li>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>与任何模型一样，参数的数量应远小于样本的数量。没有固定的比例，但样本量最好至少比参数数量大十倍。比率低于 5，过度拟合的风险很高。考虑到可用的数据量，这种限制很少成为问题，除非希望使用非常大的网络。</p>
+<p>与其他模型一样，参数数目应远小于样本数。虽然没有固定比例，但样本量最好至少是参数数目的 10 倍；若该比例低于 5，过拟合风险会很高。考虑到通常可获得的数据量，除非网络非常庞大，这一限制很少成为主要问题。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>当前金融应用中隐藏层的数量很少超过三到四个。每层的单元数量 $(U_k)$ 通常被选择为遵循几何金字塔规则（参见例如 Masters (1993)）。如果存在 $L$ 隐藏层，输入中具有 $I$ 特征，输出中具有 $O$ 维度（对于回归任务，$O=1$），则对于 $k^{th}$ 层，单元数量的经验法则是</p>
+<p>目前金融应用中的隐藏层通常不超过三到四层。每层单元数 $(U_k)$ 常按几何金字塔规则设置，例如参见 Masters（1993）。若共有 $L$ 个隐藏层，输入包含 $I$ 项特征，输出维度为 $O$；回归任务中 $O=1$，则第 $k^{th}$ 层单元数的经验公式为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14831,12 +14831,12 @@ U_k\approx \left\lfloor O\left( \frac{I}{O}\right)^{\frac{L+1-k}{L+1}}\right\rfl
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>如果只有一层中间层，推荐代理为$\sqrt{IO}$的整数部分。如果不是，网络以许多单元开始，并且单元的数量以指数方式减少到输出大小。通常，层数是 2 的幂，因为在高维度中，网络是在图形处理单元 (GPU) 或张量处理单元 (TPU) 上进行训练。当输入的大小等于 2 的幂时，这两种硬件都可以得到最佳使用。</p>
+<p>若只有一个隐藏层，建议取 $\sqrt{IO}$ 的向下取整值。若有多个隐藏层，网络从较多单元开始，随后让单元数按指数速度递减至输出维度。各层宽度也常设为 2 的幂，因为高维神经网络通常在图形处理器 (GPU) 或张量处理器 (TPU) 上训练，而输入维度为 2 的幂时更有利于发挥这类硬件的效率。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>多项研究表明，非常大的架构并不总是比更浅的架构表现得更好（例如，Gu、Kelly 和 Xiu (2020b) 以及 Orimoloye 等人 (2019) 对于高频数据，即非基于因子的数据）。根据经验，最多三个隐藏层似乎足以满足预测目的。</p>
+<p>多项研究表明，规模很大的网络并不总能胜过较浅的网络，例如 Gu、Kelly 和 Xiu（2020b），以及 Orimoloye 等人（2019）针对高频而非因子数据的研究。经验上，最多三个隐藏层通常已足以满足预测需求。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14846,7 +14846,7 @@ U_k\approx \left\lfloor O\left( \frac{I}{O}\right)^{\frac{L+1-k}{L+1}}\right\rfl
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在表达式（7.2）中，隐含着计算是针对一个给定样本执行的。如果样本量非常大（数十万或数百万个样本），则根据每个点更新权重的计算成本太高。然后，对称为批次的样本组执行更新。样本被（随机）分成固定大小的批次，并且每次更新都按照以下规则执行：</p>
+<p>表达式（7.2）隐含的是每次针对一个样本计算梯度。若样本规模达到数十万或数百万，逐个样本更新权重的成本过高，因此通常改为按一组样本更新，这组样本称为批次。训练样本会被随机划分为固定大小的批次，每次按下式更新：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14859,26 +14859,26 @@ U_k\approx \left\lfloor O\left( \frac{I}{O}\right)^{\frac{L+1-k}{L+1}}\right\rfl
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>权重的变化是根据批次中所有样本计算的平均损失来计算的。训练术语包括：</p>
+<p>权重更新依据批次内所有样本的平均损失计算。训练中常用的术语包括：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li><strong>epoch</strong>：当样本的每个样本都对权重更新（即训练）做出贡献时，就达到一个 epoch。通常，训练一个神经网络需要几个轮，甚至最多几十个轮。</li>
-<li><strong>批量大小</strong>：批量大小是用于一次权重更新的样本数量。</li>
-<li><strong>迭代</strong>：迭代次数可以是样本大小除以批量大小的比率，也可以是该比率乘以轮数。它要么是达到一个 epoch 所需的权重更新次数，要么是整个训练过程中的更新总数。</li>
+<li><strong>训练轮次（epoch）</strong>：当训练集中的每个样本都参与过一次权重更新后，就完成一个 epoch。训练神经网络通常需要数个至数十个 epoch。</li>
+<li><strong>批量大小</strong>：一次权重更新所使用的样本数。</li>
+<li><strong>迭代次数</strong>：有时指完成一个 epoch 所需的权重更新次数，即样本数除以批量大小；有时也指整个训练过程的更新总数，即前述比值再乘以 epoch 数。</li>
 </ul>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>当批次仅等于一个样本时，该方法称为“随机梯度下降”（SGD）：随机选择样本。当批量大小严格大于 1 且低于样本总数时，学习将通过“迷你”批量（即小批量样本）执行。批次也是随机选择的，但在样本中没有替换，因为对于一个轮，批次的并集必须等于完整的训练样本。</p>
+<p>当每个批次只有一个样本时，该方法称为随机梯度下降（SGD），样本随机选取。当批量大小大于 1 且小于训练集总样本数时，则称为小批量学习。各批次同样随机生成，但在一个 epoch 内通常不重复抽样，因为所有批次的并集应覆盖完整训练集。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>不可能提前知道多少个 epoch 是合适的。有时，网络在仅仅 5 个 epoch 后就停止学习（验证损失不再减少）。在某些情况下，当验证样本是从接近训练样本分布的分布中抽取时，网络即使在 200 个 epoch 后仍会继续学习。由用户测试不同的值来评估学习速度。在下面的示例中，出于计算目的，我们将epoch数量保持在较低水平。</p>
+<p>无法事先确定合适的 epoch 数。有时网络只训练 5 个 epoch 后，验证损失就不再下降；另一些情况下，若验证集与训练集分布很接近，训练 200 个 epoch 后模型仍可能继续改善。用户需要尝试不同设置来判断学习速度。为控制计算量，下面示例使用较少的 epoch。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14888,7 +14888,7 @@ U_k\approx \left\lfloor O\left( \frac{I}{O}\right)^{\frac{L+1-k}{L+1}}\right\rfl
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在每个级别（层），可以对权重（和偏差）施加约束或惩罚。就像树模型一样，这有助于减慢学习速度，以防止训练样本过度拟合。惩罚直接对损失函数执行，目标函数采用以下形式</p>
+<p>在每一层，都可以对权重和偏置施加约束或惩罚。与树模型类似，这会限制模型学习速度和复杂度，从而降低对训练样本过拟合的风险。惩罚项直接加入损失函数，目标函数写为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14900,45 +14900,45 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \sum_{k} \lambda_k||\textbf{W}_k||_
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中下标 $k$ 和 $j$ 属于应用 $L^1$ 和（或）$L^2$ 惩罚的权重。</p>
+<p>其中，下标 $k$ 和 $j$ 分别指施加 $L^1$ 和（或）$L^2$ 惩罚的权重。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>此外，可以在训练期间直接对权重施加特定约束。通常，使用两种类型的约束：</p>
+<p>此外，训练期间还可以直接约束权重。常见约束有两类：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>范数约束：权重向量或矩阵的最大范数是固定的；</li>
-<li>非负约束：所有权重必须为正或零。</li>
+<li>范数约束：限定权重向量或矩阵的最大范数；</li>
+<li>非负约束：要求所有权重均大于或等于零。</li>
 </ul>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，降低过度拟合风险的另一种（有点奇特的）方法是减少模型的大小（参数数量）。斯里瓦斯塔瓦等人。 （2014）建议在训练期间省略单元（因此术语“<strong>辍学</strong>’）。训练期间随机选择的单元的权重设置为零。所有来自和到该单元的链接都会被忽略，这会机械地缩小网络。在测试阶段，所有单元都回来了，但必须缩放值（权重）以考虑训练阶段期间丢失的激活。</p>
+<p>最后，还可以通过暂时缩小模型规模，也就是减少有效参数数目，来降低过拟合风险。Srivastava 等人（2014）提出在训练期间随机停用部分单元，因此称为 <strong>dropout（随机失活）</strong>。被选中单元的权重在该轮训练中设为零，与它相连的输入和输出连接都被忽略，相当于临时缩小网络。测试时会恢复全部单元，但需要相应缩放权重，以补偿训练期间缺失的激活。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>感兴趣的读者可以查看 Bengio (2012)、Hanin 和 Rolnick (2018) 以及 Smith (2018) 中编译的建议，以获取有关如何配置神经网络的更多提示。 Lee (2020) 是一篇致力于股票收益预测超参数调参的论文。</p>
+<p>关于神经网络配置的更多建议，可参见 Bengio（2012）、Hanin 和 Rolnick（2018）以及 Smith（2018）。Lee（2020）则专门研究股票收益率预测中的超参数调优。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="7.4-Code-samples-and-comments-for-vanilla-MLP">7.4 标准 MLP 的代码示例与说明<a class="anchor-link" href="#7.4-Code-samples-and-comments-for-vanilla-MLP">¶</a></h2>
+<h2 id="7.4-Code-samples-and-comments-for-vanilla-MLP">7.4 基础 MLP 的代码示例与说明<a class="anchor-link" href="#7.4-Code-samples-and-comments-for-vanilla-MLP">¶</a></h2>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>有多种框架和库可以实现稳健且灵活的神经网络构建。其中，Keras 和 Tensorflow（由 Google 开发）可能是我们撰写本书时使用最多的（来自 Facebook 的 PyTorch 是一种选择）。为了简单起见，并且因为我们相信这是最好的选择，我们使用 Keras 实现神经网络（这是 Tensorflow 的高级 API，请参阅 <a href="https://www.tensorflow.org">https://www.tensorflow.org</a>）。原始Python实现参考 <a href="https://keras.io">https://keras.io</a>.</p>
+<p>许多框架和软件包都能稳健、灵活地构建神经网络。本书写作时，Google 开发的 Keras 和 TensorFlow 可能应用最广，Facebook 的 PyTorch 则是另一种选择。为简化实现，并基于作者的取舍，这里使用 Keras 构建神经网络；它是 TensorFlow 的高级 API，参见 <a href="https://www.tensorflow.org">https://www.tensorflow.org</a>。其原始 Python 实现见 <a href="https://keras.io">https://keras.io</a>。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在本节中，我们详细（尽管远非详尽）说明如何使用 Keras 训练神经网络。为了完整起见，我们分两步进行。第一个涉及非常简单的回归任务。其目的是让读者熟悉 Keras 的语法。在第二步中，我们列出了 Keras 提出的许多选项来执行分类任务。通过这两个例子，我们涵盖了前馈多层感知器范围内的大多数主流主题。</p>
+<p>本节较为详细地介绍如何使用 Keras 训练神经网络，但仍无法涵盖全部功能。内容分两步展开：先通过一个简单回归任务熟悉 Keras 语法，再在分类任务中展示 Keras 提供的更多选项。这两个例子覆盖了前馈多层感知机的大多数常见主题。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14948,7 +14948,7 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \sum_{k} \lambda_k||\textbf{W}_k||_
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在我们进入神经网络的核心之前，需要进行一个简短的数据准备阶段。正如惩罚回归和提升树一样，数据必须分为四个部分，它们是两种二分法的组合：训练与测试以及标签与特征。我们在下面定义相应的变量。为简单起见，第一个示例是回归任务。下面将详细介绍分类任务。</p>
+<p>进入神经网络建模前，需要先做简单的数据准备。与惩罚回归和提升树一样，数据要按两组维度拆成四部分：训练集与测试集，以及标签与特征。下面定义相应变量。第一个例子是回归任务，随后再详细介绍分类任务。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -14977,15 +14977,15 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \sum_{k} \lambda_k||\textbf{W}_k||_
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ol>
-<li>定义网络的结构/架构；</li>
-<li>设置损失函数和学习过程（权重更新选项）；</li>
-<li>通过指定批量大小和轮数（轮）进行训练。</li>
+<li>定义网络结构；</li>
+<li>设置损失函数和学习过程，包括权重更新方式；</li>
+<li>指定批量大小和训练轮次（epoch），并拟合模型。</li>
 </ol>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>我们从一个非常简单的架构开始，有两个隐藏层。</p>
+<p>先从一个包含两个隐藏层的简单架构开始。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15008,7 +15008,7 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \sum_{k} \lambda_k||\textbf{W}_k||_
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>该结构的定义非常直观，并使用顺序语法，其中一个输入由一层迭代转换，直到最后一次迭代给出输出。每层取决于两个参数：单元数量和应用于该层输出的激活函数。一个重要的点是第一层的 input_shape 参数。它是第一层所必需的，等于特征数。对于后续层，input_shape由前一层的单元数量决定；因此它不是必需的。当前可用的激活列于 <a href="https://keras.io/activations/">https://keras.io/activations/</a>。我们在倒数第二层中使用双曲正切，因为它会产生正输出和负输出。当然，最后一层也可以生成负值，但最好在最终输出之前满足此属性。</p>
+<p>网络结构采用直观的顺序语法：输入依次经过各层变换，最后一层给出输出。每层主要由两个参数决定，即单元数和作用于该层输出的激活函数。第一层还必须指定 input_shape，其值等于特征数。后续层的输入形状由上一层的单元数自动确定，因此不再需要设置 input_shape。可用激活函数见 <a href="https://keras.io/activations/">https://keras.io/activations/</a>。倒数第二层使用双曲正切函数，因为它既能输出正值，也能输出负值。尽管最后一层本身也可生成负值，但最好让这一性质在输出层之前就得到满足。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15053,17 +15053,17 @@ _________________________________________________________________
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>模型的摘要按从输入到输出（前向传递）的顺序列出了各层。因为我们使用 93 个特征，所以第一层的参数数量（16 个单元）为 93 加一（偏差）乘以 16，即 1504。对于第二层，输入数量等于前一层输出的大小 (16)。因此，考虑到第二层有 8 个单元，参数总数为 (16+1)*8 = 136。</p>
+<p>模型摘要按从输入到输出，也就是前向传播的顺序列出各层。输入有 93 项特征，第一层有 16 个单元，因此参数数目为 93 加 1 个偏置，再乘以 16，共 1504 个。第二层的输入数等于上一层输出维度 (16)；该层有 8 个单元，因此参数总数为 (16+1)*8 = 136。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>我们将损失函数设置为标准均方误差。其他损失列于 <a href="https://keras.io/losses/">https://keras.io/losses/</a>，其中一些仅适用于回归（MSE、MAE），其他仅适用于分类（分类交叉熵，请参见方程（7.5））。 RMS 传播优化器是经典的小批量反向传播实现。对于其他权重更新算法，我们参考 <a href="https://keras.io/optimizers/">https://keras.io/optimizers/</a>。度量是用于评估模型质量的函数。它可能与损失不同：例如，使用熵进行训练，使用准确性作为性能指标。</p>
+<p>这里把损失函数设为标准均方误差。其他损失函数见 <a href="https://keras.io/losses/">https://keras.io/losses/</a>：有些只适用于回归，如 MSE、MAE；有些用于分类，如方程（7.5）中的分类交叉熵。RMSprop 优化器是经典的小批量反向传播实现。其他权重更新算法见 <a href="https://keras.io/optimizers/">https://keras.io/optimizers/</a>。度量指标用于评估模型质量，可以不同于训练损失；例如用交叉熵训练模型，却用准确率衡量表现。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后阶段将模型与数据进行拟合，并需要一些额外的训练参数：</p>
+<p>最后用数据拟合模型，并指定若干额外训练参数：</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15125,15 +15125,15 @@ Epoch 10/10
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>批量大小是相当任意的。由于与 GPU 训练相关的技术原因，这些大小通常是 2 的幂。</p>
+<p>批量大小的选择较为灵活。出于 GPU 训练效率等技术原因，通常取 2 的幂。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在 Keras 中，训练模型的图显示了四种不同的曲线（如图 7.7 所示）。上图显示了随着 epoch 数量的增加，损失的改善（或缺乏）。通常，算法首先快速学习，然后收敛到任何额外的历元都不会改善拟合的点。在上面的例子中，这一点来得相当快，因为​​在第四个轮之后很难注意到任何增益。两种颜色显示两个样本的性能：训练样本和测试样本。通过构造，训练样本的损失总是会有所改善（甚至略有改善）。当对测试样本的影响可以忽略不计时（曲线是平坦的，就像这里的情况一样），模型无法泛化样本外：通过对原始样本进行训练获得的增益不会转化为先前未见过的数据的增益；因此，该模型似乎正在学习噪声。</p>
-<p>第二张图显示了相同的行为，但使用度量函数计算。两条曲线（损耗和指标）之间的相关性（绝对值）通常很高。如果其中一个是平的，另一个也应该是平的。</p>
-<p>为了获取模型的参数，用户可以调用 get_weights(model)。18 我们不执行这里的代码，因为输出的大小太大，因为有数千个权重。</p>
-<p>最后，从实际的角度来看，预测是通过通常的predict()函数获得的。我们在测试样本上使用下面的这个函数来计算命中率。</p>
+<p>Keras 的训练历史图包含四条曲线，如图 7.7 所示。上图展示损失随 epoch 增加而改善，或不再改善的过程。算法通常在开始阶段学习较快，随后收敛；达到某一点后，增加 epoch 已无法改善拟合。上例很快就到达这一状态，第 4 个 epoch 之后几乎看不到收益。两种颜色分别表示训练集和测试集上的表现。按训练目标，训练损失通常会持续下降，哪怕幅度很小；但若测试损失几乎不变，像图中这样呈平坦曲线，就说明模型无法推广到样本外。换言之，训练集上的改善没有延续到未见数据，模型可能只是在学习噪声。</p>
+<p>下图用度量指标展示同一过程。损失与度量指标两组曲线的绝对相关性通常很高；若其中一组趋于平坦，另一组往往也会如此。</p>
+<p>可以调用 get_weights(model) 获取模型参数。18 这里不执行该代码，因为网络包含数千个权重，输出过于庞大。</p>
+<p>实际预测通过常用的 predict() 函数生成。下面在测试集上调用该函数，并据此计算命中率。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15162,7 +15162,7 @@ Epoch 10/10
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>同样，命中率在 50% 到 55% 之间，这看起来相当不错。大多数时候，神经网络的权重是随机初始化的。因此，具有相同架构和相同训练数据的两个独立训练的网络很可能会导致非常不同的预测和性能！绕过此问题的一种方法是冻结随机数生成器。还可以通过 set_weights() 函数加载权重来轻松交换模型。</p>
+<p>命中率仍介于 50% 至 55%，看起来尚可。神经网络权重通常随机初始化，因此即使架构与训练数据完全相同，两次独立训练也可能产生差异很大的预测和表现。固定随机数生成器可以提高可复现性；也可以通过 set_weights() 函数加载权重，在模型之间复用参数。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15172,7 +15172,7 @@ Epoch 10/10
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>我们通过一个更详细的例子来探索神经网络。目的是对二进制标签 R1M_Usd_C 执行分类任务。在继续之前，我们需要正确设置标签格式。为此，我们采用 one-hot 编码（参见第 4.5.2 节）。</p>
+<p>下面通过一个更详细的例子继续探索神经网络，目标是对二元标签 R1M_Usd_C 进行分类。开始前要先正确格式化标签，这里采用独热编码，参见第 4.5.2 节。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15192,7 +15192,7 @@ Epoch 10/10
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>标签 NN_train_labels_C 和 NN_test_labels_C 有两列：第一列标记收益率高于中位数的样本，第二列标记收益率低于中位数的样本。请注意，我们不会更改特征变量：它们保持不变。下面，我们设置的网络结构与第一个网络相比具有许多附加特性。</p>
+<p>标签 NN_train_labels_C 和 NN_test_labels_C 各有两列：第一列标记收益率高于中位数的样本，第二列标记收益率低于中位数的样本。特征变量无需修改，仍保持不变。下面构建的网络在第一个网络基础上增加了许多功能。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15224,32 +15224,32 @@ Epoch 10/10
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在我们开始评论上面使用的许多选项之前，我们强调 Keras 模型与许多 R 变量不同，是可变对象。这意味着调用模型后的任何管道%&gt;%都会改变它。因此，后续的训练不是从头开始，而是从前一次训练的结果开始。</p>
+<p>在解释各项设置前，需要强调：与许多 R 变量不同，Keras 模型是可变对象。这意味着调用模型后接入管道 %&gt;% 的任何操作都会直接修改该模型。因此，连续多次训练并非每次从头开始，而是以上一次训练结果为起点。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>首先，选择上面和下面使用的选项作为说明性示例，并不用于特别提高模型的质量。与 7.4.1 节相比，第一个变化是激活函数。前两个只是新情况，而第三个（对于输出层）是势在必行的。事实上，由于目标是分类，因此输出的维度必须等于标签的类别数。产生多元变量的激活是 softmax 函数。请注意，我们还必须指定终端层中的类（类别）数量。</p>
+<p>首先说明，上下文中的设置只是为了展示功能，并非专门为提高模型表现而选择。相较第 7.4.1 节，第一项变化是激活函数。前两层只是换用了新的激活函数，输出层使用 softmax 则是分类任务所必需的：输出维度必须等于标签类别数，而 softmax 能生成相应的多维概率向量。因此，还要在输出层明确指定类别数。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>第二个主要创新是与参数相关的选项。一系列选项涉及权重和偏差的初始化。在 Keras 中，权重被称为“内核”。初始化器列表很长，我们建议感兴趣的读者查看 Keras 参考资料（<a href="https://keras.io/initializers/">https://keras.io/initializers/</a>）。其中大多数是随机的，但也有一些是恒定的。</p>
+<p>第二类新增设置与参数有关，其中一组用于初始化权重和偏置。Keras 将权重称为“内核”（kernel）。初始化器种类很多，详见 <a href="https://keras.io/initializers/">https://keras.io/initializers/</a>；大多数采用随机初始化，也有一些使用常数。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>另一个选项是在训练期间应用于权重和偏差的约束和规范惩罚。在上面的示例中，第一层的权重被强制为非负数，而第二层的权重的大小则受到因子 (0.01) 乘以 $L^2$ 范数的惩罚。</p>
+<p>另一组设置是在训练期间对权重和偏置施加约束或范数惩罚。上例要求第一层权重非负，并以因子 (0.01) 乘以 $L^2$ 范数，惩罚第二层权重的幅度。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，最后一个新颖之处是第一层和第二层之间的 dropout 层（参见第 7.3.3 节）。根据这一层，第一层中四分之一的单元将在训练期间被（随机）省略。</p>
+<p>最后一项新增设置，是在第一层与第二层之间加入 dropout 层，参见第 7.3.3 节。训练期间，第一层四分之一的单元会被随机停用。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>训练的具体内容概述如下。</p>
+<p>具体训练设置如下。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15300,12 +15300,12 @@ _________________________________________________________________
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这里再次进行了许多更改：所有层都已修改。现在的损失就是交叉熵。因为我们使用两个类别，所以采用特定的选择（二元交叉熵），但更通用的形式是 categorical_crossentropy，并且适用于任意数量的类（严格大于 1）。优化器也不同，并且允许多个参数，我们参考 Kingma 和 Ba (2014)。简而言之，两个 beta 参数控制权重更新中使用的指数加权移动平均的衰减率。这两个平均值是梯度一阶矩和二阶矩的估计，可用于提高学习速度。上述代码块中的性能指标是分类准确率。在多类分类中，准确率定义为所有类别和所有预测上的平均准确率。由于一个样本的预测是一个权重向量，因此“最终”预测是与最大权重相关的类别。然后，准确率衡量预测等于真实值（即模型正确猜测类别）的时间比例。</p>
+<p>这里的训练设置也有多处变化。损失函数改为交叉熵。由于只有两个类别，采用二元交叉熵；更一般的 categorical_crossentropy 可处理任意多于一个类别的任务。优化器也已更换，并包含多个参数，详见 Kingma 和 Ba（2014）。简单来说，两个 beta 参数控制权重更新中指数加权移动平均的衰减率，这两个移动平均分别估计梯度的一阶矩和二阶矩，可用于加快学习。代码中的表现指标是分类准确率。多类别分类时，每个样本的预测是一个类别概率向量，最终类别取最大分量对应的类别；准确率就是预测类别与真实类别一致的样本比例。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，我们继续进行模型的训练。</p>
+<p>最后开始训练模型。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15377,27 +15377,27 @@ Epoch 5/20
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>图 7.8：提前停止的经过训练的神经网络（分类任务）的输出。</p>
+<p>图 7.8：采用提前停止的神经网络训练结果（分类任务）。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>与之前的训练通话相比，这里只有一个主要区别。在 Keras 中，回调是可以在学习过程的给定阶段使用的函数。在上面的示例中，我们使用一个这样的函数来在一段时间没有取得任何进展时停止算法。</p>
+<p>与前一次训练调用相比，这里只有一项主要区别。Keras 中的回调函数可以在训练过程的特定阶段执行操作；上例使用回调，在模型一段时间没有改善时停止训练。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>当数据集很大时，训练可能会很长，特别是当批量较小和/或轮数较多时。不能保证达到全部epoch数是有用的，因为损失或度量函数可能会更快达到稳定水平。因此，如果在指定时间范围内没有实现任何改进，可以非常方便地停止该过程。我们将epoch数设置为 20，但该过程可能会在此之前停止。</p>
+<p>数据集很大时，训练可能十分耗时，尤其是在批量较小或 epoch 较多的情况下。完整跑完预设 epoch 未必有用，因为损失或度量指标可能早已进入平台期。因此，若在指定时段内没有改善，就提前结束训练会更高效。这里把 epoch 数设为 20，但训练可能更早停止。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在上面的代码中，改进主要关注验证指标（这里是“val_loss”；另一种选择是“val_acc”）。min_delta 值设置算法继续运行所需的最小改进。因此，除非验证指标在每个 epoch 至少改进 0.001，否则训练将停止。尽管如此，patience 参数引入了一些灵活性；在我们的例子中，它表示只有在连续三个 epoch 没有任何改进后才停止训练。在该选项中，verbose 参数控制函数输出的信息量。为简单起见，我们不需要任何输出，因此该值设置为零。</p>
+<p>上面代码监控验证指标，这里是“val_loss”，也可以选择“val_acc”。min_delta 规定算法认定为有效改善的最小幅度；若每个 epoch 的验证指标改善不足 0.001，就可能触发停止。patience 参数提供了缓冲：本例要求连续三个 epoch 没有改善后才终止训练。verbose 控制函数输出的信息量；这里不需要过程信息，因此设为零。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在图 7.8 中，两个图产生非常不同的曲线。原因之一是第二张图的比例。精度范围非常窄。该范围内的任何变化并不代表总体上有太大变化。训练样本上的模式相对清晰：损失减少，而准确度提高。不幸的是，这并没有转化为测试样本，这表明该模型不能很好地概括样本外。</p>
+<p>图 7.8 中两幅图的曲线看起来差异很大，部分原因是第二幅图的纵轴尺度：准确率范围非常窄，因此其中的变化在整体上并不大。训练集上的规律很清楚，损失下降而准确率上升；但测试集没有出现同样改善，说明模型的样本外泛化能力较弱。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15407,9 +15407,9 @@ Epoch 5/20
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在 Keras 中，可以定义用户指定的损失函数。在某些情况下这可能很有趣。例如，二次误差有三项<br/>
-$y_i^2$、$\tilde{y}_i^2$ 和 $-2y_i\tilde{y}_i$。在实践中，更多地关注后一项是有意义的，因为它是最重要的：我们确实希望预测和实际值具有相同的符号！下面我们展示如何优化 Keras 中的简单（乘积）函数，$l(y_i,\tilde{y}_i)=(\tilde{y}_i-\tilde{m})^2-\gamma (y_i-m)(\tilde{y}_i-\tilde{m})$，其中<br/>
-$m$ 和 $\tilde{m}$ 是 $\tilde{m}$ 和 $\tilde{y}_i$ 的样本平均值。使用 $\gamma&gt;2$，我们给予交叉项更多的权重。我们从一个简单的架构开始。</p>
+<p>Keras 允许用户自定义损失函数，这在某些场景中很有用。例如，平方误差包含三项：<br/>
+$y_i^2$、$\tilde{y}_i^2$ 和 $-2y_i\tilde{y}_i$。实践中可以提高最后一项的重要性，因为我们尤其希望预测值与已实现值符号相同。下面展示如何在 Keras 中优化一个简单的乘积型函数 $l(y_i,\tilde{y}_i)=(\tilde{y}_i-\tilde{m})^2-\gamma (y_i-m)(\tilde{y}_i-\tilde{m})$，其中<br/>
+$m$ 和 $\tilde{m}$ 分别表示已实现值与预测值的样本均值；也就是说，后者 $\tilde{m}$ 是预测值 $\tilde{y}_i$ 的样本均值。当 $\gamma&gt;2$ 时，交叉项获得更高权重。先从一个简单架构开始。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15429,7 +15429,7 @@ $m$ 和 $\tilde{m}$ 是 $\tilde{m}$ 和 $\tilde{y}_i$ 的样本平均值。使�
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>然后我们对损失函数进行编码并将其集成到模型中。重要的技巧是求助于库特定的函数（k_functions）。我们对预测值的方差减去实际值和预测值之间的缩放协方差进行编码。下面我们使用五级。</p>
+<p>接着编写损失函数并把它接入模型。关键是使用软件包提供的专用函数 k_functions。这里实现的是预测值方差减去已实现值与预测值之间的缩放协方差，下面把缩放系数设为 5。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15453,7 +15453,7 @@ $m$ 和 $\tilde{m}$ 是 $\tilde{m}$ 和 $\tilde{y}_i$ 的样本平均值。使�
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，我们准备好训练并简要评估模型的性能。</p>
+<p>至此可以训练模型，并简要评估其表现。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15516,7 +15516,7 @@ $m$ 和 $\tilde{m}$ 是 $\tilde{m}$ 和 $\tilde{y}_i$ 的样本平均值。使�
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>结果可能会有所改善。有几个方向可以提供帮助。其中之一可以说是模型应该是动态的而不是静态的（参见第 12 章）。</p>
+<p>结果仍有改进空间，可以从多个方向着手。其中一个方向，是把静态模型改为动态模型，参见第 12 章。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15526,12 +15526,12 @@ $m$ 和 $\tilde{m}$ 是 $\tilde{m}$ 和 $\tilde{y}_i$ 的样本平均值。使�
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="7.5.1-Presentation">7.5.1 介绍<a class="anchor-link" href="#7.5.1-Presentation">¶</a></h3>
+<h3 id="7.5.1-Presentation">7.5.1 基本原理<a class="anchor-link" href="#7.5.1-Presentation">¶</a></h3>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>多层感知机是前馈网络，因为数据从左向右流动，中间没有循环。对于某些具有顺序链接的特定任务（例如时间序列或语音识别），跟踪前一个样本发生的情况可能很有用（即存在自然排序）。对“记忆”进行建模的一种简单方法是考虑以下仅具有一个中间层的网络：</p>
+<p>多层感知机属于前馈网络，因为数据从左向右传递，中间没有循环连接。但在时间序列、语音识别等具有自然顺序的任务中，保留前一个样本的信息往往很有用。为这种“记忆”建模的一种简单方法，是使用下面这个只有一个隐藏层的网络：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15544,33 +15544,33 @@ $m$ 和 $\tilde{m}$ 是 $\tilde{m}$ 和 $\tilde{y}_i$ 的样本平均值。使�
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $h_0$ 通常设置为零（向量方式）。</p>
+<p>其中，向量 $h_0$ 通常初始化为零。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>此类模型通常称为 Elman (1990) 模型或 Jordan (1997) 模型（如果在后一种情况下，在 $h_i$ 的计算中将 $h_{i-1}$ 替换为 $y_{i-1}$ ）。这两种类型的模型都属于循环神经网络（RNN）的总体范围。</p>
+<p>这类模型通常称为 Elman（1990）模型；若在计算 $h_i$ 时将 $h_{i-1}$ 替换为 $y_{i-1}$，则称为 Jordan（1997）模型。两者都属于循环神经网络（RNN）。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>$h_i$ 通常称为状态层或隐藏层。该模型的训练很复杂，必须通过在所有样本上展开网络以获得简单的前馈网络并定期对其进行训练来完成。我们在图 7.9 中说明了展开原理。它显示了一个非常深的网络。第一个输入影响第一层，然后通过 $h_1$ 影响第二层，并以相同的方式影响所有后续层。同样，第二个输入会影响除第一个之外的所有层，并且每个样本 $i-1$ 将影响输出 $\tilde{y}_i$ 以及 $j \ge i$ 的所有输出 $\tilde{y}_j$。在图 7.9 中，训练的参数以蓝色显示。事实上，它们在展开网络的每个层面上都出现了很多次。</p>
+<p>$h_i$ 通常称为状态或隐藏状态。训练这种模型较为复杂，需要沿全部样本把循环网络在时间维度展开，转化为一个很深的前馈网络，再按常规方式训练。图 7.9 展示了展开原理。第一个输入不仅影响第一步，还通过 $h_1$ 影响第二步及此后的所有步骤；类似地，第二个输入影响除第一步外的所有后续步骤。一般而言，样本 $i-1$ 会影响输出 $\tilde{y}_i$，以及所有满足 $j \ge i$ 的输出 $\tilde{y}_j$。图中蓝色标出需要训练的参数；同一组参数在展开网络的每个时间步都会重复出现。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/RN.png" width="800"/>
-图 7.9：展开循环网络。</p>
+图 7.9：循环网络的时间展开。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>上述架构的主要问题是由以下原因引起的内存损失： <strong>梯度消失</strong>。由于模型的深度，反向传播中使用的链式法则将意味着大量激活函数导数的乘积。现在，如图 7.4 所示，这些函数非常平滑，并且它们的导数大多数时候都小于 1（绝对值）。因此，将许多小于一的数字相乘会导致非常小的数字：在某些层之外，学习不会传播，因为调整太小。</p>
+<p>上述架构的主要问题，是<strong>梯度消失</strong>导致长期记忆衰减。模型在时间上展开后很深，反向传播的链式法则需要连乘大量激活函数导数。如图 7.4 所示，这些平滑函数的导数绝对值通常小于 1；许多小于 1 的数连续相乘后会迅速接近零。于是，梯度传到较早时间步时已经太小，参数几乎无法更新。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Hochreiter 和 Schmidhuber (1997)（长短期记忆 - LSTM 模型）引入了一种防止记忆逐渐折扣的方法。该模型随后被作者 Chung 等人简化。 （2015），我们在下面介绍这个更简洁的模型。门控循环单元（GRU）是上面定义的普通循环网络的稍微复杂的版本。它具有以下表示形式：</p>
+<p>Hochreiter 和 Schmidhuber（1997）提出长短期记忆（LSTM）模型，用来防止记忆随时间逐步衰减。Chung 等人（2015）随后将其简化，得到下面介绍的门控循环单元（GRU）。GRU 比前述基础循环网络稍复杂，可表示为：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15584,7 +15584,7 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>以紧凑的形式，这给出</p>
+<p>写成紧凑形式即为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15596,17 +15596,17 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $z_i$ 决定当前值和过去值之间的最佳组合。对于候选值，$r_i$ 决定保留多少过去/内存。 $r_i$ 通常称为“重置门”，$z_i$ 通常称为“更新门”。</p>
+<p>其中，$z_i$ 决定过去状态与当前候选值如何组合；$r_i$ 则决定计算候选值时保留多少历史信息。$r_i$ 称为“重置门”，$z_i$ 称为“更新门”。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>循环网络的训练有一些微妙之处。事实上，由于样本之间的链接，每个批次必须对应于一个连贯的时间序列。因此，合理的选择是每个资产一批，样本（逻辑上）按时间顺序排列。最后，某些框架中的一个选项是通过将 $\tilde{y}_i$ 的最终值传递到下一个批次（对于下一个批次，该值将为 $\tilde{y}_0$）来保留批次之间的一些内存。这通常称为有状态模式，应仔细考虑。如果批量大小对应于每个资产的所有观察结果，那么在投资组合预测设置中似乎并不理想：资产之间没有特定的联系。如果针对每个给定资产将数据集分为多个部分，则必须非常谨慎地处理训练。</p>
+<p>循环网络的训练有若干细节需要注意。由于样本之间存在时序连接，每个批次都必须对应一段连贯的时间序列。因此，一种自然做法是按资产组织批次，并让各资产内部的样本按时间排序。某些框架还支持在批次之间保留状态：把上一批次最后的 $\tilde{y}_i$ 传给下一批次，作为其 $\tilde{y}_0$。这称为有状态模式，使用时必须谨慎。若每个批次包含某项资产的全部观测，就不应把上一项资产的状态传给下一项资产，因为不同资产之间没有这种直接时序联系。只有当同一资产的数据被分成多个连续批次时，跨批次保留状态才可能合理，但训练仍需仔细设计。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>循环网络和 LSTM 尤其被发现是金融环境中良好的预测工具（参见 Fischer 和 Krauss（2018）以及 Wang 等人（2020）等）。</p>
+<p>循环网络，尤其是 LSTM，已被证明在一些金融场景中具有良好预测能力，例如参见 Fischer 和 Krauss（2018）以及 Wang 等人（2020）。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15616,31 +15616,31 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>与多层感知机相比，循环网络理论上更加复杂。在实践中，它们的实现也更具挑战性。事实上，与前馈架构相比，序列连接需要更多关注。在资产定价框架中，我们必须将资产分开，因为股票特定的时间序列不能混在一起。学习将按顺序进行，一次处理一只股票。</p>
+<p>循环网络在理论上比多层感知机更复杂，实现起来也更具挑战。与前馈架构相比，其序列连接需要格外处理。在资产定价中，必须把不同资产的时间序列分开，不能把各只股票的序列首尾相接；训练应按资产逐一组织。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>变量的维度至关重要。在 Keras 中，它们为 RNN 定义为：</p>
+<p>变量维度至关重要。Keras 中 RNN 的输入维度依次为：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ol>
-<li>批次的大小：在我们的例子中，它将是资产的数量。事实上，递归关系在资产级别成立，因此每个资产将代表模型将学习的新批次。</li>
-<li>时间步长：在我们的例子中，它只是日期的数量。</li>
-<li>特征数量：在我们的例子中，只有一个可能的数字，即预测变量的数量。</li>
+<li>批量大小：本例中等于资产数，每项资产对应一条独立序列；</li>
+<li>时间步数：本例中等于日期数；</li>
+<li>特征数：即预测变量数。</li>
 </ol>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>为了简单起见并减少计算时间，我们将使用与第 5.2.2 节中相同的股票子集。这会产生一个完美的矩形数据集，其中所有日期都具有相同数量的观测值。</p>
+<p>为简化处理并减少计算时间，这里使用与第 5.2.2 节相同的股票子集，从而得到完整的矩形面板：每个日期都包含相同数量的观测。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>首先，我们创建一些新的中间变量。</p>
+<p>首先创建若干中间变量。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15669,7 +15669,7 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>然后，我们构造将作为参数传递的变量。我们记得数据文件首先按股票排序，然后按日期排序（参见第 1.2 节）。</p>
+<p>接着构造要传入模型的变量。数据文件先按股票、再按日期排序，参见第 1.2 节。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15691,7 +15691,7 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，我们进入训练部分。为了简单起见，我们只考虑一个只有一层的简单 RNN。其结构概述如下。在递归结构方面，我们选择门控循环单元（GRU）。</p>
+<p>最后进入训练阶段。为简单起见，只使用一个单层 RNN，其循环单元采用门控循环单元（GRU）。结构如下。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15716,7 +15716,7 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>循环层有许多可用选项。对于GRU，我们参考Keras文档 <a href="https://keras.rstudio.com/reference/layer_gru.html">https://keras.rstudio.com/reference/layer_gru.html</a>。我们简要评论我们激活的选项 return_sequences。在许多情况下，输出只是序列的最终值。如果我们不需要返回完整的序列，我们将面临维度问题，因为标签确实是一个完整的序列。结构确定后，我们就可以进入训练阶段。</p>
+<p>循环层提供许多设置选项。GRU 的详细说明见 Keras 文档 <a href="https://keras.rstudio.com/reference/layer_gru.html">https://keras.rstudio.com/reference/layer_gru.html</a>。这里特别启用 return_sequences。许多任务只返回序列的最后一个值，但本例的标签本身是一条完整序列；若不返回全部时间步的输出，预测与标签的维度就无法匹配。结构确定后即可开始训练。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15749,12 +15749,12 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>图 7.10：经过训练的循环神经网络的输出（回归任务）。</p>
+<p>图 7.10：循环神经网络的训练结果（回归任务）。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>与我们之前的模型相比，输出（图 7.10 中的图表）和输入（代码）的主要区别是缺少验证（或测试）数据。原因之一是 Keras 对 RNN 的限制非常严格，并强制要求训练和测试样本共享相同的维度。在我们的情况下，显然情况并非如此，因此我们必须通过复制模型来绕过这个障碍。</p>
+<p>与前面的模型相比，这里的输入代码和图 7.10 的输出都没有使用验证集或测试集。原因在于 Keras 对 RNN 的输入维度要求严格，训练样本与测试样本必须具有相同形状。本例显然不满足这一条件，因此需要复制模型并调整维度来解决。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15777,7 +15777,7 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，一旦新模型准备就绪并具有匹配的维度，我们就可以继续预测测试值。我们求助于 Predict() 函数并立即计算模型获得的命中率。</p>
+<p>新模型准备好且维度匹配后，就可以用 predict() 函数预测测试集，并立即计算命中率。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15807,12 +15807,12 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>命中率接近 50%，因此该模型的效果并不比抛硬币好多少。</p>
+<p>命中率接近 50%，说明该模型的表现几乎没有优于随机猜测。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在结束关于 RNN 的这一节之前，我们提到一种新的类型架构，称为 $α$-RNN，它比 LSTM 和 GRU 更简单。它们由普通的 RNN 组成，其中添加了简单的自相关性以生成长期记忆。有关此主题的更多详细信息，请参阅 Matthew F Dixon (2020) 论文。</p>
+<p>结束 RNN 这一节之前，再介绍一种较新的架构——$α$-RNN。它比 LSTM 和 GRU 更简单：在普通 RNN 中加入简单的自相关结构，以形成长期记忆。更多细节请参阅 Matthew F Dixon (2020)。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15822,7 +15822,7 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在本节中，我们将介绍其他网络结构。因为它们不太主流并且通常更难实现，所以我们不提供代码示例并坚持理论介绍。</p>
+<p>本节介绍其他几种网络结构。由于这些架构应用较少，而且通常更难实现，这里不提供代码示例，只介绍其基本原理。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15832,22 +15832,22 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>生成对抗网络（GAN）的想法是通过尝试欺骗经典神经网络来提高其准确性。这个非常流行的想法是由 Goodfellow 等人提出的。 （2014）。想象一下，您是毕加索画作的专家，并且您吹嘘能够轻松识别画家的任何作品。提高技能的一种方法是与造假者进行测试。真正的专家应该能够区分真正的毕加索原作和赝品。这就是 GAN 的原理。</p>
+<p>生成对抗网络（GAN）的基本思路，是让一个网络不断尝试欺骗另一个网络，从而提高后者的辨别能力。这一广为流传的方法由 Goodfellow 等人（2014）提出。假设你是毕加索画作的鉴定专家，自信能够轻松认出他的任何作品。检验并磨炼这种能力的一种方法，就是让你与造假者交手：真正的专家应当能够区分毕加索真迹与赝品。GAN 的原理正是如此。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>GAN 由两个神经网络组成：第一个神经网络尝试学习，第二个神经网络尝试愚弄第一个神经网络（使其出错）。就像上面的例子一样，也有两组数据：一组 ($\textbf{x}$) 是真实的（或正确的），来自经典训练样本，另一组 ($\textbf{x}$) 是假的，由造假者网络生成。</p>
+<p>GAN 由两个神经网络组成：第一个网络学习辨别真假，第二个网络则试图欺骗第一个网络，使其判断出错。与上面的例子一样，这里也有两组数据：一组 ($\textbf{x}$) 是来自常规训练样本的真实数据，另一组 ($\textbf{x}$) 是由造假网络生成的虚假数据。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在 GAN 命名法中，学习的网络是 $D$，因为它应该具有区分性，而伪造者是 $G$，因为它生成虚假数据。在最初的表述中，GAN 的目标是分类。为了方便演示，我们保留了这个范围。判别网络有一个简单的（标量）输出：其输入来自真实数据（与假数据）的概率。 $G$ 的输入是一些任意噪声，其输出与 $D$ 的输入具有相同的形状/形式。</p>
+<p>在 GAN 的术语中，负责学习辨别的网络记为 $D$，即判别器；负责生成虚假数据的网络记为 $G$，即生成器。GAN 最初用于分类，这里也沿用这一设定以便说明。判别器输出一个标量，表示其输入来自真实数据而非虚假数据的概率。$G$ 的输入是任意噪声，输出则与 $D$ 的输入具有相同的形状和形式。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>我们直接陈述GAN的理论公式并在下面进行评论。 $D$ 和 $G$ 玩以下极小极大游戏：</p>
+<p>下面直接给出 GAN 的理论目标函数，再作解释。$D$ 与 $G$ 进行如下极小极大博弈：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15860,17 +15860,17 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>首先，让我们将该表达式分解为两个部分（优化器）。第一部分（即第一个最大值）是经典部分：算法寻求最大化为其试图分类的所有示例分配正确标签的概率。正如经济学和金融学中所做的那样，该程序不会平均最大化 $D(\textbf{x})$ 本身，而是函数形式（如效用函数）。</p>
+<p>先从两个优化方向来理解这个表达式。第一部分是对判别器的最大化，这是一个常规分类目标：算法希望尽可能提高为所有样本分配正确标签的概率。与经济学和金融学中的做法类似，程序最大化的不是 $D(\textbf{x})$ 本身的平均值，而是它的某种函数形式，这里采用对数函数，作用类似于效用函数。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在左侧，由于期望是由 $\textbf{x}$ 驱动的，因此目标必须在输出中增加。在右侧，通过假样本评估期望，正确的分类是相反的，即 $1-D(G(\textbf{z}))$。</p>
+<p>左侧的期望针对真实数据 $\textbf{x}$ 计算，因此目标应随判别器输出增大而提高。右侧的期望针对虚假样本计算，正确判断意味着把它识别为假，因此对应 $1-D(G(\textbf{z}))$。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>第二个总体部分旨在最小化算法在模拟数据上的性能：它的目标是缩小 $D$ 发现数据确实已损坏的可能性。下面的图（7.8）提供了网络结构的总结版本。</p>
+<p>第二个优化方向是对生成器的最小化：生成器试图降低判别器在模拟数据上的辨别能力，也就是让 $D$ 更难发现数据是伪造的。式（7.8）概括了这一网络结构。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15886,7 +15886,7 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在基于机器学习的资产定价中，GAN 最引人注目的应用是 Luyang Chen、Pelger 和 Zhu（2020）提出的。他们的目的是利用矩表达的方法</p>
+<p>在基于机器学习的资产定价研究中，Luyang Chen、Pelger 和 Zhu（2020）提出了 GAN 最具代表性的应用之一。他们利用如下矩条件：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15898,12 +15898,12 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这是方程（3.7）的应用，其中工具变量 $I_{t,n}$ 与公司相关（例如特征和属性），而 $I_t$ 是宏观经济变量（总股息收益率、波动水平、信用利差、期限利差等）。函数 $g$ 产生 $d$ 维输出，因此上述方程得出 $d$ 力矩条件。诀窍是将 SDF 建模为未知的资产组合 $M_{t+1}=1-\sum_{n=1}^Nw(I_t,I_{t,n})r_{t+1,n}$。主要判别网络 ($D$) 是通过权重 $w(I_t,I_{t,n})$ 近似 SDF 的网络。二次生成网络是通过上式中的 $g(I_t,I_{t,n})$ 创建矩条件的网络。</p>
+<p>这是式（3.7）的一个应用。其中，工具变量 $I_{t,n}$ 与公司有关，例如公司特征和属性；$I_t$ 则表示宏观经济变量，例如市场整体股息率、波动率水平、信用利差和期限利差等。函数 $g$ 输出 $d$ 维向量，因此上式给出 $d$ 个矩条件。关键做法是把随机贴现因子（SDF）建模为未知的资产组合 $M_{t+1}=1-\sum_{n=1}^Nw(I_t,I_{t,n})r_{t+1,n}$。主判别网络 ($D$) 通过权重 $w(I_t,I_{t,n})$ 来近似 SDF；第二个生成网络则通过上式中的 $g(I_t,I_{t,n})$ 构造矩条件。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>程序给出了网络的完整规范：</p>
+<p>该网络的完整设定如下：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15915,12 +15915,12 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $L^2$ 范数适用于通过 $g$ 生成的 $d$ 值。资产定价方程（矩）不被视为等式，而是被视为近似关系。 $\textbf{w}$ 定义的网络是资产定价建模器，并尝试确定最佳可能的模型，而 $\textbf{g}$ 定义的网络寻求找到最坏的可能条件，从而使模型表现不佳。我们参考原始文章来了解这两个网络的完整规范。 Luyang Chen、Pelger 和 Zhu（2020）在其实证部分报告称，与 Gu、Kelly 和 Xiu（2020b）中详述的纯粹预测性“普通”方法相比，采用由资产定价命令驱动的强大结构可以增加价值。十分位排序投资组合的样本外行为（基于模型的预测）显示出相对于十分位顺序的单调模式。</p>
+<p>其中，$L^2$ 范数作用于 $g$ 生成的 $d$ 个输出。这里并不要求资产定价矩条件严格等于零，而是让模型尽可能逼近这一关系。由 $\textbf{w}$ 定义的网络负责建立资产定价模型，寻找尽可能好的模型；由 $\textbf{g}$ 定义的网络则寻找令模型表现最差的条件。两个网络的完整设定请参阅原文。Luyang Chen、Pelger 和 Zhu（2020）的实证结果表明，与 Gu、Kelly 和 Xiu（2020b）所采用的纯预测式“普通”方法相比，引入资产定价约束能够提升模型价值。按照模型预测值划分的十分位投资组合，在样本外也呈现随十分位次序单调变化的表现。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>GAN 还可以用于生成人工金融数据（参见 Efimov 和 Xu (2019)、Marti (2019)、Wiese 等人 (2020)、Ni 等人 (2020) 以及相关的 Buehler 等人 (2020)），但这个主题超出了本书的范围。</p>
+<p>GAN 还可用于生成人工金融数据（参见 Efimov 和 Xu (2019)、Marti (2019)、Wiese 等人 (2020)、Ni 等人 (2020)，以及相关的 Buehler 等人 (2020)），但这一主题超出了本书的范围。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15930,12 +15930,12 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在最近的文献中，自动编码器 (AE) 用于 Huck (2019)（投资组合管理）和 Gu、Kelly 和 Xiu (2020a)（资产定价）。</p>
+<p>近年来，自编码器 (AE) 已用于 Huck (2019) 的投资组合管理研究，以及 Gu、Kelly 和 Xiu (2020a) 的资产定价研究。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>AE 是一个奇怪的神经网络家族，因为它们属于非监督算法。用监督术语来说，它们的标签等于输入。与 GANS 一样，自动编码器由两个网络组成，尽管结构非常不同：第一个网络将输入编码为某种中间输出（通常称为代码），第二个网络将代码解码为输入的修改版本。</p>
+<p>自编码器（AE）是一类较为特殊的神经网络，因为它属于无监督算法。若借用监督学习的说法，它的标签就是输入本身。与 GAN 一样，自编码器也由两个网络组成，但结构截然不同：第一个网络把输入编码为某种中间表示，通常称为编码；第二个网络再把编码解码为输入的重构版本。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15948,12 +15948,12 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>因为自动编码器不属于监督算法大家族，所以我们将其介绍推迟到第 15.2.3 节。</p>
+<p>由于自编码器不属于监督学习算法，本书将其详细介绍留到第 15.2.3 节。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Gu、Kelly 和 Xiu (2020a) 的文章使用了 AE 的想法，同时增加了其资产定价模型的复杂性。从简单的设定 $r_t=\boldsymbol{\beta}_{t-1}\textbf{f}_t+e_t$（为了符号简单起见，我们省略了资产依赖性）出发，他们加入了贝塔取决于公司特征的假设，而这些因子可能是收益率本身的非线性函数。该模型采用以下形式：</p>
+<p>Gu、Kelly 和 Xiu (2020a) 借鉴了 AE 的思路，同时提高了资产定价模型的复杂度。他们从简单设定 $r_t=\boldsymbol{\beta}_{t-1}\textbf{f}_t+e_t$ 出发（为简化符号，这里省略资产下标），进一步假设贝塔取决于公司特征，而因子本身可以是收益率的非线性函数。模型形式如下：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15966,7 +15966,7 @@ r_{t,i}=\textbf{NN}_{\textbf{beta}}(\textbf{x}_{t-1,i})+\textbf{NN}_{\textbf{fac
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $\textbf{NN}_{\textbf{beta}}$ 和 $\textbf{NN}_{\textbf{factor}}$ 是两个神经网络。上面的等式看起来像一个自动编码器，因为收益率既是输入又是输出。然而，额外的复杂性来自第二个神经网络 $\textbf{NN}_{\textbf{beta}}$。现代神经网络库（例如 Keras）允许自定义模型（如上面的模型）。该结构的编码留作练习（见下文）。</p>
+<p>其中，$\textbf{NN}_{\textbf{beta}}$ 和 $\textbf{NN}_{\textbf{factor}}$ 是两个神经网络。由于收益率同时充当输入和输出，上式具有自编码器的形式；额外的复杂性则来自第二个神经网络 $\textbf{NN}_{\textbf{beta}}$。Keras 等现代神经网络库允许构建这类自定义模型。该结构的实现留作下文练习。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15976,17 +15976,17 @@ r_{t,i}=\textbf{NN}_{\textbf{beta}}(\textbf{x}_{t-1,i})+\textbf{NN}_{\textbf{fac
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>由于计算机视觉竞赛中的一系列成功，神经网络在 2010 年开始流行。这些进步背后的算法是卷积神经网络（CNN）。虽然它们对于金融预测来说似乎是一个令人惊讶的选择，但计算机科学领域的几个研究团队已经提出了依赖这种神经网络变体的方法（J.-F. Chen 等人 (2016)、Loreggia 等人 (2016)、Dingli 和 Fournier (2017)、Tsantekidis 等人 (2017)、Hoseinzade 和 Haratizadeh (2019)）。最近，J. Jiang、Kelly 和 Xiu (2020) 提出从价格趋势图像中提取信号。因此，我们在神经网络的最后一节中简要介绍了其原理。我们展示了二维 CNN，但它们也可以用于一维或三维。</p>
+<p>得益于计算机视觉竞赛中的一系列成功，神经网络在 2010 年代迅速普及，推动这些进展的正是卷积神经网络（CNN）。CNN 用于金融预测乍看似乎出人意料，但计算机科学领域已有多个研究团队提出相关方法（J.-F. Chen 等人 (2016)、Loreggia 等人 (2016)、Dingli 和 Fournier (2017)、Tsantekidis 等人 (2017)、Hoseinzade 和 Haratizadeh (2019)）。最近，J. Jiang、Kelly 和 Xiu (2020) 提出从价格走势图片中提取信号。因此，本章最后简要介绍 CNN 的基本原理。这里以二维 CNN 为例，但 CNN 也可用于一维或三维数据。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>CNN 之所以有用，是因为它们允许通过保留局部信息来逐步减少大型数据集的维度。图像是像素的矩形。每个像素通常通过三层进行编码，一层对应一种颜色：红色、蓝色和绿色。但为了简单起见，我们只考虑一层，例如 1,000 x 1,000 像素，每个像素都有一个值。为了分析该图像的内容，卷积层将通过一些卷积来减少输入的维度。从视觉上看，这种简化是通过使用具有任意权重的矩形扫描和更改值来执行的。</p>
+<p>CNN 的价值在于，它能在保留局部信息的同时，逐步降低大型数据集的维度。图像可以看作一个像素矩形，每个像素通常由三个通道编码，分别对应红、蓝、绿三种颜色。为简化说明，这里只考虑一个通道，例如一幅 1,000 x 1,000 像素的图像，每个像素只有一个数值。为了分析图像内容，卷积层通过卷积运算压缩输入维度。直观地说，就是用带有一组权重的矩形窗口在图像上滑动，对窗口覆盖的数值进行加权变换。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>图 7.11 概述了这个过程（它受到 Hoseinzade 和 Haratizadeh (2019) 的强烈启发）。原始数据是矩阵 $(I\times K)$ $(I\times K)$，权重也是大小为 $(J\times L)$、具有 $J&lt;I$ 和 $L&lt;K$ 的矩阵 $w_{j,l}$。扫描将每个大小为 $(J\times L)$ 的矩形转换为一个实数。因此，输出的大小较小：$(I-J+1)\times(K-L+1)$。如果 $I=K=1,000$ 和 $I=K=1,000$，则输出的尺寸为 $(800\times 800)$，该尺寸已经小得多。输出值由下式给出</p>
+<p>图 7.11 概括了这一过程，其设计深受 Hoseinzade 和 Haratizadeh (2019) 启发。原始数据是一个 $(I\times K)$ $(I\times K)$ 矩阵，权重也构成一个大小为 $(J\times L)$ 的矩阵，其中 $J&lt;I$ 且 $L&lt;K$，记为 $w_{j,l}$。扫描过程把每个 $(J\times L)$ 矩形窗口压缩为一个实数，因此输出尺寸缩小为 $(I-J+1)\times(K-L+1)$。如果 $I=K=1,000$ 和 $I=K=1,000$，输出尺寸为 $(800\times 800)$，已经显著缩小。输出值为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15999,7 +15999,7 @@ o_{i,k}=\sum_{j=1}^J\sum_{l=1}^Lw_{j,l}x_{i+j-1,k+l-1}.
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/cnn_scheme.png"/>
-图 7.11：卷积单元的方案。注：尺寸为一般尺寸，与方格数无关。</p>
+图 7.11：卷积单元示意图。注：图中标注的是一般维度，并不对应方格的实际数量。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -16016,7 +16016,7 @@ o_{i,k}=\sum_{j=1}^J\sum_{l=1}^Lw_{j,l}x_{i+j-1,k+l-1}.
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>通过像上面介绍的那样的卷积层序列迭代地减少输出的维度将导致计算成本高昂，并且可能会导致过度拟合，因为权重的数量将非常大。为了有效地减少输出的大小， <strong>池化层</strong> 经常被使用。池化单元的作用是通过将矩阵简化为简单的度量（例如矩阵的最小值、最大值或平均值）来简化矩阵：</p>
+<p>若仅靠连续堆叠上述卷积层来逐步降低输出维度，计算成本会很高，而且大量权重还可能导致过拟合。为了更高效地缩小输出，通常会使用<strong>池化层</strong>。池化单元把一个局部矩阵归约为单个统计量，例如该矩阵的最小值、最大值或平均值：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -16028,23 +16028,23 @@ o_{i,k}=f(x_{i+j-1,k+l-1}, 1\le j\le J, 1 \le l\le L),
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $f$ 是最小值、最大值或平均值。我们在下面的图 7.12 中展示了池化的示例。为了提高压缩速度，可以增加步幅以省略单元格。步幅值为 $v$ 将仅在每个 $v$ 值执行操作，因此绕过中间步骤。在图7.12中，左边的两种情况没有采用池化，因此维度的减少正好等于池化大小的大小。当跨步开始行动时（右窗格），减少的程度更加明显。从 1,000 x 1,000 输入，步幅为 2 的 2 x 2 池化层将产生 500 x 500 输出：维度缩小四倍，如图 7.12 的右侧方案所示。</p>
+<p>其中，$f$ 取最小值、最大值或平均值。图 7.12 给出了池化示例。为了加快压缩，还可以设置步幅来跳过部分单元格。步幅为 $v$ 时，每隔 $v$ 个位置才执行一次操作，从而略过中间位置。图 7.12 左侧两种情形未使用步幅，因此维度缩减量只取决于池化窗口的大小；右侧加入步幅后，压缩更为明显。对于 1,000 x 1,000 的输入，采用步幅为 2 的 2 x 2 池化层，将得到 500 x 500 的输出，即元素数量缩减为原来的四分之一，如图 7.12 右侧所示。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/cnn_pooling.png"/>
-图 7.12：池化单元方案。</p>
+图 7.12：池化单元示意图。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>有了这些工具，就有可能构建新的预测工具。在 Hoseinzade 和 Haratizadeh（2019）中，价格报价、技术指标和宏观经济数据等预测因子被输入到 6 层的复杂神经网络中，以预测价格变化的迹象。虽然这显然是一项有趣的计算机科学练习，但这种架构选择背后的深层经济动机仍不清楚。桑加季耶夫等人。 (2020) 使用 CNN 依靠限价订单簿数据构建投资组合。</p>
+<p>借助这些工具，可以构建新的预测模型。Hoseinzade 和 Haratizadeh（2019）把价格报价、技术指标和宏观经济数据等预测变量输入一个复杂的 6 层神经网络，用来预测价格变动的方向。尽管这在计算机科学上很有意思，但选择这种架构的深层经济动机仍不明确。Sangadiev et al. (2020) 则使用 CNN，基于限价订单簿数据构建投资组合。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="7.6.4-Advanced-architectures">7.6.4 高级架构<a class="anchor-link" href="#7.6.4-Advanced-architectures">¶</a></h2><p>神经网络在计算机视觉和自然语言处理相关任务中的优越性现已得到充分证实。然而，在 2010 年的许多 ML 锦标赛中，神经网络在处理表格数据时常常被基于树的模型超越。这个难题鼓励研究人员构建更适合表格数据库的新型神经网络结构。例子包括 Arik 和 Pfister (2019) 以及 Popov、Morozov 和 Babenko (2019)，但他们的想法超出了本书的范围。令人惊讶的是，相反的想法也存在：Nuti、Rugama 和 Thommen（2019）尝试调整树和随机森林，使它们的行为更像神经网络。有兴趣的读者可以看看原文。</p>
+<h2 id="7.6.4-Advanced-architectures">7.6.4 高级架构<a class="anchor-link" href="#7.6.4-Advanced-architectures">¶</a></h2><p>神经网络在计算机视觉和自然语言处理任务中的优势已经得到充分验证。然而，在 2010 年代的许多机器学习竞赛中，面对表格数据时，神经网络往往不及基于树的模型。这一现象促使研究人员设计更适合表格数据的新型神经网络结构，例如 Arik 和 Pfister (2019) 以及 Popov、Morozov 和 Babenko (2019) 的方法，但其具体思路超出了本书范围。反过来的探索也同样存在：Nuti、Rugama 和 Thommen（2019）尝试调整树模型和随机森林，使其行为更接近神经网络。感兴趣的读者可参阅原文。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -16054,18 +16054,18 @@ o_{i,k}=f(x_{i+j-1,k+l-1}, 1\le j\le J, 1 \le l\le L),
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>本练习的目的是对 Gu、Kelly 和 Xiu (2020a) 中描述的自动编码器模型进行编码（参见第 7.6.2 节）。在对神经网络进行编码时，必须严格报告维度。这就是为什么我们在图 7.13 中重现了模型图，该图清楚地显示了输入和输出及其维度。</p>
+<p>本练习要求实现 Gu、Kelly 和 Xiu (2020a) 所述的自编码器模型（参见第 7.6.2 节）。实现神经网络时，必须严谨地标明各层维度。因此，图 7.13 再次给出模型结构，并清楚标示输入、输出及其维度。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/AE.png" width="400"/>
-图 7.13：自动编码器定价模型的方案。</p>
+图 7.13：自编码器资产定价模型示意图。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>为了充分发挥 Keras 的潜力，必须转向更通用的神经网络公式。这可以通过所谓的函数式 API 来完成： <a href="https://keras.io/guides/functional_api/">https://keras.io/guides/functional_api/</a>.</p>
+<p>要充分发挥 Keras 的能力，需要采用更通用的神经网络构建方式，即函数式 API：<a href="https://keras.io/guides/functional_api/">https://keras.io/guides/functional_api/</a>。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -16151,9 +16151,9 @@ o_{i,k}=f(x_{i+j-1,k+l-1}, 1\le j\le J, 1 \le l\le L),
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ol>
-<li><p>神经网络最近也被应用于衍生品定价和对冲，例如参见 Buehler 等人的工作。 (2019) 和 Andersson 和 Oosterlee (2020) 以及 Ruf 和 Wang (2019) 的调查。在吴等人中。 （2020），发现深度学习对于选择表现良好的对冲基金是有效的。限价订单簿建模也是神经网络应用的一个不断扩展的领域（Sirignano 和 Cont (2019)、Wallbridge (2020)）。↩︎</p>
+<li><p>近年来，神经网络也被用于衍生品定价与对冲，例如 Buehler 等人 (2019)、Andersson 和 Oosterlee (2020) 的研究，以及 Ruf 和 Wang (2019) 的综述。Wu 等人（2020）发现，深度学习能够有效筛选表现良好的对冲基金。限价订单簿建模同样是神经网络应用不断扩展的领域（Sirignano 和 Cont (2019)、Wallbridge (2020)）。↩︎</p>
 </li>
-<li><p>如果出现包冲突，请使用 keras::get_weights(model)。事实上，机器学习领域的另一个包yardstick使用函数名称“get_weights”。↩︎</p>
+<li><p>如果出现软件包冲突，请使用 keras::get_weights(model)。机器学习领域的另一个软件包 yardstick 也使用函数名“get_weights”。↩︎</p>
 </li>
 </ol>
 </div>

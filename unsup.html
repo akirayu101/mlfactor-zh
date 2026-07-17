@@ -3,26 +3,26 @@
 <head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
-<title>第 15 章 无监督学习 | Machine Learning for Factor Investing</title>
+<title>第 15 章 无监督学习 | 用于因子投资的机器学习</title>
 <meta content="Guillaume Coqueret and Tony Guida" name="author"/>
 <meta content="bookdown 0.24 with bs4_book()" name="generator"/>
-<meta content="第 15 章 无监督学习 | Machine Learning for Factor Investing" property="og:title"/>
+<meta content="第 15 章 无监督学习 | 用于因子投资的机器学习" property="og:title"/>
 <meta content="book" property="og:type"/>
 <meta content="summary" name="twitter:card"/>
-<meta content="第 15 章 无监督学习 | Machine Learning for Factor Investing" name="twitter:title"/>
+<meta content="第 15 章 无监督学习 | 用于因子投资的机器学习" name="twitter:title"/>
 <!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
-<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content=".container-fluid main { max-width: 60rem; } All algorithms presented in Chapters 5 to 9 belong to the larger class of supervised learning tools. Such tools seek to unveil a mapping between..." name="description"/>
-<meta content=".container-fluid main { max-width: 60rem; } All algorithms presented in Chapters 5 to 9 belong to the larger class of supervised learning tools. Such tools seek to unveil a mapping between..." property="og:description"/>
-<meta content=".container-fluid main { max-width: 60rem; } All algorithms presented in Chapters 5 to 9 belong to the larger class of supervised learning tools. Such tools seek to unveil a mapping between..." name="twitter:description"/></head>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="本章介绍无监督学习中的自编码器、主成分分析、聚类与最近邻方法。" name="description"/>
+<meta content="本章介绍无监督学习中的自编码器、主成分分析、聚类与最近邻方法。" property="og:description"/>
+<meta content="本章介绍无监督学习中的自编码器、主成分分析、聚类与最近邻方法。" name="twitter:description"/></head>
 <body data-spy="scroll" data-target="#toc"><div class="container-fluid">
 <div class="row">
 <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
 <div class="d-flex align-items-start justify-content-between">
 <h1>
-<a href="index.html" title="">Machine Learning for Factor Investing</a>
+<a href="index.html" title="">用于因子投资的机器学习</a>
 </h1>
 <button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
 </div>
@@ -35,7 +35,7 @@
 <li><a class="" href="index.html">前言</a></li>
 <li class="book-part">导论</li>
 <li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号和数据</a></li>
-<li><a class="" href="intro.html"><span class="header-section-number">2</span> 简介</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 导论</a></li>
 <li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资和资产定价异象</a></li>
 <li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
 <li class="book-part">常见监督学习算法</li>
@@ -45,18 +45,18 @@
 <li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
 <li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
 <li class="book-part">从预测到投资组合</li>
-<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 模型验证与超参数调优</a></li>
 <li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
 <li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
 <li class="book-part">其他重要主题</li>
 <li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
-<li><a class="" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></li>
+<li><a class="" href="causality.html"><span class="header-section-number">14</span> 因果关系与非平稳性</a></li>
 <li><a class="active" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
 <li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
 <li class="book-part">附录</li>
-<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据描述</a></li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
 <li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
-<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习题答案</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习解答</a></li>
 </ul>
 <div class="book-extra">
 </div>
@@ -69,13 +69,13 @@
 max-width: 60rem;
 }
 </style>
-<p><a href="lasso.html#lasso">5</a> 到 <a href="bayes.html#bayes">9</a> 章中介绍的所有算法都属于较大类别的监督学习工具。此类工具旨在揭示预测变量 <span class="math inline">\(\textbf{X}\)</span> 和标签 <span class="math inline">\(\textbf{Z}\)</span> 之间的映射。监督来自于这样一个事实：要求数据试图解释这个特定的变量 <span class="math inline">\(\textbf{Z}\)</span>。ML的另一个重要部分包括无监督学习任务，即当未指定 <span class="math inline">\(\textbf{Z}\)</span> 并且算法尝试自行理解 <span class="math inline">\(\textbf{X}\)</span> 时。通常，<span class="math inline">\(\textbf{X}\)</span> 的组成部分之间的关系是可以确定的。这个领域太大了，无法在一本书中概括，更不用说一章了。这里的目的是简要解释无监督学习可以如何使用，特别是在数据预处理阶段。</p>
+<p><a href="lasso.html#lasso">5</a> 至 <a href="bayes.html#bayes">9</a> 章介绍的算法都属于监督学习方法。这类工具试图学习预测变量 <span class="math inline">\(\textbf{X}\)</span> 与标签 <span class="math inline">\(\textbf{Z}\)</span> 之间的映射。所谓“监督”，是指数据被要求解释一个明确指定的目标变量 <span class="math inline">\(\textbf{Z}\)</span>。机器学习的另一大分支是无监督学习：此时不指定 <span class="math inline">\(\textbf{Z}\)</span>，而由算法自行发掘 <span class="math inline">\(\textbf{X}\)</span> 中的结构，通常是识别 <span class="math inline">\(\textbf{X}\)</span> 各组成部分之间的关系。这个领域极为广阔，一本书尚且难以概括，更不用说一章。本章仅简要说明无监督学习的若干用途，尤其是其在数据预处理中的作用。</p>
 <div class="section level2" id="corpred" number="15.1">
 <h2><span class="header-section-number">15.1</span> 相关预测变量的问题<a aria-label="锚" class="anchor" href="#corpred"><i class="fas fa-link"></i></a></h2>
-<p>通常，人们很容易将所有预测变量提供给ML驱动的预测引擎。当某些预测变量高度相关时，这可能不是一个好主意。为了说明这一点，最简单的例子是对具有零均值、协方差和精度矩阵的两个变量进行回归：
+<p>人们往往会把所有预测变量一股脑地交给机器学习预测模型；但如果其中一些变量高度相关，这样做未必明智。最简单的例子是：对两个均值为零的变量进行回归，其协方差矩阵及精度矩阵（协方差矩阵的逆）为：
 <span class="math display">\[\boldsymbol{\Sigma}=\textbf{X}'\textbf{X}=\begin{bmatrix} 1 &amp; \rho \\ \rho &amp; 1 \end{bmatrix},  \quad \boldsymbol{\Sigma}^{-1}=\frac{1}{1-\rho^2}\begin{bmatrix} 1 &amp; -\rho \\ -\rho &amp; 1 \end{bmatrix}.\]</span>
-当协方差/相关性 <span class="math inline">\(\rho\)</span> 向 1 增加（两个变量共线性）时，<span class="math inline">\(\boldsymbol{\Sigma}^{-1}\)</span> 中的缩放分母变为零，并且公式 <span class="math inline">\(\hat{\boldsymbol{\beta}}=\boldsymbol{\Sigma}^{-1}\textbf{X}'\textbf{Z}\)</span> 意味着一个系数将高度正，一个系数高度负。回归在两个变量之间创建了虚假套利。当然，这是非常低效的，并且会在样本外产生灾难性的结果。</p>
-<p>我们在下面的回归中说明了当使用许多变量时会发生什么（表 <a href="unsup.html#tab:regbroom">15.1</a>）。对上述现象的一种解释来自变量Mkt_Cap_12M_Usd和Mkt_Cap_6M_Usd，它们在训练样本中的相关性达到99.6%。两者都被认为非常重要，但它们的迹象是矛盾的。此外，它们的系数大小非常接近（0.21 与 0.18），因此它们的净效应相互抵消。当然，仅提供这两个输入之一的回归会更明智。</p>
+当协方差（在此也是相关系数）<span class="math inline">\(\rho\)</span> 趋近于 1，即两个变量趋于共线时，<span class="math inline">\(\boldsymbol{\Sigma}^{-1}\)</span> 的分母趋近于零。由公式 <span class="math inline">\(\hat{\boldsymbol{\beta}}=\boldsymbol{\Sigma}^{-1}\textbf{X}'\textbf{Z}\)</span> 可知，一个回归系数可能变得很大且为正，另一个则很大且为负。换言之，回归在人为制造两个变量之间的虚假对冲关系。这种估计既不稳定，也可能在样本外造成严重后果。</p>
+<p>表 <a href="unsup.html#tab:regbroom">15.1</a> 展示了在回归中同时使用大量变量时可能出现的情况。变量 Mkt_Cap_12M_Usd 与 Mkt_Cap_6M_Usd 在训练样本中的相关系数高达 99.6%，正好说明了上述现象。二者都高度显著，符号却相反；而且系数的绝对值十分接近（0.21 对 0.18），净效应几乎相互抵消。显然，只保留这两个输入中的一个会更稳妥。</p>
 <div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/">broom</a></span><span class="op">)</span>                                  <span class="co"># Package for clean regression output </span>
 <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>    
@@ -86,17 +86,17 @@ max-width: 60rem;
     <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>booktabs <span class="op">=</span> <span class="cn">TRUE</span>,
                  caption <span class="op">=</span> <span class="st">"Significant predictors in the training sample."</span><span class="op">)</span> </code></pre></div>
 <div class="inline-table"><table class="table table-sm">
-<caption><span id="tab:regbroom">表 15.1：</span>训练样本中的显着预测因子。</caption>
+<caption><span id="tab:regbroom">表 15.1：</span>训练样本中的显著预测变量。</caption>
 <thead><tr>
-<th style="text-align:left;">术语</th>
-<th style="text-align:right;">估计</th>
-<th style="text-align:right;">标准错误</th>
-<th style="text-align:right;">统计</th>
-<th style="text-align:right;">p值</th>
+<th style="text-align:left;">项</th>
+<th style="text-align:right;">估计值</th>
+<th style="text-align:right;">标准误</th>
+<th style="text-align:right;">统计量</th>
+<th style="text-align:right;">p 值</th>
 </tr></thead>
 <tbody>
 <tr>
-<td style="text-align:left;">（拦截）</td>
+<td style="text-align:left;">（截距）</td>
 <td style="text-align:right;">
 0.0405741
 </td>
@@ -111,7 +111,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">税息折旧及摊销前利润</td>
+<td style="text-align:left;">Ebitda_Margin</td>
 <td style="text-align:right;">
 0.0132374
 </td>
@@ -126,7 +126,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">息税折旧摊销前利润</td>
+<td style="text-align:left;">Ev_Ebitda</td>
 <td style="text-align:right;">
 0.0068144
 </td>
@@ -141,7 +141,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">法_慈</td>
+<td style="text-align:left;">Fa_Ci</td>
 <td style="text-align:right;">
 0.0072308
 </td>
@@ -246,7 +246,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">镍</td>
+<td style="text-align:left;">Ni</td>
 <td style="text-align:right;">
 0.0154609
 </td>
@@ -276,7 +276,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">OCF_Bv</td>
+<td style="text-align:left;">Ocf_Bv</td>
 <td style="text-align:right;">
 -0.0198113
 </td>
@@ -291,7 +291,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">铅</td>
+<td style="text-align:left;">Pb</td>
 <td style="text-align:right;">
 -0.0178971
 </td>
@@ -306,7 +306,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">佩</td>
+<td style="text-align:left;">Pe</td>
 <td style="text-align:right;">
 -0.0089908
 </td>
@@ -321,7 +321,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">销售_Ps</td>
+<td style="text-align:left;">Sales_Ps</td>
 <td style="text-align:right;">
 -0.0157856
 </td>
@@ -336,7 +336,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">Vol1Y_USD</td>
+<td style="text-align:left;">Vol1Y_Usd</td>
 <td style="text-align:right;">
 0.0114250
 </td>
@@ -351,7 +351,7 @@ max-width: 60rem;
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">Vol3Y_USD</td>
+<td style="text-align:left;">Vol3Y_Usd</td>
 <td style="text-align:right;">
 0.0084587
 </td>
@@ -368,8 +368,8 @@ max-width: 60rem;
 </tbody>
 </table></div>
 <p></p>
-<p>其实，市值的指标有好几个，也许只有一个就够了，但哪个是最好的选择并不明显。</p>
-<p>为了进一步描述相关性问题，我们计算以下预测变量的相关矩阵（在训练样本上）。由于其尺寸，我们以图形方式显示它。由于标签太多，我们将其删除。</p>
+<p>事实上，市值指标有多个，也许只需保留一个，但究竟选择哪一个并不显而易见。</p>
+<p>为了进一步展示相关性问题，下面计算训练样本中预测变量的相关矩阵。由于矩阵维度很高，我们采用图形展示，并省略过于密集的变量标签。</p>
 <div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/taiyun/corrplot">corrplot</a></span><span class="op">)</span>              <span class="co"># Package for plots of correlation matrices</span>
 <span class="va">C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features</span><span class="op">)</span><span class="op">)</span> <span class="co"># Correlation matrix</span>
@@ -378,61 +378,61 @@ max-width: 60rem;
 <span id="fig:instcorrplot2" style="display:block;"></span>
 <img alt="预测变量的相关矩阵。" src="ML_factor_files/figure-html/instcorrplot2-1.png" width="480"/><p class="caption">图 15.1：预测变量的相关矩阵。</p>
 </div>
-<p>图 <a href="unsup.html#fig:instcorrplot2">15.1</a> 的图形显示对角线周围有几个蓝色方块。例如，特征的前三分之一周围的最大正方形与基于自由现金流的所有会计比率相关。由于计算中存在这个通用术语，这些特征自然是高度相关的。这些局部相关模式在数据集中出现多次，并解释了为什么对这组特征使用简单回归不是一个好主意。</p>
-<p>坦率地说，<strong>多重共线性</strong>（当预测变量相关时）对于 ML 工具来说可能比对于纯统计推断来说问题要小得多。在统计学中，一个中心目标是研究 <span class="math inline">\(\beta\)</span> 系数的属性。共线性扰乱了这种分析。在ML中，目标是最大化样本外的准确性。如果拥有许多预测变量会有所帮助，那就这样吧。一个简单的例子可以帮助澄清这个问题。构建回归树时，拥有多个预测变量将为分割提供更多选择。如果这些特征有意义，那么它们就会很有用。同样的推理也适用于随机森林和提升树。重要的是，大量的特征有助于提高模型的泛化能力。它们的共线性是无关的。</p>
+<p>图 <a href="unsup.html#fig:instcorrplot2">15.1</a> 的对角线附近出现了多个蓝色方块。例如，约位于特征序列前三分之一处的最大方块，对应所有以自由现金流为基础计算的会计比率。由于这些比率共享同一个计算项，它们自然高度相关。数据集中反复出现这样的局部相关结构，说明对这组特征直接使用普通回归并不合适。</p>
+<p>需要说明的是，<strong>多重共线性</strong>（预测变量彼此相关）对机器学习预测的影响，可能远小于对传统统计推断的影响。统计推断的重要目标之一是研究 <span class="math inline">\(\beta\)</span> 系数的性质，而共线性会使这类分析变得不稳定。机器学习更关心样本外预测精度；只要增加预测变量确实有助于泛化，就不必仅因它们相关而舍弃。例如，构建回归树时，更多有意义的预测变量会为节点分裂提供更多候选项；随机森林和提升树也是如此。关键在于丰富的特征是否提高模型的泛化能力，而不是它们是否完全不相关。</p>
 <p>在本章的剩余部分，我们提出了两种有助于减少预测变量数量的方法：</p>
 <ul>
-<li>第一种旨在创建彼此不相关的新变量。从算法的角度来看，低相关性是有利的，但新变量缺乏可解释性；<br/></li>
-<li>第二个将预测变量收集到同质簇中，并且只应从该簇中选择一个特征。这里的基本原理是相反的：可解释性比统计属性更受青睐，因为所得的特征集可能仍然包含高相关性，尽管与原始特征相比，相关性较低。</li>
+<li>第一种方法构造彼此不相关的新变量。低相关性有利于算法，但新变量往往缺乏直观的可解释性；<br/></li>
+<li>第二种方法把预测变量划分为若干同质簇，再从每个簇中选取一个代表性特征。它更看重可解释性，因此所得特征之间仍可能相关，只是相关程度通常低于原始特征集。</li>
 </ul>
 </div>
 <div class="section level2" id="principal-component-analysis-and-autoencoders" number="15.2">
-<h2><span class="header-section-number">15.2</span> 主成分分析和自动编码器<a aria-label="锚" class="anchor" href="#principal-component-analysis-and-autoencoders"><i class="fas fa-link"></i></a></h2>
-<p>第一种方法是降维的基石。它试图确定较少数量的因素 (<span class="math inline">\(K'&lt;K\)</span>)，以便：<br/>
-- i) 解释力水平保持尽可能高；<br/>
-- ii) 结果因子是原始变量的线性组合；<br/>
-- iii) 产生的因素是正交的。</p>
+<h2><span class="header-section-number">15.2</span> 主成分分析和自编码器<a aria-label="锚" class="anchor" href="#principal-component-analysis-and-autoencoders"><i class="fas fa-link"></i></a></h2>
+<p>第一种方法是降维的基石。它试图找出数量更少的一组因子（<span class="math inline">\(K'&lt;K\)</span>），并满足：<br/>
+- i) 尽可能保留原数据的解释能力；<br/>
+- ii) 新因子是原始变量的线性组合；<br/>
+- iii) 新因子彼此正交。</p>
 <div class="section level3" id="a-bit-of-algebra" number="15.2.1">
 <h3><span class="header-section-number">15.2.1</span> 一点代数<a aria-label="锚" class="anchor" href="#a-bit-of-algebra"><i class="fas fa-link"></i></a></h3>
-<p>在这一小节中，我们定义了完全理解主成分分析 (PCA) 推导所需的一些关键概念。从今以后，我们将使用矩阵（以粗体显示）。如果 <span class="math inline">\(I&gt; K\)</span> 和 <span class="math inline">\(\textbf{X}'\textbf{X}=\textbf{I}_K\)</span> 则 <span class="math inline">\(I \times K\)</span> 矩阵 <span class="math inline">\(\textbf{X}\)</span> 是正交的。当 <span class="math inline">\(I=K\)</span> 时，（方）矩阵称为正交矩阵，当 <span class="math inline">\(\textbf{X}'\textbf{X}=\textbf{X}\textbf{X}'=\textbf{I}_K\)</span> 时，即 <span class="math inline">\(\textbf{X}^{-1}=\textbf{X}'\)</span>。</p>
-<p>矩阵理论的一个基本结果是奇异值分解（SVD，参见 <span class="citation">Meyer (<a href="solutions-to-exercises.html#ref-meyer2000matrix" role="doc-biblioref">2000</a>)</span> 中的第 5 章）。 SVD 的公式如下：任何 <span class="math inline">\(I \times K\)</span> 矩阵 <span class="math inline">\(\textbf{X}\)</span> 都可以分解为
+<p>本小节先介绍理解主成分分析（PCA）推导所需的几个关键概念。下文用粗体表示矩阵。若 <span class="math inline">\(I&gt; K\)</span> 且 <span class="math inline">\(\textbf{X}'\textbf{X}=\textbf{I}_K\)</span>，则称 <span class="math inline">\(I \times K\)</span> 矩阵 <span class="math inline">\(\textbf{X}\)</span> 的列正交归一。当 <span class="math inline">\(I=K\)</span> 时，该方阵称为正交矩阵，并满足 <span class="math inline">\(\textbf{X}'\textbf{X}=\textbf{X}\textbf{X}'=\textbf{I}_K\)</span>，即 <span class="math inline">\(\textbf{X}^{-1}=\textbf{X}'\)</span>。</p>
+<p>矩阵理论中的一个基础结果是奇异值分解（SVD；参见 <span class="citation">Meyer (<a href="solutions-to-exercises.html#ref-meyer2000matrix" role="doc-biblioref">2000</a>)</span> 第 5 章）。任何 <span class="math inline">\(I \times K\)</span> 矩阵 <span class="math inline">\(\textbf{X}\)</span> 都可以分解为
 <span class="math display" id="eq:svd">\[\begin{equation}
 \tag{15.1}
 \textbf{X}=\textbf{U} \boldsymbol{\Delta} \textbf{V}',
 \end{equation}\]</span>
-其中 <span class="math inline">\(\textbf{U}\)</span> (<span class="math inline">\(I\times I\)</span>) 和 <span class="math inline">\(\textbf{V}\)</span> (<span class="math inline">\(K \times K\)</span>) 是正交的，<span class="math inline">\(\boldsymbol{\Delta}\)</span>（尺寸为 <span class="math inline">\(I\times K\)</span>）是对角线，即 <span class="math inline">\(\Delta_{i,k}=0\)</span> 每当 <span class="math inline">\(i\neq k\)</span> 时。另外，<span class="math inline">\(\Delta_{i,i}\ge 0\)</span>：<span class="math inline">\(\boldsymbol{\Delta}\)</span> 的对角项是非负的。</p>
-<p>为简单起见，我们假设以下 <span class="math inline">\(\textbf{1}_I'\textbf{X}=\textbf{0}_K'\)</span>，即所有列的总和为零（因此均值为零）。<a class="footnote-ref" href="solutions-to-exercises.html#fn32" id="fnref32"><sup>32</sup></a> 这允许写协方差矩阵等于其样本估计 <span class="math inline">\(\boldsymbol{\Sigma}_X= \frac{1}{I-1}\textbf{X}'\textbf{X}\)</span>。</p>
-<p>协方差矩阵的一个重要特征是其对称性。事实上，实值对称（方）矩阵享有更强大的 SVD：当 <span class="math inline">\(\textbf{X}\)</span> 对称时，存在一个正交矩阵 <span class="math inline">\(\textbf{Q}\)</span> 和一个对角矩阵 <span class="math inline">\(\textbf{D}\)</span> ，使得
+其中 <span class="math inline">\(\textbf{U}\)</span>（<span class="math inline">\(I\times I\)</span>）和 <span class="math inline">\(\textbf{V}\)</span>（<span class="math inline">\(K \times K\)</span>）均为正交矩阵；<span class="math inline">\(\boldsymbol{\Delta}\)</span> 的维数为 <span class="math inline">\(I\times K\)</span>，且为对角矩阵，即 <span class="math inline">\(\Delta_{i,k}=0\)</span> 对所有 <span class="math inline">\(i\neq k\)</span> 都成立。此外，<span class="math inline">\(\Delta_{i,i}\ge 0\)</span>，也就是说 <span class="math inline">\(\boldsymbol{\Delta}\)</span> 的对角元素均为非负数。</p>
+<p>为简化推导，下文假设 <span class="math inline">\(\textbf{1}_I'\textbf{X}=\textbf{0}_K'\)</span>，即每一列的元素之和为零，因而列均值也为零。<a class="footnote-ref" href="solutions-to-exercises.html#fn32" id="fnref32"><sup>32</sup></a> 此时，样本协方差矩阵可写为 <span class="math inline">\(\boldsymbol{\Sigma}_X= \frac{1}{I-1}\textbf{X}'\textbf{X}\)</span>。</p>
+<p>协方差矩阵的一个关键性质是对称性。实值对称方阵具有一种更强的分解形式：当 <span class="math inline">\(\textbf{X}\)</span> 对称时，存在正交矩阵 <span class="math inline">\(\textbf{Q}\)</span> 和对角矩阵 <span class="math inline">\(\textbf{D}\)</span>，使得
 <span class="math display" id="eq:diagonaliz">\[\begin{equation}
 \tag{15.2}
 \textbf{X}=\textbf{Q}\textbf{DQ}'.
 \end{equation}\]</span>
-此过程称为 <strong>对角化</strong>（请参阅 <span class="citation">Meyer (<a href="solutions-to-exercises.html#ref-meyer2000matrix" role="doc-biblioref">2000</a>)</span> 中的第 7 章），并且可以方便地应用于协方差矩阵。</p>
+这一过程称为<strong>对角化</strong>（参见 <span class="citation">Meyer (<a href="solutions-to-exercises.html#ref-meyer2000matrix" role="doc-biblioref">2000</a>)</span> 第 7 章），尤其适合用于协方差矩阵。</p>
 </div>
 <div class="section level3" id="pca" number="15.2.2">
 <h3>
 <span class="header-section-number">15.2.2</span> PCA<a aria-label="锚" class="anchor" href="#pca"><i class="fas fa-link"></i></a>
 </h3>
-<p>PCA 的目标是构建一个数据集 <span class="math inline">\(\tilde{\textbf{X}}\)</span>，该数据集具有较少的列，但在压缩原始数据集 <span class="math inline">\(\textbf{X}\)</span> 时保留尽可能多的信息。关键概念是 <strong>基变换</strong>，它是 <span class="math inline">\(\textbf{X}\)</span> 到 <span class="math inline">\(\textbf{Z}\)</span>（具有相同维度的矩阵）的线性变换，通过
+<p>PCA 的目标是构造列数更少的数据集 <span class="math inline">\(\tilde{\textbf{X}}\)</span>，在压缩原始数据集 <span class="math inline">\(\textbf{X}\)</span> 的同时尽可能保留信息。其关键概念是<strong>基变换</strong>：通过线性变换把 <span class="math inline">\(\textbf{X}\)</span> 映射为维数相同的矩阵 <span class="math inline">\(\textbf{Z}\)</span>：
 <span class="math display" id="eq:pca">\[\begin{equation}
 \tag{15.3}
 \textbf{Z}=\textbf{XP},
 \end{equation}\]</span>
-其中 <span class="math inline">\(\textbf{P}\)</span> 是 <span class="math inline">\(K \times K\)</span> 矩阵。当然，将 <span class="math inline">\(\textbf{X}\)</span> 转换为 <span class="math inline">\(\textbf{Z}\)</span> 的方法有无数种，但两个基本约束有助于减少可能性。第一个约束是 <span class="math inline">\(\textbf{Z}\)</span> 的列不相关。具有不相关的特征是可取的，因为它们都讲述不同的故事并且具有零冗余。第二个约束是 <span class="math inline">\(\textbf{Z}\)</span> 列的方差高度集中。这意味着少数因子（列）将捕获大部分解释力（信号），而大多数其他因子将主要由噪声组成。所有这些都编码在 <span class="math inline">\(\textbf{Z}\)</span> 的协方差矩阵中：</p>
+其中 <span class="math inline">\(\textbf{P}\)</span> 为 <span class="math inline">\(K \times K\)</span> 矩阵。把 <span class="math inline">\(\textbf{X}\)</span> 转换为 <span class="math inline">\(\textbf{Z}\)</span> 的方法有无穷多种，但可以用两个基本约束缩小选择范围。第一，<span class="math inline">\(\textbf{Z}\)</span> 的各列互不相关，使每个新特征提供不同的信息而没有线性冗余。第二，<span class="math inline">\(\textbf{Z}\)</span> 各列的方差应高度集中，即少数因子（列）承载大部分解释能力（信号），其余因子则主要包含噪声。这两项要求都体现在 <span class="math inline">\(\textbf{Z}\)</span> 的协方差矩阵中：</p>
 <ul>
-<li>第一个条件要求协方差矩阵是对角的；<br/></li>
-<li>第二个条件要求对角线元素，当按递减的幅度排列时，它们的值会下降（如果可能的话，急剧下降）。</li>
+<li>第一个条件要求协方差矩阵为对角矩阵；<br/></li>
+<li>第二个条件要求对角元素按大小降序排列，并且最好迅速衰减。</li>
 </ul>
 <p><span class="math inline">\(\textbf{Z}\)</span> 的协方差矩阵为
 <span class="math display" id="eq:covy">\[\begin{equation}
 \tag{15.4}
 \boldsymbol{\Sigma}_Z=\frac{1}{I-1}\textbf{Z}'\textbf{Z}=\frac{1}{I-1}\textbf{P}'\textbf{X}'\textbf{XP}=\frac{1}{I-1}\textbf{P}'\boldsymbol{\Sigma}_X\textbf{P}.
 \end{equation}\]</span></p>
-<p>在此表达式中，我们插入 <span class="math inline">\(\boldsymbol{\Sigma}_X\)</span> 的分解 <a href="unsup.html#eq:diagonaliz">(15.2)</a>：
+<p>在上式中代入 <span class="math inline">\(\boldsymbol{\Sigma}_X\)</span> 的分解式 <a href="unsup.html#eq:diagonaliz">(15.2)</a>：
 <span class="math display">\[\boldsymbol{\Sigma}_Z=\frac{1}{I-1}\textbf{P}'\textbf{Q}\textbf{DQ}'\textbf{P},\]</span>
-因此选择 <span class="math inline">\(\textbf{P}=\textbf{Q}\)</span>，通过正交性，我们得到 <span class="math inline">\(\boldsymbol{\Sigma}_Z=\frac{1}{I-1}\textbf{D}\)</span>，即 <span class="math inline">\(\textbf{Z}\)</span> 的对角协方差矩阵。然后可以按照方差降序重新排列 <span class="math inline">\(\textbf{Z}\)</span> 的列，以便 <span class="math inline">\(\boldsymbol{\Sigma}_Z\)</span> 的对角线元素逐渐缩小。这很有用，因为它有助于找到信息内容最多的因子（第一个因子）。在极限情况下，常数向量（方差为零）不携带信号。</p>
-<p>矩阵 <span class="math inline">\(\textbf{Z}\)</span> 是 <span class="math inline">\(\textbf{X}\)</span> 的线性变换，因此，即使该信息的编码不同，它也应该携带相同的信息。由于各列是根据其相对重要性排序的，因此很容易省略其中一些列。新的特征集 <span class="math inline">\(\tilde{\textbf{X}}\)</span> 包含在 <span class="math inline">\(\textbf{Z}\)</span> 的前 <span class="math inline">\(K'\)</span>（带有 <span class="math inline">\(K'&lt;K\)</span>）列中。</p>
-<p>下面，我们展示如何使用 <em>factoextra</em> 包执行 PCA 并可视化输出。为了便于阅读，我们使用较小的样本和很少的预测变量。</p>
+令 <span class="math inline">\(\textbf{P}=\textbf{Q}\)</span>，利用正交性可得 <span class="math inline">\(\boldsymbol{\Sigma}_Z=\frac{1}{I-1}\textbf{D}\)</span>，因此 <span class="math inline">\(\textbf{Z}\)</span> 的协方差矩阵是对角矩阵。再按方差从大到小排列 <span class="math inline">\(\textbf{Z}\)</span> 的各列，<span class="math inline">\(\boldsymbol{\Sigma}_Z\)</span> 的对角元素便会依次减小。这样就能把信息量最大的因子排在最前面。极端情况下，方差为零的常数向量不包含任何信号。</p>
+<p>矩阵 <span class="math inline">\(\textbf{Z}\)</span> 是 <span class="math inline">\(\textbf{X}\)</span> 的线性变换，因此虽然信息的编码方式不同，理论上仍承载相同的信息。由于各列已经按相对重要性排序，可以直接舍弃尾部列。新的特征集 <span class="math inline">\(\tilde{\textbf{X}}\)</span> 就由 <span class="math inline">\(\textbf{Z}\)</span> 的前 <span class="math inline">\(K'\)</span> 列组成，其中 <span class="math inline">\(K'&lt;K\)</span>。</p>
+<p>下面演示如何使用 <em>factoextra</em> 软件包执行 PCA 并可视化结果。为便于阅读，这里采用预测变量较少的小样本。</p>
 <div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pca</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>    <span class="co"># Smaller number of predictors</span>
@@ -459,8 +459,8 @@ max-width: 60rem;
 ## Pb              -0.168799297
 ## Vol1Y_Usd        0.008632062</code></pre>
 <p></p>
-<p>旋转矩阵给出 <span class="math inline">\(\textbf{P}\)</span>：它是执行基变换的工具。输出的第一行表示每个新因子（列）的标准差。每个因子均通过 PC 指数（主成分）表示。通常，第一个 PC（输出中的第一列 PC1）对所有初始特征进行正向加载：所有预测变量的凸加权平均值预计会携带大量信息。在上面的例子中，情况几乎如此，除了波动性之外，它在第一个 PC 中具有负系数。第二个 PC 是市净率（多头）和股息收益率（空头）之间的套利。第三个 PC 是逆向的，因为它在动量上负载很大且呈负向。并非所有主成分都易于解释。</p>
-<p>有时，可视化主成分的构建方式可能很有用。在图 <a href="unsup.html#fig:pca2">15.2</a> 中，我们展示了一种用于两个因子（通常是前两个）的流行表示。</p>
+<p>输出中的旋转矩阵就是 <span class="math inline">\(\textbf{P}\)</span>，用于完成基变换。第一行列出各个新因子（各列）的标准差，每个因子以 PC 编号表示。通常，第一主成分（输出中的第一列 PC1）对所有原始特征都具有正载荷：全部预测变量的凸加权平均往往能够承载大量信息。本例大体如此，只有波动率在第一主成分中的系数为负。第二主成分可理解为做多市净率、做空股息率的多空组合。第三主成分则带有反转含义，因为它对动量的载荷较大且为负。由此也可见，并非所有主成分都容易解释。</p>
+<p>有时，把主成分的构造方式画出来会更直观。图 <a href="unsup.html#fig:pca2">15.2</a> 展示了两个因子（通常取前两个主成分）的一种常见表示方法。</p>
 <div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.sthda.com/english/rpkgs/factoextra">factoextra</a></span><span class="op">)</span>                      <span class="co"># Package for PCA visualization</span>
 <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_pca.html">fviz_pca_var</a></span><span class="op">(</span><span class="va">pca</span>,                        <span class="co"># Source of PCA decomposition</span>
@@ -473,8 +473,8 @@ max-width: 60rem;
 <img alt="二维 PCA 的视觉表示。" height="200px" src="ML_factor_files/figure-html/pca2-1.png" width="330px"/><p class="caption">图 15.2：二维 PCA 的视觉表示。</p>
 </div>
 <p></p>
-<p>该图显示，前两个主成分均未使所有初始因子保持同号。第一个主成分中波动性的符号为负，第二个主成分中每股收益和股息收益率的符号为负。沿轴指示的数字是每个 PC 的解释方差比例。与输出第一行中的数字相比，对数字进行平方，然后除以总平方和。</p>
-<p>一旦知道旋转，就可以选择转换数据的子样本。从最初的 7 个特征中，很容易只选择 4 个。</p>
+<p>图中可见，前两个主成分的原始特征载荷并非全都同号：第一主成分中的波动率载荷为负，第二主成分中的每股收益和股息率载荷为负。坐标轴上的数字表示各主成分所解释的方差比例；其计算方法是把输出第一行中的标准差平方，再除以所有平方值之和。</p>
+<p>得到旋转矩阵后，就可以从变换后的数据中选取子集。例如，可以把原来的 7 个特征压缩为 4 个主成分。</p>
 <div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                                  <span class="co"># Start from large sample</span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                <span class="co"># Keep only 7 features</span>
@@ -490,36 +490,36 @@ max-width: 60rem;
 ## [5,] 0.5672644 0.5339749 -0.06092424 0.2320938
 ## [6,] 0.5871306 0.6420126 -0.44566482 0.3075399</code></pre>
 <p></p>
-<p>然后，这 4 个因素可以用作任何 ML 引擎中的正交特征。这些特征不相关的事实无疑是一种优势。但这种便利的代价很高：这些特征不再可以立即解释。去相关预测变量在算法中添加了另一层“<em>blackbox-ing</em>”。</p>
-<p>PCA 也可用于估计因子模型。在方程 <a href="unsup.html#eq:pca">(15.3)</a> 中，只需将 <span class="math inline">\(\textbf{Z}\)</span> 替换为收益率，将 <span class="math inline">\(\textbf{X}\)</span> 替换为因子值，将 <span class="math inline">\(\textbf{P}\)</span> 替换为因子载荷（例如，请参阅 <span class="citation">Connor and Korajczyk (<a href="solutions-to-exercises.html#ref-connor1988risk" role="doc-biblioref">1988</a>)</span> 以获取早期参考）。最近，<span class="citation">Lettau and Pelger (<a href="solutions-to-exercises.html#ref-lettau2018estimating" role="doc-biblioref">2020a</a>)</span> 和 <span class="citation">Lettau and Pelger (<a href="solutions-to-exercises.html#ref-lettau2018factors" role="doc-biblioref">2020b</a>)</span> 提出了对 PCA 估计技术的彻底分析。他们特别认为，收益率的一阶矩很重要，应该与二阶矩的优化一起包含在目标函数中。</p>
-<p>我们以技术说明结束本小节。通常，PCA 作用于收益率的协方差矩阵。有时，分解 <strong>相关性</strong> 矩阵可能更好。如果变量具有非常不同的方差（股票空间中的情况并非如此），结果可能会大幅调整。如果投资领域包含多个资产类别，那么基于相关性的主成分分析将降低波动性最大的类别的重要性。在这种情况下，就好像所有收益率都根据各自的波动性进行缩放。</p>
+<p>这 4 个因子随后可作为任意机器学习模型中的正交特征。特征互不相关无疑是一项优势，但代价也很明显：它们不再具有直接的经济解释。对预测变量去相关，相当于又给算法增加了一层“<em>黑箱化</em>”。</p>
+<p>PCA 还可用于估计因子模型。在式 <a href="unsup.html#eq:pca">(15.3)</a> 中，只需把 <span class="math inline">\(\textbf{Z}\)</span> 换成收益率，把 <span class="math inline">\(\textbf{X}\)</span> 换成因子取值，把 <span class="math inline">\(\textbf{P}\)</span> 换成因子载荷。早期研究可参见 <span class="citation">Connor and Korajczyk (<a href="solutions-to-exercises.html#ref-connor1988risk" role="doc-biblioref">1988</a>)</span>。近期，<span class="citation">Lettau and Pelger (<a href="solutions-to-exercises.html#ref-lettau2018estimating" role="doc-biblioref">2020a</a>)</span> 和 <span class="citation">Lettau and Pelger (<a href="solutions-to-exercises.html#ref-lettau2018factors" role="doc-biblioref">2020b</a>)</span> 系统分析了 PCA 估计方法，并特别指出：收益率的一阶矩同样重要，应与二阶矩一起纳入目标函数。</p>
+<p>最后补充一点技术说明。PCA 通常作用于收益率的协方差矩阵，但有时分解<strong>相关矩阵</strong>更为合适。当变量方差差异很大时，二者的结果可能明显不同；股票之间的差异通常没有这么大。若投资范围涵盖多类资产，基于相关矩阵的 PCA 会降低高波动资产类别的影响，其效果相当于先按各自波动率对所有收益率进行标准化。</p>
 </div>
 <div class="section level3" id="ae" number="15.2.3">
-<h3><span class="header-section-number">15.2.3</span> 自动编码器<a aria-label="锚" class="anchor" href="#ae"><i class="fas fa-link"></i></a></h3>
+<h3><span class="header-section-number">15.2.3</span> 自编码器<a aria-label="锚" class="anchor" href="#ae"><i class="fas fa-link"></i></a></h3>
 <p></p>
-<p>在 PCA 中，从 <span class="math inline">\(\textbf{X}\)</span> 到 <span class="math inline">\(\textbf{Z}\)</span> 的编码是直接、线性的并且双向工作：
+<p>在 PCA 中，从 <span class="math inline">\(\textbf{X}\)</span> 到 <span class="math inline">\(\textbf{Z}\)</span> 的编码是直接的线性变换，而且可以双向进行：
 <span class="math display">\[\textbf{Z}=\textbf{X}\textbf{P} \quad \text{and} \quad \textbf{X}=\textbf{ZP}',\]</span>
-这样我们就可以从 <span class="math inline">\(\textbf{Z}\)</span> 中恢复 <span class="math inline">\(\textbf{X}\)</span> 。这可以用不同的方式写：
+因此可以由 <span class="math inline">\(\textbf{Z}\)</span> 恢复 <span class="math inline">\(\textbf{X}\)</span>。也可以把这一过程写成：
 <span class="math display" id="eq:pcascheme">\[\begin{equation}
 \tag{15.5}
 \textbf{X} \quad \overset{\text{encode via }\textbf{P}}{\longrightarrow} \quad \textbf{Z} \quad \overset{\text{decode via } \textbf{P}'}{\longrightarrow} \quad \textbf{X}
 \end{equation}\]</span></p>
-<p>如果我们采用截断版本并寻求较小的输出（仅包含 <span class="math inline">\(K'\)</span> 列），则给出：</p>
+<p>若采用截断版本，希望得到只含 <span class="math inline">\(K'\)</span> 列的低维输出，则有：</p>
 <p><span class="math display" id="eq:pcaschem2">\[\begin{equation}
 \tag{15.6}
 \textbf{X}, \ (I\times K) \quad \overset{\text{encode via }\textbf{P}_{K'}}{\longrightarrow} \quad \tilde{\textbf{X}}, \ (I \times K') \quad \overset{\text{decode via } \textbf{P}'_{K'}}{\longrightarrow} \quad \breve{\textbf{X}},\ (I \times K),
 \end{equation}\]</span></p>
-<p>其中 <span class="math inline">\(\textbf{P}_{K'}\)</span> 是 <span class="math inline">\(\textbf{P}\)</span> 对 <span class="math inline">\(K'\)</span> 列的限制，这些列对应于方差最大的因子。矩阵的维数在括号内表示。在这种情况下，重新编码无法准确地恢复 <span class="math inline">\(\textbf{X}\)</span> ，而只能恢复近似值，我们将其写为 <span class="math inline">\(\breve{\textbf{X}}\)</span> 。该近似值使用较少的信息进行编码，因此该新数据 <span class="math inline">\(\breve{\textbf{X}}\)</span> 被压缩并提供原始样本 <span class="math inline">\(\textbf{X}\)</span> 的简约表示。</p>
-<p>自动编码器将此概念推广到 <strong>非线性</strong> 编码函数。简单的线性自动编码器与潜在因子模型相关联（有关单层自动编码器的情况，请参阅 <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2019autoencoder" role="doc-biblioref">2020a</a>)</span> 中的命题 1。）该方案如下
+<p>其中，<span class="math inline">\(\textbf{P}_{K'}\)</span> 是矩阵 <span class="math inline">\(\textbf{P}\)</span> 中对应方差最大因子的前 <span class="math inline">\(K'\)</span> 列，括号内标示矩阵维数。此时，解码过程无法精确恢复 <span class="math inline">\(\textbf{X}\)</span>，只能得到近似值 <span class="math inline">\(\breve{\textbf{X}}\)</span>。由于这个近似表示使用的信息更少，<span class="math inline">\(\breve{\textbf{X}}\)</span> 就是原始样本 <span class="math inline">\(\textbf{X}\)</span> 的压缩、简约表示。</p>
+<p>自编码器把这一思想推广到<strong>非线性</strong>编码函数。简单的线性自编码器与潜在因子模型密切相关；单层自编码器的情形可参见 <span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2019autoencoder" role="doc-biblioref">2020a</a>)</span> 的命题 1。其结构如下：
 <span class="math display" id="eq:aescheme2">\[\begin{equation}
 \tag{15.7}
 \textbf{X},\ (I\times K) \quad \overset{\text{encode via } N} {\longrightarrow} \quad \tilde{\textbf{X}}=N(\textbf{X}), \ (I \times K') \quad \overset{\text{decode via } N'}{\longrightarrow} \quad \breve{\textbf{X}}=N'(\tilde{\textbf{X}}), \ (I \times K),
 \end{equation}\]</span></p>
-<p>其中编码和解码函数 <span class="math inline">\(N\)</span> 和 <span class="math inline">\(N'\)</span> 通常被视为神经网络。术语 <strong>自动编码器</strong> 来自这样一个事实：目标输出（我们经常写为 <span class="math inline">\(\textbf{Z}\)</span>）是原始样本 <span class="math inline">\(\textbf{X}\)</span>。因此，该算法寻求确定使 <span class="math inline">\(\textbf{X}\)</span> 和输出值 <span class="math inline">\(\breve{\textbf{X}}\)</span> 之间的距离（待定义）最小化的函数 <span class="math inline">\(N\)</span>。编码器生成 <span class="math inline">\(\textbf{X}\)</span> 的替代表示，而解码器尝试将其重新编码回其原始值。当然，中间（编码）版本 <span class="math inline">\(\tilde{\textbf{X}}\)</span> 的目标是比 <span class="math inline">\(\textbf{X}\)</span> 具有更小的尺寸。</p>
+<p>编码函数 <span class="math inline">\(N\)</span> 与解码函数 <span class="math inline">\(N'\)</span> 通常都由神经网络表示。“<strong>自编码器</strong>”之所以得名，是因为目标输出（通常记为 <span class="math inline">\(\textbf{Z}\)</span>）就是原始样本 <span class="math inline">\(\textbf{X}\)</span> 本身。算法要使输入 <span class="math inline">\(\textbf{X}\)</span> 与重构输出 <span class="math inline">\(\breve{\textbf{X}}\)</span> 之间的某种距离最小，并据此学习函数 <span class="math inline">\(N\)</span>。编码器生成 <span class="math inline">\(\textbf{X}\)</span> 的另一种表示，解码器则尝试恢复原始值；中间的编码表示 <span class="math inline">\(\tilde{\textbf{X}}\)</span> 应当比 <span class="math inline">\(\textbf{X}\)</span> 维数更低。</p>
 </div>
 <div class="section level3" id="application" number="15.2.4">
 <h3><span class="header-section-number">15.2.4</span> 应用<a aria-label="锚" class="anchor" href="#application"><i class="fas fa-link"></i></a></h3>
-<p>自动编码器很容易在 Keras 中编码（有关 Keras 的更多详细信息，请参阅第 <a href="NN.html#NN">7</a> 章）。为了强调该框架的强大功能，我们采用了另一种神经网络编码方式：所谓的函数式 API。为简单起见，我们使用少量预测变量（7 个特征）。该网络的结构由两个对称网络组成，只有一个中间层包含 32 个单元。激活函数为sigmoid；这是有道理的，因为输入具有单位间隔内的值。</p>
+<p>在 Keras 中实现自编码器并不困难（Keras 的更多内容参见第 <a href="NN.html#NN">7</a> 章）。为展示该框架的灵活性，这里采用另一种构建神经网络的方式，即函数式 API。为简化示例，只使用 7 个预测变量。网络由编码器和解码器两个对称部分组成，各含一个具有 32 个单元的中间层。激活函数选用 sigmoid，因为输入值均位于单位区间内。</p>
 <div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">input_layer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_input.html">layer_input</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span>    <span class="co"># features_short has 7 columns </span>
 
@@ -531,7 +531,7 @@ max-width: 60rem;
     <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">32</span>, activation <span class="op">=</span> <span class="st">"sigmoid"</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
     <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">7</span><span class="op">)</span>       <span class="co"># the original sample has 7 features</span></code></pre></div>
 <p></p>
-<p>在训练部分，我们优化 MSE 并使用权重的 Adam 更新（参见 <a href="NN.html#backprop">7.2.3</a> 节）。</p>
+<p>训练时以均方误差（MSE）为目标，并使用 Adam 算法更新权重（参见第 <a href="NN.html#backprop">7.2.3</a> 节）。</p>
 <div class="sourceCode" id="cb234"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ae_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model.html">keras_model</a></span><span class="op">(</span>inputs <span class="op">=</span> <span class="va">input_layer</span>, outputs <span class="op">=</span> <span class="va">decoder</span><span class="op">)</span> <span class="co"># Builds the model</span>
 
@@ -541,7 +541,7 @@ max-width: 60rem;
     metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'mean_absolute_error'</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p></p>
-<p>最后，我们准备好训练数据本身了！训练和测试样本的损失演变如图 <a href="unsup.html#fig:aekeras3">15.3</a> 所示。下降的模式表明压缩质量的进步。</p>
+<p>至此，可以让模型用输入数据重构输入本身。训练样本和测试样本的损失变化见图 <a href="unsup.html#fig:aekeras3">15.3</a>；损失持续下降，说明压缩与重构质量正在提高。</p>
 <div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_ae</span> <span class="op">&lt;-</span> <span class="va">ae_model</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
     <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">features_short</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>,  <span class="co"># Input</span>
@@ -553,33 +553,33 @@ max-width: 60rem;
 <span class="fu"><a href="https://rdrr.io/pkg/mboost/man/plot.html">plot</a></span><span class="op">(</span><span class="va">fit_ae</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span id="fig:aekeras3" style="display:block;"></span>
-<img alt="自动编码器训练的输出。" src="ML_factor_files/figure-html/aekeras3-1.png" width="400px"/><p class="caption">图 15.3：自动编码器训练的输出。</p>
+<img alt="自编码器训练的输出。" src="ML_factor_files/figure-html/aekeras3-1.png" width="400px"/><p class="caption">图 15.3：自编码器训练的输出。</p>
 </div>
-<p>为了获取所有权重和偏差的详细信息，语法如下。</p>
+<p>可用以下语法查看全部权重和偏置。</p>
 <div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ae_weights</span> <span class="op">&lt;-</span> <span class="va">ae_model</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/get_weights.html">get_weights</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p></p>
-<p>检索编码器并将数据处理为压缩格式只是矩阵操作的问题。在实践中，可以通过从编码器加载权重来构建子模型（参见下面的练习）。</p>
+<p>提取编码器并把数据转换为压缩表示，本质上只是矩阵运算。实际使用时，可以载入编码器权重来构建一个子模型（参见本章练习）。</p>
 </div>
 </div>
 <div class="section level2" id="clustering-via-k-means" number="15.3">
-<h2><span class="header-section-number">15.3</span> 通过 k-means 进行聚类<a aria-label="锚" class="anchor" href="#clustering-via-k-means"><i class="fas fa-link"></i></a></h2>
-<p>第二类无监督工具与聚类有关。特征被分组为同质的预测因子家族。然后可以从一组中挑选出一个（或创建所有组的综合平均值）。从机械上来说，预测变量的数量减少了。</p>
-<p>原理很简单：在一组变量中（对于其他维度的观察，推理是相同的）<span class="math inline">\(\textbf{x}_{\{1 \le j \le J\}}\)</span>，找到最小化 <span class="math inline">\(k&lt;J\)</span> 组的组合
+<h2><span class="header-section-number">15.3</span> k 均值聚类<a aria-label="锚" class="anchor" href="#clustering-via-k-means"><i class="fas fa-link"></i></a></h2>
+<p>第二类无监督学习工具是聚类。它把特征划分为若干同质的预测变量簇，再从每个簇中选取一个代表变量，或把簇内所有变量合成为一个均值指标。这样便能直接减少预测变量的数量。</p>
+<p>其原理并不复杂。给定一组变量 <span class="math inline">\(\textbf{x}_{\{1 \le j \le J\}}\)</span>（对另一维度上的观测进行聚类时推理相同），寻找划分为 <span class="math inline">\(k&lt;J\)</span> 个簇的方案，使下式最小：
 <span class="math display" id="eq:kmeans">\[\begin{equation}
 \tag{15.8}
 \sum_{i=1}^k\sum_{\textbf{x}\in S_i}||\textbf{x}-\textbf{m}_i||^2,
 \end{equation}\]</span>
-其中 <span class="math inline">\(||\cdot ||\)</span> 是一些范数，通常被视为欧几里得 <span class="math inline">\(l^2\)</span> 范数。 <span class="math inline">\(S_i\)</span> 是组，最小化在整个组 <span class="math inline">\(\textbf{S}\)</span> 上运行。 <span class="math inline">\(\textbf{m}_i\)</span> 是群均值（也称为质心或重心）：<span class="math inline">\(\textbf{m}_i=(\text{card}(S_i))^{-1}\sum_{\textbf{x}\in S_i}\textbf{x}\)</span>。</p>
-<p>为了确保最优性，必须测试所有可能的安排，当 <span class="math inline">\(k\)</span> 和 <span class="math inline">\(J\)</span> 很大时，这会非常长。因此，问题通常是用贪婪算法来解决的，这些算法寻求（并找到）不是最优但“足够好”的解决方案。</p>
-<p>一种启发式方法如下：</p>
+其中 <span class="math inline">\(||\cdot ||\)</span> 表示某种范数，通常取欧几里得 <span class="math inline">\(l^2\)</span> 范数；<span class="math inline">\(S_i\)</span> 表示第 i 个簇，优化针对整套分组 <span class="math inline">\(\textbf{S}\)</span> 进行；<span class="math inline">\(\textbf{m}_i\)</span> 是簇均值，也称质心或重心：<span class="math inline">\(\textbf{m}_i=(\text{card}(S_i))^{-1}\sum_{\textbf{x}\in S_i}\textbf{x}\)</span>。</p>
+<p>若要保证得到全局最优解，就必须枚举所有可能的分组。当 <span class="math inline">\(k\)</span> 和 <span class="math inline">\(J\)</span> 较大时，这在计算上几乎不可行。因此，实践中通常采用贪心算法，寻找未必最优、但“足够好”的解。</p>
+<p>一种常见的启发式步骤如下：</p>
 <ol start="0" style="list-style-type: decimal">
-<li>从 <span class="math inline">\(k\)</span> 簇的（可能是随机的）分区开始。<br/></li>
-<li>对于每个簇，计算最小化表达式 <a href="unsup.html#eq:kmeans">(15.8)</a> 的最佳平均值 <span class="math inline">\(\textbf{m}_i^*\)</span>。这是一个简单的二次规划。<br/></li>
-<li>给定最佳中心 <span class="math inline">\(\textbf{m}_i^*\)</span>，重新分配点 <span class="math inline">\(\textbf{x}_i\)</span>，使它们都最接近其中心。<br/></li>
-<li>重复步骤 1. 和 2.，直到步骤 2 中的点不改变聚类。</li>
+<li>先把数据划分为 <span class="math inline">\(k\)</span> 个簇，初始划分可以随机生成。<br/></li>
+<li>对每个簇计算使式 <a href="unsup.html#eq:kmeans">(15.8)</a> 最小的最优均值 <span class="math inline">\(\textbf{m}_i^*\)</span>；这是一个简单的二次优化问题。<br/></li>
+<li>给定最优中心 <span class="math inline">\(\textbf{m}_i^*\)</span>，重新分配各点 <span class="math inline">\(\textbf{x}_i\)</span>，使每个点归入离它最近的中心。<br/></li>
+<li>重复上述更新，直到各点所属的簇不再变化。</li>
 </ol>
-<p>下面，我们通过示例说明此过程。从所有 93 个特征中，我们构建了 10 个集群。</p>
+<p>下面用一个例子说明这一过程：把全部 93 个特征划分为 10 个簇。</p>
 <div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>                               <span class="co"># Setting the random seed (the optim. is random)</span>
 <span class="va">k_means</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>             <span class="co"># Performs the k-means clustering</span>
@@ -599,34 +599,34 @@ max-width: 60rem;
 ## 3 Recurring_Earning_Total_Assets       4
 ## 4 Sales_Ps                             4</code></pre>
 <p></p>
-<p>我们挑选出第四组，它主要由与公司盈利能力相关的会计比率组成。给定这 10 个集群，我们可以构建更小的一组特征，然后将其输入到 <a href="lasso.html#lasso">5</a> 到 <a href="bayes.html#bayes">9</a> 章中描述的预测引擎。簇的代表可以是最接近中心的成员，或者只是中心本身。然而，这个预处理步骤可能会在预测阶段引起问题。通常，它还要求对训练数据进行聚类。测试数据的扩展并不简单（集群可能不相同）。</p>
+<p>这里选出的第 4 簇主要包含与公司盈利能力有关的会计比率。根据这 10 个簇，可以构造一个更小的特征集，再交给第 <a href="lasso.html#lasso">5</a> 至 <a href="bayes.html#bayes">9</a> 章介绍的预测模型。每个簇的代表既可以是最接近质心的成员，也可以直接取质心。不过，这一步预处理会给预测阶段带来困难：训练数据需要聚类，而把同一聚类结构扩展到测试数据并不直接，因为测试集中的簇可能不同。</p>
 </div>
 <div class="section level2" id="nearest-neighbors" number="15.4">
-<h2><span class="header-section-number">15.4</span> 最近的邻居<a aria-label="锚" class="anchor" href="#nearest-neighbors"><i class="fas fa-link"></i></a></h2>
-<p>据我们所知，最近邻居并未在大规模投资组合选择应用中使用。原因很简单：计算成本。尽管如此，邻居的概念在无监督学习中广泛存在，并且可以在本地使用以补充可解释性工具。与分类任务错误率界限相关的 k-NN 理论结果可以在 <span class="citation">Ripley (<a href="solutions-to-exercises.html#ref-ripley2007pattern" role="doc-biblioref">2007</a>)</span> 的 6.2 节中找到。理由如下。如果：</p>
+<h2><span class="header-section-number">15.4</span> 最近邻<a aria-label="锚" class="anchor" href="#nearest-neighbors"><i class="fas fa-link"></i></a></h2>
+<p>据我们所知，最近邻方法尚未用于大规模投资组合选择，原因很简单：计算成本过高。不过，“邻域”这一概念在无监督学习中十分常见，也可以在局部分析中配合可解释性工具使用。关于 k 近邻（k-NN）分类误差率上界的理论结果，可参见 <span class="citation">Ripley (<a href="solutions-to-exercises.html#ref-ripley2007pattern" role="doc-biblioref">2007</a>)</span> 第 6.2 节。其基本逻辑如下。若：</p>
 <ol style="list-style-type: decimal">
-<li>训练样本能够准确地跨越 <span class="math inline">\((\textbf{y}, \textbf{X})\)</span> 的分布； <strong>和</strong><br/></li>
-<li>测试样本遵循与训练样本相同的分布（或足够接近）；</li>
+<li>训练样本能够充分覆盖 <span class="math inline">\((\textbf{y}, \textbf{X})\)</span> 的分布；<strong>并且</strong><br/></li>
+<li>测试样本与训练样本服从相同或足够接近的分布；</li>
 </ol>
-<p>那么根据训练样本计算的测试特征中的一个实例 <span class="math inline">\(\textbf{x}_i\)</span> 的邻域将产生关于 <span class="math inline">\(y_i\)</span> 的有价值的信息。</p>
-<p>因此，在下文中，我们寻求找到一个特定实例 <span class="math inline">\(\textbf{x}_i\)</span>（一个 <span class="math inline">\(K\)</span> 维行向量）的邻居。请注意，与上一节有一个主要区别：聚类是在观察级别（行）而不是预测变量级别（列）。</p>
-<p>给定一个具有相同（对应）列 <span class="math inline">\(\textbf{X}_{i,k}\)</span> 的数据集，邻居是通过相似性度量（或距离）定义的
+<p>那么，对测试特征中的一个样本 <span class="math inline">\(\textbf{x}_i\)</span>，依据训练样本确定的邻域就能为 <span class="math inline">\(y_i\)</span> 提供有价值的信息。</p>
+<p>下文要寻找某个特定样本 <span class="math inline">\(\textbf{x}_i\)</span>（一个 <span class="math inline">\(K\)</span> 维行向量）的邻居。这里与上一节有一个重要区别：本节在观测层面（行）寻找邻居，而上一节是在预测变量层面（列）聚类。</p>
+<p>给定列结构相同的一个数据集 <span class="math inline">\(\textbf{X}_{i,k}\)</span>，可用相似度量（或距离）定义邻居：
 <span class="math display" id="eq:D">\[\begin{equation}
 \tag{15.9}
 D(\textbf{x}_j,\textbf{x}_i)=\sum_{k=1}^Kc_k d_k(x_{j,k},x_{i,k}),
 \end{equation}\]</span>
-其中距离函数 <span class="math inline">\(d_k\)</span> 可以对各种数据类型（数值、分类等）进行运算。对于数值，<span class="math inline">\(d_k(x_{j,k},x_{i,k})=(x_{j,k}-x_{i,k})^2\)</span> 或 <span class="math inline">\(d_k(x_{j,k},x_{i,k})=|x_{j,k}-x_{i,k}|\)</span>。对于分类值，我们参考 <span class="citation">Boriah, Chandola, and Kumar (<a href="solutions-to-exercises.html#ref-boriah2008similarity" role="doc-biblioref">2008</a>)</span> 的详尽调查，其中列出了 14 种可能的衡量标准。最后，方程 <a href="unsup.html#eq:D">(15.9)</a> 中的 <span class="math inline">\(c_k\)</span> 通过加权特征提供了一定的灵活性。这很有用，因为原始值（<span class="math inline">\(x_{i,k}\)</span> 与 <span class="math inline">\(x_{i,k'}\)</span>）或测量输出（<span class="math inline">\(d_k\)</span> 与 <span class="math inline">\(d_{k'}\)</span>）可以具有不同的比例。</p>
-<p>一旦计算了整个样本的距离，就会使用索引 <span class="math inline">\(l_1^i, \dots, l_I^i\)</span> 对它们进行排名：
+其中，距离函数 <span class="math inline">\(d_k\)</span> 可用于数值型、类别型等多种数据。对数值变量，可以取 <span class="math inline">\(d_k(x_{j,k},x_{i,k})=(x_{j,k}-x_{i,k})^2\)</span> 或 <span class="math inline">\(d_k(x_{j,k},x_{i,k})=|x_{j,k}-x_{i,k}|\)</span>。类别型变量可参考 <span class="citation">Boriah, Chandola, and Kumar (<a href="solutions-to-exercises.html#ref-boriah2008similarity" role="doc-biblioref">2008</a>)</span> 的综述，其中列出了 14 种度量。式 <a href="unsup.html#eq:D">(15.9)</a> 中的 <span class="math inline">\(c_k\)</span> 是特征权重，用来调节不同维度的影响。这一点很重要，因为原始值（<span class="math inline">\(x_{i,k}\)</span> 与 <span class="math inline">\(x_{i,k'}\)</span>）和距离输出（<span class="math inline">\(d_k\)</span> 与 <span class="math inline">\(d_{k'}\)</span>）都可能处于不同量纲或尺度。</p>
+<p>计算全体样本之间的距离后，用索引 <span class="math inline">\(l_1^i, \dots, l_I^i\)</span> 按距离从小到大排序：
 <span class="math display">\[D\left(\textbf{x}_{l_1^i},\textbf{x}_i\right) \le D\left(\textbf{x}_{l_2^i},\textbf{x}_i\right) \le \dots, \le D\left(\textbf{x}_{l_I^i},\textbf{x}_i\right)\]</span></p>
-<p>最近的邻居是 <span class="math inline">\(m=1,\dots,k\)</span> 的由 <span class="math inline">\(l_m^i\)</span> 索引的邻居。为了简单起见，我们忽略了存在 <span class="math inline">\(D\left(\textbf{x}_{l_m^i},\textbf{x}_i\right)=D\left(\textbf{x}_{l_{m+1}^i},\textbf{x}_i\right)\)</span> 类型有问题的等式的情况，并且因为只要有足够多的数值预测变量，它们在实践中就很少出现。</p>
-<p>给定这些邻居，现在可以为标签侧 <span class="math inline">\(y_i\)</span> 构建预测。基本原理很简单：如果 <span class="math inline">\(\textbf{x}_i\)</span> 接近其他实例 <span class="math inline">\(\textbf{x}_j\)</span>，那么标签值 <span class="math inline">\(y_i\)</span> 也应该接近 <span class="math inline">\(y_j\)</span>（假设这些特征在标签 <span class="math inline">\(y\)</span> 上携带一些预测信息）。</p>
-<p><span class="math inline">\(y_i\)</span> 的直观预测是以下加权平均值：
+<p>对 <span class="math inline">\(m=1,\dots,k\)</span>，最近的邻居就是由 <span class="math inline">\(l_m^i\)</span> 索引的样本。为简化起见，这里忽略 <span class="math inline">\(D\left(\textbf{x}_{l_m^i},\textbf{x}_i\right)=D\left(\textbf{x}_{l_{m+1}^i},\textbf{x}_i\right)\)</span> 这类距离并列的情况；只要数值型预测变量足够多，实践中很少出现并列。</p>
+<p>确定邻居后，就可以预测标签 <span class="math inline">\(y_i\)</span>。逻辑很直观：若 <span class="math inline">\(\textbf{x}_i\)</span> 与其他样本 <span class="math inline">\(\textbf{x}_j\)</span> 很接近，那么只要特征确实含有关于标签的预测信息，<span class="math inline">\(y_i\)</span> 也应接近 <span class="math inline">\(y_j\)</span>；这里的标签记为 <span class="math inline">\(y\)</span>。</p>
+<p>一种直观的 <span class="math inline">\(y_i\)</span> 预测方法是计算如下加权平均：
 <span class="math display">\[\hat{y}_i=\frac{\sum_{j\neq i} h(D(\textbf{x}_j,\textbf{x}_i)) y_j}{\sum_{j\neq i} h(D(\textbf{x}_j,\textbf{x}_i))},\]</span>
-其中 <span class="math inline">\(h\)</span> 是递减函数。因此，<span class="math inline">\(\textbf{x}_j\)</span> 距 <span class="math inline">\(\textbf{x}_i\)</span> 越远，平均权重越小。 <span class="math inline">\(h\)</span> 的典型选择是 <span class="math inline">\(h(z)=e^{-az}\)</span>，因为某些参数 <span class="math inline">\(a&gt;0\)</span> 决定了距离 <span class="math inline">\(D(\textbf{x}_j,\textbf{x}_i)\)</span> 的惩罚程度。当然，可以在 <span class="math inline">\(k\)</span> 最近邻居集中取平均值，在这种情况下，超出特定距离阈值 <span class="math inline">\(h\)</span> 等于 0：
+其中 <span class="math inline">\(h\)</span> 是递减函数。因此，<span class="math inline">\(\textbf{x}_j\)</span> 离 <span class="math inline">\(\textbf{x}_i\)</span> 越远，在平均值中的权重越小。函数 <span class="math inline">\(h\)</span> 的常见选择是 <span class="math inline">\(h(z)=e^{-az}\)</span>，其中参数 <span class="math inline">\(a&gt;0\)</span> 控制距离 <span class="math inline">\(D(\textbf{x}_j,\textbf{x}_i)\)</span> 的惩罚强度。也可以只在 <span class="math inline">\(k\)</span> 个最近邻中取平均；此时，函数 <span class="math inline">\(h\)</span> 在给定距离阈值之外取 0：
 <span class="math display">\[\hat{y}_i=\frac{\sum_{j \text{ neighbor}} h(D(\textbf{x}_j,\textbf{x}_i)) y_j}{\sum_{j \text{ neighbor}} h(D(\textbf{x}_j,\textbf{x}_i))}.\]</span></p>
-<p>一个更不可知的规则是对邻居集合采用 <span class="math inline">\(h:=1\)</span> ，在这种情况下，所有邻居都具有相同的权重（请参阅 <span class="citation">T. Bailey and Jain (<a href="solutions-to-exercises.html#ref-bailey1978note" role="doc-biblioref">1978</a>)</span> 在分类情况下的旧讨论）。对于分类任务，该过程涉及投票规则，其中得票最多的类别将赢得比赛，并采用可能的平局打破方法。有兴趣的读者可以看看<span class="citation">Bhatia et al. (<a href="solutions-to-exercises.html#ref-bhatia2010survey" role="doc-biblioref">2010</a>)</span>中的简短调查。</p>
-<p>对于最佳 <span class="math inline">\(k\)</span> 的选择，存在几种复杂的技术和标准（参见，例如 <span class="citation">A. K. Ghosh (<a href="solutions-to-exercises.html#ref-ghosh2006optimum" role="doc-biblioref">2006</a>)</span> 和 <span class="citation">Peter Hall et al. (<a href="solutions-to-exercises.html#ref-hall2008choice" role="doc-biblioref">2008</a>)</span>）。启发式值通常可以很好地完成这项工作。根据经验，<span class="math inline">\(k=\sqrt{I}\)</span>（<span class="math inline">\(I\)</span> 是实例总数）与最佳值相差不太远，除非 <span class="math inline">\(I\)</span> 非常大。</p>
-<p>下面，我们举例说明这个概念。我们选择一个日期（2006 年 12 月 31 日）并挑选出一项资产（stock_id 等于 13）。然后，我们寻求找到在该特定日期最接近该资产的 <span class="math inline">\(k=30\)</span> 股票。我们求助于 <em>FNN</em> 包，它提出了欧几里德距离（及其排序）的有效计算。</p>
+<p>一种更中性的规则是在邻居集合内令 <span class="math inline">\(h:=1\)</span>，即给予所有邻居相同权重（分类情形的早期讨论见 <span class="citation">T. Bailey and Jain (<a href="solutions-to-exercises.html#ref-bailey1978note" role="doc-biblioref">1978</a>)</span>）。在分类任务中，这对应投票规则：票数最多的类别获胜，并在票数相同时采用某种决胜规则。简要综述可参见 <span class="citation">Bhatia et al. (<a href="solutions-to-exercises.html#ref-bhatia2010survey" role="doc-biblioref">2010</a>)</span>。</p>
+<p>选择最优 <span class="math inline">\(k\)</span> 有多种复杂方法和准则，例如 <span class="citation">A. K. Ghosh (<a href="solutions-to-exercises.html#ref-ghosh2006optimum" role="doc-biblioref">2006</a>)</span> 和 <span class="citation">Peter Hall et al. (<a href="solutions-to-exercises.html#ref-hall2008choice" role="doc-biblioref">2008</a>)</span>。不过，启发式取值往往已经够用。经验法则是取 <span class="math inline">\(k=\sqrt{I}\)</span>，其中 <span class="math inline">\(I\)</span> 为样本总数；除非 <span class="math inline">\(I\)</span> 极大，这个值通常不会偏离最优值太远。</p>
+<p>下面给出一个例子。选定 2006 年 12 月 31 日，并取 stock_id 等于 13 的资产，寻找该日期与它最接近的 <span class="math inline">\(k=30\)</span> 只股票。这里使用 <em>FNN</em> 软件包高效计算欧几里得距离并完成排序。</p>
 <div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">FNN</span><span class="op">)</span>     <span class="co"># Package for Fast Nearest Neighbors detection</span>
 <span class="va">knn_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">data_ml</span>, <span class="va">date</span> <span class="op">==</span> <span class="st">"2006-12-31"</span><span class="op">)</span>    <span class="co"># Dataset for k-NN exercise</span>
@@ -643,7 +643,7 @@ D(\textbf{x}_j,\textbf{x}_i)=\sum_{k=1}^Kc_k d_k(x_{j,k},x_{i,k}),
 ##      [,30]
 ## [1,]     2</code></pre>
 <p></p>
-<p>一旦知道邻居和距离，我们就可以计算目标股票收益的预测。我们使用函数 <span class="math inline">\(h(z)=e^{-z}\)</span> 来对实例进行加权（通过距离）。</p>
+<p>得到邻居及其距离后，便可预测目标股票的收益率。这里采用函数 <span class="math inline">\(h(z)=e^{-z}\)</span>，根据距离为各样本赋权。</p>
 <div class="sourceCode" id="cb241"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">knn_labels</span> <span class="op">&lt;-</span> <span class="va">knn_data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">neighbors</span><span class="op">$</span><span class="va">nn.index</span><span class="op">)</span>,<span class="op">]</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                <span class="co"># y values for neighb.</span>
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">R1M_Usd</span><span class="op">)</span>    
@@ -657,16 +657,16 @@ D(\textbf{x}_j,\textbf{x}_i)=\sum_{k=1}^Kc_k d_k(x_{j,k},x_{i,k}),
 ##     &lt;dbl&gt;
 ## 1   0.089</code></pre>
 <p></p>
-<p>预测既不是很好，也不是很坏（符号是正确的！）。但请注意，此示例不能用于预测目的，因为我们使用 2006 年 12 月 31 日的数据来预测同一日期的回报。为了避免前瞻性偏差，knn_sample变量应该从先前的时间点选择。</p>
-<p>上述计算速度很快（最多几秒），但仅适用于一项资产。在 <span class="math inline">\(k\)</span>-NN 练习中，每只股票都会获得自定义的预测，并且每次都必须重新评估邻居集。对于 <span class="math inline">\(N\)</span> 资产，必须评估 <span class="math inline">\(N(N-1)/2\)</span> 距离。这在回测中成本特别高，尤其是当可以测试多个参数时（加权函数 <span class="math inline">\(h(z)=e^{-az}\)</span> 中的邻居数量、<span class="math inline">\(k\)</span> 或 <span class="math inline">\(a\)</span>）。当投资范围较小时（例如交易指数时），<em>k</em>-NN 方法在计算上变得有吸引力（例如参见 <span class="citation">Y. Chen and Hao (<a href="solutions-to-exercises.html#ref-chen2017feature" role="doc-biblioref">2017</a>)</span>）。</p>
+<p>这个预测谈不上好，但也不算完全失败，至少方向正确。不过，该示例不能作为真正的预测：我们用 2006 年 12 月 31 日的数据预测了同一天的收益率。为避免前视偏差，变量 knn_sample 必须取自更早的时点。</p>
+<p>上述计算只需几秒，但仅针对一项资产。在 <span class="math inline">\(k\)</span>-NN 预测中，每只股票都需要单独预测，邻居集合也必须逐一重新计算。若有 <span class="math inline">\(N\)</span> 项资产，就需计算 <span class="math inline">\(N(N-1)/2\)</span> 个距离。在回测中，这一成本尤其高，因为往往还要尝试多个参数，包括邻居数，以及加权函数 <span class="math inline">\(h(z)=e^{-az}\)</span> 中的 <span class="math inline">\(k\)</span> 或 <span class="math inline">\(a\)</span>。当投资范围较小，例如只交易指数时，<em>k</em>-NN 才在计算上更具吸引力；相关应用可参见 <span class="citation">Y. Chen and Hao (<a href="solutions-to-exercises.html#ref-chen2017feature" role="doc-biblioref">2017</a>)</span>。</p>
 </div>
 <div class="section level2" id="coding-exercise-1" number="15.5">
 <h2><span class="header-section-number">15.5</span> 编码练习<a aria-label="锚" class="anchor" href="#coding-exercise-1"><i class="fas fa-link"></i></a></h2>
-<p>通过自动编码器的编码器部分对数据的压缩版本（窄训练样本）进行编码。</p>
+<p>使用自编码器的编码器部分，生成数据（窄训练样本）的压缩表示。</p>
 </div>
 </div>
 <div class="chapter-nav">
-<div class="prev"><a href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></div>
+<div class="prev"><a href="causality.html"><span class="header-section-number">14</span> 因果关系与非平稳性</a></div>
 <div class="next"><a href="RL.html"><span class="header-section-number">16</span> 强化学习</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
 <nav aria-label="本页" data-toggle="toc" id="toc"><h2>本页</h2>
@@ -674,15 +674,15 @@ D(\textbf{x}_j,\textbf{x}_i)=\sum_{k=1}^Kc_k d_k(x_{j,k},x_{i,k}),
 <li><a class="nav-link" href="#unsup"><span class="header-section-number">15</span> 无监督学习</a></li>
 <li><a class="nav-link" href="#corpred"><span class="header-section-number">15.1</span> 相关预测变量的问题</a></li>
 <li>
-<a class="nav-link" href="#principal-component-analysis-and-autoencoders"><span class="header-section-number">15.2</span> 主成分分析和自动编码器</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#principal-component-analysis-and-autoencoders"><span class="header-section-number">15.2</span> 主成分分析和自编码器</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#a-bit-of-algebra"><span class="header-section-number">15.2.1</span> 一些代数</a></li>
 <li><a class="nav-link" href="#pca"><span class="header-section-number">15.2.2</span> PCA</a></li>
-<li><a class="nav-link" href="#ae"><span class="header-section-number">15.2.3</span> 自动编码器</a></li>
-<li><a class="nav-link" href="#application"><span class="header-section-number">15.2.4</span> 应用程序</a></li>
+<li><a class="nav-link" href="#ae"><span class="header-section-number">15.2.3</span> 自编码器</a></li>
+<li><a class="nav-link" href="#application"><span class="header-section-number">15.2.4</span> 应用</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#clustering-via-k-means"><span class="header-section-number">15.3</span> 通过 k 均值进行聚类</a></li>
-<li><a class="nav-link" href="#nearest-neighbors"><span class="header-section-number">15.4</span> 最近邻居</a></li>
+<li><a class="nav-link" href="#clustering-via-k-means"><span class="header-section-number">15.3</span> k 均值聚类</a></li>
+<li><a class="nav-link" href="#nearest-neighbors"><span class="header-section-number">15.4</span> 最近邻</a></li>
 <li><a class="nav-link" href="#coding-exercise-1"><span class="header-section-number">15.5</span> 编码练习</a></li>
 </ul>
 <div class="book-extra">
@@ -692,16 +692,16 @@ D(\textbf{x}_j,\textbf{x}_i)=\sum_{k=1}^Kc_k d_k(x_{j,k},x_{i,k}),
 </nav>
 </div>
 </div>
-</div> .容器 
+</div><!-- .container -->
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 <div class="col-12 col-md-6 mt-3">
-<p>“<strong>Machine Learning for Factor Investing</strong>”由 Guillaume Coqueret 和 Tony Guida 编写。它最后建成于 2022 年 10 月 18 日。</p>
+<p>《<strong>用于因子投资的机器学习</strong>》由 Guillaume Coqueret 和 Tony Guida 撰写，原版页面最后构建于 2022 年 10 月 18 日。</p>
 </div>
 <div class="col-12 col-md-6 mt-3">
-<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+<p>本书使用 R 软件包 <a class="text-light" href="https://bookdown.org">bookdown</a> 构建。</p>
 </div>
 </div></div>
-</footer> 动态加载 mathjax 以与独立的 <script>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -729,5 +729,6 @@ for (let popover of popovers) {
     })
   }
 }
-</script> 兼容</body>
+</script>
+</body>
 </html>

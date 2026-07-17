@@ -3,26 +3,26 @@
 <head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
-<title>第 14 章 两个关键概念：因果性与非平稳性 | Machine Learning for Factor Investing</title>
+<title>第 14 章 因果关系与非平稳性 | 用于因子投资的机器学习</title>
 <meta content="Guillaume Coqueret and Tony Guida" name="author"/>
 <meta content="bookdown 0.24 with bs4_book()" name="generator"/>
-<meta content="第 14 章 两个关键概念：因果性与非平稳性 | Machine Learning for Factor Investing" property="og:title"/>
+<meta content="第 14 章 因果关系与非平稳性 | 用于因子投资的机器学习" property="og:title"/>
 <meta content="book" property="og:type"/>
 <meta content="summary" name="twitter:card"/>
-<meta content="第 14 章 两个关键概念：因果性与非平稳性 | Machine Learning for Factor Investing" name="twitter:title"/>
+<meta content="第 14 章 因果关系与非平稳性 | 用于因子投资的机器学习" name="twitter:title"/>
 <!-- JS --><script crossorigin="anonymous" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script><script crossorigin="anonymous" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js"></script><script crossorigin="anonymous" src="https://kit.fontawesome.com/6ecbd6c532.js"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
-<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content=".container-fluid main { max-width: 60rem; } A prominent point of criticism faced by ML tools is their inability to uncover causality relationships between features and labels because they are..." name="description"/>
-<meta content=".container-fluid main { max-width: 60rem; } A prominent point of criticism faced by ML tools is their inability to uncover causality relationships between features and labels because they are..." property="og:description"/>
-<meta content=".container-fluid main { max-width: 60rem; } A prominent point of criticism faced by ML tools is their inability to uncover causality relationships between features and labels because they are..." name="twitter:description"/></head>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="本章讨论因果关系、格兰杰因果检验、因果图，以及金融数据中的非平稳性。" name="description"/>
+<meta content="本章讨论因果关系、格兰杰因果检验、因果图，以及金融数据中的非平稳性。" property="og:description"/>
+<meta content="本章讨论因果关系、格兰杰因果检验、因果图，以及金融数据中的非平稳性。" name="twitter:description"/></head>
 <body data-spy="scroll" data-target="#toc"><div class="container-fluid">
 <div class="row">
 <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">跳到主要内容</a>
 <div class="d-flex align-items-start justify-content-between">
 <h1>
-<a href="index.html" title="">Machine Learning for Factor Investing</a>
+<a href="index.html" title="">用于因子投资的机器学习</a>
 </h1>
 <button aria-controls="main-nav" aria-expanded="true" class="btn btn-outline-primary d-lg-none ml-2 mt-1" data-target="#main-nav" data-toggle="collapse" type="button"><i class="fas fa-bars"></i><span class="sr-only">显示目录</span></button>
 </div>
@@ -35,7 +35,7 @@
 <li><a class="" href="index.html">前言</a></li>
 <li class="book-part">导论</li>
 <li><a class="" href="notdata.html"><span class="header-section-number">1</span> 符号和数据</a></li>
-<li><a class="" href="intro.html"><span class="header-section-number">2</span> 简介</a></li>
+<li><a class="" href="intro.html"><span class="header-section-number">2</span> 导论</a></li>
 <li><a class="" href="factor.html"><span class="header-section-number">3</span> 因子投资和资产定价异象</a></li>
 <li><a class="" href="Data.html"><span class="header-section-number">4</span> 数据预处理</a></li>
 <li class="book-part">常见监督学习算法</li>
@@ -45,51 +45,51 @@
 <li><a class="" href="svm.html"><span class="header-section-number">8</span> 支持向量机</a></li>
 <li><a class="" href="bayes.html"><span class="header-section-number">9</span> 贝叶斯方法</a></li>
 <li class="book-part">从预测到投资组合</li>
-<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 验证与调参</a></li>
+<li><a class="" href="valtune.html"><span class="header-section-number">10</span> 模型验证与超参数调优</a></li>
 <li><a class="" href="ensemble.html"><span class="header-section-number">11</span> 集成模型</a></li>
 <li><a class="" href="backtest.html"><span class="header-section-number">12</span> 投资组合回测</a></li>
 <li class="book-part">其他重要主题</li>
 <li><a class="" href="interp.html"><span class="header-section-number">13</span> 可解释性</a></li>
-<li><a class="active" href="causality.html"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></li>
+<li><a class="active" href="causality.html"><span class="header-section-number">14</span> 因果关系与非平稳性</a></li>
 <li><a class="" href="unsup.html"><span class="header-section-number">15</span> 无监督学习</a></li>
 <li><a class="" href="RL.html"><span class="header-section-number">16</span> 强化学习</a></li>
 <li class="book-part">附录</li>
-<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据描述</a></li>
+<li><a class="" href="data-description.html"><span class="header-section-number">17</span> 数据说明</a></li>
 <li><a class="" href="python.html"><span class="header-section-number">18</span> Python 笔记本</a></li>
-<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习题答案</a></li>
+<li><a class="" href="solutions-to-exercises.html"><span class="header-section-number">19</span> 练习解答</a></li>
 </ul>
 <div class="book-extra">
 </div>
 </nav>
 </div>
 </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div class="section level1" id="causality" number="14">
-<h1><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性<a aria-label="锚" class="anchor" href="#causality"><i class="fas fa-link"></i></a></h1>
+<h1><span class="header-section-number">14</span> 因果关系与非平稳性<a aria-label="锚" class="anchor" href="#causality"><i class="fas fa-link"></i></a></h1>
 <style>
 .container-fluid main {
 max-width: 60rem;
 }
 </style>
-<p>ML工具面临的一个突出批评是它们无法揭示特征和标签之间的 <strong>因果性</strong> 关系，因为它们主要（根据设计）专注于捕获相关性。相关性比因果性弱得多，因为它们表征双向关系 (<span class="math inline">\(\textbf{X}\leftrightarrow \textbf{y}\)</span>)，而因果性指定方向 <span class="math inline">\(\textbf{X}\rightarrow \textbf{y}\)</span> 或 <span class="math inline">\(\textbf{X}\leftarrow \textbf{y}\)</span>。一个流行的例子是情绪。许多学术文章似乎发现情绪（无论其定义如何）是未来收益率的重要驱动因素。对特定股票的高情绪可能会增加对该股票的需求并推高其价格（尽管反向推理也可能适用：如果情绪高，则表明均值回归可能即将发生）。反向因果性也是合理的：收益率很可能会影响情绪。如果一只股票经历了长期的市场上涨，人们就会看好这只股票，情绪也会增加（这主要来自外推，参见 <span class="citation">Barberis et al. (<a href="solutions-to-exercises.html#ref-barberis2015x" role="doc-biblioref">2015</a>)</span> 的理论模型）。在 <span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2018economic" role="doc-biblioref">2020</a>)</span> 中，发现（与该领域的大多数发现相反）后一种关系（收益率 <span class="math inline">\(\rightarrow\)</span> 情绪）更有可能。该结果得到格兰杰因果性检验的支持（参见 <a href="causality.html#granger">14.1.1</a> 节）。</p>
-<p>统计因果性是一个很大的领域，我们参考 <span class="citation">Pearl (<a href="solutions-to-exercises.html#ref-pearl2009causality" role="doc-biblioref">2009</a>)</span> 深入探讨这个主题。最近，研究人员试图将因果性与ML方法联系起来（例如，参见 <span class="citation">Peters, Janzing, and Schölkopf (<a href="solutions-to-exercises.html#ref-peters2017elements" role="doc-biblioref">2017</a>)</span>、<span class="citation">Heinze-Deml, Peters, and Meinshausen (<a href="solutions-to-exercises.html#ref-heinze2018invariant" role="doc-biblioref">2018</a>)</span>、<span class="citation">Arjovsky et al. (<a href="solutions-to-exercises.html#ref-arjovsky2019invariant" role="doc-biblioref">2019</a>)</span>）。他们工作中的关键概念是 <strong>不变性</strong>。</p>
-<p>通常，数据不是一次性收集的，而是在不同时刻从不同来源收集的。在这些不同来源中发现的一些关系将会改变，而其他关系可能保持不变。对于 <strong>不断变化的环境</strong> 不变的关系可能源于（并表明）因果性。一个反例如下（在 <span class="citation">Beery, Van Horn, and Perona (<a href="solutions-to-exercises.html#ref-beery2018recognition" role="doc-biblioref">2018</a>)</span> 中相关）：训练计算机视觉算法来区分牛和骆驼将导致算法专注于草与沙子！这是因为大多数骆驼都是在沙漠中拍摄的，而牛则在绿色的草地上拍摄。因此，草地上的骆驼的图片将被归类为牛，而沙子上的牛的图片将被标记为“骆驼”。只有通过这两种动物在不同背景（环境）下的图片，学习者才能最终真正找到牛和骆驼的构成。无论在哪里描绘骆驼，它仍然是骆驼：学习者应该认出它是骆驼。如果是这样，骆驼的表示在所有数据集中都保持不变，并且学习者已经发现了因果性，即使骆驼成为骆驼的真实属性（整体轮廓、背部形状、面部、颜色（可能误导！）等）。</p>
-<p>这种对不变性的追求对于计算机视觉或Python notebooks等许多学科来说都是有意义的（猫总是看起来像猫，语言也不会发生太大变化）。在金融领域，不变性的存在并不明显。众所周知，市场条件是随时间变化的，公司特征和收益率之间的关系也逐年变化。此问题的一种解决方案可能就是采用 <strong>非平稳性</strong>（有关平稳性的定义，请参阅 <a href="notdata.html#notations">1.1</a> 节）。在第<a href="backtest.html#backtest">12</a>章中，我们主张通过滚动训练集尽可能频繁地更新模型来做到这一点：这使得预测能够基于最新的趋势。在下面的 <a href="causality.html#nonstat">14.2</a> 节中，我们介绍其他理论和实践选项。</p>
+<p>机器学习工具常受批评的一点，是它们难以揭示特征与标签之间的<strong>因果关系</strong>，因为这类工具在设计上主要用于捕捉相关性。相关性所提供的信息弱于因果关系：相关性描述的是双向联系（<span class="math inline">\(\textbf{X}\leftrightarrow \textbf{y}\)</span>），而因果关系具有明确方向，即 <span class="math inline">\(\textbf{X}\rightarrow \textbf{y}\)</span> 或 <span class="math inline">\(\textbf{X}\leftarrow \textbf{y}\)</span>。市场情绪就是一个常见例子。许多研究似乎表明，无论如何定义，情绪都是未来收益率的重要驱动因素。对某只股票的乐观情绪可能提高其需求，进而推高价格；不过，逆向思路也可能成立：情绪高涨或许预示均值回归即将出现。反向因果关系同样合理，即收益率可能影响情绪。如果一只股票长期上涨，投资者会变得更加看多，市场情绪也随之上升；这种行为主要源于外推预期，理论模型可参见 <span class="citation">Barberis et al. (<a href="solutions-to-exercises.html#ref-barberis2015x" role="doc-biblioref">2015</a>)</span>。<span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2018economic" role="doc-biblioref">2020</a>)</span> 的结果与该领域多数研究相反，认为后一种关系（收益率 <span class="math inline">\(\rightarrow\)</span> 情绪）更有可能成立。这一结论得到因果关系导向检验的支持（参见第 <a href="causality.html#granger">14.1.1</a> 节）。</p>
+<p>统计因果推断是一个庞大的研究领域，系统介绍可参阅 <span class="citation">Pearl (<a href="solutions-to-exercises.html#ref-pearl2009causality" role="doc-biblioref">2009</a>)</span>。近年来，研究者开始尝试把因果推断与机器学习方法结合起来（例如参见 <span class="citation">Peters, Janzing, and Schölkopf (<a href="solutions-to-exercises.html#ref-peters2017elements" role="doc-biblioref">2017</a>)</span>、<span class="citation">Heinze-Deml, Peters, and Meinshausen (<a href="solutions-to-exercises.html#ref-heinze2018invariant" role="doc-biblioref">2018</a>)</span>、<span class="citation">Arjovsky et al. (<a href="solutions-to-exercises.html#ref-arjovsky2019invariant" role="doc-biblioref">2019</a>)</span>）。这些工作的核心概念是<strong>不变性</strong>。</p>
+<p>数据往往不是一次性采集的，而是在不同时点、从不同来源获得的。不同数据来源中的某些关系会发生变化，另一些则可能保持不变。能够在<strong>变化的环境</strong>中保持不变的关系，更可能源于因果机制，因而也可能是因果关系的信号。<span class="citation">Beery, Van Horn, and Perona (<a href="solutions-to-exercises.html#ref-beery2018recognition" role="doc-biblioref">2018</a>)</span> 介绍了一个反例：训练计算机视觉算法区分牛和骆驼时，算法可能学到的其实是草地与沙漠的差别。原因是大多数骆驼照片拍摄于沙漠，而牛的照片多拍摄于绿色草地。结果，草地上的骆驼会被识别为牛，沙地上的牛则会被标记为“骆驼”。只有让学习器看到两种动物处于不同背景（环境）中的图片，它才可能找到真正区分牛与骆驼的属性。无论出现在何种背景中，骆驼仍应被识别为骆驼。如果骆驼的表示在所有数据集中都保持不变，学习器才算识别出了使骆驼成为骆驼的真实属性，如整体轮廓、背部形状、面部特征，以及可能具有误导性的颜色等。</p>
+<p>追求不变性在计算机视觉和自然语言处理等领域颇为合理：猫的外形基本不变，语言也不会迅速改变。但在金融领域，不变关系是否存在并不明确。市场状态会随时间变化，公司特征与收益率之间的关系也逐年改变。对此，一种办法或许是直接接受<strong>非平稳性</strong>（平稳性的定义参见第 <a href="notdata.html#notations">1.1</a> 节）。第 <a href="backtest.html#backtest">12</a> 章建议使用滚动训练集尽可能频繁地更新模型，使预测依据最新趋势。第 <a href="causality.html#nonstat">14.2</a> 节还将介绍其他理论与实践方案。</p>
 <div class="section level2" id="causality-1" number="14.1">
-<h2><span class="header-section-number">14.1</span> 因果性<a aria-label="锚" class="anchor" href="#causality-1"><i class="fas fa-link"></i></a></h2>
-<p>传统的ML模型旨在揭示变量之间的关系，但通常不会为这些关系指定 <em>方向</em> 。一个典型的例子是线性回归。如果我们写 <span class="math inline">\(y=a+bx+\epsilon\)</span>，那么 <span class="math inline">\(x=b^{-1}(y-a-\epsilon)\)</span> 也成立，这当然也是线性关系（相对于 <span class="math inline">\(y\)</span>）。这些方程没有定义 <span class="math inline">\(x\)</span> 是 <span class="math inline">\(y\)</span> 的明确决定因素的因果性（<span class="math inline">\(x \rightarrow y\)</span>，但相反的情况可能是错误的）。</p>
-<p>最近，<span class="citation">D’Acunto et al. (<a href="solutions-to-exercises.html#ref-dacunto2021evolving" role="doc-biblioref">2021</a>)</span> 对主要股票因子的因果结构进行了调查。该研究通过 <span class="citation">Hyvärinen et al. (<a href="solutions-to-exercises.html#ref-hyvarinen2010estimation" role="doc-biblioref">2010</a>)</span> 的 VAR-LiNGAM 技术发现，风险因子的相互作用正在不断演变。</p>
+<h2><span class="header-section-number">14.1</span> 因果关系<a aria-label="锚" class="anchor" href="#causality-1"><i class="fas fa-link"></i></a></h2>
+<p>传统机器学习模型旨在揭示变量之间的联系，却通常不为这些联系指定<em>方向</em>。线性回归就是一个典型例子。若写作 <span class="math inline">\(y=a+bx+\epsilon\)</span>，则 <span class="math inline">\(x=b^{-1}(y-a-\epsilon)\)</span> 同样成立；从 <span class="math inline">\(y\)</span> 的角度看，这仍是线性关系。这两个方程本身并不能说明 <span class="math inline">\(x\)</span> 是 <span class="math inline">\(y\)</span> 的决定因素，即不能确立 <span class="math inline">\(x \rightarrow y\)</span>、而反方向不成立的因果关系。</p>
+<p><span class="citation">D’Acunto et al. (<a href="solutions-to-exercises.html#ref-dacunto2021evolving" role="doc-biblioref">2021</a>)</span> 研究了主要股票因子的因果结构。他们采用 <span class="citation">Hyvärinen et al. (<a href="solutions-to-exercises.html#ref-hyvarinen2010estimation" role="doc-biblioref">2010</a>)</span> 提出的 VAR-LiNGAM 方法，发现风险因子之间的相互作用持续演变。</p>
 <div class="section level3" id="granger" number="14.1.1">
-<h3><span class="header-section-number">14.1.1</span> 格兰杰因果性<a aria-label="锚" class="anchor" href="#granger"><i class="fas fa-link"></i></a></h3>
-<p><span class="citation">Granger (<a href="solutions-to-exercises.html#ref-granger1969investigating" role="doc-biblioref">1969</a>)</span> 首先提出的最著名的工具可能是最简单的。为简单起见，我们仅考虑两个平稳过程：<span class="math inline">\(X_t\)</span> 和 <span class="math inline">\(Y_t\)</span>。因果性的严格定义如下。 <span class="math inline">\(X\)</span> 可以说是导致 <span class="math inline">\(Y\)</span>，只要对于某个整数 <span class="math inline">\(k\)</span>，
+<h3><span class="header-section-number">14.1.1</span> 格兰杰因果关系<a aria-label="锚" class="anchor" href="#granger"><i class="fas fa-link"></i></a></h3>
+<p><span class="citation">Granger (<a href="solutions-to-exercises.html#ref-granger1969investigating" role="doc-biblioref">1969</a>)</span> 最早提出的方法或许也是最简单、最著名的一种。为简化讨论，只考虑两个平稳过程 <span class="math inline">\(X_t\)</span> 和 <span class="math inline">\(Y_t\)</span>。若要称 <span class="math inline">\(X\)</span> 格兰杰导致 <span class="math inline">\(Y\)</span>，则需对某个整数 <span class="math inline">\(k\)</span> 有
 <span class="math display">\[(Y_{t+1},\dots,Y_{t+k})|(\mathcal{F}_{Y,t}\cup \mathcal{F}_{X,t}) \quad  \overset{d}{\neq} \quad (Y_{t+1},\dots,Y_{t+k})|\mathcal{F}_{Y,t},\]</span>
-也就是说，当以两个过程的知识为条件的 <span class="math inline">\(Y_t\)</span> 未来值的分布与仅以滤过 <span class="math inline">\(\mathcal{F}_{Y,t}\)</span> 的知识为基础的分布不同时。因此 <span class="math inline">\(X\)</span> 确实对 <span class="math inline">\(Y\)</span> 有影响，因为它的轨迹改变了 <span class="math inline">\(Y\)</span> 的轨迹。</p>
-<p>现在，这个公式太模糊，无法用数值来处理，因此我们通过线性公式来简化设置。我们保留与 <span class="citation">Granger (<a href="solutions-to-exercises.html#ref-granger1969investigating" role="doc-biblioref">1969</a>)</span> 原始论文第 5 节相同的符号。该测试由两个回归组成：
+也就是说，在同时掌握两个过程的历史信息时，<span class="math inline">\(Y_t\)</span> 未来值的条件分布不同于只掌握滤过 <span class="math inline">\(\mathcal{F}_{Y,t}\)</span> 时的条件分布，则称 <span class="math inline">\(X\)</span> 格兰杰导致 <span class="math inline">\(Y\)</span>。换言之，前者的历史轨迹为预测 <span class="math inline">\(Y\)</span> 的未来轨迹提供了额外信息。</p>
+<p>上述定义过于抽象，难以直接用于数值检验，因此我们采用线性形式简化问题，并沿用 <span class="citation">Granger (<a href="solutions-to-exercises.html#ref-granger1969investigating" role="doc-biblioref">1969</a>)</span> 原论文第 5 节的符号。检验包含两个回归：
 <span class="math display">\[\begin{align*}
 X_t&amp;=\sum_{j=1}^ma_jX_{t-j}+\sum_{j=1}^mb_jY_{t-j} + \epsilon_t \\
 Y_t&amp;=\sum_{j=1}^mc_jX_{t-j}+\sum_{j=1}^md_jY_{t-j} + \nu_t
 \end{align*}\]</span>
-为简单起见，假设两个过程均值为零。通常的假设适用：高斯噪声 <span class="math inline">\(\epsilon_t\)</span> 和 <span class="math inline">\(\nu_t\)</span> 在所有可能的方面（相互和随时间）不相关。测试如下：如果一个 <span class="math inline">\(b_j\)</span> 非零，则称 <span class="math inline">\(Y\)</span> 格兰杰导致 <span class="math inline">\(X\)</span>，如果一个 <span class="math inline">\(c_j\)</span> 非零，则称 <span class="math inline">\(X\)</span> 格兰杰导致 <span class="math inline">\(Y\)</span>。两者并不相互排斥，并且人们普遍认为反馈循环很可能发生。</p>
-<p>统计上，在零假设下，<span class="math inline">\(b_1=\dots=b_m=0\)</span> (<em>分别</em> <span class="math inline">\(c_1=\dots=c_m=0\)</span>)，可以使用通常的费歇尔分布进行检验。显然，可以忽略线性限制，但测试会复杂得多。这个方向的主要财经文章是<span class="citation">Hiemstra and Jones (<a href="solutions-to-exercises.html#ref-hiemstra1994testing" role="doc-biblioref">1994</a>)</span>。</p>
-<p>有许多 R 包嵌入了 Granger 因果性功能。最广泛使用的之一是 <em>lmtest</em>，因此我们在下面使用它。语法非常简单。 <em>order</em> 参数是上式中的最大滞后 <span class="math inline">\(m\)</span>。我们测试过去 6 个月的平均市值是否会导致一只特定股票（样本中的第一只股票）的 1 个月远期收益率。</p>
+为简化起见，假设两个过程的均值均为零。并采用常见假设：高斯噪声 <span class="math inline">\(\epsilon_t\)</span> 与 <span class="math inline">\(\nu_t\)</span> 彼此不相关，且各自在时间上也不相关。检验逻辑如下：若至少一个 <span class="math inline">\(b_j\)</span> 非零，则称 <span class="math inline">\(Y\)</span> 格兰杰导致 <span class="math inline">\(X\)</span>；若至少一个 <span class="math inline">\(c_j\)</span> 非零，则称 <span class="math inline">\(X\)</span> 格兰杰导致 <span class="math inline">\(Y\)</span>。这两种情形并不互斥，反馈循环完全可能存在。</p>
+<p>在统计检验中，零假设分别为 <span class="math inline">\(b_1=\dots=b_m=0\)</span> 和 <span class="math inline">\(c_1=\dots=c_m=0\)</span>，可使用常规的 F 分布进行检验。线性限制当然可以放宽，但相应检验会复杂得多。金融领域沿这一方向的重要研究是 <span class="citation">Hiemstra and Jones (<a href="solutions-to-exercises.html#ref-hiemstra1994testing" role="doc-biblioref">1994</a>)</span>。</p>
+<p>许多 R 软件包都提供格兰杰因果关系检验，其中应用最广泛的之一是 <em>lmtest</em>，下文也将使用它。其语法非常简单，<em>order</em> 参数对应上式中的最大滞后阶数 <span class="math inline">\(m\)</span>。我们检验某只股票（样本中的第一只股票）过去 6 个月的平均市值，是否格兰杰导致其未来 1 个月收益率。</p>
 <div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">lmtest</span><span class="op">)</span>
 <span class="va">x_granger</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                            <span class="co"># X variable =...</span>
@@ -113,55 +113,55 @@ Y_t&amp;=\sum_{j=1}^mc_jX_{t-j}+\sum_{j=1}^md_jY_{t-j} + \nu_t
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p></p>
-<p>该测试是定向的，仅测试 <span class="math inline">\(X\)</span> 是否格兰杰导致 <span class="math inline">\(Y\)</span>。为了测试反向效果，需要将函数中的参数反转。在上面的输出中，<span class="math inline">\(p\)</span> 值非常低，因此在 <span class="math inline">\(H_0\)</span> 成立的条件下观察到类似样本的概率可以忽略不计。因此，市值似乎确实有助于预测一个月收益率。尽管如此，我们还是强调格兰杰因果性可以说比下一小节中定义的因果性弱。一个格兰杰导致另一个过程的过程仅包含有用的预测信息，这并不是严格意义上的因果性证明。此外，我们的测试仅限于线性模型，包含非线性可能会改变结论。最后，包括其他回归量（可能省略变量）也可能改变结果（参见，例如 <span class="citation">Chow, Cotsomitis, and Kwan (<a href="solutions-to-exercises.html#ref-chow2002multivariate" role="doc-biblioref">2002</a>)</span>）。</p>
+<p>该检验具有方向性，只检验 <span class="math inline">\(X\)</span> 是否格兰杰导致 <span class="math inline">\(Y\)</span>；若要检验反方向，需要交换函数中的两个参数。上面的输出给出很小的 <span class="math inline">\(p\)</span> 值，意味着在 <span class="math inline">\(H_0\)</span> 成立时，观察到当前结果或更极端结果的概率很低。因此，市值似乎确实包含预测未来 1 个月收益率的有用信息。不过需要强调，格兰杰因果关系弱于下一小节讨论的严格因果关系。一个过程格兰杰导致另一个过程，只说明前者含有额外的预测信息，并不能证明严格意义上的因果关系。此外，这里的检验仅适用于线性模型；纳入非线性关系或其他回归变量，包括当前遗漏的变量，都可能改变结论（例如参见 <span class="citation">Chow, Cotsomitis, and Kwan (<a href="solutions-to-exercises.html#ref-chow2002multivariate" role="doc-biblioref">2002</a>)</span>）。</p>
 </div>
 <div class="section level3" id="causal-additive-models" number="14.1.2">
 <h3><span class="header-section-number">14.1.2</span> 因果加性模型<a aria-label="锚" class="anchor" href="#causal-additive-models"><i class="fas fa-link"></i></a></h3>
-<p>因果模型家族包含多种形式（甚至 <a href="bayes.html#BART">9.5</a> 部分的 BART 在 <span class="citation">Hahn, Murray, and Carvalho (<a href="solutions-to-exercises.html#ref-hahn2019bayesian" role="doc-biblioref">2019</a>)</span> 中也用于此目的）。有兴趣的读者可以查看 <span class="citation">Pearl (<a href="solutions-to-exercises.html#ref-pearl2009causality" role="doc-biblioref">2009</a>)</span>、<span class="citation">Peters, Janzing, and Schölkopf (<a href="solutions-to-exercises.html#ref-peters2017elements" role="doc-biblioref">2017</a>)</span>、<span class="citation">Maathuis et al. (<a href="solutions-to-exercises.html#ref-maathuis2018handbook" role="doc-biblioref">2018</a>)</span> 和 <span class="citation">Hünermund and Bareinboim (<a href="solutions-to-exercises.html#ref-hunermund2019causal" role="doc-biblioref">2019</a>)</span> 以及其中的参考文献。因果模型的核心工具之一是 Pearl 开发的 <strong>do-calculus</strong>。传统概率 <span class="math inline">\(P[Y|X]\)</span> 将 <span class="math inline">\(Y\)</span> 的概率有条件地链接到 <strong>观察</strong> <span class="math inline">\(X\)</span> 取某个值 <span class="math inline">\(x\)</span>，而 do(<span class="math inline">\(\cdot\)</span>) <strong>强制</strong> <span class="math inline">\(X\)</span> 取值 <span class="math inline">\(x\)</span>。这是 <em>观察</em> 与 <em>干预</em> 的二分。下面是一个经典的例子。观察气压计可以了解天气情况，因为高压通常与晴天相关：
+<p>因果模型形式众多，第 <a href="bayes.html#BART">9.5</a> 节介绍的 BART 也被 <span class="citation">Hahn, Murray, and Carvalho (<a href="solutions-to-exercises.html#ref-hahn2019bayesian" role="doc-biblioref">2019</a>)</span> 用于因果分析。进一步阅读可参见 <span class="citation">Pearl (<a href="solutions-to-exercises.html#ref-pearl2009causality" role="doc-biblioref">2009</a>)</span>、<span class="citation">Peters, Janzing, and Schölkopf (<a href="solutions-to-exercises.html#ref-peters2017elements" role="doc-biblioref">2017</a>)</span>、<span class="citation">Maathuis et al. (<a href="solutions-to-exercises.html#ref-maathuis2018handbook" role="doc-biblioref">2018</a>)</span>、<span class="citation">Hünermund and Bareinboim (<a href="solutions-to-exercises.html#ref-hunermund2019causal" role="doc-biblioref">2019</a>)</span> 及其所引文献。因果模型的一项核心工具是 Pearl 提出的 <strong>do-calculus（干预演算）</strong>。传统条件概率 <span class="math inline">\(P[Y|X]\)</span> 描述 <span class="math inline">\(Y\)</span> 的概率如何随<strong>观察到的</strong> <span class="math inline">\(X\)</span> 取值 <span class="math inline">\(x\)</span> 而变化；do(<span class="math inline">\(\cdot\)</span>) 则表示通过干预<strong>强制</strong> <span class="math inline">\(X\)</span> 取值 <span class="math inline">\(x\)</span>。这一区别就是“观察”与“干预”的区别。下面看一个经典例子。观察气压计有助于判断天气，因为高气压通常与晴天相关：
 <span class="math display">\[P[\text{sunny weather}|\text{barometer says ``high''} ]&gt;P[\text{sunny weather}|\text{barometer says ``low''} ],\]</span>
-但如果你篡改气压计（强制它显示一些值），
+但如果人为调节气压计，强制它显示某个读数，
 <span class="math display">\[P[\text{sunny weather}|\text{barometer hacked to ``high''} ]=P[\text{sunny weather}|\text{barometer hacked ``low''} ],\]</span>
-因为篡改气压计不会对天气产生影响。简而言之，当气压计受到干预时，<span class="math inline">\(P[\text{weather}|\text{do(barometer)}]=P[\text{weather}]\)</span>。这是一个与因果性相关的有趣例子。最重要的变量是气压。气压会影响天气和气压计，这种共同作用称为混杂。然而，气压计影响天气的说法可能并不正确。想要深入了解这些概念的读者应该仔细看看 Judea Pearl 的作品。Do-calculus 是一个非常强大的理论框架，但将其应用于任何情况或数据集并不容易（例如，参见书评 <span class="citation">Aronow and Sävje (<a href="solutions-to-exercises.html#ref-aronow2020book" role="doc-biblioref">2019</a>)</span>）。</p>
-<p>虽然我们没有正式介绍因果推理背后的理论的详尽介绍，但我们希望展示一些实际的实现，因为它们很容易解释。挑选出一种特定类型的模型总是很困难，因此我们选择一种可以用简单的数学工具解释的模型。我们从结构因果模型 (SCM) 的最简单定义开始，遵循 <span class="citation">Peters, Janzing, and Schölkopf (<a href="solutions-to-exercises.html#ref-peters2017elements" role="doc-biblioref">2017</a>)</span> 的第 3 章。这些模型背后的想法是在模型中引入一些层次结构（即一些附加结构）。形式上，这给出了
+因为操纵气压计不会改变天气。简写为：对气压计实施干预时，<span class="math inline">\(P[\text{weather}|\text{do(barometer)}]=P[\text{weather}]\)</span>。这里真正居于上游的变量是气压：气压同时影响天气与气压计，这种共同原因造成的关联称为<strong>混杂</strong>。因此，不能据此断言气压计会影响天气。希望深入理解这些概念的读者可参阅 Judea Pearl 的著作。干预演算是非常强大的理论框架，但并不容易直接应用于任意情境或数据集（例如参见书评 <span class="citation">Aronow and Sävje (<a href="solutions-to-exercises.html#ref-aronow2020book" role="doc-biblioref">2019</a>)</span>）。</p>
+<p>本书不打算完整介绍因果推断理论，但会展示一些容易解释的实际实现。因果模型种类繁多，我们选取一种可用简单数学工具说明的模型。按照 <span class="citation">Peters, Janzing, and Schölkopf (<a href="solutions-to-exercises.html#ref-peters2017elements" role="doc-biblioref">2017</a>)</span> 第 3 章，先从结构因果模型（structural causal model，SCM）的最简单定义开始。这类模型通过引入层级关系，为变量之间的联系增加结构。形式上可写为
 <span class="math display">\[\begin{align*}
 X&amp;=\epsilon_X \\
 Y&amp;=f(X,\epsilon_Y),
 \end{align*}\]</span>
-其中 <span class="math inline">\(\epsilon_X\)</span> 和 <span class="math inline">\(\epsilon_Y\)</span> 是独立的噪声变量。简单地说，<span class="math inline">\(X\)</span> 的实现是随机抽取的，然后通过 <span class="math inline">\(f\)</span> 影响 <span class="math inline">\(Y\)</span> 的实现。现在，如果观察到的变量数量更大，这个方案可能会更复杂。想象一下第三个变量的出现
+其中 <span class="math inline">\(\epsilon_X\)</span> 与 <span class="math inline">\(\epsilon_Y\)</span> 是相互独立的噪声变量。直观地说，先随机生成 <span class="math inline">\(X\)</span>，再由它通过 <span class="math inline">\(f\)</span> 影响 <span class="math inline">\(Y\)</span>。若观测变量更多，结构也会更复杂。例如再加入第三个变量：
 <span class="math display">\[\begin{align*}
 X&amp;=\epsilon_X \\
 Y&amp;=f(X,\epsilon_Y),\\
 Z&amp;=g(Y,\epsilon_Z)
 \end{align*}\]</span></p>
-<p>在这种情况下，<span class="math inline">\(X\)</span> 对 <span class="math inline">\(Y\)</span> 有因果作用，然后 <span class="math inline">\(Y\)</span> 对 <span class="math inline">\(Z\)</span> 有因果作用。因此我们有以下联系：
+<p>此时，<span class="math inline">\(X\)</span> 对 <span class="math inline">\(Y\)</span> 产生因果影响，<span class="math inline">\(Y\)</span> 又对 <span class="math inline">\(Z\)</span> 产生因果影响。相应关系如下：
 <span class="math display">\[\begin{array}{ccccccc} X &amp; &amp;&amp;&amp;\\
 &amp;\searrow &amp; &amp;&amp;\\
 &amp;&amp;Y&amp;\rightarrow&amp;Z. \\
 &amp;\nearrow &amp;&amp;\nearrow&amp; \\
 \epsilon_Y &amp; &amp;\epsilon_Z
 \end{array}\]</span></p>
-<p>上面的表示称为图，图论有自己的术语，我们非常简单地总结一下。变量通常称为 <em>顶点</em>（或 <em>节点</em>），箭头称为 <em>边</em>。因为箭头有方向，所以它们被称为 <em>有向</em> 边。当两个顶点通过边连接时，它们被称为 <em>相邻</em>。相邻顶点的序列称为 <em>路径</em>，如果所有边都是箭头，则它是有向的。在有向路径中，第一个顶点是父节点，紧随其后的顶点是子节点。</p>
-<p>图可以通过邻接矩阵来概括。邻接矩阵 <span class="math inline">\(\textbf{A}=A_{ij}\)</span> 是一个由 0 和 1 填充的矩阵。每当有从顶点 <span class="math inline">\(i\)</span> 到顶点 <span class="math inline">\(j\)</span> 的边时，<span class="math inline">\(A_{ij}=1\)</span> 。通常，禁止自循环 (<span class="math inline">\(X \rightarrow X\)</span>)，以便邻接矩阵对角线上有零。如果我们考虑上图的简化版本，例如 <span class="math inline">\(X \rightarrow Y \rightarrow Z\)</span>，则相应的邻接矩阵为</p>
+<p>这种表示称为<strong>图</strong>。下面简要介绍图论术语。变量通常称为<em>顶点</em>或<em>节点</em>，箭头称为<em>边</em>；带有方向的箭头称为<em>有向边</em>。两个顶点由一条边连接时，称二者相邻。由一系列相邻顶点构成的序列称为<em>路径</em>；若路径中的所有边都有方向，则称为有向路径。在一条有向边上，箭头起点是父节点，箭头终点是子节点。</p>
+<p>图可以用邻接矩阵概括。邻接矩阵 <span class="math inline">\(\textbf{A}=A_{ij}\)</span> 由 0 和 1 组成；若存在从顶点 <span class="math inline">\(i\)</span> 指向顶点 <span class="math inline">\(j\)</span> 的边，则 <span class="math inline">\(A_{ij}=1\)</span>。通常不允许自环（<span class="math inline">\(X \rightarrow X\)</span>），因此邻接矩阵的对角线元素为零。若把上图简化为 <span class="math inline">\(X \rightarrow Y \rightarrow Z\)</span>，对应的邻接矩阵为</p>
 <p><span class="math display">\[\textbf{A}=\begin{bmatrix}
 0 &amp; 1 &amp; 0 \\
 0 &amp; 0 &amp; 1 \\
 0&amp; 0&amp;0
 \end{bmatrix}.\]</span></p>
-<p>，其中字母 <span class="math inline">\(X\)</span>、<span class="math inline">\(Y\)</span> 和 <span class="math inline">\(Z\)</span> 自然按字母顺序排序。只有两个箭头：从 <span class="math inline">\(X\)</span> 到 <span class="math inline">\(Y\)</span>（第一行第二列）和从 <span class="math inline">\(Y\)</span> 到 <span class="math inline">\(Z\)</span>（第二行第三列）。</p>
-<p><strong>循环</strong> 是一种创建循环的特殊路径类型，即当第一个顶点也是最后一个顶点时。序列 <span class="math inline">\(X \rightarrow Y \rightarrow Z \rightarrow X\)</span> 是一个循环。从技术上讲，周期会带来问题。为了说明这一点，请考虑简单的序列 <span class="math inline">\(X \rightarrow Y \rightarrow X\)</span>。这意味着 <span class="math inline">\(X\)</span> 的实现会导致 <span class="math inline">\(Y\)</span> 的实现，而 <span class="math inline">\(Y\)</span> 又会导致 <span class="math inline">\(X\)</span> 的实现。虽然格兰杰因果性可以被视为允许这种连接，但一般因果模型通常避免循环并与 <strong>有向无环图</strong> (DAG) 一起使用。正式的图形操作（可能与 do-calculus 相关）可以通过 <em>causaleffect</em> 包 <span class="citation">Tikka and Karvanen (<a href="solutions-to-exercises.html#ref-tikka2017identifying" role="doc-biblioref">2017</a>)</span> 进行计算。还可以使用 <em>dagitty</em> (<span class="citation">Textor et al. (<a href="solutions-to-exercises.html#ref-textor2016robust" role="doc-biblioref">2016</a>)</span>) 和 <em>ggdag</em> 包创建和操作有向无环图。</p>
-<p>配备了这些工具，我们可以明确模型的非常通用的形式：
+<p>其中 <span class="math inline">\(X\)</span>、<span class="math inline">\(Y\)</span>、<span class="math inline">\(Z\)</span> 按字母顺序排列。矩阵中只有两个元素为 1：第一行第二列对应 <span class="math inline">\(X\)</span> 指向 <span class="math inline">\(Y\)</span>，第二行第三列对应 <span class="math inline">\(Y\)</span> 指向 <span class="math inline">\(Z\)</span>。</p>
+<p><strong>环</strong>是一类特殊路径，其起点与终点为同一顶点。例如，<span class="math inline">\(X \rightarrow Y \rightarrow Z \rightarrow X\)</span> 构成一个环。环会带来技术问题。以 <span class="math inline">\(X \rightarrow Y \rightarrow X\)</span> 为例，它表示 <span class="math inline">\(X\)</span> 导致 <span class="math inline">\(Y\)</span>，而 <span class="math inline">\(Y\)</span> 又反过来导致 <span class="math inline">\(X\)</span>。格兰杰因果关系可以容纳这种反馈结构，但一般因果模型通常排除环，采用<strong>有向无环图</strong>（directed acyclic graph，DAG）。与干预演算有关的图操作可通过 <em>causaleffect</em> 软件包（<span class="citation">Tikka and Karvanen (<a href="solutions-to-exercises.html#ref-tikka2017identifying" role="doc-biblioref">2017</a>)</span>）完成；<em>dagitty</em>（<span class="citation">Textor et al. (<a href="solutions-to-exercises.html#ref-textor2016robust" role="doc-biblioref">2016</a>)</span>）和 <em>ggdag</em> 软件包也可用于创建和操作 DAG。</p>
+<p>借助这些工具，可以写出一种非常一般的模型形式：
 <span class="math display" id="eq:CAM0">\[\begin{equation}
 \tag{14.1}
 X_j=f_j\left(\textbf{X}_{\text{pa}_D(j)},\epsilon_j  \right),
 \end{equation}\]</span></p>
-<p>，其中噪声变量相互独立。符号 <span class="math inline">\(\text{pa}_D(j)\)</span> 指的是图结构 <span class="math inline">\(D\)</span> 内顶点 <span class="math inline">\(j\)</span> 的父节点集。因此，<span class="math inline">\(X_j\)</span> 是其所有父项和一些噪声项 <span class="math inline">\(\epsilon_j\)</span> 的函数。因果加性模型是上述规范的温和简化：</p>
+<p>其中各噪声变量相互独立。记号 <span class="math inline">\(\text{pa}_D(j)\)</span> 表示图 <span class="math inline">\(D\)</span> 中顶点 <span class="math inline">\(j\)</span> 的父节点集合。因此，<span class="math inline">\(X_j\)</span> 是其所有父节点及噪声项 <span class="math inline">\(\epsilon_j\)</span> 的函数。因果加性模型对上述设定作了轻微简化：</p>
 <p><span class="math display" id="eq:CAM">\[\begin{equation}
 \tag{14.2}
 X_j=\sum_{k\in \text{pa}_D(j)}f_{j,k}\left(\textbf{X}_{k}  \right)+\epsilon_j,
 \end{equation}\]</span></p>
-<p>，其中每个变量的非线性效应是累积的，因此术语“<em>加性</em>”。请注意，那里没有时间索引。与格兰杰因果性相反，不存在自然顺序。这些模型非常复杂且难以估计。详细信息可以在 <span class="citation">Bühlmann et al. (<a href="solutions-to-exercises.html#ref-buhlmann2014cam" role="doc-biblioref">2014</a>)</span> 中找到。幸运的是，作者开发了一个 R 包来确定 DAG <span class="math inline">\(D\)</span>。</p>
-<p>下面，我们构建与一小组预测变量加上 1 个月的远期收益率（在训练样本上）相关的邻接矩阵。本书的原始版本使用 <em>CAM</em> 包，其语法非常简单。 <a class="footnote-ref" href="solutions-to-exercises.html#fn28" id="fnref28"><sup>28</sup></a> 下面，我们测试更新的 <em>InvariantCausalPrediction</em> 包。</p>
-<p>[[<strong>NOTE</strong>：本小节的其余部分正在修订中。]]</p>
+<p>每个父变量的非线性效应在此相加，故称“<em>加性</em>”。注意，模型中没有时间索引；与格兰杰因果关系不同，这里不存在天然的时间顺序。这类模型十分复杂，也难以估计，详见 <span class="citation">Bühlmann et al. (<a href="solutions-to-exercises.html#ref-buhlmann2014cam" role="doc-biblioref">2014</a>)</span>。所幸作者提供了一个用于估计 DAG <span class="math inline">\(D\)</span> 的 R 软件包。</p>
+<p>下面基于训练样本，为一小组预测变量和未来 1 个月收益率构建邻接矩阵。本书初版使用语法简洁的 <em>CAM</em> 软件包。<a class="footnote-ref" href="solutions-to-exercises.html#fn28" id="fnref28"><sup>28</sup></a> 这里改用较新的 <em>InvariantCausalPrediction</em> 软件包进行测试。</p>
+<p><strong>实现说明：</strong>原版采用已从 CRAN 下架的 <em>CAM</em> 软件包。这里改用 <em>InvariantCausalPrediction</em> 演示可运行的替代方案；两者方法不同，输出不应直接比较。</p>
 <div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># library(CAM)                # Activate the package</span>
 <span class="va">data_caus</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"R1M_Usd"</span>, <span class="va">features_short</span><span class="op">)</span><span class="op">)</span>
@@ -315,8 +315,8 @@ X_j=\sum_{k\in \text{pa}_D(j)}f_{j,k}\left(\textbf{X}_{k}  \right)+\epsilon_j,
 ## Pb                     -0.02         0.00            0.00     0.35
 ## Vol1Y_Usd               0.00         0.02            0.00     0.35</code></pre>
 <p></p>
-<p>矩阵不太稀疏，这意味着模型揭示了样本内变量之间的许多关系。遗憾的是，没有一个方向是我们所寻求的预测任务感兴趣的。事实上，第一个变量是我们想要预测的变量，它的列是空的。然而，它的行已满，这表明相反的效果：未来收益率会引起预测变量值变化，考虑到特征的性质，这可能看起来相当违反直觉。</p>
-<p>为了完整起见，我们还提供了 <em>pcalg</em> 包的实现(<span class="citation">Kalisch et al. (<a href="solutions-to-exercises.html#ref-kalisch2012causal" role="doc-biblioref">2012</a>)</span>).<a class="footnote-ref" href="solutions-to-exercises.html#fn29" id="fnref29"><sup>29</sup></a> 下面，通过所谓的 PC（以其作者 <strong>P</strong>eter Spirtes 和 <strong>C</strong>lark Glymour 命名）进行估计。该算法的细节超出了本书的范围，有兴趣的读者可以查看 <span class="citation">Spirtes et al. (<a href="solutions-to-exercises.html#ref-spirtes2000causation" role="doc-biblioref">2000</a>)</span> 的第 5.4 节或 <span class="citation">Kalisch et al. (<a href="solutions-to-exercises.html#ref-kalisch2012causal" role="doc-biblioref">2012</a>)</span> 的第 2 节，以获取有关该主题的更多信息。我们使用 <a class="uri" href="https://www.bioconductor.org/packages/release/bioc/html/Rgraphviz.html">https://www.bioconductor.org/packages/release/bioc/html/Rgraphviz.html</a> 上提供的 <em>Rgraphviz</em> 包。</p>
+<p>该矩阵并不十分稀疏，说明模型在样本内识别出了变量之间的许多关系。遗憾的是，这些关系都不是预测任务所关注的方向。第一个变量是待预测变量，其所在列为空，而所在行几乎全满；这表示模型识别出的方向恰好相反，即未来收益率导致预测变量发生变化。考虑到这些特征的性质，这一结果颇为违反直觉。</p>
+<p>为求完整，我们还给出 <em>pcalg</em> 软件包（<span class="citation">Kalisch et al. (<a href="solutions-to-exercises.html#ref-kalisch2012causal" role="doc-biblioref">2012</a>)</span>）的实现。<a class="footnote-ref" href="solutions-to-exercises.html#fn29" id="fnref29"><sup>29</sup></a> 下面采用 PC 算法估计；PC 得名于作者 <strong>P</strong>eter Spirtes 和 <strong>C</strong>lark Glymour。算法细节超出本书范围，进一步内容可参阅 <span class="citation">Spirtes et al. (<a href="solutions-to-exercises.html#ref-spirtes2000causation" role="doc-biblioref">2000</a>)</span> 第 5.4 节或 <span class="citation">Kalisch et al. (<a href="solutions-to-exercises.html#ref-kalisch2012causal" role="doc-biblioref">2012</a>)</span> 第 2 节。这里使用 <a class="uri" href="https://www.bioconductor.org/packages/release/bioc/html/Rgraphviz.html">https://www.bioconductor.org/packages/release/bioc/html/Rgraphviz.html</a> 提供的 <em>Rgraphviz</em> 软件包。</p>
 <div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://pcalg.r-forge.r-project.org/">pcalg</a></span><span class="op">)</span>                                             <span class="co"># Load packages</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">Rgraphviz</span><span class="op">)</span>
@@ -329,18 +329,18 @@ X_j=\sum_{k\in \text{pa}_D(j)}f_{j,k}\left(\textbf{X}_{k}  \right)+\epsilon_j,
 <img alt="有向图的表示。" src="ML_factor_files/figure-html/pcalg-1.png" width="624"/><p class="caption">图 14.1：有向图的表示。</p>
 </div>
 <p></p>
-<p>当模型无法确定边缘方向时，会显示双向箭头。虽然邻接矩阵与第一个模型不同，但仍然没有似乎对因变量（第一个圆圈）有明显因果影响的预测变量。</p>
+<p>当模型无法确定边的方向时，图中会显示双向箭头。虽然该邻接矩阵不同于第一个模型的结果，但仍没有任何预测变量似乎对因变量（第一个圆圈）存在明确的因果影响。</p>
 </div>
 <div class="section level3" id="structural-time-series-models" number="14.1.3">
 <h3><span class="header-section-number">14.1.3</span> 结构时间序列模型<a aria-label="锚" class="anchor" href="#structural-time-series-models"><i class="fas fa-link"></i></a></h3>
-<p>我们通过提及一种特定类型的结构模型来结束因果性主题：<strong>结构时间序列</strong>。因为我们说明它们与特定类型的因果推理的相关性，所以我们严格遵循 <span class="citation">Brodersen et al. (<a href="solutions-to-exercises.html#ref-brodersen2015inferring" role="doc-biblioref">2015</a>)</span> 的符号。该模型由两个方程驱动：</p>
+<p>最后介绍一类特殊的结构模型：<strong>结构时间序列模型</strong>。为了说明它与特定因果推断问题的联系，我们沿用 <span class="citation">Brodersen et al. (<a href="solutions-to-exercises.html#ref-brodersen2015inferring" role="doc-biblioref">2015</a>)</span> 的符号。模型由两个方程组成：</p>
 <p><span class="math display">\[\begin{align*}
 y_t&amp;=\textbf{Z}_t'\boldsymbol{\alpha}_t+\epsilon_t \\
 \boldsymbol{\alpha}_{t+1}&amp; =\textbf{T}_t\boldsymbol{\alpha}_{t}+\textbf{R}_t\boldsymbol{\eta}_t.
 \end{align*}\]</span></p>
-<p>因变量表示为状态变量 <span class="math inline">\(\boldsymbol{\alpha}_t\)</span> 加上误差项的线性函数。这些变量又是其过去值的线性函数加上另一个可能具有复杂结构的误差项（它是矩阵 <span class="math inline">\(\textbf{R}_t\)</span> 与中心高斯项 <span class="math inline">\(\boldsymbol{\eta}_t\)</span> 的乘积）。该规范将许多模型嵌套为特殊情况，例如 ARIMA。</p>
-<p><span class="citation">Brodersen et al. (<a href="solutions-to-exercises.html#ref-brodersen2015inferring" role="doc-biblioref">2015</a>)</span> 的目标是通过制度变化检测因果影响。他们在给定的训练期间估计上述模型，然后预测模型在某些测试集上的响应。如果实现值与预测值之间的总（求和/积分）误差很大（基于某些统计测试），那么作者得出结论认为断点是相关的。最初，该方法的目的是通过观察干预前训练的模型在干预后的行为如何来量化干预的效果。</p>
-<p>下面，我们测试样本中的 100<span class="math inline">\(^{th}\)</span> 日期点（2008 年 4 月）是否是一个转折点。可以说，这个日期属于次贷金融危机的时间跨度。我们使用 <em>CausalImpact</em> 包，它使用 <em>bsts</em> 库（贝叶斯结构时间序列）。</p>
+<p>第一个方程把因变量表示为状态变量 <span class="math inline">\(\boldsymbol{\alpha}_t\)</span> 的线性函数与误差项之和。第二个方程描述状态变量的演化：它等于状态过去值的线性函数，再加上一个结构可能较复杂的误差项，即矩阵 <span class="math inline">\(\textbf{R}_t\)</span> 与零均值高斯向量 <span class="math inline">\(\boldsymbol{\eta}_t\)</span> 的乘积。许多模型都可视为该设定的特例，例如 ARIMA。</p>
+<p><span class="citation">Brodersen et al. (<a href="solutions-to-exercises.html#ref-brodersen2015inferring" role="doc-biblioref">2015</a>)</span> 利用状态变化来识别因果影响。他们先在给定的训练期估计上述模型，再预测测试期内的响应。若已实现值与预测值之间的累计误差（求和或积分）在统计上显著，便认为断点具有实质意义。这一方法最初用于量化干预效果：观察在干预前训练的模型，在干预后与实际结果出现多大偏离。</p>
+<p>下面检验样本中的第 100<span class="math inline">\(^{th}\)</span> 个日期（2008 年 4 月）是否构成转折点。该日期处于次贷危机期间。我们使用 <em>CausalImpact</em> 软件包；它底层调用 <em>bsts</em> 软件包，即贝叶斯结构时间序列模型。</p>
 <div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://google.github.io/CausalImpact/">CausalImpact</a></span><span class="op">)</span>
 <span class="va">stock1_data</span> <span class="op">&lt;-</span> <span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">stock_id</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>          <span class="co"># Data of first stock</span>
@@ -378,36 +378,36 @@ y_t&amp;=\textbf{Z}_t'\boldsymbol{\alpha}_t+\epsilon_t \\
 <img alt="因果影响研究的输出。" src="ML_factor_files/figure-html/structbayplot-1.png" width="672"/><p class="caption">图 14.2：因果影响研究的输出。</p>
 </div>
 <p></p>
-<p>下面，我们复制并粘贴该函数生成的报告（通过上述代码中的注释行获得）。结论并不支持危机对模型产生显着影响，这可能是因为后期误差的迹象不断变化。</p>
-<p><em>在干预后期间，响应变量的平均值约为。 0.016。如果没有干预，我们预计平均响应为 0.031。该反事实预测的 95% 区间为 [-0.0059, 0.063]。从观察到的响应中减去该预测，即可得出干预对响应变量的因果影响的估计。此效果为 -0.015，95% 区间为 [-0.047, 0.022]。</em></p>
-<p><em>总结干预后期间的各个数据点（有时只能进行有意义的解释），响应变量的总体值为 1.64。如果没有进行干预，我们预计总和为 3.09。该预测的 95% 区间为 [-0.59, 6.34]。上述结果以绝对数字形式给出。相对而言，响应变量下降了-47%。该百分比的 95% 区间为 [-152%, +72%]。</em></p>
-<p><em>这意味着，虽然在考虑整个干预期时，干预似乎对响应变量产生了负面影响，但这种影响在统计上并不显着，因此无法进行有意义的解释。明显的效果可能是与干预无关的随机波动的结果。当干预期很长并且大部分时间效果已经消失时，通常会出现这种情况。当干预时间太短而无法区分信号和噪声时，也可能出现这种情况。最后，当没有足够的控制变量或这些变量在学习期间与响应变量没有很好地相关时，可能会出现无法找到显着效果的情况。</em></p>
-<p><em>偶然获得此效果的概率为 p = 0.199。这意味着该效应可能是虚假的，并且通常不会被认为具有统计显着性。</em></p>
+<p>下面摘录该函数生成的报告，可通过运行上方代码中的注释行获得。结果不支持危机对模型产生显著影响；原因可能是干预后误差的正负方向不断变化，彼此抵消。</p>
+<p><em>干预后期间，响应变量的平均值约为 0.016。若未发生干预，预期平均响应为 0.031，反事实预测的 95% 区间为 [-0.0059, 0.063]。从观测响应中减去该预测值，可估计干预对响应变量的因果影响。估计效应为 -0.015，95% 区间为 [-0.047, 0.022]。</em></p>
+<p><em>将干预后期间的各个数据点加总（这种总量并非总能得到有意义的解释），响应变量的累计值为 1.64。若未发生干预，预期累计值为 3.09，预测的 95% 区间为 [-0.59, 6.34]。以上结果以绝对数值表示。按相对变化计算，响应变量下降了 47%，该比例的 95% 区间为 [-152%, +72%]。</em></p>
+<p><em>这意味着，尽管从整个干预期看，干预似乎对响应变量产生了负面影响，但该效应在统计上并不显著，因而不能作有意义的解释。表面上的效应可能只是与干预无关的随机波动。干预期过长、包含了效应已经消退的大量时期时，经常会出现这种结果；干预期过短、难以区分信号与噪声时也会如此。控制变量数量不足，或控制变量在训练期与响应变量的相关性较弱，也可能导致无法识别显著效应。</em></p>
+<p><em>偶然得到这一效应的概率为 p = 0.199。因此，该效应可能只是伪象，通常不会被视为具有统计显著性。</em></p>
 </div>
 </div>
 <div class="section level2" id="nonstat" number="14.2">
 <h2><span class="header-section-number">14.2</span> 应对不断变化的环境<a aria-label="锚" class="anchor" href="#nonstat"><i class="fas fa-link"></i></a></h2>
-<p>ML贡献中最常见的假设是所研究的样本是独立同分布的。我们试图描述的是现象的实现。这个约束是很自然的，因为如果 <span class="math inline">\(X\)</span> 和 <span class="math inline">\(y\)</span> 之间的关系总是变化，那么就很难从观察中推断出任何东西。金融领域的一个主要问题是，这种情况经常发生：市场、行为、策略等一直在发展。这至少部分与不存在套利的概念有关：如果一种交易策略一直有效，所有市场参与者最终都会通过羊群效应采用它，这将消除相应的收益。<a class="footnote-ref" href="solutions-to-exercises.html#fn30" id="fnref30"><sup>30</sup></a>如果该策略保持私有，其持有者将变得无限富有，这显然从未发生过。</p>
-<p>有多种方法可以定义环境中的更改。如果我们用 <span class="math inline">\(\mathbb{P}_{XY}\)</span> 表示所有变量（特征和标签）的多元分布，用 <span class="math inline">\(\mathbb{P}_{XY}=\mathbb{P}_{X}\mathbb{P}_{Y|X}\)</span> 表示，则可以进行两个简单的更改：</p>
+<p>机器学习研究最常见的假设之一，是所研究的样本来自独立同分布（i.i.d.）的随机过程。这个假设很自然：如果 <span class="math inline">\(X\)</span> 与 <span class="math inline">\(y\)</span> 之间的关系不断变化，就很难从观测数据中推断稳定规律。金融领域的主要困难在于，这种变化十分常见：市场、行为和政策始终在演化。这至少部分源于无套利原则。如果某项交易策略永远有效，市场参与者最终会在羊群效应下纷纷采用它，从而消除相应收益。<a class="footnote-ref" href="solutions-to-exercises.html#fn30" id="fnref30"><sup>30</sup></a> 若策略始终不为人知，其持有者将变得无限富有，而现实中显然未曾出现这种情形。</p>
+<p>环境变化可以有多种定义。记所有变量（特征与标签）的联合分布为 <span class="math inline">\(\mathbb{P}_{XY}\)</span>，并将其分解为 <span class="math inline">\(\mathbb{P}_{XY}=\mathbb{P}_{X}\mathbb{P}_{Y|X}\)</span>，便可区分两种基本变化：</p>
 <ul>
-<li><strong>协变量移位</strong>：<span class="math inline">\(\mathbb{P}_{X}\)</span> 发生变化，但 <span class="math inline">\(\mathbb{P}_{Y|X}\)</span> 不变：特征分布波动，但与 <span class="math inline">\(Y\)</span> 的关系保持不变；<br/></li>
-<li><strong>概念漂移</strong>：<span class="math inline">\(\mathbb{P}_{Y|X}\)</span> 发生变化，但 <span class="math inline">\(\mathbb{P}_{X}\)</span> 没有变化：特征分布稳定，但它们与 <span class="math inline">\(Y\)</span> 的关系发生了变化。</li>
+<li><strong>协变量偏移</strong>：<span class="math inline">\(\mathbb{P}_{X}\)</span> 发生变化，而 <span class="math inline">\(\mathbb{P}_{Y|X}\)</span> 保持不变。也就是说，特征分布在变化，但特征与 <span class="math inline">\(Y\)</span> 的关系不变；<br/></li>
+<li><strong>概念漂移</strong>：<span class="math inline">\(\mathbb{P}_{Y|X}\)</span> 发生变化，而 <span class="math inline">\(\mathbb{P}_{X}\)</span> 保持不变。也就是说，特征分布稳定，但特征与 <span class="math inline">\(Y\)</span> 的关系改变了。</li>
 </ul>
-<p>显然，我们忽略了两项都发生变化的情况，因为它太复杂而难以处理。在因子投资中，特征工程过程（参见<a href="Data.html#feateng">4.4</a>节）部分设计是为了绕过协变量转移的风险。均匀化保证边际保持不变，但特征之间的相关性当然可能会改变。当特征解释标签的方式随时间变化时，主要问题可能是概念漂移。在 <span class="citation">Cornuejols, Miclet, and Barra (<a href="solutions-to-exercises.html#ref-cornuejols2011apprentissage" role="doc-biblioref">2018</a>)</span>、<a class="footnote-ref" href="solutions-to-exercises.html#fn31" id="fnref31"><sup>31</sup></a> 中，作者区分了四种类型的漂移，我们在图 <a href="causality.html#fig:conceptchange">14.3</a> 中重现了它们。在因子模型中，变化可能是所有四种类型的组合：它们在市场崩盘期间可能是突然的，但大多数时候它们是渐进的并且永无止境（不断重复）。</p>
+<p>这里暂不考虑两者同时变化的情形，因为它过于复杂。在因子投资中，特征工程（参见第 <a href="Data.html#feateng">4.4</a> 节）的部分目的，就是降低协变量偏移的风险。均匀化可以固定各特征的边际分布，但特征之间的相关结构仍可能变化。更棘手的问题通常是概念漂移，即特征解释标签的方式随时间改变。<span class="citation">Cornuejols, Miclet, and Barra (<a href="solutions-to-exercises.html#ref-cornuejols2011apprentissage" role="doc-biblioref">2018</a>)</span><a class="footnote-ref" href="solutions-to-exercises.html#fn31" id="fnref31"><sup>31</sup></a> 区分了四类漂移，图 <a href="causality.html#fig:conceptchange">14.3</a> 对此作了复现。因子模型中的变化可能兼具这四种形式：市场崩盘时可能骤然发生，而在多数时期则逐步演化（渐进式或增量式），并反复持续出现。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:conceptchange" style="display:block;"></span>
 <img alt="不同风格的概念变化。" src="images/conceptchange.png" width="300px"/><p class="caption">图 14.3：不同风格的概念变化。</p>
 </div>
-<p>当然，如果我们知道环境发生变化，相应地（即动态地）调整模型似乎是合乎逻辑的。这就产生了所谓的 <strong>稳定性-可塑性困境</strong>。这种困境是模型 <strong>反应性</strong> （新实例对更新有重要影响）与 <strong>稳定性</strong> （这些实例可能不代表较慢的趋势，因此它们可能使模型向次优方向移动）之间的权衡。</p>
-<p>实际上，有两种方法可以解决这种困境：改变训练样本的时间顺序深度（例如，回溯到更早的时间），或者在可能的情况下，为最近的实例分配更多权重。我们在 <a href="backtest.html#protocol">12.1</a> 节中讨论第一个选项，在 <a href="trees.html#adaboost">6.3</a> 节中提到第二个选项（尽管 Adaboost 的目的正是让算法处理权重）。在神经网络中，一般来说，在损失函数的计算中引入基于实例的权重是可能的，尽管这个选项在 Keras 中尚不可用（据我们所知：该框架发展迅速）。对于简单回归，这个想法被称为 <strong>加权最小二乘法</strong>，其中误差在损失内加权：
+<p>既然环境会变化，动态调整模型就很合理。这会引出所谓的<strong>稳定性—可塑性困境</strong>：一端是模型的<strong>反应性</strong>，即新样本对模型更新影响较大；另一端是模型的<strong>稳定性</strong>，因为新样本未必代表较慢的长期趋势，过度响应反而可能把模型推向次优方向。</p>
+<p>实际中可用两种方式调节这种权衡：改变训练样本覆盖的历史长度，例如纳入更久以前的数据；或者在可行时提高近期样本的权重。第 <a href="backtest.html#protocol">12.1</a> 节讨论了前者，第 <a href="trees.html#adaboost">6.3</a> 节提及后者，尽管 AdaBoost 的目标恰恰是让算法自行调整样本权重。一般而言，神经网络的损失函数可以引入样本权重；据作者写作时所知，Keras 尚未提供这一选项，而该框架仍在快速演进。在线性回归中，这一方法称为<strong>加权最小二乘法</strong>，即在损失函数中对误差加权：
 <span class="math display">\[L=\sum_{i=1}^Iw_i(y_i-\textbf{x}_i\textbf{b})^2.\]</span>
-用矩阵术语来说，就是 <span class="math inline">\(L=(\textbf{y}-\textbf{Xb})'\textbf{W}(\textbf{y}-\textbf{Xb})\)</span>，其中 <span class="math inline">\(\textbf{W}\)</span> 是权重的对角矩阵。相对于 <span class="math inline">\(\textbf{b}\)</span> 的梯度等于 <span class="math inline">\(2\textbf{X}'\textbf{WX}\textbf{b}-2\textbf{X}'\textbf{Wy}\)</span>，使得 <span class="math inline">\(\textbf{b}^*=(\textbf{X}'\textbf{WX})^{-1}\textbf{X}'\textbf{Wy}\)</span> 的损失最小化。恢复 <span class="math inline">\(\textbf{W}=\textbf{I}\)</span> 的标准最小二乘解。为了微调模型的反应性，权重必须是一个随着样本中实例变旧而减小的函数。</p>
-<p>对于不断变化的金融环境当然没有完美的解决方案。下面，我们提到ML文献中为克服数据生成过程中的非平稳性问题而采取的两条路线。但首先，我们提出另一个明确的验证，即市场确实经历了随时间变化的分布。</p>
+用矩阵表示，<span class="math inline">\(L=(\textbf{y}-\textbf{Xb})'\textbf{W}(\textbf{y}-\textbf{Xb})\)</span>，其中 <span class="math inline">\(\textbf{W}\)</span> 是由样本权重构成的对角矩阵。损失关于 <span class="math inline">\(\textbf{b}\)</span> 的梯度为 <span class="math inline">\(2\textbf{X}'\textbf{WX}\textbf{b}-2\textbf{X}'\textbf{Wy}\)</span>，因此在 <span class="math inline">\(\textbf{b}^*=(\textbf{X}'\textbf{WX})^{-1}\textbf{X}'\textbf{Wy}\)</span> 处取得最小值。当 <span class="math inline">\(\textbf{W}=\textbf{I}\)</span> 时，就得到普通最小二乘解。若要细调模型的反应速度，可令样本权重随样本变旧而递减。</p>
+<p>不断变化的金融环境不存在完美解决方案。下文将介绍机器学习文献中应对数据生成过程非平稳性的两条路径。在此之前，先用另一个例子明确展示市场分布确实会随时间变化。</p>
 <div class="section level3" id="non-stationarity-yet-another-illustration" number="14.2.1">
 <h3><span class="header-section-number">14.2.1</span> 非平稳性：另一个例子<a aria-label="锚" class="anchor" href="#non-stationarity-yet-another-illustration"><i class="fas fa-link"></i></a></h3>
-<p>（金融）计量经济学最基本的实践之一是研究收益率（相对价格变化）。原因很简单，随着时间的推移，收益率似乎表现一致（每月收益率是有限的，它们通常位于 -1 和 +1 之间）。另一方面，价格会发生变化，而且通常有些价格永远不会回到过去的价值。这使得价格更难研究。</p>
-<p>平稳性是金融计量经济学中的一个关键概念：用随时间保持不变的分布属性来描述现象要容易得多（这使得它们可以被捕获）。遗憾的是，收益率的分布并不是固定的：收益率的均值和方差都随着周期而变化。</p>
-<p>下面，在图 <a href="causality.html#fig:statplot">14.4</a> 中，我们通过计算整个数据集中所有日历年的平均月收益率来说明这一事实。</p>
+<p>金融计量经济学最基本的做法之一，是研究收益率，即价格的相对变化。原因很简单：收益率随时间的表现看起来较为一致，例如月收益率有界，通常落在 -1 到 +1 之间。价格水平则会持续变化，而且一些价格可能永远不会回到过去的水平，因此更难建模。</p>
+<p>平稳性是金融计量经济学的核心概念。若一个现象的分布特征随时间保持不变，就更容易刻画和估计。遗憾的是，收益率分布并非平稳：其均值和方差都会随经济周期变化。</p>
+<p>图 <a href="causality.html#fig:statplot">14.4</a> 计算完整数据集中每个日历年的平均月收益率，以此说明上述现象。</p>
 <div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span> 
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>          <span class="co"># Create a year variable</span>
@@ -419,8 +419,8 @@ y_t&amp;=\textbf{Z}_t'\boldsymbol{\alpha}_t+\epsilon_t \\
 <img alt="年平均月收益率。" src="ML_factor_files/figure-html/statplot-1.png" width="350px"/><p class="caption">图 14.4：每年的平均月收益率。</p>
 </div>
 <p></p>
-<p>均值的这些变化还伴随着二阶矩的变化（方差/波动性）。这种被称为波动性聚类的效应自从 <span class="citation">Engle (<a href="solutions-to-exercises.html#ref-engle1982autoregressive" role="doc-biblioref">1982</a>)</span> 的理论突破（甚至更早）以来就已被广泛记录。例如，我们参考 <span class="citation">Cont (<a href="solutions-to-exercises.html#ref-cont2007volatility" role="doc-biblioref">2007</a>)</span> 了解有关此主题的更多详细信息。对于 R 中已实现波动率的计算，我们强烈推荐 <span class="citation">Regenstein (<a href="solutions-to-exercises.html#ref-regenstein2018reproducible" role="doc-biblioref">2018</a>)</span> 中的第 4 章。</p>
-<p>在ML模型方面，也是如此。下面，我们使用一个预测变量来估计纯特征回归，即过去 6 个月的平均市值 (<span class="math inline">\(r_{t+1,n}=\alpha+\beta x_{t,n}^{\text{cap}}+\epsilon_{t+1,n}\)</span>)。标签是 6 个月远期收益率，并且在每个日历年进行估计。</p>
+<p>均值变化还伴随着二阶矩，即方差或波动率的变化。这种<strong>波动率聚集</strong>现象早在 <span class="citation">Engle (<a href="solutions-to-exercises.html#ref-engle1982autoregressive" role="doc-biblioref">1982</a>)</span> 的理论突破之前便已有记录，之后更得到广泛研究。进一步内容可参阅 <span class="citation">Cont (<a href="solutions-to-exercises.html#ref-cont2007volatility" role="doc-biblioref">2007</a>)</span>。若要在 R 中计算已实现波动率，推荐阅读 <span class="citation">Regenstein (<a href="solutions-to-exercises.html#ref-regenstein2018reproducible" role="doc-biblioref">2018</a>)</span> 第 4 章。</p>
+<p>机器学习模型同样面临这一问题。下面估计一个仅含单一预测变量的特征回归，该预测变量为过去 6 个月的平均市值（<span class="math inline">\(r_{t+1,n}=\alpha+\beta x_{t,n}^{\text{cap}}+\epsilon_{t+1,n}\)</span>）。标签是未来 6 个月收益率，模型按日历年分别估计。</p>
 <div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_ml</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>year <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                           <span class="co"># Create a year variable</span>
@@ -437,79 +437,79 @@ y_t&amp;=\textbf{Z}_t'\boldsymbol{\alpha}_t+\epsilon_t \\
 <img alt="贝塔值相对于 6 个月市值的变化。" src="ML_factor_files/figure-html/conceptdriftemp-1.png" width="350px"/><p class="caption">图 14.5：贝塔值相对于 6 个月市值的变化。</p>
 </div>
 <p></p>
-<p>图 <a href="causality.html#fig:conceptdriftemp">14.5</a> 中的条形突出了概念漂移：总体而言，市值和收益率之间的关系是负的（再次是 <strong>规模效应</strong>）。有时它是明显负面的，有时则不是那么明显。市值解释收益率的能力是随时间变化的，模型必须相应地适应。</p>
+<p>图 <a href="causality.html#fig:conceptdriftemp">14.5</a> 的柱形清楚显示了概念漂移。总体而言，市值与收益率负相关，这再次体现了<strong>规模效应</strong>；但这种负相关有时很强，有时并不明显。市值解释收益率的能力会随时间变化，模型也必须相应调整。</p>
 </div>
 <div class="section level3" id="online-learning" number="14.2.2">
 <h3><span class="header-section-number">14.2.2</span> 在线学习<a aria-label="锚" class="anchor" href="#online-learning"><i class="fas fa-link"></i></a></h3>
-<p>在线学习是指ML的一个子集，其中新信息逐渐到达，并且该流程的集成是迭代执行的（术语“<em>在线</em>”未链接到互联网）。为了考虑到最新的数据更新，必须更新模型（这是显而易见的）。金融领域显然就是这种情况，这个主题与<a href="backtest.html#protocol">12.1</a>节中关于学习窗口的讨论密切相关。</p>
-<p>问题是，如果使用 2010 年至 2019 年的数据训练 2019 年模型，则（动态）2020 年模型将必须使用包括 2020 年最新点在内的整个数据集重新训练。这可能很繁重，并且在学习过程中仅包含最新点将大大降低其计算成本。在神经网络中，权重的连续批量更新可以允许模型逐步变化。尽管如此，这对于决策树来说通常是不可能的，因为分割是一劳永逸地决定的。一个值得注意的例外是 <span class="citation">Basak (<a href="solutions-to-exercises.html#ref-basak2004online" role="doc-biblioref">2004</a>)</span>，但是，在这种情况下，树的构造与原始算法有很大不同。</p>
-<p>在线学习最简单的例子是 Widrow-Hodd 算法（最初来自 <span class="citation">Widrow and Hoff (<a href="solutions-to-exercises.html#ref-widrow1960adaptive" role="doc-biblioref">1960</a>)</span>）。最初，这个想法来自所谓的 ADALINE（ADAptive LInear NEuron）模型，它是一种具有一个隐藏层和线性激活函数的神经网络（即，像感知器，但具有不同的激活）。</p>
-<p>假设模型是线性的，即 <span class="math inline">\(\textbf{y}=\textbf{Xb}+\textbf{e}\)</span> （可以将常量添加到预测变量列表中），并且数据量很大且输入频率很高，因此禁止在完整样本上更新模型，因为这在技术上很困难。更新 <span class="math inline">\(\textbf{b}\)</span> 值的一种简单且启发式的方法是计算
+<p>在线学习是机器学习的一个分支：新信息逐步到达，模型以迭代方式吸收这些数据。这里的“<em>在线</em>”与互联网无关。为了利用最新数据，模型必须随数据流更新。金融数据正是这种典型情形，本节也与第 <a href="backtest.html#protocol">12.1</a> 节关于训练窗口的讨论密切相关。</p>
+<p>例如，若 2019 年的模型使用 2010 至 2019 年数据训练，那么构建动态的 2020 年模型时，传统做法需要把 2020 年新增观测加入完整数据集并重新训练。这样计算负担较重；若只用最新数据增量更新模型，成本会显著降低。神经网络可以依次用新批次更新权重，从而使模型逐步变化。决策树通常做不到这一点，因为分裂一旦确定便不会改变。<span class="citation">Basak (<a href="solutions-to-exercises.html#ref-basak2004online" role="doc-biblioref">2004</a>)</span> 是一个值得注意的例外，但其树结构与原始算法有很大不同。</p>
+<p>在线学习最简单的例子之一是 Widrow–Hoff 算法，最早见于 <span class="citation">Widrow and Hoff (<a href="solutions-to-exercises.html#ref-widrow1960adaptive" role="doc-biblioref">1960</a>)</span>。这一思想源自 ADALINE（ADAptive LInear NEuron，自适应线性神经元）模型。它与感知器相似，但采用线性激活函数。</p>
+<p>假设模型为线性形式 <span class="math inline">\(\textbf{y}=\textbf{Xb}+\textbf{e}\)</span>，其中常数项可作为一个预测变量加入。若数据量巨大且高频到达，每次都用完整样本更新模型在计算上不可行。一种简单的启发式方法，是按下式更新 <span class="math inline">\(\textbf{b}\)</span>：
 <span class="math display">\[\textbf{b}_{t+1} \longleftarrow \textbf{b}_t-\eta (\textbf{x}_t\textbf{b}-y_t)\textbf{x}_t',\]</span>
-其中 <span class="math inline">\(\textbf{x}_t\)</span> 是实例 <span class="math inline">\(t\)</span> 的行向量。理由很简单。二次误差 <span class="math inline">\((\textbf{x}_t\textbf{b}-y_t)^2\)</span> 相对于 <span class="math inline">\(\textbf{b}\)</span> 的梯度等于 <span class="math inline">\(2(\textbf{x}_t\textbf{b}-y_t)\textbf{x}_t'\)</span>；因此，上面的更新是梯度下降的一个简单例子。 <span class="math inline">\(\eta\)</span> 当然必须非常小：如果不是，每个新点都会显着改变 <span class="math inline">\(\textbf{b}\)</span>，从而导致模型不稳定。</p>
-<p><span class="citation">Hoi et al. (<a href="solutions-to-exercises.html#ref-hoi2018online" role="doc-biblioref">2018</a>)</span> 中对与在线学习相关的技术进行了详尽的回顾（第 4.11 节甚至专门讨论了作品集选择）。 <span class="citation">Hazan et al. (<a href="solutions-to-exercises.html#ref-hazan2016introduction" role="doc-biblioref">2016</a>)</span> 这本书涵盖了在线凸优化，这是一个非常接近的领域，与在线学习有很大的重叠。下面的演示文稿改编自第一次调查的第二部分和第三部分。</p>
-<p>数据集按时间索引：我们为特征和标签编写<span class="math inline">\(\textbf{X}_t\)</span>和<span class="math inline">\(\textbf{y}_t\)</span>（本节中不会使用通常的列索引（<span class="math inline">\(k\)</span>）和行索引（<span class="math inline">\(i\)</span>））。时间有一个有限的范围<span class="math inline">\(T\)</span>。ML模型取决于一些参数 <span class="math inline">\(\boldsymbol{\theta}\)</span>，我们用 <span class="math inline">\(f_{\boldsymbol{\theta}}\)</span> 表示。在时间 <span class="math inline">\(t\)</span>（收集数据集（<span class="math inline">\(\textbf{X}_t\)</span>，<span class="math inline">\(\textbf{y}_t\)</span>）时），训练模型的损失函数 <span class="math inline">\(L\)</span> 自然取决于数据（<span class="math inline">\(\textbf{X}_t\)</span>，<span class="math inline">\(\textbf{y}_t\)</span>）并通过  取决于模型，<span class="math inline">\(\boldsymbol{\theta}_t\)</span> 是拟合时间 <span class="math inline">\(t\)</span> 数据的参数值。为了符号简单起见，我们今后写作 <span class="math inline">\(L_t(\boldsymbol{\theta}_t)=L(\textbf{X}_t,\textbf{y}_t,\boldsymbol{\theta}_t )\)</span>。在线学习的关键量是整个时间序列的遗憾：
+其中 <span class="math inline">\(\textbf{x}_t\)</span> 是第 <span class="math inline">\(t\)</span> 个样本的行向量。理由很直接：二次误差 <span class="math inline">\((\textbf{x}_t\textbf{b}-y_t)^2\)</span> 关于 <span class="math inline">\(\textbf{b}\)</span> 的梯度为 <span class="math inline">\(2(\textbf{x}_t\textbf{b}-y_t)\textbf{x}_t'\)</span>，所以上式就是一次梯度下降更新。学习率 <span class="math inline">\(\eta\)</span> 必须足够小，否则每个新观测都会大幅改变 <span class="math inline">\(\textbf{b}\)</span>，使模型变得不稳定。</p>
+<p><span class="citation">Hoi et al. (<a href="solutions-to-exercises.html#ref-hoi2018online" role="doc-biblioref">2018</a>)</span> 全面综述了在线学习技术，其中第 4.11 节专门讨论投资组合选择。<span class="citation">Hazan et al. (<a href="solutions-to-exercises.html#ref-hazan2016introduction" role="doc-biblioref">2016</a>)</span> 则介绍在线凸优化；该领域与在线学习高度重叠。下面的内容主要改编自前一篇综述的第二、三部分。</p>
+<p>数据集按时间索引：特征与标签记为 <span class="math inline">\(\textbf{X}_t\)</span> 和 <span class="math inline">\(\textbf{y}_t\)</span>；本节不使用通常的列索引 <span class="math inline">\(k\)</span> 与行索引 <span class="math inline">\(i\)</span>。时间跨度以 <span class="math inline">\(T\)</span> 为上界。机器学习模型依赖参数 <span class="math inline">\(\boldsymbol{\theta}\)</span>，记作 <span class="math inline">\(f_{\boldsymbol{\theta}}\)</span>。在时点 <span class="math inline">\(t\)</span> 收集数据集（<span class="math inline">\(\textbf{X}_t\)</span>，<span class="math inline">\(\textbf{y}_t\)</span>）后，训练损失 <span class="math inline">\(L\)</span> 同时取决于数据（<span class="math inline">\(\textbf{X}_t\)</span>，<span class="math inline">\(\textbf{y}_t\)</span>）与模型参数 <span class="math inline">\(\boldsymbol{\theta}_t\)</span>，后者是在时点 <span class="math inline">\(t\)</span> 的数据上拟合得到的参数。为简化记号，以下写作 <span class="math inline">\(L_t(\boldsymbol{\theta}_t)=L(\textbf{X}_t,\textbf{y}_t,\boldsymbol{\theta}_t )\)</span>。在线学习的关键量是整个时间序列上的累计遗憾值：
 <span class="math display" id="eq:regret">\[\begin{equation}
 \tag{14.3}
 R_T=\sum_{t=1}^TL_t(\boldsymbol{\theta}_t)-\underset{\boldsymbol{\theta}^*\in \boldsymbol{\Theta}}{\inf} \ \sum_{t=1}^TL_t(\boldsymbol{\theta}^*).
 \end{equation}\]</span></p>
-<p>遗憾是模型 <span class="math inline">\(\boldsymbol{\theta}_t\)</span> 产生的总损失减去在完全了解数据序列的情况下可以获得的最小损失（因此事后计算）。在线学习的基本方法实际上与神经网络的批量训练非常相似。参数的更新基于
+<p>遗憾值等于参数序列 <span class="math inline">\(\boldsymbol{\theta}_t\)</span> 所产生的累计损失，减去预先知道完整数据序列时可取得的最小累计损失；因此，后一个基准只能事后计算。在线学习的基本方法与神经网络的批量训练颇为相似。参数按下式更新：
 <span class="math display" id="eq:online1">\[\begin{equation}
 \tag{14.4}
 \textbf{z}_{t+1}=\boldsymbol{\theta}_t-\eta_t\nabla L_t(\boldsymbol{\theta}_t),
 \end{equation}\]</span>
-其中 <span class="math inline">\(\nabla L_t(\boldsymbol{\theta}_t)\)</span> 表示电流损耗 <span class="math inline">\(L_t\)</span> 的梯度。当 <span class="math inline">\(\textbf{z}_{t+1}\)</span> 超出 <span class="math inline">\(\boldsymbol{\theta}_t\)</span> 规定的范围时，可能会出现一个问题。因此，新参数的候选向量 <span class="math inline">\(\textbf{z}_{t+1}\)</span> 被投影到我们在此称为 <span class="math inline">\(S\)</span> 的可行域上：
+其中 <span class="math inline">\(\nabla L_t(\boldsymbol{\theta}_t)\)</span> 是当前损失 <span class="math inline">\(L_t\)</span> 的梯度。如果 <span class="math inline">\(\textbf{z}_{t+1}\)</span> 超出为 <span class="math inline">\(\boldsymbol{\theta}_t\)</span> 规定的范围，就把新参数的候选向量 <span class="math inline">\(\textbf{z}_{t+1}\)</span> 投影到可行域 <span class="math inline">\(S\)</span> 上：
 <span class="math display" id="eq:online2">\[\begin{equation}
 \tag{14.5}
 \boldsymbol{\theta}_{t+1}=\Pi_S(\textbf{z}_{t+1}), \quad \text{with} \quad \Pi_S(\textbf{u}) = \underset{\boldsymbol{\theta}\in S}{\text{argmin}} \ ||\boldsymbol{\theta}-\textbf{u}||_2.
 \end{equation}\]</span>
-因此 <span class="math inline">\(\boldsymbol{\theta}_{t+1}\)</span> 尽可能接近中间选择 <span class="math inline">\(\textbf{z}_{t+1}\)</span>。在 <span class="citation">Hazan, Agarwal, and Kale (<a href="solutions-to-exercises.html#ref-hazan2007logarithmic" role="doc-biblioref">2007</a>)</span> 中，表明在适当的假设下（例如，<span class="math inline">\(L_t\)</span> 是严格凸的且具有有界梯度 <span class="math inline">\(\left|\left|\underset{\boldsymbol{\theta}}{\sup} \, \nabla L_t(\boldsymbol{\theta})\right|\right|\le G\)</span>），遗憾 <span class="math inline">\(R_T\)</span> 满足
+这样得到的 <span class="math inline">\(\boldsymbol{\theta}_{t+1}\)</span> 是可行域内距离中间候选值 <span class="math inline">\(\textbf{z}_{t+1}\)</span> 最近的点。<span class="citation">Hazan, Agarwal, and Kale (<a href="solutions-to-exercises.html#ref-hazan2007logarithmic" role="doc-biblioref">2007</a>)</span> 证明，在适当假设下，例如 <span class="math inline">\(L_t\)</span> 严格凸且梯度有界，即 <span class="math inline">\(\left|\left|\underset{\boldsymbol{\theta}}{\sup} \, \nabla L_t(\boldsymbol{\theta})\right|\right|\le G\)</span>，遗憾值 <span class="math inline">\(R_T\)</span> 满足
 <span class="math display">\[R_T \le \frac{G^2}{2H}(1+\log(T)),\]</span>
-其中 <span class="math inline">\(H\)</span> 是学习率的缩放因子（也称为步长）：<span class="math inline">\(\eta_t=(Ht)^{-1}\)</span>。</p>
-<p>更复杂的在线算法通过整合 Hessian 矩阵 <span class="math inline">\(\nabla^2 L_t(\boldsymbol{\theta}):=[\nabla^2 L_t]_{i,j}=\frac{\partial}{\partial \boldsymbol{\theta}_i \partial \boldsymbol{\theta}_j}L_t( \boldsymbol{\theta})\)</span> 和/或通过包括惩罚以减少 <span class="math inline">\(\boldsymbol{\theta}_t\)</span> 中的不稳定性来概括 <a href="causality.html#eq:online1">(14.4)</a> 和 <a href="causality.html#eq:online2">(14.5)</a>。有关这些扩展的更多详细信息，请参阅 <span class="citation">Hoi et al. (<a href="solutions-to-exercises.html#ref-hoi2018online" role="doc-biblioref">2018</a>)</span> 中的第 2 节。</p>
-<p>一个有趣的参数更新流是  中形式化的被动攻击算法 (PAA)。基本案例涉及分类任务，但我们坚持下面的回归设置（<span class="citation">Crammer et al. (<a href="solutions-to-exercises.html#ref-crammer2006online" role="doc-biblioref">2006</a>)</span> 中的第 5 节）。 PAA 的一个强大限制是它们依赖于损失为零或可以忽略不计的一组参数：<span class="math inline">\(\boldsymbol{\Theta}^*_\epsilon=\{\boldsymbol{\theta}, L_t(\boldsymbol{\theta})&lt; \epsilon\}\)</span>。对于一般损失函数和学习器 <span class="math inline">\(f\)</span> 来说，这个集合基本上是无法访问的。因此，<span class="citation">Crammer et al. (<a href="solutions-to-exercises.html#ref-crammer2006online" role="doc-biblioref">2006</a>)</span>中的算法仅限于特定情况，即线性<span class="math inline">\(f\)</span>和<span class="math inline">\(\epsilon\)</span>不敏感铰链损失：对于某些参数<span class="citation">Crammer et al. (<a href="solutions-to-exercises.html#ref-crammer2006online" role="doc-biblioref">2006</a>)</span>，</p>
+其中 <span class="math inline">\(H\)</span> 是学习率（也称步长）的缩放因子，且 <span class="math inline">\(\eta_t=(Ht)^{-1}\)</span>。</p>
+<p>更复杂的在线算法会在式 <a href="causality.html#eq:online1">(14.4)</a> 和式 <a href="causality.html#eq:online2">(14.5)</a> 的基础上引入 Hessian 矩阵 <span class="math inline">\(\nabla^2 L_t(\boldsymbol{\theta}):=[\nabla^2 L_t]_{i,j}=\frac{\partial}{\partial \boldsymbol{\theta}_i \partial \boldsymbol{\theta}_j}L_t( \boldsymbol{\theta})\)</span>，并且可能加入惩罚项，以降低 <span class="math inline">\(\boldsymbol{\theta}_t\)</span> 的不稳定性。有关这些扩展的详细介绍，参见 <span class="citation">Hoi et al. (<a href="solutions-to-exercises.html#ref-hoi2018online" role="doc-biblioref">2018</a>)</span> 第 2 节。</p>
+<p>另一类有趣的参数更新方法，是 <span class="citation">Crammer et al. (<a href="solutions-to-exercises.html#ref-crammer2006online" role="doc-biblioref">2006</a>)</span> 提出的被动—激进算法（passive-aggressive algorithm，PAA）。基本版本用于分类任务，这里沿用 <span class="citation">Crammer et al. (<a href="solutions-to-exercises.html#ref-crammer2006online" role="doc-biblioref">2006</a>)</span> 第 5 节的回归设定。PAA 的一个重要限制，是它依赖损失为零或足够小的参数集合 <span class="math inline">\(\boldsymbol{\Theta}^*_\epsilon=\{\boldsymbol{\theta}, L_t(\boldsymbol{\theta})&lt; \epsilon\}\)</span>。对于一般损失函数和学习器 <span class="math inline">\(f\)</span>，这一集合通常难以求得。因此，<span class="citation">Crammer et al. (<a href="solutions-to-exercises.html#ref-crammer2006online" role="doc-biblioref">2006</a>)</span> 的算法只处理一种特殊情况：线性 <span class="math inline">\(f\)</span> 与 <span class="math inline">\(\epsilon\)</span> 不敏感铰链损失：</p>
 <p><span class="math display">\[L_\epsilon(\boldsymbol{\theta})=\left\{ \begin{array}{ll}
 0 &amp; \text{if } \ |\boldsymbol{\theta}'\textbf{x}-y|\le \epsilon \quad (\text{close enough prediction}) \\
 |\boldsymbol{\theta}'\textbf{x}-y|- \epsilon &amp; \text{if } \  |\boldsymbol{\theta}'\textbf{x}-y| &gt;  \epsilon \quad (\text{prediction too far})
 \end{array}\right.,\]</span></p>
-<p>对于某些参数<span class="math inline">\(\epsilon&gt;0\)</span>。如果重量<span class="math inline">\(\boldsymbol{\theta}\)</span>使得模型足够接近真实值，则损失为零；如果不是，则等于误差的绝对值减去<span class="math inline">\(\epsilon\)</span>。在PAA中，参数的更新由下式给出<span class="math display">\[\boldsymbol{\theta}_{t+1}= \underset{\boldsymbol{\theta}}{\text{argmin}} ||\boldsymbol{\theta}-\boldsymbol{\theta}_t||_2^2, \quad \text{subject to} \quad L_\epsilon(\boldsymbol{\theta})=0,\]</span>因此，选择新的参数值以满足两个条件：<br/>- 损失为零（根据损失的定义，这意味着模型足够接近真实值）；<br/>- 并且，该参数尽可能接近之前的参数值。</p>
-<p>通过构造，如果模型足够好，则模型不会移动（被动阶段），但如果不是，它会快速转向产生满意结果的值（积极阶段）。</p>
-<p>我们以历史注释结束本节。在线学习的一些想法源于金融文献，尤其是最初由 <span class="citation">Cover (<a href="solutions-to-exercises.html#ref-cover1991universal" role="doc-biblioref">1991</a>)</span> 创造的 <strong>通用投资组合</strong> 概念。设置如下。假设函数 <span class="math inline">\(f\)</span> 是线性的 <span class="math inline">\(f(\textbf{x}_t)=\boldsymbol{\theta}'\textbf{x}_t\)</span> 并且数据 <span class="math inline">\(\textbf{x}_t\)</span> 由资产收益率组成，因此，只要 <span class="math inline">\(\boldsymbol{\theta}'\textbf{1}_N=1\)</span> （预算约束），这些值就是投资组合收益率。损失函数 <span class="math inline">\(L_t\)</span> 对应于凹效用函数（例如，对数）并且遗憾是相反的：
+<p>其中 <span class="math inline">\(\epsilon&gt;0\)</span>。如果权重向量 <span class="math inline">\(\boldsymbol{\theta}\)</span> 使模型预测足够接近真实值，损失便为零；否则，损失等于误差绝对值减去 <span class="math inline">\(\epsilon\)</span>。PAA 按下式更新参数：<span class="math display">\[\boldsymbol{\theta}_{t+1}= \underset{\boldsymbol{\theta}}{\text{argmin}} ||\boldsymbol{\theta}-\boldsymbol{\theta}_t||_2^2, \quad \text{subject to} \quad L_\epsilon(\boldsymbol{\theta})=0,\]</span>因此，新参数需要同时满足两个条件：<br/>- 损失为零，即按上述损失定义，模型预测足够接近真实值；<br/>- 新参数尽可能接近上一期参数。</p>
+<p>按照这一构造，若模型已经足够好，参数便保持不动，即“被动”阶段；否则，参数会迅速移向能够产生可接受结果的取值，即“激进”阶段。</p>
+<p>最后补充一点历史背景。在线学习的一些思想源于金融文献，尤其是 <span class="citation">Cover (<a href="solutions-to-exercises.html#ref-cover1991universal" role="doc-biblioref">1991</a>)</span> 首创的<strong>通用投资组合</strong>。设函数 <span class="math inline">\(f\)</span> 为线性函数 <span class="math inline">\(f(\textbf{x}_t)=\boldsymbol{\theta}'\textbf{x}_t\)</span>，数据 <span class="math inline">\(\textbf{x}_t\)</span> 由资产收益率组成。只要满足预算约束 <span class="math inline">\(\boldsymbol{\theta}'\textbf{1}_N=1\)</span>，函数值就是投资组合收益率。此时 <span class="math inline">\(L_t\)</span> 对应凹效用函数，例如对数效用，而遗憾值的方向也随之反转：
 <span class="math display">\[R_T=\underset{\boldsymbol{\theta}^*\in \boldsymbol{\Theta}}{\sup} \ \sum_{t=1}^TL_t(\textbf{r}_t'\boldsymbol{\theta}^*)-\sum_{t=1}^TL_t(\textbf{r}_t'\boldsymbol{\theta}_t),\]</span>
-其中 <span class="math inline">\(\textbf{r}_t'\)</span> 是收益率。因此，程序被转换为最大化凹函数。几篇文章（通常来自计算机科学或ML社区）提出了此类问题的解决方案：<span class="citation">Blum and Kalai (<a href="solutions-to-exercises.html#ref-blum1999universal" role="doc-biblioref">1999</a>)</span>、<span class="citation">Agarwal et al. (<a href="solutions-to-exercises.html#ref-agarwal2006algorithms" role="doc-biblioref">2006</a>)</span> 和 <span class="citation">Hazan, Agarwal, and Kale (<a href="solutions-to-exercises.html#ref-hazan2007logarithmic" role="doc-biblioref">2007</a>)</span>。大多数贡献仅适用于价格数据，但 <span class="citation">Cover and Ordentlich (<a href="solutions-to-exercises.html#ref-cover1996universal" role="doc-biblioref">1996</a>)</span> 是一个明显的例外，它提到了外部数据（‘<em>附加信息</em>’）。在后一篇文章中，证明了根据两个随机分布不断重新平衡的投资组合可以实现接近无法达到的最优增长率的增长率。这两个分布是均匀分布（同样加权）和常数参数等于 1/2 的狄利克雷分布。在这种普遍分配下，<span class="citation">Cover and Ordentlich (<a href="solutions-to-exercises.html#ref-cover1996universal" role="doc-biblioref">1996</a>)</span>表明所获得的财富受以下限制：
+其中 <span class="math inline">\(\textbf{r}_t'\)</span> 表示收益率。于是问题转化为最大化凹函数。计算机科学和机器学习领域的多篇研究提出了这类问题的解法，包括 <span class="citation">Blum and Kalai (<a href="solutions-to-exercises.html#ref-blum1999universal" role="doc-biblioref">1999</a>)</span>、<span class="citation">Agarwal et al. (<a href="solutions-to-exercises.html#ref-agarwal2006algorithms" role="doc-biblioref">2006</a>)</span> 和 <span class="citation">Hazan, Agarwal, and Kale (<a href="solutions-to-exercises.html#ref-hazan2007logarithmic" role="doc-biblioref">2007</a>)</span>。多数研究只使用价格数据，<span class="citation">Cover and Ordentlich (<a href="solutions-to-exercises.html#ref-cover1996universal" role="doc-biblioref">1996</a>)</span> 是一个突出例外，因为该文还讨论了外部数据，即“<em>辅助信息</em>”。他们证明，按两种随机分布持续再平衡的投资组合，其增长率可接近事前无法实现的最优增长率。这两种分布分别是均匀分布，即再次采用等权重，以及所有参数均为 1/2 的狄利克雷分布。在这一通用分布下，<span class="citation">Cover and Ordentlich (<a href="solutions-to-exercises.html#ref-cover1996universal" role="doc-biblioref">1996</a>)</span> 给出财富的下界：
 <span class="math display">\[\text{wealth universal} \ge \frac{\text{wealth from optimal strategy}}{2(n+1)^{(m-1)/2}}, \]</span>
-其中 <span class="math inline">\(m\)</span> 是资产数量，<span class="math inline">\(n\)</span> 是期间数量。</p>
-<p>有关在线投资组合分配的文献在 <span class="citation">B. Li and Hoi (<a href="solutions-to-exercises.html#ref-li2014online" role="doc-biblioref">2014</a>)</span> 中进行了回顾，并在 <span class="citation">B. Li and Hoi (<a href="solutions-to-exercises.html#ref-li2018online" role="doc-biblioref">2018</a>)</span> 中进行了更详细的概述。在线学习与神经网络的早期停止相结合，应用于 <span class="citation">Wong et al. (<a href="solutions-to-exercises.html#ref-wong2020non" role="doc-biblioref">2020</a>)</span> 的因子投资。最后，在线学习与 <span class="citation">Khedmati and Azin (<a href="solutions-to-exercises.html#ref-khedmati2020online" role="doc-biblioref">2020</a>)</span> 中投资组合选择的聚类方法相关。</p>
+其中 <span class="math inline">\(m\)</span> 为资产数量，<span class="math inline">\(n\)</span> 为期数。</p>
+<p><span class="citation">B. Li and Hoi (<a href="solutions-to-exercises.html#ref-li2014online" role="doc-biblioref">2014</a>)</span> 综述了在线投资组合配置文献，<span class="citation">B. Li and Hoi (<a href="solutions-to-exercises.html#ref-li2018online" role="doc-biblioref">2018</a>)</span> 则提供了更详尽的介绍。<span class="citation">Wong et al. (<a href="solutions-to-exercises.html#ref-wong2020non" role="doc-biblioref">2020</a>)</span> 把在线学习与神经网络的提前停止结合起来，用于因子投资。<span class="citation">Khedmati and Azin (<a href="solutions-to-exercises.html#ref-khedmati2020online" role="doc-biblioref">2020</a>)</span> 则把在线学习与投资组合选择中的聚类方法相结合。</p>
 </div>
 <div class="section level3" id="homogeneous-transfer-learning" number="14.2.3">
 <h3><span class="header-section-number">14.2.3</span> 同质迁移学习<a aria-label="锚" class="anchor" href="#homogeneous-transfer-learning"><i class="fas fa-link"></i></a></h3>
-<p>本小节主要是概念性的，不会通过编码应用程序进行说明。迁移学习背后的想法很有价值，因为它们可以培育新颖的想法，这就是我们在下面简要介绍它们的原因。</p>
-<p>迁移学习已被调查过多次。一个经典的参考文献是 <span class="citation">Pan and Yang (<a href="solutions-to-exercises.html#ref-pan2009survey" role="doc-biblioref">2009</a>)</span>，但 <span class="citation">Weiss, Khoshgoftaar, and Wang (<a href="solutions-to-exercises.html#ref-weiss2016survey" role="doc-biblioref">2016</a>)</span> 是更新的、更详尽的。假设我们有两个数据集 <span class="math inline">\(D_S\)</span> （源）和 <span class="math inline">\(D_T\)</span> （目标）。每个数据集都有自己的特征 <span class="math inline">\(\textbf{X}^S\)</span> 和 <span class="math inline">\(\textbf{X}^T\)</span> 以及标签 <span class="math inline">\(\textbf{y}^S\)</span> 和 <span class="math inline">\(\textbf{y}^T\)</span>。在经典的监督学习中，目标集的模式只能通过 <span class="math inline">\(\textbf{X}^T\)</span> 和 <span class="math inline">\(\textbf{y}^T\)</span> 来学习。迁移学习建议通过函数 <span class="math inline">\(f^S\)</span> （来自源数据上的 <span class="math inline">\(y_i^S=f^S(\textbf{x}_i^S)+\varepsilon^S_i\)</span> ）改进函数 <span class="math inline">\(f^T\)</span> （通过最小化目标数据上的拟合 <span class="math inline">\(y_i^T=f^T(\textbf{x}_i^T)+\epsilon^T_i\)</span> 获得）。同质迁移学习是指特征空间不发生变化，这就是我们设置中的情况。在资产管理中，如果包含新的预测变量（例如，基于情绪、卫星图像、信用卡日志等替代数据），情况可能并不总是如此。</p>
-<p>迁移学习有许多子类别，具体取决于源 <span class="math inline">\(S\)</span> 和目标 <span class="math inline">\(T\)</span> 之间的变化：是特征空间、标签的分布和/或两者之间的关系？这些问题与第 <a href="causality.html#nonstat">14.2</a> 节中的问题相同。后一种情况在金融领域很有趣，因为它与非平稳性的联系是显而易见的：当 <span class="math inline">\(\textbf{y}=f(\textbf{X})\)</span> 中的模型 <span class="math inline">\(f\)</span> 随时间变化时。用迁移学习的术语来说，它被写为<span class="math inline">\(P[\textbf{y}^S|\textbf{X}^S]\neq P[\textbf{y}^T|\textbf{X}^T]\)</span>：从源切换到目标时，标签知道特征的条件规律是不一样的。通常，术语“领域适应”被用作迁移学习的同义词。由于数据变化，我们必须调整模型以提高其准确性。 <span class="citation">Quionero-Candela et al. (<a href="solutions-to-exercises.html#ref-quionero2009dataset" role="doc-biblioref">2009</a>)</span> 在文集中的一系列章节中对这些主题进行了回顾。</p>
-<p>在二元分类的情况下，<span class="citation">Ben-David et al. (<a href="solutions-to-exercises.html#ref-ben2010theory" role="doc-biblioref">2010</a>)</span> 证明了理论中一个重要而优雅的结果。我们在下面陈述一下。我们认为 <span class="math inline">\(f\)</span> 和 <span class="math inline">\(h\)</span> 是两个分类器，其值在 <span class="math inline">\(\{0,1 \}\)</span> 中。 <span class="math inline">\(S\)</span> 域上两者之间的平均误差定义为
+<p>本小节以概念介绍为主，不提供代码实现。迁移学习的思想有助于启发新的研究方向，因此值得在此简要介绍。</p>
+<p>迁移学习已有多篇综述。经典参考是 <span class="citation">Pan and Yang (<a href="solutions-to-exercises.html#ref-pan2009survey" role="doc-biblioref">2009</a>)</span>，<span class="citation">Weiss, Khoshgoftaar, and Wang (<a href="solutions-to-exercises.html#ref-weiss2016survey" role="doc-biblioref">2016</a>)</span> 则更新且更为详尽。设有两个数据集：源域数据 <span class="math inline">\(D_S\)</span> 与目标域数据 <span class="math inline">\(D_T\)</span>。二者分别包含特征 <span class="math inline">\(\textbf{X}^S\)</span>、<span class="math inline">\(\textbf{X}^T\)</span> 和标签 <span class="math inline">\(\textbf{y}^S\)</span>、<span class="math inline">\(\textbf{y}^T\)</span>。传统监督学习只利用 <span class="math inline">\(\textbf{X}^T\)</span> 与 <span class="math inline">\(\textbf{y}^T\)</span> 学习目标域中的模式。迁移学习则尝试用源域数据上得到的函数 <span class="math inline">\(f^S\)</span>（满足 <span class="math inline">\(y_i^S=f^S(\textbf{x}_i^S)+\varepsilon^S_i\)</span>），改进在目标域数据上拟合得到的函数 <span class="math inline">\(f^T\)</span>（满足 <span class="math inline">\(y_i^T=f^T(\textbf{x}_i^T)+\epsilon^T_i\)</span>）。若源域与目标域的特征空间相同，就称为<strong>同质迁移学习</strong>，本节讨论的正是这种情形。不过在资产管理中，若加入基于情绪、卫星图像或信用卡记录等另类数据的新预测变量，两个域的特征空间便未必相同。</p>
+<p>迁移学习可按源域 <span class="math inline">\(S\)</span> 与目标域 <span class="math inline">\(T\)</span> 之间发生变化的内容进一步分类：变化的是特征空间、标签分布，还是二者之间的关系？这些问题与第 <a href="causality.html#nonstat">14.2</a> 节完全一致。最后一种情形在金融中尤其重要，因为它直接对应非平稳性，即 <span class="math inline">\(\textbf{y}=f(\textbf{X})\)</span> 中的模型 <span class="math inline">\(f\)</span> 随时间变化。用迁移学习的记号表示，就是 <span class="math inline">\(P[\textbf{y}^S|\textbf{X}^S]\neq P[\textbf{y}^T|\textbf{X}^T]\)</span>：从源域转向目标域后，给定特征的标签条件分布发生了变化。“领域自适应”常被用作迁移学习的近义词，即在数据分布偏移后调整模型，以提高其准确性。<span class="citation">Quionero-Candela et al. (<a href="solutions-to-exercises.html#ref-quionero2009dataset" role="doc-biblioref">2009</a>)</span> 所编文集中的多章内容综述了这些主题。</p>
+<p><span class="citation">Ben-David et al. (<a href="solutions-to-exercises.html#ref-ben2010theory" role="doc-biblioref">2010</a>)</span> 在二元分类情形下证明了一个重要而简洁的理论结果。设 <span class="math inline">\(f\)</span> 与 <span class="math inline">\(h\)</span> 为两个取值于 <span class="math inline">\(\{0,1 \}\)</span> 的分类器，它们在源域 <span class="math inline">\(S\)</span> 上的平均差异定义为
 <span class="math display">\[\epsilon_S(f,h)=\mathbb{E}_S[|f(\textbf{x})-h(\textbf{x})|].\]</span>
-然后，
+则有
 <span class="math display">\[\begin{equation}
 \small
 \epsilon_T(f_T,h)\le \epsilon_S(f_S,h)+\underbrace{2 \sup_B|P_S(B)-P_T(B)|}_{\text{ difference between domains }} + \underbrace{ \min\left(\mathbb{E}_S[|f_S(\textbf{x})-f_T(\textbf{x})|],\mathbb{E}_T[|f_S(\textbf{x})-f_T(\textbf{x})|]\right)}_{\text{difference between the two learning tasks}}, \nonumber
 \end{equation}\]</span></p>
-<p>其中 <span class="math inline">\(P_S\)</span> 和 <span class="math inline">\(P_T\)</span> 表示两个域的分布。上述不等式是对 <span class="math inline">\(h\)</span> 泛化性能的限制。如果我们将 <span class="math inline">\(f_S\)</span> 视为 <span class="math inline">\(S\)</span> 的最佳分类器，将 <span class="math inline">\(f_T\)</span> 视为 <span class="math inline">\(T\)</span> 的最佳分类器，则 <span class="math inline">\(h\)</span> 在 <span class="math inline">\(T\)</span> 中生成的误差小于三个分量的总和：<br/>
-- <span class="math inline">\(S\)</span> 空间中的错误；<br/>
-- 两个域之间的距离（数据空间移动了多少）；<br/>
-- 两个最佳模型（发电机）之间的距离。</p>
-<p>迁移学习中经常提到的一种解决方案是实例加权。我们在这里以一般环境介绍它。在ML中，我们寻求最小化
+<p>其中 <span class="math inline">\(P_S\)</span> 与 <span class="math inline">\(P_T\)</span> 表示两个域的分布。该不等式给出了分类器 <span class="math inline">\(h\)</span> 泛化误差的上界。若 <span class="math inline">\(f_S\)</span> 是源域 <span class="math inline">\(S\)</span> 上的最优分类器，<span class="math inline">\(f_T\)</span> 是目标域 <span class="math inline">\(T\)</span> 上的最优分类器，则 <span class="math inline">\(h\)</span> 在 <span class="math inline">\(T\)</span> 上的误差不超过以下三项之和：<br/>
+- 分类器在源域 <span class="math inline">\(S\)</span> 上的误差；<br/>
+- 两个域之间的距离，即数据分布偏移的程度；<br/>
+- 两个学习任务的最优分类器之间的距离。</p>
+<p>迁移学习中常用的一种方法是<strong>样本加权</strong>。在一般设定下，机器学习希望最小化
 <span class="math display">\[\begin{align*}
 \epsilon_T(f)=\mathbb{E}_T\left[L(\text{y},f(\textbf{X})) \right],
 \end{align*}\]</span>
-其中 <span class="math inline">\(L\)</span> 是一些取决于任务的损失函数（回归与分类）。这个可以安排
+其中 <span class="math inline">\(L\)</span> 是由任务类型决定的损失函数，例如回归与分类使用不同损失。上式可改写为
 <span class="math display">\[\begin{align*}
 \epsilon_T(f)&amp;=\mathbb{E}_T \left[\frac{P_S(\textbf{y},\textbf{X})}{P_S(\textbf{y},\textbf{X})} L(\text{y},f(\textbf{X})) \right]  \\
 &amp;=\sum_{\textbf{y},\textbf{X}}P_T(\textbf{y},\textbf{X})\frac{P_S(\textbf{y},\textbf{X})}{P_S(\textbf{y},\textbf{X})} L(\text{y},f(\textbf{X})) \\
 &amp;=\mathbb{E}_S \left[\frac{P_T(\textbf{y},\textbf{X})}{P_S(\textbf{y},\textbf{X})} L(\text{y},f(\textbf{X})) \right]
 \end{align*}\]</span></p>
-<p>因此，关键量是转变比 <span class="math inline">\(\frac{P_T(\textbf{y},\textbf{X})}{P_S(\textbf{y},\textbf{X})}\)</span>（某些假设下的氡气-Nikodym 导数）。当然，这个比率在实践中很大程度上是无法达到的，但是可以找到一种加权方案（在实例上），从而改善目标空间中的误差。正如 <span class="citation">Coqueret and Guida (<a href="solutions-to-exercises.html#ref-coqueret2019training" role="doc-biblioref">2020</a>)</span> 中一样，加权方案可以是二进制的，从而简单地排除误差计算中的一些观测值。简单地从训练样本中删除观察结果可以产生有益的效果。</p>
-<p>更一般地，上述表达式可以被视为对用户指定实例权重的理论上的邀请（如 <a href="trees.html#instweight">6.4.7</a> 节中所示）。用资产配置的术语来说，这可以被视为引入关于哪些观察最有趣的观点，例如，如果用户认为价值股票携带更多相关信息，则可以允许价值股票在损失计算中具有更大的权重。当然，始终需要尽量减少这种损失。</p>
-<p>我们通过提及 <span class="citation">Koshiyama et al. (<a href="solutions-to-exercises.html#ref-koshiyama2020quantnet" role="doc-biblioref">2020</a>)</span> 中开发的迁移学习的实际应用来结束本主题。作者提出了一种神经网络架构，允许跨多个市场共享不同策略的学习过程。除其他外，该方法旨在缓解回测过度拟合问题。</p>
+<p>因此，关键量是密度比 <span class="math inline">\(\frac{P_T(\textbf{y},\textbf{X})}{P_S(\textbf{y},\textbf{X})}\)</span>；在适当假设下，它就是 Radon–Nikodym 导数。实践中通常无法直接得到这一比率，但可以设计样本加权方案，以降低模型在目标域上的误差。与 <span class="citation">Coqueret and Guida (<a href="solutions-to-exercises.html#ref-coqueret2019training" role="doc-biblioref">2020</a>)</span> 类似，权重也可以是二元的，即通过赋予零权重，将部分观测排除在误差计算之外。由此可见，从训练样本中删除某些观测也可能改善模型。</p>
+<p>更一般地，上式为用户自行设定样本权重提供了理论依据（参见第 <a href="trees.html#instweight">6.4.7</a> 节）。用资产配置的术语说，这相当于引入关于哪些观测更重要的投资观点。例如，若使用者认为价值股包含更相关的信息，就可以在计算损失时赋予价值股更高权重。之后仍然以最小化这一加权损失为目标。</p>
+<p>最后介绍 <span class="citation">Koshiyama et al. (<a href="solutions-to-exercises.html#ref-koshiyama2020quantnet" role="doc-biblioref">2020</a>)</span> 的一个实际应用。作者提出一种神经网络架构，使不同策略能够跨多个市场共享学习结果；该方法的目标之一，是缓解回测过拟合。</p>
 </div>
 </div>
 </div>
@@ -519,10 +519,10 @@ R_T=\sum_{t=1}^TL_t(\boldsymbol{\theta}_t)-\underset{\boldsymbol{\theta}^*\in \b
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
 <nav aria-label="本页" data-toggle="toc" id="toc"><h2>本页</h2>
 <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#causality"><span class="header-section-number">14</span> 两个关键概念：因果性和非平稳性</a></li>
+<li><a class="nav-link" href="#causality"><span class="header-section-number">14</span> 因果关系与非平稳性</a></li>
 <li>
-<a class="nav-link" href="#causality-1"><span class="header-section-number">14.1</span> 因果性</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#granger"><span class="header-section-number">14.1.1</span> 格兰杰因果性</a></li>
+<a class="nav-link" href="#causality-1"><span class="header-section-number">14.1</span> 因果关系</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#granger"><span class="header-section-number">14.1.1</span> 格兰杰因果关系</a></li>
 <li><a class="nav-link" href="#causal-additive-models"><span class="header-section-number">14.1.2</span> 因果加性模型</a></li>
 <li><a class="nav-link" href="#structural-time-series-models"><span class="header-section-number">14.1.3</span> 结构时间序列模型</a></li>
 </ul>
@@ -542,16 +542,16 @@ R_T=\sum_{t=1}^TL_t(\boldsymbol{\theta}_t)-\underset{\boldsymbol{\theta}^*\in \b
 </nav>
 </div>
 </div>
-</div> .容器 
+</div><!-- .container -->
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 <div class="col-12 col-md-6 mt-3">
-<p>“<strong>Machine Learning for Factor Investing</strong>”由 Guillaume Coqueret 和 Tony Guida 编写。它最后建成于 2022 年 10 月 18 日。</p>
+<p>《<strong>用于因子投资的机器学习</strong>》由 Guillaume Coqueret 和 Tony Guida 撰写，原版页面最后构建于 2022 年 10 月 18 日。</p>
 </div>
 <div class="col-12 col-md-6 mt-3">
-<p>本书由 <a class="text-light" href="https://bookdown.org">bookdown</a> R 包构建。</p>
+<p>本书使用 R 软件包 <a class="text-light" href="https://bookdown.org">bookdown</a> 构建。</p>
 </div>
 </div></div>
-</footer> 动态加载 mathjax 以与独立的 <script>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -579,5 +579,6 @@ for (let popover of popovers) {
     })
   }
 }
-</script> 兼容</body>
+</script>
+</body>
 </html>

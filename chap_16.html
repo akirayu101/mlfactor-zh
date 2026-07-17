@@ -14576,7 +14576,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>由于强化学习（RL）在机器学习社区中日益流行，我们专门用一章讨论它。仅在 2022 年，就有超过 148 篇关于 RL 的论文以 <strong>q:fin</strong>（数量金融）分类提交至 arXiv 或在 arXiv 上更新。此外，Sato (2019) 编写了一篇较早的基于 RL 的投资组合综述（另见 Zhang, Zohren, and Roberts (2020)），Kolm and Ritter (2019b)、Meng and Khushi (2019)、Charpentier, Elie, and Remlinger (2020) 以及 Mosavi et al. (2020) 讨论了更一般的金融应用。这表明，RL 近来在数量金融社区中获得了关注。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>随着强化学习（RL）在机器学习领域日益流行，本章专门讨论这一主题。仅在 2022 年，就有超过 148 篇关于 RL 的论文以 <strong>q:fin</strong>（量化金融）分类提交至 arXiv 或在该平台更新。此外，Sato (2019) 较早综述了基于 RL 的投资组合研究（另见 Zhang, Zohren, and Roberts (2020)），Kolm and Ritter (2019b)、Meng and Khushi (2019)、Charpentier, Elie, and Remlinger (2020) 以及 Mosavi et al. (2020) 则讨论了更广泛的金融应用。这些研究表明，RL 近年来已受到量化金融领域的广泛关注。</p></div>
 </div>
 </div>
 </div>
@@ -14585,7 +14585,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>尽管 RL 与其说是某个具体算法，不如说是一个框架，但正如我们将展示的，它在投资组合管理中的有效应用并不直接。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>RL 与其说是一种具体算法，不如说是一套框架。正如下文所示，要把它有效用于投资组合管理并非易事。</p></div>
 </div>
 </div>
 </div>
@@ -14694,7 +14694,7 @@ G_t&amp;=\sum_{k=0}^T\gamma^kR_{t+k+1} \nonumber \\   \tag{16.3}
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>也就是说，它是奖励的折现版本，其中折现因子为 $\gamma \in (0,1]$。期限 $T$ 可以是无穷的，这也是最初引入 $\gamma$ 的原因。假设奖励有界，当 $\gamma=1$ 时，无穷和可能发散。如果奖励不随时间下降（也没有理由一定会下降），就会出现这种情况。当 $\gamma &lt;1$ 且奖励有界时，收敛得到保证。当 $T$ 有限时，该任务称为<em>回合式</em>；否则称为<em>连续式</em>。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>也就是说，它是奖励的折现和，其中折现因子为 $\gamma \in (0,1]$。期限 $T$ 可以是无穷的，这正是引入 $\gamma$ 的原因。假设奖励有界，当 $\gamma=1$ 时，只要奖励不随时间衰减，无穷和就可能发散；而当 $\gamma &lt;1$ 时，收敛可以得到保证。若 $T$ 有限，该任务称为<em>回合式任务</em>；否则称为<em>持续式任务</em>。</p></div>
 </div>
 </div>
 </div>
@@ -14758,7 +14758,7 @@ q_\pi(s,a)=\mathbb{E}_\pi\left[ G_t | S_t=s, \ A_t=a \right].
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>$q_\pi$ 函数非常重要，因为它给出状态和动作固定时的平均收益。因此，如果当前状态已知，一个显然的选择就是选择使 $q_\pi(s,\cdot)$ 最大的动作。当然，只有当 $q_\pi$ 的最优值已知时，这才是最佳解，而实践中并不总是如此。价值函数可通过 $q_\pi$ 很容易得到：$v_\pi(s)=\sum_a \pi(a,s)q_\pi(s,a)$</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>$q_\pi$ 函数非常重要，因为它给出状态和动作固定时的平均收益。因此，在已知当前状态时，自然会选择使 $q_\pi(s,\cdot)$ 最大的动作。不过，只有当 $q_\pi$ 的最优值已知时，这才是最佳解，而实践中通常并非如此。价值函数可由 $q_\pi$ 直接得到：$v_\pi(s)=\sum_a \pi(a,s)q_\pi(s,a)$</p></div>
 </div>
 </div>
 </div>
@@ -15036,7 +15036,7 @@ a_i=\left\{ \begin{array}{c l}
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>在 $Q$-learning 中，算法试图找到最优策略的动作价值函数。因此，用于选择动作的策略不同于通过 $Q$ 学到的策略。这类算法称为<em>离策略</em>算法。<em>在策略</em>算法则试图通过持续按照策略 $π$ 行动，改进动作价值函数 $q_π$ 的估计。在策略学习的一个典型例子是 SARSA 方法，它需要两个连续状态和动作，即 <strong>SA</strong>R<strong>SA</strong>。五元组 $(S_t,A_t,R_{t+1}, S_{t+1}, A_{t+1})$ 的处理方式如下。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>在 $Q$-learning 中，算法试图找到最优策略的动作价值函数，因此用于选择动作的行为策略不同于通过 $Q$ 学到的目标策略。这类算法称为<em>离策略</em>算法。<em>在策略</em>算法则持续按照策略 $π$ 行动，并据此改进动作价值函数 $q_π$ 的估计。SARSA 是典型的在策略方法，其名称来自五元组 $(S_t,A_t,R_{t+1}, S_{t+1}, A_{t+1})$ 中的两个状态、两个动作和一次奖励，即 <strong>SA</strong>R<strong>SA</strong>。该五元组的处理方式如下。</p></div>
 </div>
 </div>
 </div>
@@ -15100,7 +15100,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>期望 SARSA 的波动性低于 SARSA，因为后者受 $a_{i+1}$ 随机选择的强烈影响。在期望 SARSA 中，平均化会平滑学习过程。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>期望 SARSA 的更新方差低于普通 SARSA，因为后者会受到 $a_{i+1}$ 随机选择的显著影响。期望 SARSA 通过取平均使学习过程更加平稳。</p></div>
 </div>
 </div>
 </div>
@@ -15118,7 +15118,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>先回顾一下，强化学习是一个框架，并不绑定某个特定算法。事实上，在一个 RL 任务中，不同工具完全可以共存（AlphaGo 同时结合了树方法和神经网络，见 Silver et al. (2016)）。不过，任何 RL 尝试都始终依赖三个关键概念：状态、动作和奖励。在因子投资中，它们相当容易识别，尽管总有解释空间。动作显然由投资组合构成定义。状态可视为描述经济的当前数值：作为一阶近似，可以认为特征水平承担这一角色（也可以用宏观经济数据进行条件化或补充）。奖励甚至更直接。收益率或任何相关绩效指标都可以作为奖励。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>先回顾一下，强化学习是一套框架，并不绑定某种特定算法。同一项 RL 任务完全可以组合多种工具，例如 AlphaGo 同时使用了树模型和神经网络（见 Silver et al. (2016)）。不过，任何 RL 任务都依赖三个核心概念：状态、动作和奖励。在因子投资中，这三者较容易识别，但具体定义仍有一定选择空间。动作对应投资组合构建；状态可视为描述当前经济环境的一组数值。作为一阶近似，可以用特征水平表示状态，也可以加入宏观经济数据进行条件化或补充。奖励的定义更直接：收益率或任何相关绩效指标都可以作为奖励。</p></div>
 </div>
 </div>
 </div>
@@ -15560,7 +15560,7 @@ B(\boldsymbol{\alpha})=\frac{\prod_{n=1}^N\Gamma(\alpha_n)}{\Gamma\left(\sum_{n=
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="Simple-examples">简单示例<a class="anchor-link" href="#Simple-examples">¶</a></h2></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="Simple-examples">16.4 简单示例<a class="anchor-link" href="#Simple-examples">¶</a></h2></div>
 </div>
 </div>
 </div>
@@ -15820,7 +15820,7 @@ Reward (last iteration): 456.1509459790951
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>第二个应用基于金融数据集。为降低问题维度，我们将假设：</p>
 <ul>
 <li>只有一个特征（市净率）捕捉环境状态。该特征经过处理，使其只有有限数量的可能取值；</li>
-<li>动作在一个由三个头寸构成的离散集合上取值：+1（买入市场）、-1（卖出市场）和 0（不持有风险头寸）；</li>
+<li>动作在一个由三个头寸构成的离散集合上取值：+1（做多市场）、-1（做空市场）和 0（不持有风险头寸）；</li>
 <li>只交易两项资产：stock_id 等于 3 和 4 的资产，它们都有 245 天交易数据。</li>
 </ul></div>
 </div>
@@ -16116,7 +16116,7 @@ Reward (last iteration): -0.374
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><ol>
-<li>沿用第 16.4.2 节中的 2 项资产，通过对每个原始数据点测试<strong>所有可能动作组合</strong>来增加 RL_data 的大小。重新运行 $Q$-learning 函数，并观察会发生什么。</li>
+<li>沿用第 16.4.2 节中的两项资产，通过对每个原始数据点测试<strong>所有可能动作组合</strong>来增加 RL_data 的大小。重新运行 $Q$-learning 函数，并观察会发生什么。</li>
 </ol></div>
 </div>
 </div>

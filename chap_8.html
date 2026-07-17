@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>第8章</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>第 8 章 支持向量机</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -14251,7 +14251,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>虽然支持向量机 (SVM) 的起源很古老（可以追溯到 Vapnik 和 Lerner (1963)），但它们的现代处理方法是由 Boser、Guyon 和 Vapnik (1992)、Cortes 和 Vapnik (1995)（二元分类）和 Drucker 等人发起的。 （1997）（回归）。我们参考 <a href="http://www.kernel-machines.org/books">http://www.kernel-machines.org/books</a> 有关其理论和经验特性的详尽参考书目。 SVM 自从在机器学习社区中诞生以来就非常受欢迎。尽管如此，其他工具（尤其是神经网络）已经流行起来，并在计算机视觉等许多应用中逐渐取代了支持向量机。</p>
+<p>支持向量机（SVM）的思想由来已久，可以追溯到 Vapnik 和 Lerner (1963)。Boser、Guyon 和 Vapnik (1992) 以及 Cortes 和 Vapnik (1995) 奠定了现代 SVM 二元分类方法的基础，Drucker 等人 (1997) 则将其用于回归。有关 SVM 理论性质与实证表现的完整文献目录，参见 <a href="http://www.kernel-machines.org/books">http://www.kernel-machines.org/books</a>。SVM 问世后曾在机器学习领域广受欢迎；此后，神经网络等其他方法逐渐兴起，并在计算机视觉等许多应用中取代了 SVM。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14261,33 +14261,33 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>正如机器学习中常见的情况，通过二元分类的插图更容易解释复杂的工具。事实上，有时，这就是工具最初的设计方式（例如，感知器）。让我们考虑一个平面上的简单例子，即具有两个特征。在图 8.1 中，目标是找到一个能够正确分类点的模型：实心圆圈与空心方块。</p>
+<p>在机器学习中，借助二元分类示例往往更容易说明复杂方法；有些方法最初就是为二元分类设计的，例如感知机。下面考虑一个只有两个特征、可以画在平面上的简单示例。图 8.1 的目标是找到一条能够正确区分两类数据点的分类边界：一类是实心圆，另一类是空心方块。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/svm.png" width="400"/>
-图 8.1：带有支持向量的二元分类图。</p>
+图 8.1：包含支持向量的二元分类示意图。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>模型由两个权重 $\textbf{w}=(w_1,w_2)$ 组成，它们加载在变量上并在平面中创建自然的线性分离。在上面的示例中，我们显示了三个分离。红色不是一个好的分类器，因为它的上方和下方都有圆圈和正方形。蓝线是一个很好的分类器：所有圆圈都在其左侧，所有方块都在其右侧。同样，绿线获得了完美的分类分数。然而，两者之间存在显着差异。</p>
+<p>该模型包含两个特征权重 $\textbf{w}=(w_1,w_2)$，由此在平面上形成一条线性分类边界。图中给出了三条候选边界。红线不是好的分类器，因为它两侧都同时出现了圆和方块。蓝线能够正确分类：所有圆都在左侧，所有方块都在右侧。绿线同样实现了完全正确的分类，但蓝线与绿线之间存在一个重要差别。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>图表顶部的灰色星星是一个神秘点，考虑到它的位置，如果数据模式成立，它应该是一个圆圈。蓝色模型无法识别它，而绿色模型则成功。该方案的有趣特征是那些我们尚未提及的特征，即灰色虚线。这些线代表无人区，在执行绿色模型时不会出现任何观测结果。在此区域中，绿线上方和下方的每个条带均可视为模型的误差范围。通常，灰色星星位于该边缘内。</p>
+<p>图顶端的灰色星形是一个类别未知的新数据点。若既有模式仍然成立，根据它所在的位置，应将其判为圆。蓝线会把它分错，绿线则能正确分类。图中尚未说明的两条灰色虚线尤其关键：在采用绿线作为分类边界时，两条虚线之间没有训练样本。绿线上下两侧的空白带共同构成分类间隔，而灰色星形恰好落在这一间隔内。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>两个间隔边界是与分类超平面平行的直线，它们到两侧最近且被正确分类的点的距离最大。这些点称为 <strong>支持向量</strong>，这也解释了该方法的名称。显然，绿色模型比蓝色模型有更大的间隔。SVM 的核心思想是在分类器不出错的约束下最大化 margin（间隔）。换句话说，SVM 尝试在所有正确分类的模型中选择最稳健的模型。</p>
+<p>间隔的两条边界线与分类超平面平行；选择分类超平面时，要使其与两侧最近的正确分类样本之间的距离尽可能大。这些最近的样本称为<strong>支持向量</strong>，该方法也因此得名。显然，绿线对应的间隔大于蓝线。SVM 的核心思想是：在分类器不出错的约束下最大化间隔。换言之，它从所有能够正确分类训练样本的模型中，选择对扰动最稳健的一个。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>更正式地说，如果我们在数字上将圆定义为 +1，将正方形定义为 -1，则任何“好的”线性模型都应该满足：</p>
+<p>更形式化地说，若将圆的标签记为 +1、方块的标签记为 -1，那么一个满足要求的线性模型应当符合：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14303,7 +14303,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>可以用紧凑的形式 $y_i \times \left(\sum_{k=1}^K w_kx_{i,k}+b \right)\ge 1$ 来概括。现在，绿色模型和灰色虚线上的支持向量之间的间隔等于 $||\textbf{w}||^{-1}=\left(\sum_{k=1}^Kw_k^2\right)^{-1/2}$。该值来自以下事实：点 $(x_0,y_0)$ 与由 $ax+by+c=0$ 参数化的线之间的距离等于 $d=\frac{|ax_0+by_0+c|}{\sqrt{a^2+b^2}}$。  在上面定义的模型 (8.1) 的情况下，分子等于 1，范数是 $\textbf{w}$ 。因此，最终的问题如下：</p>
+<p>这两个条件可以简写为 $y_i \times \left(\sum_{k=1}^K w_kx_{i,k}+b \right)\ge 1$。绿线与灰色虚线上的支持向量之间的距离为 $||\textbf{w}||^{-1}=\left(\sum_{k=1}^Kw_k^2\right)^{-1/2}$。这是因为点 $(x_0,y_0)$ 到直线 $ax+by+c=0$ 的距离为 $d=\frac{|ax_0+by_0+c|}{\sqrt{a^2+b^2}}$。对于式 (8.1) 定义的模型，分子等于 1，分母则是 $\textbf{w}$ 的范数。因此，最终的优化问题为：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14316,7 +14316,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>该程序的双重形式（参见 Boyd 和 Vandenberghe (2004) 的第 5 章）是</p>
+<p>该优化问题的对偶形式（参见 Boyd 和 Vandenberghe (2004) 第 5 章）为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14330,7 +14330,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>该程序的双重形式（参见 Boyd 和 Vandenberghe (2004) 的第 5 章）是</p>
+<p>该优化问题的对偶形式（参见 Boyd 和 Vandenberghe (2004) 第 5 章）为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14344,7 +14344,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $\lambda_i=0$ 或 $y_i\left(\sum_{k=1}^Kw_kx_{i,k}+b \right)= 1$。因此，只有某些点在解决方案中很重要（所谓的支持向量）。一阶条件要求该拉格朗日函数的导数为零：</p>
+<p>其中，要么 $\lambda_i=0$，要么 $y_i\left(\sum_{k=1}^Kw_kx_{i,k}+b \right)= 1$。因此，只有一部分数据点会影响最终解，它们就是支持向量。一阶条件要求该拉格朗日函数的导数为零：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14356,7 +14356,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>第一个条件导致</p>
+<p>其中，第一个条件可得</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14368,12 +14368,12 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>该解决方案确实是特征的线性形式，但只考虑了一些点。它们是那些不等式（8.1）是等式的。</p>
+<p>由此得到的解确实是特征的线性组合，但它只取决于部分数据点，即式 (8.1) 中不等式恰好取等号的那些点。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>当然，只要无法满足条件，即无论选择什么系数，一条简单的线都无法完美地分隔标签，这个问题就变得不可行。这是最常见的配置，然后逻辑上调用数据集 <em>不是线性可分的</em>。这使过程变得复杂，但可以采取一些技巧。这个想法是通过添加允许满足条件的修正变量来在（8.1）中引入一些灵活性：</p>
+<p>如果无论怎样选择系数，都无法用一条直线将两类样本完全分开，上述约束就无法同时满足，优化问题也就没有可行解。现实数据通常属于这种情形，称为<em>线性不可分</em>。一种处理方法是在式 (8.1) 中加入修正变量，允许少量违反约束：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14389,18 +14389,18 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中新加入的 $\xi_i$ 是非负的所谓 <strong>“松弛”变量</strong>，用于使条件可行。它们如图 8.2 所示。在这个新配置中，没有简单的线性模型可以完美地区分这两类。</p>
+<p>其中，新引入的 $\xi_i$ 是非负的<strong>松弛变量</strong>，用于使约束条件存在可行解。图 8.2 展示了这些变量所对应的情形：此时不存在能够将两类样本完全分开的线性模型。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/svm2.png" width="400"/>
-图 8.2：使用 SVM 的二元分类图 - 线性不可分离的数据。</p>
+图 8.2：SVM 二元分类示意图：线性不可分数据。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>那么优化程序就变成了</p>
+<p>于是，优化问题变为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14413,18 +14413,18 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中参数 $C&gt;0$ 调整误分类的成本：随着 $C$ 的增加，误分类代价更高。</p>
+<p>参数 $C&gt;0$ 用于调节误分类的代价：$C$ 越大，对误分类的惩罚越重。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>此外，通过应用于输入点 $x_{i,k}$ 的核函数 $\phi$，该程序可以推广到非线性模型。非线性核可以帮助处理比直线更复杂的模式（见图 8.3）。常见的核函数可以是多项式核、径向核或 S 形核。该解决方案是使用或多或少的约束二次规划标准技术找到的。通过训练设置权重 $\textbf{w}$ 和偏差 $b$ 后，只需计算 $\sum_{k=1}^Kw_k\phi(x_{j,k})+b$ 并根据表达式的符号选择类别即可对新向量 $\textbf{x}_j$ 进行预测。</p>
+<p>此外，对输入 $x_{i,k}$ 应用核函数 $\phi$，还可以将上述方法推广到非线性模型。非线性核能够刻画比直线更复杂的模式（见图 8.3）；常用选择包括多项式核、径向基核和 sigmoid 核。该问题可用较为标准的约束二次规划方法求解。训练得到权重 $\textbf{w}$ 和偏置 $b$ 后，只需计算 $\sum_{k=1}^Kw_k\phi(x_{j,k})+b$，再根据结果的正负为新向量 $\textbf{x}_j$ 确定类别。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/kernel.png" width="400"/>
-图 8.3：非线性核示例。</p>
+图 8.3：非线性核函数示例。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14434,7 +14434,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>分类 SVM 的思想可以移植到回归任务中，但间隔的作用不同。一种通用的表述如下</p>
+<p>分类 SVM 的思想也可以用于回归任务，不过间隔在回归中的作用有所不同。一种通用表述如下：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14449,23 +14449,23 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>如图 8.4 所示。用户指定一个 <strong>间隔</strong> $\epsilon$ 并且模型将尝试找到标签 $y_1$ 和输入 $\textbf{x}_i$ 之间的线性（直到核函数变换）关系。正如在分类任务中一样，如果数据点位于带内，则松弛变量 $\xi_i$ 和 $\xi_i^*$ 将设置为零。当点违反阈值时，目标函数（代码的第一行）将受到惩罚。请注意，设置较大的 $\epsilon$ 会导致更多错误。模型训练完成后，$\textbf{x}_j$ 的预测就是 $\sum_{k=1}^Kw_k\phi(x_{j,k})+b$。</p>
+<p>图 8.4 展示了这一思路。用户先指定<strong>间隔宽度</strong> $\epsilon$，模型再寻找标签 $y_1$ 与输入 $\textbf{x}_i$ 之间的线性关系（允许先经过核函数变换）。与分类任务类似，若数据点落在间隔带内，松弛变量 $\xi_i$ 和 $\xi_i^*$ 均为零；若数据点超出间隔带，目标函数（公式第一行）就会受到相应惩罚。较大的 $\epsilon$ 会容许更大的预测误差。模型训练完成后，对 $\textbf{x}_j$ 的预测值为 $\sum_{k=1}^Kw_k\phi(x_{j,k})+b$。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/svm3.png" width="400"/>
-图 8.4：回归 SVM 图表。</p>
+图 8.4：SVM 回归示意图。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>让我们退后一步，简化算法的作用，即：在误差足够小（以松弛变量为模）的情况下，最小化权重平方和 $||\textbf{w}||^2$ 。从本质上讲，这与惩罚线性回归有点相反，惩罚线性回归寻求最小化误差，前提是权重足够小。</p>
+<p>退一步看，这一算法所做的事情可以概括为：在误差足够小（允许由松弛变量作出调整）的约束下，最小化权重平方和 $||\textbf{w}||^2$。从思路上说，它与惩罚线性回归恰好相反：后者是在权重足够小的约束下最小化误差。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>本节中列出的模型只是 SVM 引擎领域的一个预览，此外还已经开发出若干其他形式。一个用 C 和 C++ 编写的参考库是 <strong>LIBSVM</strong>，它被许多其他编程语言广泛使用。感兴趣的读者可以查看相应的文章 Chang 和 Lin (2011)，了解有关 SVM 各类变体的更多详细信息（2019 年 11 月的最新版本也可以在线获取）。</p>
+<p>本节介绍的模型只是 SVM 方法体系的一小部分，研究者还提出了许多其他形式。<strong>LIBSVM</strong> 是一个用 C 和 C++ 编写的经典实现，已被许多其他编程语言广泛调用。若想进一步了解各类 SVM 变体，可参阅 Chang 和 Lin (2011)；网上还提供了更新至 2019 年 11 月的版本。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14475,7 +14475,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>为了保持一致性，我们将在以下代码片段中使用 scikit-learn 的 SVM 实现。在LIBSVM的实现中，包需要分别指定标签和特征。因此，我们回收用于提升树的变量。此外，训练速度很慢，我们在这些集合的子样本（前一千个样本）上执行它。</p>
+<p>为与前文保持一致，下面的代码使用 scikit-learn 提供的 SVM 实现。其底层 LIBSVM 接口要求分别指定标签和特征，因此这里沿用提升树示例中的变量。由于训练速度较慢，我们只使用这些数据集的一个子样本，即前 1,000 个样本。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -14542,7 +14542,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>结果低于增强树的结果。所有参数都是完全任意的，尤其是核的选择。我们最后转向一个分类示例。</p>
+<p>结果不如提升树。这里的参数都是随意设定的，尤其是核函数的选择。最后来看一个分类示例。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -14580,7 +14580,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>训练样本较小和参数选择的随意性都可以解释为什么预测精度如此之差。</p>
+<p>训练样本较小、参数选择较为随意，都可能解释预测准确率为何如此之低。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14591,8 +14591,8 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ol>
-<li>从上面显示的简单示例开始，将 SVM 模型扩展到其他核并讨论对拟合的影响。</li>
-<li>训练一个普通的 SVM 模型，标签为 12 个月远期（即未来）收益，并在测试样本上对其进行评估。对简单的随机森林执行相同的操作。比较</li>
+<li>从上面的简单示例出发，将 SVM 模型扩展到其他核函数，并讨论不同核函数对拟合结果的影响。</li>
+<li>训练一个基础 SVM 模型，以未来 12 个月收益率作为标签，并在测试集上评估。再用一个简单的随机森林完成同样的任务，并比较二者。</li>
 </ol>
 </div>
 </div>

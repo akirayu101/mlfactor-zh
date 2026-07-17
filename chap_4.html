@@ -13197,7 +13197,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>图 4.1：与 1 个月远期收益率（标签）相关性的蜂群图。</p>
+<p>图 4.1：各特征与未来 1 个月收益率（标签）相关性的蜂群图。</p>
 </div>
 </div>
 </div>
@@ -13325,19 +13325,19 @@ f(x)=\mathbb{E}[Y|X=x].
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>首先，处理缺失数据主要有两种方式：<strong>删除</strong>和<strong>插补</strong>。删除方法不作额外假设，但代价很高，尤其是当一个实例仅因一个特征值缺失就被整体剔除时。插补通常更受偏好，但它依赖某些潜在且可能错误的假设。</p>
+<p>首先，处理缺失数据主要有两种方式：<strong>删除</strong>和<strong>插补</strong>。删除法不作额外假设，但代价很高，尤其是当一条样本仅因一个特征值缺失就被整体剔除时。插补法通常更受青睐，但它依赖某些隐含且可能错误的假设。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>插补方法可简化分类如下：</p>
+<p>插补方法大致可以分为以下几类：</p>
 <ul>
-<li>一种基本插补选择是用该股票过去可用特征值的中位数（或均值）。如果时间序列存在趋势，这仍会改变趋势。相关地，除非训练集和测试集被分开处理，否则该方法可能具有前视性。</li>
-<li>在面向回测的时间序列情境中，最简单的插补来自前期值：如果 $x_t$ 缺失，就用 $x_{t-1}$ 替代。大多数时候这有道理，因为过去值是唯一可用的信息，并且按定义是向后看的。不过，在某些特定情形下，这可能是非常糟糕的选择（见下方警示）。</li>
-<li>中位数和均值也可以在资产<strong>横截面</strong>上计算。这大致意味着缺失特征值会被移到已观察值的主体部分。当大量数值缺失时，这会在特征分布中产生一个原子点，并改变原始分布。一个优点是，这种插补没有前视性。</li>
-<li>许多技术依赖对数据生成过程的建模假设。我们可参考非参数方法（Stekhoven and Bühlmann (2011) 与 Shah et al. (2014)，它们依赖随机森林，见第 6 章）、贝叶斯插补（Schafer (1999)）、最大似然方法（Enders (2001), Enders (2010)）、插值或外推，以及最近邻算法（Garcı́a-Laencina et al. (2009)）。更一般地，本小节开头引用的四本书详细讨论了许多这类插补流程。高级技术在计算上要求高得多。</li>
+<li>一种基本做法是使用该股票过去已有特征值的中位数或均值。如果时间序列存在趋势，这种做法仍会扭曲趋势。此外，除非分别处理训练集与测试集，否则还可能引入前视偏差。</li>
+<li>在用于回测的时间序列中，最简单的做法是沿用前一期数值：若 $x_t$ 缺失，就以 $x_{t-1}$ 替代。多数情况下这样做是合理的，因为当时能够获得的只有历史信息，因此不会向前看。不过，在某些情形下，这可能是很差的选择（见下文警示）。</li>
+<li>也可以在资产<strong>横截面</strong>上计算中位数或均值。这样会把缺失特征值集中填到已观测分布的中心区域。当缺失值很多时，特征分布会在填充值处形成一个点质量，从而改变原始分布。其优点是不会引入前视偏差。</li>
+<li>许多方法依赖对数据生成过程的建模假设，包括基于随机森林的非参数方法（Stekhoven and Bühlmann (2011) 与 Shah et al. (2014)，见第 6 章）、贝叶斯插补（Schafer (1999)）、最大似然方法（Enders (2001), Enders (2010)）、插值或外推，以及最近邻算法（Garcı́a-Laencina et al. (2009)）。本小节开头引用的四本书更系统地讨论了这类插补流程。高级方法通常需要更多计算资源。</li>
 </ul>
 </div>
 </div>
@@ -13347,8 +13347,8 @@ f(x)=\mathbb{E}[Y|X=x].
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>几点警示：</p>
 <ul>
-<li>应当不惜一切代价避免插值。每季度发布的会计数值或比率绝不能线性插值，原因很简单：这具有前视性。如果数值在 1 月和 4 月披露，那么对 2 月和 3 月插值需要知道 4 月的数值，而在真实交易中这并不可知。使用过去值是更好的做法。</li>
-<li>不过，有些特征类型应避免用过去值插补。首先，收益率不应被复制。默认情况下，更好的选择是将缺失收益率指标设为零（这通常接近均值或中位数）。有助于决策的一个好指标是特征随时间的持续性。如果它高度自相关（并且时间序列图像市值那样形成平滑曲线），那么使用过去值插补可能有道理。否则应避免。</li>
+<li>必须避免插值。对于按季度发布的会计数值或比率，绝不能进行线性插值，因为这会引入前视偏差。若数值分别在 1 月和 4 月披露，要插补 2 月和 3 月，就必须提前知道 4 月的数值，而真实交易中不可能获得这项未来信息。沿用过去值通常更合适。</li>
+<li>不过，有些特征不应沿用过去值。首先，收益率不能简单复制。默认情况下，把缺失收益率设为零通常更合适，因为零往往接近其均值或中位数。判断能否沿用过去值时，可以考察特征的时间持续性：若特征高度自相关，且时间序列像市值一样平滑，沿用过去值可能合理；否则应避免。</li>
 <li>有些情况需要更多关注。考虑以下虚构的股息收益率样本：</li>
 </ul>
 </div>
@@ -13360,7 +13360,7 @@ f(x)=\mathbb{E}[Y|X=x].
 <table>
 <thead><tr>
 <th>日期</th>
-<th>原始收益率</th>
+<th>原始股息率</th>
 <th>替代值</th>
 </tr>
 </thead>
@@ -13405,7 +13405,7 @@ f(x)=\mathbb{E}[Y|X=x].
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在这个例子中，收益率按季度发布，分别在 3 月、6 月、9 月等。但在 6 月，该值缺失。问题在于，我们无法知道它是因为真实的数据故障而缺失，还是因为公司在 6 月根本没有支付任何股息。因此，用过去值插补在这里可能是错误的。没有完美方案，但仍必须作出决定。对于股息数据，有三种选择：</p>
+<p>在这个例子中，股息率按季度发布，披露月份为 3 月、6 月、9 月等，但 6 月的数值缺失。问题在于，我们无法判断这究竟是数据故障，还是公司当月确实没有派息。因此，沿用过去值可能会得到错误结果。这里没有完美方案，但仍需作出选择。对于股息数据，可以考虑三种做法：</p>
 <ol>
 <li>保留前一个值。在 R 中，zoo 包的 na.locf() 函数对这项任务非常高效。</li>
 <li>根据先前观测值进行外推（这与<strong>插</strong>值非常不同）：例如，用过去数据估计趋势，并沿该趋势延伸。</li>
@@ -13417,7 +13417,7 @@ f(x)=\mathbb{E}[Y|X=x].
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>可以通过测试评估各选项的相对表现。同样重要的是<strong>记住</strong>这些设计选择。此类选择很多，很容易被遗忘。显然，跟踪这些选择是必要的。在机器学习流水线中，数据准备相关的<strong>脚本</strong>通常很关键，因为它们并不只运行一次！</p>
+<p>可以通过测试比较各方案的相对表现。同样重要的是<strong>记录</strong>这些设计决策，因为选择很多，很容易遗漏。在机器学习工作流中，数据准备<strong>脚本</strong>尤其关键：它们通常会被反复运行，而不是只执行一次。</p>
 </div>
 </div>
 </div>
@@ -13431,14 +13431,14 @@ f(x)=\mathbb{E}[Y|X=x].
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>异常值检测同样已有充分文献记录，并有自己的综述（Hodge and Austin (2004), Chandola, Banerjee, and Kumar (2009) 以及 Gupta et al. (2014)）以及若干专著（Aggarwal (2013) 和 Rousseeuw and Leroy (2005)，不过后者非常聚焦于回归分析）。</p>
+<p>异常值检测同样已有丰富文献，包括多篇综述（Hodge and Austin (2004), Chandola, Banerjee, and Kumar (2009) 以及 Gupta et al. (2014)）和若干部专著（Aggarwal (2013) 与 Rousseeuw and Leroy (2005)，其中后者主要讨论回归分析）。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>同样，极其复杂的方法可能需要大量努力，而收益有限。只要在流程中记录清楚，简单的启发式方法可能已经足够。它们通常依赖“硬”阈值：</p>
+<p>同样，极为复杂的方法可能耗费大量精力，却只能带来有限改进。只要在流程中清楚记录，简单的启发式方法往往已经足够。这些方法通常依赖“硬”阈值：</p>
 </div>
 </div>
 </div>
@@ -13456,7 +13456,7 @@ f(x)=\mathbb{E}[Y|X=x].
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>后一种思想由缩尾处理推广。缩尾意味着将所有低于  x(q)  的值设为 $x^{(q)}$，并将所有高于  x(1−q)  的值设为 x(1−q) 。缩尾变量  ~x  为：</p>
+<p>后一种思路通常通过缩尾处理实现。缩尾是把所有低于  x(q)  的值设为 $x^{(q)}$，把所有高于  x(1−q)  的值设为 x(1−q) 。缩尾后的变量  ~x  为：</p>
 </div>
 </div>
 </div>
@@ -13481,7 +13481,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>缩尾阶段<strong>必须</strong>逐特征、逐日期执行。不过，保留时间序列视角也很有用。例如，800B 美元的市值可能看起来超出范围，但如果查看苹果市值历史，就未必如此。</p>
+<p>缩尾处理<strong>必须</strong>按特征、按日期分别执行。不过，同时保留时间序列视角也很有必要。例如，800B 美元的市值乍看可能异常，但结合苹果公司的市值历史来看，未必如此。</p>
 </div>
 </div>
 </div>
@@ -13502,7 +13502,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>特征工程是投资组合构建过程中的一个非常重要步骤。计算机科学家常说 <em>“garbage in, garbage out”</em>。因此，必须避免让资产配置的机器学习引擎在设计不良的变量上训练。感兴趣的读者可阅读 Kuhn and Johnson (2019) 关于该主题的近期著作。较短的学术参考文献是 Guyon and Elisseeff (2003)。</p>
+<p>特征工程是投资组合构建中的关键步骤。计算机领域常说<em>“garbage in, garbage out”</em>，即输入质量决定输出质量。因此，不应让用于资产配置的机器学习模型在设计不当的变量上训练。关于这一主题，可参阅 Kuhn and Johnson (2019) 的专著；篇幅较短的学术参考文献是 Guyon and Elisseeff (2003)。</p>
 </div>
 </div>
 </div>
@@ -13516,9 +13516,9 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>第一步是选择。给定一大组预测变量，过滤掉不需要或冗余的外生变量看起来是合理的。启发式地，简单方法包括：</p>
+<p>第一步是特征选择。面对大量预测变量，剔除无用或冗余的变量是合理做法。常见的简单方法包括：</p>
 <ul>
-<li>计算所有特征的相关矩阵，并确保没有任何（绝对）值高于某个阈值（0.7 是常见取值），以免冗余变量污染学习引擎；</li>
+<li>计算所有特征的相关矩阵，并检查相关系数绝对值是否超过某个阈值（0.7 是常用取值），以免冗余变量干扰模型训练；</li>
 <li>执行线性回归，并移除不显著变量（例如 p 值高于 0.05 的变量）。</li>
 <li>对特征集合进行聚类分析，并在每个聚类中只保留一个特征（见第 15 章）。</li>
 </ul>
@@ -13528,7 +13528,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>这两类方法都多少有些简化，并忽略了非线性关系。另一种方法是拟合决策树（或随机森林），并只保留特征重要性较高的特征。树方法将在第 6 章介绍，特征重要性将在第 13 章介绍。</p>
+<p>这些方法都有一定局限，也会忽略非线性关系。另一种做法是拟合决策树或随机森林，只保留重要性较高的特征。第 6 章将介绍树模型，第 13 章将讨论特征重要性。</p>
 </div>
 </div>
 </div>
@@ -13542,7 +13542,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>数据预处理需求的前提，来自金融数据尺度的高度多样性：</p>
+<p>金融数据的量纲和取值范围差异很大，因此需要预先处理：</p>
 <ul>
 <li>收益率大多数时候绝对值小于一；</li>
 <li>股票波动率通常位于 5% 到 80% 之间；</li>
@@ -13557,7 +13557,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>虽然人们普遍认为特征的单调变换对预测结果影响有限，但 Galili and Meilijson (2016) 表明情况并不总是如此（另见第 4.8.2 节）。因此，归一化选择事实上可能非常重要。</p>
+<p>通常认为，特征的单调变换只会对预测结果产生有限影响；但 Galili and Meilijson (2016) 表明事实并非总是如此（另见第 4.8.2 节）。因此，缩放方法的选择可能相当重要。</p>
 </div>
 </div>
 </div>
@@ -13584,14 +13584,14 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>有时，对于取值很大且存在大异常值的变量（如市值），可以先进行对数变换，再进行缩放。显然，这一技术禁止用于存在负值的特征。</p>
+<p>对于取值范围很大且含有极端值的变量，例如市值，可以先作对数变换，再进行缩放。显然，这种方法不能直接用于含有负值的特征。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>常见建议是，在将输入送入神经网络训练之前，先将其缩放到 [0,1] 范围内。本书使用的数据集基于已经均匀化的变量：在每个时间点上，每个特征的横截面分布在单位区间上均匀。在因子投资中，特征缩放必须<strong>按每个日期、每个特征分别执行</strong>。这一点至关重要。它确保在每个再平衡日期，预测变量具有相似形状，并携带关于股票横截面的信息。</p>
+<p>例如，训练神经网络前，通常建议先把输入缩放到 [0,1] 区间。本书的数据集采用经过均匀化的变量：在每个时间点，每项特征在资产横截面上都均匀分布于单位区间。在因子投资中，特征缩放必须<strong>按日期、按特征分别执行</strong>。这能保证每个再平衡日的预测变量具有相近的分布形态，同时保留股票横截面上的相对信息。</p>
 </div>
 </div>
 </div>
@@ -13605,7 +13605,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>应禁止跨日期缩放特征。以市值为例。从长期看（不考虑市场崩盘），该特征会随时间上升。因此，跨日期缩放会使样本初期取值较小，样本末期取值较大。这会完全改变并稀释特征的横截面内容。</p>
+<p>不应跨日期缩放特征。以市值为例，若不考虑市场崩盘，其长期趋势通常向上。跨日期缩放会使样本初期的取值普遍较小、末期普遍较大，从而改变并稀释特征原有的横截面信息。</p>
 </div>
 </div>
 </div>
@@ -13626,7 +13626,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在构建投资组合策略时，标签有多种定义方式。当然，最终目标是组合权重，但它很少被视为标签的最佳选择。10</p>
+<p>构建投资组合策略时，可以用多种方式定义标签。最终目标固然是得到投资组合权重，但权重本身很少是最合适的标签。10</p>
 </div>
 </div>
 </div>
@@ -13654,7 +13654,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>创建二元变量时，人们常倾向于构造一个将收益率与零比较的检验（盈利与非盈利）。这并非最优，因为它高度依赖时间。在好时期，许多资产会有正收益；而在市场崩盘时，很少有资产取得正收益，从而形成非常不平衡的类别。更好的想法是将收益率与其时间 $t$ 的中位数（或均值）比较，从而将收益率一分为二。这样，指标是相对的，两个类别也更加均衡。</p>
+<p>构造二元标签时，一个自然做法是把收益率与零比较，区分盈利与非盈利。但这种标签高度依赖市场时期，并非理想选择：行情良好时，多数资产收益为正；市场崩盘时，则很少有资产取得正收益，因而类别会严重失衡。更好的办法是把收益率与时间 $t$ 的横截面中位数或均值比较，将样本分为两组。这样得到的是相对表现标签，两个类别也更均衡。</p>
 </div>
 </div>
 </div>
@@ -13675,7 +13675,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在典型机器学习分析中，当 $y$ 是未来表现的代理变量时，机器学习引擎会试图最小化预测值与实现值之间的某种距离。出于数学便利，通常使用平方误差和（$L^2$ 范数），因为它的导数最简单，也使梯度下降易于使用和计算。</p>
+<p>在典型的机器学习分析中，若 $y$ 是未来表现的代理变量，模型会尝试最小化预测值与已实现值之间的某种距离。为便于数学处理，通常使用平方误差和（$L^2$ 范数），因为其导数形式简单，便于应用梯度下降。</p>
 <p>有时，比起关注收益率或夏普比率等原始表现代理变量，更有意思的是关注可由这些代理变量推导出的离散投资决策。一个简单例子（决策规则）如下：</p>
 </div>
 </div>
@@ -13697,7 +13697,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>其中 $\hat{r}_{t,i}$ 是表现代理变量（例如收益率或夏普比率），$r_\pm$ 是决策阈值。当预测表现低于 $r−$ 时，决策为 -1（例如卖出）；高于 $r_+$ 时，决策为 +1（例如买入）；处于中间区域时（模型既不十分乐观也不十分悲观），决策为中性（例如持有）。表现代理变量当然也可以相对于某个基准定义，从而使决策直接与该基准相关。通常建议选择阈值 $r_\pm$，使三个类别相对均衡，也就是说最终拥有可比数量的实例。</p>
+<p>其中，$\hat{r}_{t,i}$ 是表现代理变量，例如收益率或夏普比率；$r_\pm$ 是决策阈值。当预测表现低于 $r−$ 时，决策为 -1（例如卖出）；高于 $r_+$ 时，决策为 +1（例如买入）；位于两者之间时，模型既不过度乐观也不过度悲观，决策为中性（例如持有）。表现代理变量也可以相对某个基准定义，使决策直接反映相对于基准的表现。通常建议选择合适的阈值 $r_\pm$，使三个类别所含样本数量大致相当。</p>
 </div>
 </div>
 </div>
@@ -13711,7 +13711,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>当 $y$ 被视为无序（<strong>nominal</strong>）分类变量时，需要增加一层处理，因为机器学习工具只能处理数字。因此，类别必须重新编码为数字。最常用的映射称为“<strong>one-hot encoding</strong>”。类别向量被拆分为一个稀疏矩阵，其中每一列对应一个类别。矩阵由零和一填充。实例所属类别对应的列被赋值为一。下表给出一个简单示例。</p>
+<p>当 $y$ 被视为无序（<strong>nominal</strong>）分类变量时，还需要额外处理，因为机器学习工具只能处理数值。最常用的转换称为“<strong>one-hot encoding</strong>”，即独热编码。类别向量被展开为一个稀疏矩阵，每一列对应一个类别，矩阵元素为零或一；样本所属类别对应的列取值为一。下表给出一个简单示例。</p>
 </div>
 </div>
 </div>
@@ -13785,7 +13785,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在分类任务中，输出维度更大。对于每个实例，它给出模型分配的属于各类别的概率。正如第 6 章和第 7 章将看到的，这可以通过 softmax 函数方便地处理。</p>
+<p>分类任务的输出维度更高。对每条样本，模型会给出其属于各个类别的概率。第 6 章和第 7 章将说明，这类输出可以用 softmax 函数方便地处理。</p>
 </div>
 </div>
 </div>
@@ -13824,7 +13824,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>如果策略触及第一道（相应地，第二道）障碍，输出为 +1（相应地，-1）；如果触及最后一道障碍，输出等于零，或等于某种线性插值（介于 -1 与 +1 之间），表示终值相对于两条水平障碍的位置。在计算上，这一方法<strong>要求高得多</strong>，因为它需要为每个实例评估完整路径。不过，它也被认为更加现实，因为交易策略往往伴随止损等自动触发器。</p>
+<p>如果策略触及第一道障碍，输出为 +1；触及第二道障碍，输出为 -1；若先触及最后一道时间障碍，输出可以设为零，也可以在 -1 与 +1 之间线性插值，以表示终值相对于上下两道水平障碍的位置。这一方法的<strong>计算成本高得多</strong>，因为每条样本都需要评估完整价格路径。不过，它也更贴近现实，因为交易策略往往配有止损等自动触发机制。</p>
 </div>
 </div>
 </div>
@@ -13876,7 +13876,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>这两个性质都是可取的。第一个性质降低了拟合到可能虚假的小规模实例组的风险。第二个性质赋予那些在解释收益率方面整体上看更相关的特征更高重要性。不过，过滤不能过于强烈。如果不是保留预测变量两端各 20%，而是只保留各 10%，则信号损失会过于严重，表现会恶化。</p>
+<p>这两个性质都有益。第一，它降低了模型拟合到虚假小样本群组的风险；第二，它会提高那些整体上更能解释收益率的特征的重要性。不过，筛选不能过强。如果不再保留标签分布两端各 20% 的样本，而只保留两端各 10%，信号损失就会过大，模型表现反而恶化。</p>
 </div>
 </div>
 </div>
@@ -13917,7 +13917,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>从理论上看，可以理解为什么可能如此。为简单起见，假设单一特征 $x$ 解释收益率 $r_{t+1}=f(x_t)+e_{t+1}$。如果 $xt$ 高度自相关，并且嵌入 $e_{t+1}$ 的噪声不太大，那么两期远期收益率 $(1+r_{t+1})(1+r_{t+2})-1$ 可能比 $r_{t+1}$ 携带更多信号，因为它与 $x_t$ 的关系已经随时间扩散并复合。因此，将记忆因素直接嵌入建模函数也可能有益，例如 Matthew F Dixon (2020) 所做的那样。下一节讨论与自相关相关的一些实践问题。</p>
+<p>从理论上也可以理解这一现象。为简单起见，假设单一特征 $x$ 解释收益率 $r_{t+1}=f(x_t)+e_{t+1}$。如果 $xt$ 高度自相关，且 $e_{t+1}$ 中的噪声不太大，那么未来两期收益率 $(1+r_{t+1})(1+r_{t+2})-1$ 可能比 $r_{t+1}$ 包含更多信号，因为 $x_t$ 与收益率的关系会随时间传递并复合。由此，将记忆机制直接纳入模型也可能有益，例如 Matthew F Dixon (2020) 的做法。下一节讨论与自相关有关的若干实践问题。</p>
 </div>
 </div>
 </div>
@@ -13938,7 +13938,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>一个有问题的例子是，数据按月频采样（这在资产管理行业并不少见），标签是月度收益率，而特征是基于风险或基本面的属性。在这种情况下，标签自相关很弱，而特征通常高度自相关。此时，大多数复杂预测工具都会在特征之间做套利式取舍，结果很可能产生大量噪声。在线性预测模型中，这种配置已知会在估计中产生偏误（见 Stambaugh (1999) 的研究以及 Gonzalo and Pitarakis (2018) 的综述）。</p>
+<p>一种典型的问题情形是：数据按月采样，这在资产管理行业并不少见；标签是月度收益率，特征则是风险或基本面属性。此时，标签的自相关很弱，特征却往往高度自相关。复杂预测工具会尝试从这些特征之间细微的相对差异中提取规律，很可能因此引入大量噪声。在线性预测模型中，已知这种设定会使估计产生偏误（见 Stambaugh (1999) 以及 Gonzalo and Pitarakis (2018) 的综述）。</p>
 </div>
 </div>
 </div>
@@ -14081,28 +14081,28 @@ r_{t,\pm}=r_{\pm} \times e^{\pm\delta(\text{VIX}_t-\bar{\text{VIX}})},
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>面对成本约束时，一个显然的方案往往是贪婪策略。在通常的学习流程之前，使用一个过滤器（通常称为 query）来决定哪些数据需要标注并用于训练（可能与机器学习算法有关）。标注由所谓 oracle 执行（它/他知道真相），通常是人。关注最有信息量实例的这一技术称为<strong>主动学习</strong>。关于该领域的详细介绍，可参见 Settles (2009) 和 Settles (2012) 的综述（下面仅作简要概括）。<strong>主动</strong>一词来自这样一个事实：学习器并非被动接受数据样本，而是主动参与选择自己学习的项目。</p>
+<p>面对标注成本约束，一种自然做法是采用贪心策略。在常规训练开始前，先用查询机制（query）筛选需要标注并纳入训练的数据；筛选规则可以与机器学习算法本身相关。标注由所谓的预言机（oracle）完成，即能够给出真实标签的人或机制，通常是人工标注者。这种优先选择信息量最大样本的技术称为<strong>主动学习</strong>。详细介绍可参见 Settles (2009) 和 Settles (2012) 的综述，下面只作简要概括。之所以称为“<strong>主动</strong>”学习，是因为学习器并非被动接受现成样本，而会主动选择自己要学习的对象。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>主动学习中的一个主要二分，涉及 query 所依据的数据源 $\textbf{X}$。一个显然情形是原始样本 $\textbf{X}$ 很大且未标注，学习器要求对该样本中的特定实例进行标注。第二种情形是学习器能够模拟/生成自己的取值 $\textbf{x}_i$。如果 oracle 无法识别机器生成的数据，这有时会有问题。例如，如果目标是标注字符和数字图像，学习器可能生成不对应任何字母或数字的形状：oracle 无法为其贴标签。</p>
+<p>主动学习的一项主要区别，在于查询所依赖的数据源 $\textbf{X}$。第一种情形是原始样本 $\textbf{X}$ 很大但没有标签，学习器从中挑选特定样本，请求预言机进行标注。第二种情形是学习器能够自行模拟或生成 $\textbf{x}_i$。如果预言机无法识别机器生成的数据，后一种做法就会出现问题。例如，若任务是标注字符和数字图像，学习器可能生成既不是字母也不是数字的形状，预言机便无法为其赋予标签。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在主动学习中，一个关键问题是：学习器如何选择要标注的实例？启发式地，答案是选择那些能最大化学习效率的观测。在二元分类中，一个简单标准是属于某一特定类别的概率。如果该概率远离 0.5，算法就不难选择某一类别（即使可能错）。有意思的情况是概率接近 0.5：机器可能对该实例犹豫不决。因此，让 oracle 为其标注是有用的，因为这能帮助学习器处理自己尚不确定的配置。</p>
+<p>主动学习的关键问题是：学习器应当选择哪些样本进行标注？直观答案是选择最能提高学习效率的观测。在二元分类中，可以依据样本属于某一类别的预测概率来判断。若该概率远离 0.5，算法很容易作出分类，尽管结果仍可能错误。真正有价值的是概率接近 0.5 的样本，因为模型对此最不确定。让预言机标注这类样本，可以帮助学习器补足自己最欠缺的信息。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>其他方法试图估计将特定（新）实例纳入训练集后可获得的拟合效果，并进一步优化该拟合。回顾 Geman, Bienenstock, and Doursat (1992) 第 3.1 节关于方差-偏差权衡的内容，对于训练数据集 $D$ 和一个实例 $x$（为简化起见省略粗体），有</p>
+<p>另一些方法会估计把某条新样本加入训练集后能够获得的拟合改善，并据此选择样本。回顾 Geman, Bienenstock, and Doursat (1992) 第 3.1 节关于偏差—方差权衡的讨论，对于训练数据集 $D$ 和一条样本 $x$（为简化起见省略粗体），有</p>
 </div>
 </div>
 </div>
@@ -14116,14 +14116,7 @@ r_{t,\pm}=r_{\pm} \times e^{\pm\delta(\text{VIX}_t-\bar{\text{VIX}})},
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>其中记号 $f(x;D)$ 用来强调模型 $\hat{f}$ 与数据集 $D$ 之间的依赖关系：该模型是在<br/>
-D
- 上训练得到的。第一项不可约，因为它不依赖于<br/>
-^
-f
-。因此，只有第二项是我们关心的。如果对该量在所有可能的<br/>
-D
- 取值上取平均：</p>
+<p>其中，记号 $f(x;D)$ 用来强调模型 $\hat{f}$ 对数据集 $D$ 的依赖：<br/>模型是在数据集 D 上训练得到的。<br/>第一项不依赖于模型，因而是不可约误差；我们真正关心的是第二项。<br/>若进一步对所有可能的数据集 D 取平均，则有：</p>
 </div>
 </div>
 </div>
@@ -14137,14 +14130,14 @@ D
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>如果这一表达式计算起来不太复杂，学习器就可以查询使该权衡最小的 $x$。因此，平均而言，这个新实例将是产生最佳学习角度的实例（以 $L2$ 误差衡量）。除这种方法外（它有局限，因为它要求 oracle 标注一个可能无关的实例），还存在许多其他查询标准；完整清单可参见 Settles (2009) 第 3 节。</p>
+<p>如果这一表达式容易计算，学习器就可以查询使该权衡最小的 $x$。平均而言，这条新样本将带来最佳学习效果，以 $L2$ 误差衡量。该方法也有局限，因为它可能要求预言机标注一条最终并不相关的样本。除此之外，还有许多其他查询准则，完整列表参见 Settles (2009) 第 3 节。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>最后一个问题：主动学习适用于因子投资吗？一个直接回答是，数据无法通过人工干预来注释。因此，学习器不能模拟自己的实例并请求相应标签。一种可能方案是向学习器提供 $\textbf{X}$，但不提供 $\textbf{y}$，只保留被查询观测的一个子集及其对应标签。就精神而言，这接近 Coqueret and Guida (2020) 的做法，只是 query 不是由机器执行，而是由人类用户执行。事实上，该论文表明，并非所有观测都携带同等数量的信号。与具有极端标签值的实例相比，标签值“平均”的实例平均而言信息量似乎更低。</p>
+<p>最后一个问题是：主动学习能否用于因子投资？直接的困难在于，金融数据的标签无法由人工随意标注，因此学习器不能自行模拟样本，再请求对应的真实标签。一种可行方案是只向学习器提供 $\textbf{X}$，暂不提供 $\textbf{y}$，然后只保留查询选中的观测及其对应标签。这在思想上接近 Coqueret and Guida (2020) 的做法，只是查询由用户而非机器执行。该论文表明，不同观测包含的信号量并不相同：与标签取极端值的样本相比，标签接近平均水平的样本通常信息量更低。</p>
 </div>
 </div>
 </div>
@@ -14272,14 +14265,14 @@ D
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>从形状看，蓝色和橙色分布接近原始分布。改变的只是支撑集：min/max 缩放确保所有值都落在 $[0,1]$ 区间内。在这两种情况下，最小值（左侧）都在分布中形成尖峰。按照构造，在均匀化下这一尖峰消失：点在单位区间上均匀分布。</p>
+<p>从分布形状看，蓝色与橙色曲线都接近原始分布，变化的只是取值范围：min-max 缩放保证所有数值都落在 $[0,1]$ 区间。原始分布和 min-max 缩放后的分布都在左端形成尖峰。均匀化则按构造消除了这一尖峰，使各数据点在单位区间内均匀分布。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="4.8.2-Impact-of-rescaling:-toy-example">4.8.2 缩放的影响：玩具例子<a class="anchor-link" href="#4.8.2-Impact-of-rescaling:-toy-example">¶</a></h3>
+<h3 id="4.8.2-Impact-of-rescaling:-toy-example">4.8.2 缩放的影响：简化示例<a class="anchor-link" href="#4.8.2-Impact-of-rescaling:-toy-example">¶</a></h3>
 </div>
 </div>
 </div>
@@ -14421,20 +14414,20 @@ D
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>表 4.3：玩具例子的样本数据。</p>
+<p>表 4.3：简化示例的样本数据。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>我们简要评论这组合成数据。假设日期按时间顺序排列且相隔很远：每个日期代表一年或一个十年的开端，但（远期）收益率按月计算。第一家公司非常成功，市值在各时期中增长了十倍。第二家公司市值基本稳定，而第三家公司大幅下跌。如果观察“局部”未来收益率，对第一和第三家公司而言，它们与规模强烈负相关。对第二家公司而言，则没有清晰模式。</p>
+<p>先简要分析这组合成数据。假设各日期按时间先后排列，且彼此相距很远：每个日期代表某一年或某个十年的起点，但未来收益率仍按月计算。公司 1 发展非常成功，市值在各期之间增长了十倍；公司 2 的市值基本稳定，公司 3 则大幅下降。逐家公司观察未来收益率时，公司 1 和公司 3 的收益率都与规模呈明显负相关，公司 2 则没有清晰规律。</p>
 <p>逐日期看，分析相当类似，不过略有细微差别。</p>
 <ul>
 <li>在日期 1，最小公司收益率最高，另外两家公司收益率为负。</li>
 <li>在日期 2，最大公司收益率为负，而两家较小公司不是。</li>
-<li>在日期 3，收益率随规模下降。
-尽管关系并不总是完全单调，但规模与收益率之间似乎存在联系；通常而言，在这个样本中投资最小公司会是一个非常好的策略。</li>
+<li>在日期 3，收益率随规模增大而下降。
+尽管这种关系并非始终严格单调，规模与收益率之间仍然存在明显联系；在当前样本中，投资规模最小的公司通常会取得很好的表现。</li>
 </ul>
 <p>现在看一下简单回归的输出。</p>
 </div>
@@ -14557,7 +14550,7 @@ Notes:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>从 p <strong>值</strong>（P&gt;|t| 列）看，cap 系数的第一种估计高于 5%（表 4.4），而第二种低于 5%（表 4.5）。解释这一差异的一个可能原因是变量标准差。cap_norm 和 cap_u 的标准差分别等于 0.34 和 0.27。市值等变量可能具有非常大的取值范围，因此即使经过缩放，也会受到较大离散度影响。使用均匀化变量可以降低离散度，并有助于解决这个问题。</p>
+<p>从 p <strong>值</strong>（P&gt;|t| 列）看，第一种方法估计的 cap 系数 p 值高于 5%（表 4.4），第二种则低于 5%（表 4.5）。一个可能的解释是变量的标准差不同：cap_norm 和 cap_u 的标准差分别为 0.34 和 0.27。市值等变量的原始取值范围很大，即使缩放后仍可能具有较高离散度。均匀化能够降低这种离散程度，从而缓解问题。</p>
 </div>
 </div>
 </div>

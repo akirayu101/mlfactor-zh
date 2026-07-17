@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>第11章 集成模型</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>第 11 章 集成学习</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -14245,7 +14245,7 @@ a.anchor-link {
 <!-- End of mathjax configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h1 id="Chapter-11-Ensemble-models">第11章 集成模型<a class="anchor-link" href="#Chapter-11-Ensemble-models">¶</a></h1></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h1 id="Chapter-11-Ensemble-models">第 11 章 集成学习<a class="anchor-link" href="#Chapter-11-Ensemble-models">¶</a></h1></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>坦率地说，面对预测任务时，在各种机器学习工具之间确定最佳选择并不容易：惩罚回归、树方法、神经网络、SVM 等等。一个自然且诱人的替代方案，是<strong>组合</strong>多个算法（或它们产生的预测），试图从每个引擎（或学习器）中提取价值。这一想法并不新，对这一目标的贡献至少可以追溯到 Bates 和 Granger（1969）（用于旅客流量预测）。</p></div>
@@ -14264,7 +14264,7 @@ a.anchor-link {
 </ul></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>本章覆盖集成概念背后的基本思想和概念。更深入的处理可参考上述书籍。我们强调，若干集成方法已经在前文提到并介绍过，尤其是在第 6 章。事实上，随机森林和提升树就是集成的例子。因此，关于学习器组合的早期文章还包括 Schapire（1990）、Jacobs 等（1991）（尤其针对神经网络）以及 Freund 和 Schapire（1997）。集成还可用于聚合在不同数据集上构建的模型（Pesaran 和 Pick（2011）），并可做成时间依赖形式（Sun 等（2020））。关于具有贝叶斯视角的集成理论，可参见 Razin 和 Levy（2020）。最后，与资产定价和因子建模相关的观点见 Gospodinov 和 Maasoumi（2020）以及 De Nard、Hediger 和 Leippold（2020）（子采样和预测聚合）。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>本章介绍集成学习的基本思想，更深入的讨论可参考上述书籍。前文已经提到并介绍过若干集成方法，尤其是在第 6 章；随机森林和提升树本身就是集成模型。学习器组合方面的早期研究还包括 Schapire（1990）、Jacobs 等（1991）（尤其针对神经网络）以及 Freund 和 Schapire（1997）。集成方法也可聚合基于不同数据集构建的模型（Pesaran 和 Pick（2011）），还可以扩展为随时间变化的形式（Sun 等（2020））。具有贝叶斯视角的集成理论可参见 Razin 和 Levy（2020）；与资产定价和因子建模相关的讨论则见 Gospodinov 和 Maasoumi（2020）以及 De Nard、Hediger 和 Leippold（2020）（子采样与预测聚合）。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="11.1-Linear-ensembles">11.1 线性集成<a class="anchor-link" href="#11.1-Linear-ensembles">¶</a></h2></div>
@@ -14273,7 +14273,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="11.1.1-Principles">11.1.1 原理<a class="anchor-link" href="#11.1.1-Principles">¶</a></h3></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>本章采用如下记号。我们处理 $M$ 个模型，其中 $\tilde{y}_{i,m}$ 是模型 $m$ 对样本 $i$ 的预测，误差 $\epsilon_{i,m}=y_i-\tilde{y}_{i,m}$ 被堆叠成一个 $(I\times M)$ 矩阵 $\mathbf{E}$。模型的线性组合具有样本误差 $\textbf{Ew}$，其中 $\textbf{w}=w_m$ 是分配给各模型的权重，并假设 $\textbf{w}'\textbf{1}_M=1$。因此，最小化总（平方）误差是一个只有唯一约束的简单二次规划。拉格朗日函数为 $\textbf{w}'\textbf{1}_M=1$，因此</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>本章采用如下记号。我们处理 $M$ 个模型，其中 $\tilde{y}_{i,m}$ 是模型 $m$ 对样本 $i$ 的预测，误差 $\epsilon_{i,m}=y_i-\tilde{y}_{i,m}$ 被堆叠成一个 $(I\times M)$ 矩阵 $\mathbf{E}$。模型线性组合的样本误差为 $\textbf{Ew}$，其中 $\textbf{w}=w_m$ 是分配给各模型的权重，并满足约束 $\textbf{w}'\textbf{1}_M=1$。因此，最小化总平方误差是一个简单的二次规划问题，唯一约束仍为 $\textbf{w}'\textbf{1}_M=1$。写出相应的拉格朗日函数可得</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -15415,7 +15415,7 @@ dtype: float64</pre>
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="11.4-Exercise">11.4 练习<a class="anchor-link" href="#11.4-Exercise">¶</a></h2></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>在 3 个完全用 Keras 训练的神经网络之上构建一个整合集成。每个网络获得三分之一的预测变量作为输入。这三个网络给出一个分类（是/否或买入/卖出）。上层网络把三个输出聚合为最终决策。在测试样本上评估其表现。使用 functional API。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>基于 3 个完全使用 Keras 训练的神经网络构建一个集成模型。每个网络接收三分之一的预测变量，并分别输出一个二分类结果（是/否或买入/卖出）。再由上层网络汇总这 3 个输出，形成最终决策。请使用 functional API，并在测试集上评估模型表现。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="References">参考文献<a class="anchor-link" href="#References">¶</a></h3></div>

@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>第13章 可解释性</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>第 13 章 模型可解释性</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -14568,7 +14568,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Chapter-13-Interpretability">第13章 可解释性<a class="anchor-link" href="#Chapter-13-Interpretability">¶</a></h1>
+<h1 id="Chapter-13-Interpretability">第 13 章 模型可解释性<a class="anchor-link" href="#Chapter-13-Interpretability">¶</a></h1>
 </div>
 </div>
 </div>
@@ -14579,7 +14579,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>本章专门介绍有助于理解模型将输入处理为输出的方式的技术。最近的一本书（Molnar (2019)，可在 <a href="https://christophm.github.io/interpretable-ml-book/">https://christophm.github.io/interpretable-ml-book/</a> 上找到）完全致力于这个主题，我们强烈建议读者阅读。 Belle 和 Papantonis (2020) 的综述也很有价值。另一个更具介绍性且技术性较弱的参考文献是 Hall 和 Gill (2019)。显然，在本章中，我们将采用面向因子投资的视角，并讨论与在金融数据集上训练的机器学习模型相关的示例。</p>
+<p>本章介绍一系列模型解释技术，帮助读者理解模型如何把输入转化为输出。Molnar (2019) 的专著（可在线阅读：<a href="https://christophm.github.io/interpretable-ml-book/">https://christophm.github.io/interpretable-ml-book/</a>）系统讨论了这一主题，值得深入阅读；Belle 和 Papantonis (2020) 的综述也很有参考价值。若希望先从入门材料读起，可参阅技术难度较低的 Hall 和 Gill (2019)。本章将从因子投资的视角出发，讨论如何解释基于金融数据训练的机器学习模型。</p>
 </div>
 </div>
 </div>
@@ -14590,7 +14590,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>用于解释机器学习模型的定量工具需要满足两个简单的条件：</p>
+<p>用于解释机器学习模型的定量工具应满足两个基本条件：</p>
 </div>
 </div>
 </div>
@@ -14602,8 +14602,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ol>
-<li>提供有关模型的信息。</li>
-<li>高度易于理解。</li>
+<li>能够揭示模型的信息；</li>
+<li>解释结果容易理解。</li>
 </ol>
 </div>
 </div>
@@ -14615,7 +14615,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>通常，这些工具会生成易于阅读并立即得出结论的图形输出。</p>
+<p>这类工具通常以直观的图形呈现结果，便于读者快速理解并作出判断。</p>
 </div>
 </div>
 </div>
@@ -14626,7 +14626,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在尝试对复杂的机器学习模型进行白盒化时，存在一个突出的二分法：</p>
+<p>在尝试打开复杂机器学习模型的“黑箱”时，最重要的一种区分是：</p>
 </div>
 </div>
 </div>
@@ -14638,8 +14638,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li><strong>全局模型</strong> 寻求在模型完成训练后确定特征在预测构建中的相对作用。这是在全局层面上完成的，以便解释中显示的模式在整个训练集上平均而言成立。</li>
-<li><strong>局部模型</strong> 旨在通过考虑该实例周围的微小变化来描述模型在该特定实例周围的行为方式。原始模型处理这些变化的方式允许通过近似（例如以线性方式）来简化它。例如，该近似可以确定原始实例附近的每个相关特征的影响的符号和大小。</li>
+<li><strong>全局解释</strong>旨在模型训练完成后，衡量各特征对预测结果的相对作用。它描述的是在整个训练集上平均成立的规律。</li>
+<li><strong>局部解释</strong>通过考察某个具体样本附近的微小变化，刻画模型在该样本邻域内的行为。观察原模型如何处理这些扰动后，可以用较简单的模型（例如线性模型）作局部近似，并据此判断原始样本附近各相关特征影响的方向和大小。</li>
 </ul>
 </div>
 </div>
@@ -14651,7 +14651,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Molnar（2019）通过将依赖于一个特定模型（例如线性回归或决策树）的解释与可以从任何类型的模型获得的解释分开，提出了可解释性解决方案的另一种分类。在下文中，我们根据全局与局部二分法提出方法。</p>
+<p>Molnar（2019）还提出了另一种分类：一类解释方法依赖特定模型，如线性回归或决策树；另一类方法与模型无关，可用于解释任意模型。下文按照全局解释与局部解释的划分介绍这些方法。</p>
 </div>
 </div>
 </div>
@@ -14720,9 +14720,9 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>$R^2$，它衡量模型的 <strong>全局拟合</strong> （可能会受到惩罚以防止与许多回归变量过拟合）。 $R^2$ 通常是在样本内计算的；</li>
-<li>估计值$\hat{\beta}_k$的符号，表示每个特征$x^k$对$y$的影响的<strong>方向</strong>；</li>
-<li>$t$-统计数据$t_{\hat{\beta_k}}$，评估这种影响的<strong>大小</strong>：无论其方向如何，绝对值的大统计数据揭示了显著的变量。通常，$t$ 统计量会转换为 $p$ 值，这些值是在一些合适的分布假设下计算的。</li>
+<li>$R^2$，用于衡量模型的<strong>整体拟合程度</strong>。为避免预测变量过多造成过拟合，也可以采用带惩罚的版本。$R^2$ 通常在样本内计算；</li>
+<li>估计值 $\hat{\beta}_k$ 的符号，用于表示特征 $x^k$ 对 $y$ 影响的<strong>方向</strong>；</li>
+<li>$t$ 统计量 $t_{\hat{\beta_k}}$，用于衡量这种影响的<strong>强度</strong>。无论方向如何，绝对值较大的统计量通常表明该变量更重要。实际分析中还常在适当的分布假设下，把 $t$ 统计量换算为 $p$ 值。</li>
 </ul>
 </div>
 </div>
@@ -14734,7 +14734,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后两个指标非常有用，因为它们告诉用户哪些特征最重要以及每个预测变量的效应符号。这提供了模型如何将特征处理为输出的简化视图。大多数旨在解释黑箱的工具都遵循相同的原则。</p>
+<p>后两个指标可以告诉我们哪些特征最重要，以及各预测变量影响的方向，从而简化地展示模型如何把特征映射为输出。大多数黑箱解释工具都沿用了这一基本思路。</p>
 </div>
 </div>
 </div>
@@ -14745,7 +14745,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>决策树由于易于描绘，因此也是可解释性的绝佳模型。由于这一有利特征，它们成为简单模型的目标基准。最近，Vidal、Pacheco 和 Schiffer (2020) 提出了一种将树集合简化为唯一树的方法。目的是提出一种更简单的模型，其行为与复杂模型完全相同。</p>
+<p>决策树容易可视化，因此也是天然具有可解释性的模型，并常被用作简单模型的基准。Vidal、Pacheco 和 Schiffer (2020) 提出了一种把树集成压缩为单棵树的方法，目标是得到一个行为与复杂模型一致、但结构更简单的模型。</p>
 </div>
 </div>
 </div>
@@ -14756,7 +14756,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>更一般地说，采用简单的模型来代理更复杂的算法是一个直观的想法。一种简单的方法是构建所谓的 <strong>surrogate</strong> 模型。过程很简单：</p>
+<p>更一般地说，可以用简单模型近似复杂算法，这类简单模型称为<strong>代理模型</strong>（surrogate model）。基本步骤如下：</p>
 </div>
 </div>
 </div>
@@ -14767,8 +14767,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在特征 $\textbf{X}$ 和标签 $\textbf{y}$ 上训练原始模型 $f$；
-训练一个更简单的模型 $g$ 来解释给定特征 $\textbf{X}$ 的训练模型 $\hat{f}$ 的预测：</p>
+<p>先训练原始模型 $f$，输入为特征 $\textbf{X}$ 和标签 $\textbf{y}$；再训练一个更简单的模型 $g$，用它解释已训练模型 $\hat{f}$ 在给定特征 $\textbf{X}$ 时的预测：</p>
 </div>
 </div>
 </div>
@@ -14792,7 +14791,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>估计模型 $\hat{g}$ 解释了初始模型 $\hat{f}$ 如何将特征映射到标签中。为了说明这一点，我们使用树代理脚本（参见 Molnar、Casalicchio 和 Bischl (2018)）。更简单的模型是深度为 2 的树。</p>
+<p>估计得到的 $\hat{g}$ 用较简单的结构说明原模型 $\hat{f}$ 如何把特征映射为预测。下面使用树代理模型演示这一思路（参见 Molnar、Casalicchio 和 Bischl (2018)），代理模型是一棵深度为 2 的决策树。</p>
 </div>
 </div>
 </div>
@@ -14846,7 +14845,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>与第 6 章中看到的树的表示方式相比，树的表示方式有很大不同，但成功地捕捉了它所模仿的模型的主要复杂性。</p>
+<p>这棵树的呈现方式与第 6 章不同，但仍较好地概括了被模仿模型的主要复杂结构。</p>
 </div>
 </div>
 </div>
@@ -14868,7 +14867,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>简单决策树的一个令人难以置信的有利特征是它们的可解释性。他们的视觉表现清晰而直接。就像回归（机器学习中的另一个构建块）一样，简单的树很容易理解，并且不会受到通常与更复杂的工具相关的黑盒谴责。</p>
+<p>简单决策树的一大优势是可解释性强：其图形结构清晰直观。与回归模型一样，简单决策树容易理解，不会像更复杂的工具那样受到“黑箱”质疑。</p>
 </div>
 </div>
 </div>
@@ -14879,7 +14878,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>事实上，随机森林和增强树都无法完全准确地描述引擎内部发生的情况。相反，一旦经过训练，就可以计算每个特征在确定树结构中的总份额（或重要性）。</p>
+<p>随机森林和提升树都无法完整、准确地展示模型内部的每一步计算。不过，模型训练完成后，可以汇总计算各特征在树结构形成过程中的贡献，也就是特征重要性。</p>
 </div>
 </div>
 </div>
@@ -14890,7 +14889,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>训练后，可以在每个节点 $n$ 计算后续分割获得的增益 $G(n)$ （如果有的话），即如果该节点不是终端叶子。确定选择哪个变量来执行分割也很容易，因此我们将 $\mathcal{N}_k$ 写为为分区选择特征 $k$ 的节点集。然后，每个特征的全局重要性由下式给出</p>
+<p>训练完成后，对每个非叶节点 $n$，都可以计算下一次分裂带来的增益 $G(n)$，也可以确定该次分裂使用了哪个变量。记 $\mathcal{N}_k$ 为所有使用特征 $k$ 进行分裂的节点集合，则该特征的全局重要性为</p>
 </div>
 </div>
 </div>
@@ -14914,7 +14913,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>并且它经常被重新调整，以便所有 $k$ 的 $I(k)$ 之和等于 1。在这种情况下，$I(k)$ 衡量特征 $k$ 在训练期间减少损失方面的相对贡献。重要度高的变量对预测的影响更大。一般来说，这些变量是那些靠近树根的变量。</p>
+<p>实际使用时通常会对 $I(k)$ 重新缩放，使其在所有 $k$ 上的总和等于 1。此时，$I(k)$ 表示特征 $k$ 在训练过程中降低损失的相对贡献。重要性越高的变量，对预测的影响通常越大，也往往更靠近树根。</p>
 </div>
 </div>
 </div>
@@ -14925,7 +14924,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>下面，我们看一下从第 6 章中训练的基于树的模型获得的结果。我们首先回收我们使用的三个回归模型的输出。请注意，每个拟合输出都有自己的结构，并且重要性向量有不同的名称。</p>
+<p>下面回顾第 6 章训练的树模型，并复用其中三个回归模型的输出。需要注意，不同模型的拟合结果结构不同，保存特征重要性的向量名称也不相同。</p>
 </div>
 </div>
 </div>
@@ -14985,7 +14984,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>鉴于该图的编码方式，图 13.2 实际上具有误导性。事实上，通过构造，简单的树模型仅具有少量非零重要性的特征：在上图中，只有 3 个：市值、市净率和波动性。相比之下，由于随机森林和提升树要复杂得多，因此它们对许多预测变量具有一定的重要性。该图仅显示与简单树模型相关的变量。出于规模原因，在选择特征子集之后执行归一化。出于明显的可读性考虑，我们倾向于限制图表上显示的特征数量。</p>
+<p>受绘图方式影响，图 13.2 可能造成误解。简单决策树按其结构只会给少数特征赋予非零重要性；上图中只有市值、市净率和波动率三个特征。随机森林和提升树更复杂，会为更多预测变量分配一定的重要性。图中仅展示简单树涉及的变量，并在选定这一特征子集后再做归一化，以免变量过多影响可读性。</p>
 </div>
 </div>
 </div>
@@ -14996,7 +14995,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>模型依赖特征的方式存在差异。例如，最重要的特征从一个模型变为另一个模型：简单树模型最重视市净率，而随机森林则更多地关注波动性，而提升树模型则更重视市值。</p>
+<p>不同模型依赖特征的方式并不相同。例如，最重要的特征会随模型而变：简单树最重视市净率，随机森林更依赖波动率，提升树则为市值赋予更高权重。</p>
 </div>
 </div>
 </div>
@@ -15007,7 +15006,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>随机森林的一个定义属性是它们为所有特征提供了机会。事实上，通过随机选择预测变量，每个单独的外生变量都有机会解释标签。与将大部分鸡蛋放在几个篮子里的简单树相比，与提升树一起，预测变量之间的重要性分配更加平衡。</p>
+<p>随机森林的一个典型特点，是让所有特征都有机会参与模型。由于分裂候选变量是随机选取的，每个外生变量都可能用于解释标签。与把大部分重要性集中在少数特征上的简单树相比，随机森林和提升树在各预测变量之间分配的重要性通常更均衡。</p>
 </div>
 </div>
 </div>
@@ -15029,7 +15028,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>量化学习过程中每个特征的重要性的想法可以扩展到非基于树的模型。我们参考了 Fisher、Rudin 和 Dominici (2019) 研究中提到的论文，了解有关该文献流的更多信息。前提与上面相同：目的是量化一个特征对学习过程的贡献程度。</p>
+<p>特征重要性的思想也可以扩展到非树模型。关于这一研究方向，可参阅 Fisher、Rudin 和 Dominici (2019) 及其引用的文献。基本问题与上文相同：衡量某个特征对学习过程贡献了多少。</p>
 </div>
 </div>
 </div>
@@ -15040,7 +15039,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>跟踪某个特定特征的附加值的一种方法是观察如果训练集中的该特征的值被完全打乱会发生什么情况。如果原始特征在因变量的解释中起着重要作用，那么特征的改组版本将导致更高的损失。</p>
+<p>衡量某个特征增量价值的一种方法，是把训练集中该特征的取值完全打乱，再观察模型表现如何变化。如果原特征对解释因变量十分重要，打乱后模型的损失应明显上升。</p>
 </div>
 </div>
 </div>
@@ -15062,8 +15061,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在原始数据上训练模型并计算相关损失 $l^∗$。
-对于每个特征 $k$，创建一个新的训练数据集，其中特征的值被随机排列。然后，根据这个改变的样本评估模型的损失 $l_k$。对每个特征的特征重要性进行排名，计算为差值 $\text{VI}_k=l_k-l^*$ 或比率 $\text{VI}_k=l_k/l^*$。</p>
+<p>先在原始数据上训练模型，并计算相应损失 $l^∗$。然后针对每个特征 $k$ 创建一份新训练数据，其中只随机打乱该特征的取值，再用这份扰动后的样本评估模型损失 $l_k$。最后，以差值 $\text{VI}_k=l_k-l^*$ 或比率 $\text{VI}_k=l_k/l^*$ 计算并排序各特征的重要性。</p>
 </div>
 </div>
 </div>
@@ -15074,7 +15072,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>是否计算训练集或测试集的损失是一个悬而未决的问题，仍有待分析师评估。上述过程当然是随机的，并且可以重复，以便在多次试验中对重要性进行平均：这提高了结果的稳定性。该算法在Molnar（2019）的作者开发的iml R包的FeatureImp()函数中实现。下面，我们在 Python 中手动实现该算法，即图 13.2 中出现的功能。我们在岭回归上测试这种方法，并回收第 5 章中使用的变量。我们从第一步开始：计算原始训练样本的损失。</p>
+<p>损失应在训练集还是测试集上计算，并没有唯一答案，需要由分析者判断。由于上述过程包含随机置换，可以重复多次并对重要性取平均，以提高结果的稳定性。Molnar（2019）的作者开发的 R 软件包 iml 在 FeatureImp() 函数中实现了该算法。下面用 Python 手工实现这一方法，只考察图 13.2 中出现的特征，并在岭回归模型上复用第 5 章的变量。第一步是计算原始训练样本上的损失。</p>
 </div>
 </div>
 </div>
@@ -15107,7 +15105,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>接下来，我们评估每个预测变量被顺序打乱时的损失。为了减少计算时间，我们只进行一轮洗牌。</p>
+<p>接下来依次打乱每个预测变量，并评估相应损失。为节省计算时间，这里只进行一轮随机置换。</p>
 </div>
 </div>
 </div>
@@ -15199,7 +15197,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>由此产生的重要性与基于树的模型的重要性一致：最突出的变量是基于波动性、基于市值和市净率；这些与图 13.2 中的变量非常匹配。请注意，在某些情况下（例如，股票换手率），分数甚至可能为负，这意味着当预测变量的值被打乱时，预测比基线模型更准确！</p>
+<p>得到的特征重要性与树模型的结果一致：最重要的变量与波动率、市值和市净率有关，与图 13.2 基本吻合。需要注意，在某些情况下（如股票换手率），重要性分数甚至可能为负。这意味着打乱该预测变量后，模型反而比基准情形预测得更准确。</p>
 </div>
 </div>
 </div>
@@ -15221,7 +15219,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>部分依赖图 (PDP) 旨在显示模型输出与特征值之间的关系（我们参考 Friedman (2001) 的第 8.2 节来了解该主题的早期处理）。</p>
+<p>部分依赖图（PDP）用于展示模型输出与某个特征取值之间的关系。关于这一方法的早期讨论，可参阅 Friedman (2001) 第 8.2 节。</p>
 </div>
 </div>
 </div>
@@ -15232,7 +15230,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>让我们修复一个特征 $k$。我们想要了解 $k$ 的 <strong> 平均影响 </strong> 对训练模型 $\hat{f}$ 的预测。为此，我们假设特征空间是随机的，并将其分为两部分：$k$ 与 $−k$，它代表除 $k$ 之外的所有特征。部分依赖图定义为</p>
+<p>固定一个特征 $k$，我们的目标是理解 $k$ 对已训练模型 $\hat{f}$ 的预测结果产生的<strong>平均影响</strong>。为此，假设特征空间是随机的，并将其分为两部分：特征 $k$ 与 $−k$，后者表示除 $k$ 之外的所有特征。部分依赖函数定义为</p>
 </div>
 </div>
 </div>
@@ -15257,23 +15255,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中<br/>
-d
-磷
--
-k
-（⋅）
-  是非的（多元）分布 
-k
-  特点<br/>
-x
--
-k。上述函数采用特征值<br/>
-x
-k
-  作为参数并通过样本分布保持所有其他特征冻结：这显示了 feature<br/> 的影响
-k
-  仅仅。在实践中，平均值是使用蒙特卡罗模拟来评估的：</p>
+<p>其中 $d\mathbb{P}_{-k}(\cdot)$ 是其余特征 $\textbf{x}_{-k}$ 的多元分布。上述函数以特征值 $x_k$ 为参数，并按照其他特征的样本分布对其取平均，从而单独展示特征 $k$ 的影响。实践中通常用蒙特卡罗模拟估计这一均值：</p>
 </div>
 </div>
 </div>
@@ -15298,14 +15280,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中<br/>
-x
-（米）
--
-k
-  是非的独立样本 
-k
-  特点。</p>
+<p>其中 $\textbf{x}_{-k}^{(m)}$ 是从其余特征的联合分布中独立抽取的样本。</p>
 </div>
 </div>
 </div>
@@ -15316,7 +15291,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>理论上，一次可以针对多个特征计算 PDP。实际上，这仅适用于两个特征（产生 3D 表面），并且计算量更大。</p>
+<p>理论上可以同时针对多个特征计算 PDP。实践中通常最多考察两个特征，此时得到一个三维曲面，而且计算量会明显增加。</p>
 </div>
 </div>
 </div>
@@ -15327,7 +15302,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>下面我们使用 scikit learn 来说明这个概念。我们试图解释的模型是第 6.2 节中构建的随机森林。我们回收其中使用的一些变量。我们选择测试市净率对模型结果的影响。</p>
+<p>下面用 scikit-learn 演示这一概念。待解释的模型是第 6.2 节构建的随机森林，并复用该节的一些变量。这里考察市净率对模型输出的影响。</p>
 </div>
 </div>
 </div>
@@ -15383,7 +15358,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>市净率对预测的平均影响正在下降。考虑到因变量的条件平均值以及市净率，这在某种程度上是预料之中的。后一个函数如图 6.3 所示，并显示了与上述曲线相当的行为：P/B 值较小时急剧下降，然后相对平坦。当市净率较低时，公司被低估。因此，它们的较高收益率与价值溢价一致。</p>
+<p>市净率对预测结果的平均影响随其取值上升而下降。结合因变量关于市净率的条件均值来看，这一结果并不意外。图 6.3 展示的条件均值曲线与上图相似：P/B 较低时快速下降，随后趋于平缓。低市净率通常表示公司估值较低，因此较高的未来收益率与价值溢价相符。</p>
 </div>
 </div>
 </div>
@@ -15394,7 +15369,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，我们参考Zhao和Hastie（2020）对PDP因果性质的理论讨论。事实上，深入研究 PDP 的构造表明，它们可以被解释为模型输出特征的因果表示。</p>
+<p>关于 PDP 是否具有因果含义，可参阅 Zhao 和 Hastie（2020）的理论讨论。从构造方式来看，PDP 在一定条件下可以被解读为某个特征对模型输出的因果作用。</p>
 </div>
 </div>
 </div>
@@ -15416,7 +15391,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>全局解释试图评估特征对输出 $overall$ 的影响，而局部方法则试图量化模型在特定实例或其邻域上的行为。局部可解释性最近受到关注，并且已经发表了许多关于该主题的论文。下面，我们概述了最广泛使用的方法。</p>
+<p>全局解释考察特征对模型输出的整体影响，局部方法则刻画模型对某个具体样本或其邻域的行为。近年来，局部可解释性受到广泛关注，相关研究大量涌现。下面介绍其中最常用的几种方法。</p>
 </div>
 </div>
 </div>
@@ -15438,7 +15413,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>LIME（Local Interpretable Model-Agnostic Explanations）是最初由 Ribeiro、Singh 和 Guestrin (2016) 提出的一种方法。他们的目标是在两个约束下提供模型的忠实描述：</p>
+<p>LIME（Local Interpretable Model-Agnostic Explanations，局部可解释的模型无关解释）由 Ribeiro、Singh 和 Guestrin (2016) 提出，目标是在满足以下两个条件的前提下忠实解释模型：</p>
 </div>
 </div>
 </div>
@@ -15450,8 +15425,8 @@ k
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li><strong>简单可解释性</strong>，这意味着具有视觉或文本表示的变量数量有限。这是为了确保任何人都能轻松理解该工具的结果；</li>
-<li><strong>局部忠诚度</strong>：该解释适用于实例附近。</li>
+<li><strong>解释简单</strong>：只展示少量变量，并用图形或文字呈现，确保读者容易理解；</li>
+<li><strong>局部保真性</strong>：解释应在待解释样本的邻域内忠实反映原模型。</li>
 </ul>
 </div>
 </div>
@@ -15463,7 +15438,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>原始（黑盒）模型是 $f$，我们假设我们想要使用可解释模型 $g$ 来近似其围绕实例 $x$ 的行为。简单函数 $g$ 属于更大的类 $G$。 $x$ 的附近标记为 $pi_x$，$g$ 的复杂度标记为 $\Omega(g)$。 LIME 寻求对表格的解释</p>
+<p>设原始黑箱模型为 $f$，希望在具体样本 $x$ 附近用可解释模型 $g$ 近似其行为。简单函数 $g$ 属于候选模型集合 $G$，$x$ 的邻域记为 $pi_x$，$g$ 的复杂度记为 $\Omega(g)$。LIME 寻找如下形式的解释：</p>
 </div>
 </div>
 </div>
@@ -15487,7 +15462,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $\mathcal{L}(f,g,\pi_x)$ 是 $g$ 在 $x$ 的 $\pi_x$ 附近引起的损失函数（误差/不精确）。例如，惩罚 $\Omega(g)$ 是叶子的数量或树的深度，或者线性回归中的预测变量的数量。</p>
+<p>其中，$\mathcal{L}(f,g,\pi_x)$ 衡量 $g$ 在邻域 $\pi_x$ 内近似样本 $x$ 附近的原模型时产生的误差；惩罚项 $\Omega(g)$ 则控制解释模型的复杂度，例如树的叶节点数或深度、线性回归中的预测变量数量。</p>
 </div>
 </div>
 </div>
@@ -15498,7 +15473,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>现在仍然需要定义上述一些术语。 $x$ 的附近由 $\pi_x(z)=e^{-D(x,z)^2/\sigma^2}$ 定义，其中 $D$ 是某个距离度量，$\sigma^2$ 是某个缩放常数。我们强调，当 $z$ 远离 $x$ 时，该函数会减弱。</p>
+<p>下面具体定义这些量。$x$ 的邻域权重为 $\pi_x(z)=e^{-D(x,z)^2/\sigma^2}$，其中 $D$ 是距离度量，$\sigma^2$ 是尺度常数。随着 $z$ 远离 $x$，该权重会逐渐减小。</p>
 </div>
 </div>
 </div>
@@ -15509,7 +15484,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>棘手的部分是损失函数。为了最小化它，LIME 生成接近 $x$ 的人工样本，并对简单表示产生的标签上的误差进行平均/求和。为简单起见，我们假设 $f$ 为标量输出，因此公式如下：</p>
+<p>关键在于损失函数的构造。LIME 会在 $x$ 附近生成一批人工样本，并汇总简单模型在这些样本上的预测误差。为简化记号，假设 $f$ 的输出是标量，则损失写为：</p>
 </div>
 </div>
 </div>
@@ -15533,7 +15508,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>并且根据与初始实例 $x$ 的距离对误差进行加权：最近的点获得最大的权重。在其最基本的实现中，模型集 $G$ 由所有线性模型组成。</p>
+<p>各样本的误差按其与原始样本 $x$ 的距离加权，距离越近，权重越大。在最基本的实现中，候选模型集合 $G$ 由线性模型构成。</p>
 </div>
 </div>
 </div>
@@ -15544,7 +15519,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在图 13.5 中，我们提供了 LIME 工作原理的简化图。</p>
+<p>图 13.5 用一个简化示意图说明 LIME 的工作原理。</p>
 </div>
 </div>
 </div>
@@ -15556,7 +15531,7 @@ k
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/lime.png" width="300"/>
-图 13.5：LIME 的简单解释：解释的实例被红色方块包围。生成五个点（三角形）并相应地拟合加权线性模型（灰色虚线）。</p>
+图 13.5：LIME 的简化示意图。待解释样本由红色方框标出；模型在其附近生成五个点（三角形），并据此拟合加权线性模型（灰色虚线）。</p>
 </div>
 </div>
 </div>
@@ -15567,7 +15542,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>为了说明清楚起见，我们仅使用一个因变量。原始训练样本用黑点显示。拟合（训练过的）模型用蓝线（平滑条件平均值）表示，我们想要近似模型如何围绕一个特定实例工作，该实例由周围的红色方块突出显示。为了构建近似值，我们在实例周围采样 5 个新点（5 个红色三角形）。每个三角形都位于蓝线上（它们是模型预测），并且具有与其大小成比例的权重：最接近实例的三角形具有更大的权重。使用加权最小二乘法，我们构建了一个适合这 5 个点（灰色虚线）的线性模型。这就是近似的结果。它给出了模型的两个参数：截距和斜率。两者都可以通过标准统计测试进行评估。</p>
+<p>为便于说明，这里只考虑一个预测变量。黑点表示原始训练样本，蓝线表示已训练模型给出的平滑条件均值。红色方框标出待解释的具体样本，我们希望近似模型在其附近的行为。为此，在该样本周围抽取 5 个新点，即图中的红色三角形。每个三角形都位于蓝线上，表示原模型的预测；三角形大小表示权重，离原始样本越近，权重越大。随后用加权最小二乘法对这 5 个点拟合线性模型，得到灰色虚线。该局部近似给出截距和斜率两个参数，二者都可用标准统计检验评估。</p>
 </div>
 </div>
 </div>
@@ -15578,7 +15553,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>斜率的符号很重要。很明显，如果实例更接近 $x=0$，斜率可能几乎是平坦的，因此预测器可能会在局部被忽略。另一个重要的细节是样本点的数量。在我们的解释中，我们只取五个点，但实际上，稳健的估计通常需要大约一千个点或更多。事实上，当采样的邻居太少时，估计风险很高并且近似可能很粗糙。</p>
+<p>斜率的符号尤其重要。若待解释样本更靠近 $x=0$，局部斜率可能接近于零，此时该预测变量在这一邻域内几乎不起作用。另一个关键因素是采样点数量。示意图中只有 5 个点，但稳健估计在实践中通常需要约 1,000 个甚至更多邻域样本。样本过少会增大估计风险，使局部近似不够准确。</p>
 </div>
 </div>
 </div>
@@ -15589,7 +15564,7 @@ k
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>我们继续看一个实施示例。有几个步骤：</p>
+<p>下面给出一个实现示例，分为三个步骤：</p>
 </div>
 </div>
 </div>
@@ -15601,9 +15576,9 @@ k
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ol>
-<li>在一些训练数据上拟合模型。</li>
-<li>使用 LIME() 函数包装所有内容。</li>
-<li>关注一些预测变量并查看它们对一些特定实例的影响（通过explain()函数）。</li>
+<li>在训练数据上拟合模型；</li>
+<li>使用 lime() 函数封装模型；</li>
+<li>选取少量预测变量，通过 explain() 函数考察它们对若干具体样本的影响。</li>
 </ol>
 </div>
 </div>
@@ -52843,7 +52818,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在每张图中（一张图对应一个实例的解释），有两种类型的信息：影响的符号和影响的大小。符号用颜色显示（正为橙色，负为蓝色），大小用矩形的大小显示。</p>
+<p>每张图对应一个样本的局部解释，并提供两类信息：影响的方向和大小。颜色表示方向（橙色为正，蓝色为负），矩形长度表示影响大小。</p>
 </div>
 </div>
 </div>
@@ -52865,7 +52840,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，我们简要讨论代码中距离函数的选择。它用于评估真实实例与模拟实例之间的差异，以或多或少地赋予采样实例的预测权重。我们的数据集仅包含数值数据；因此，欧几里得距离是一个自然的选择：</p>
+<p>最后简要讨论代码中的距离函数。它用于衡量原始样本与模拟样本之间的差异，从而决定各模拟样本预测所获得的权重。由于本数据集只包含数值变量，欧几里得距离是很自然的选择：</p>
 </div>
 </div>
 </div>
@@ -52913,7 +52888,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这两个距离的问题在于它们无法处理分类变量。这就是高尔距离发挥作用的地方（Gower (1971)）。距离对不同类型的特征施加不同的处理（本质上是类与数字，但它也可以处理丢失的数据！）。对于分类特征，Gower 距离采用二元处理：如果特征相等，则该值等于 1，如果不相等，则该值等于 0（即 $1_{\{x_n=y_n\}}$）。对于数字特征，分布被量化为 $1-\frac{|x_n-y_n|}{R_n}$，其中 $R_n$ 是特征可以采用的最大绝对值。然后汇总所有相似性测量结果以得出最终分数。请注意，在这种情况下，逻辑是相反的：如果高尔距离接近 1，则 $\mathbf{x}$ 和 $\mathbf{y}$ 非常接近；如果距离接近 0，则它们很远。</p>
+<p>欧几里得距离和曼哈顿距离都不适合直接处理分类变量，这时可以采用 Gower 相似度（Gower (1971)）。它会按变量类型分别处理数据，也能处理缺失值。对分类特征，若两个取值相同则记为 1，否则记为 0，即 $1_{\{x_n=y_n\}}$；对数值特征，相似度定义为 $1-\frac{|x_n-y_n|}{R_n}$，其中 $R_n$ 是该特征可能达到的最大绝对值。最后汇总各特征的相似度，得到总分。这里的方向与通常的距离相反：得分越接近 1，$\mathbf{x}$ 与 $\mathbf{y}$ 越相似；越接近 0，二者差异越大。</p>
 </div>
 </div>
 </div>
@@ -52935,7 +52910,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Shapley 值的方法与 LIME 相比有些不同，但在精神上更接近 PDP。它起源于合作博弈论（Shapley（1953））。理由如下。评估变量影响（或有用性）的一种方法是看看如果我们从数据集中删除该变量会发生什么。如果这对模型的质量（即预测的准确性）非常不利，则意味着该变量非常有价值。</p>
+<p>Shapley 值与 LIME 的思路有所不同，反而更接近 PDP。它源于合作博弈论（Shapley（1953））。其直觉是：可以通过移除某个变量后模型表现下降多少，来衡量该变量的影响或用途。若移除变量会显著降低模型质量，也就是降低预测准确度，就说明该变量具有较高价值。</p>
 </div>
 </div>
 </div>
@@ -52946,7 +52921,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最简单的方法是获取所有变量并删除一个变量以评估其预测能力。 Shapley 值的计算规模更大，因为它们考虑了添加目标预测变量的所有可能的变量组合。形式上，这给出：</p>
+<p>最简单的做法是保留所有变量，只移除其中一个，再评估模型的预测能力。Shapley 值考察得更全面：它枚举不含目标预测变量的各种变量组合，并计算加入目标变量后带来的增益。形式化地，</p>
 </div>
 </div>
 </div>
@@ -52971,8 +52946,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>$S$ 是不包含特征 $k$ 的任何子集，其大小为 Card($S$)。在上面的等式中，必须更改模型 $f$，因为当特征缺失时无法评估 $f$。在这种情况下，有几种可能的选择：<br/>
-显然，如果预测变量的数量很大，则计算 Shapley 值可能会花费大量时间。我们参考 Chen 等人。 （2018）讨论了在这种情况下减少计算时间的简化方法。 Lundberg 和 Lee (2017) 研究了可解释性的 Shapley 值的扩展。</p>
+<p>$S$ 是任意一个不包含特征 $k$ 的子集，其大小为 Card($S$)。由于特征缺失时无法直接用原模型 $f$ 计算预测，也就无法直接评估 $f$，因此式中需要相应调整模型。当预测变量较多时，计算 Shapley 值可能非常耗时。Chen 等人（2018）讨论了可缩短计算时间的近似方法；Lundberg 和 Lee (2017) 则研究了 Shapley 值在模型解释中的扩展。</p>
 </div>
 </div>
 </div>
@@ -52983,7 +52957,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Python 中允许通过不同的模块实现 Shapley 值，我们选择使用 Shap 包。与 LIME 相比有两个限制。首先，必须预先过滤特征，因为所有特征都显示在图表上。这就是为什么在下面的代码中，我们使用预测变量的简短列表（来自第 1.2 节）。其次，一次分析一个实例。</p>
+<p>Python 中有多个软件包可以计算 Shapley 值，这里选用 Shap 软件包。与 LIME 相比，这种实现有两个限制。第一，图中会显示所有特征，因此必须预先筛选；所以下面的代码只使用第 1.2 节给出的精简预测变量列表。第二，每次只能分析一个样本。</p>
 </div>
 </div>
 </div>
@@ -53039,7 +53013,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>然后，我们可以分析模型在训练样本的第一个实例周围的行为。</p>
+<p>随后分析模型在训练集中第一个具体样本附近的行为。</p>
 </div>
 </div>
 </div>
@@ -53100,7 +53074,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在图13.6所示的输出中，我们再次获得两个关键的见解：特征影响的<strong>sign</strong>和<strong>相对重要性</strong>（与其他特征相比）。</p>
+<p>图 13.6 的输出再次给出两项关键信息：特征影响的<strong>方向</strong>，以及它相对于其他特征的<strong>重要性</strong>。</p>
 </div>
 </div>
 </div>
@@ -53122,7 +53096,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>分解（参见 Staniak 和 Biecek (2018)）是 PDP 和 Shapley 值思想的混合体。分解的核心是方程（13.4）中定义的所谓<strong>松弛模型预测</strong>。它在本质上与方程（13.1）很接近。不同之处在于，我们是在地方层面开展工作，即针对一项特定观察，例如 $x^∗$。我们想要衡量一组预测变量对与 $x^∗$ 相关的预测的影响；因此，我们固定两个集合 $\mathbf{k}$ （固定特征）和 $\mathbf{-k}$ （自由特征），并在预测变量集合 $\mathbf{k}$ 固定为 __0__ 的值（即等于下面表达式中的 __1__）时，评估估计模型 $\hat{f}$ 的平均预测 <strong>proxy</strong>：</p>
+<p>分解法（参见 Staniak 和 Biecek (2018)）结合了 PDP 与 Shapley 值的思想。其核心是式（13.4）定义的<strong>放宽模型预测</strong>，与式（13.1）的思路相近。区别在于，这里进行的是局部分析，即针对某个具体观测 $x^∗$。为了衡量一组预测变量对 $x^∗$ 对应预测的影响，把特征分为两个集合：固定特征 $\mathbf{k}$ 和自由特征 $\mathbf{-k}$。接着估计模型 $\hat{f}$ 的平均预测，其中集合 $\mathbf{k}$ 中的预测变量固定为 $x^*$ 的对应取值，也就是下面表达式中的 $x^*_{\textbf{k}}$：</p>
 </div>
 </div>
 </div>
@@ -53147,7 +53121,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>上述表达式中的 $x^{(m)}$ 要么​​是实例的模拟值，要么是数据集中的简单采样值。该符号意味着该实例的一些值被 $x^*$ 的值替换，即那些对应于索引 $\mathbf{k}$ 的值。当$\mathbf{k}$由所有特征组成时，$\tilde{f}_{\textbf{k}}(x^*)$等于原始模型预测$\hat{f}(x^*)$，当$\mathbf{k}$为空时，它等于标签的平均样本值（恒定预测）。</p>
+<p>上述表达式中的 $x^{(m)}$ 可以是模拟样本，也可以是从数据集中直接抽取的样本。该记号表示把样本中的部分取值替换为 $x^*$ 的对应取值，所替换位置的索引属于 $\mathbf{k}$。当 $\mathbf{k}$ 包含全部特征时，$\tilde{f}_{\textbf{k}}(x^*)$ 就等于原模型预测 $\hat{f}(x^*)$；当 $\mathbf{k}$ 为空集时，它等于标签的样本均值，也就是常数预测。</p>
 </div>
 </div>
 </div>
@@ -53158,7 +53132,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>感兴趣的数量是特征 $j\notin \textbf{k}$ 对数据点 $x^∗$ 和集合 $\mathbf{k}$ 的所谓贡献：</p>
+<p>我们关心的是特征 $j\notin \textbf{k}$ 相对于数据点 $x^∗$ 和集合 $\mathbf{k}$ 的贡献：</p>
 </div>
 </div>
 </div>
@@ -53182,7 +53156,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>正如 Shapley 值一样，上述指标计算使用特征 $j$ 增强预测变量集时的平均影响。根据定义，它取决于集合 $\mathbf{k}$，因此这是与 Shapley 值（跨越所有排列）的一个显著差异。在 Staniak 和 Biecek (2018) 中，作者设计了一个逐渐增加或减少集合 $\mathbf{k}$ 的过程。这种贪婪的想法有助于减轻计算所有可能的特征组合的负担。此外，他们的算法的一个非常方便的属性是所有贡献的总和等于预测值：</p>
+<p>与 Shapley 值类似，该指标衡量把特征 $j$ 加入预测变量集合后产生的平均影响。按定义，它依赖集合 $\mathbf{k}$；这一点不同于遍历所有排列的 Shapley 值。Staniak 和 Biecek (2018) 设计了一套逐步增加或减少集合 $\mathbf{k}$ 的贪心过程，避免枚举所有特征组合，从而降低计算负担。该算法还有一个方便的性质：所有特征贡献之和等于预测值：</p>
 </div>
 </div>
 </div>
@@ -53217,7 +53191,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>为了说明分解的一种实现，我们在有限数量的特征上训练随机森林，如下所示。这将增加细分输出的可读性。</p>
+<p>为演示分解法的实现，下面只用少量特征训练随机森林，以提高分解结果的可读性。</p>
 </div>
 </div>
 </div>
@@ -53262,7 +53236,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>一旦模型经过训练，预测细分的语法就非常简单。</p>
+<p>模型训练完成后，生成预测分解的语法很简单。</p>
 </div>
 </div>
 </div>
@@ -53459,7 +53433,7 @@ if (outputEl) {{
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>图形输出可以直观地解释。灰色条是模型在所选实例上的预测。绿色条表示正向贡献，红色条表示负向贡献。相对大小表明每个特征的重要性。</p>
+<p>图形输出很直观：灰色条表示模型对所选样本的预测，绿色条表示正向贡献，红色条表示负向贡献；各条的相对长度反映特征的重要性。</p>
 </div>
 </div>
 </div>
@@ -53481,20 +53455,20 @@ if (outputEl) {{
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>贝尔、维沙克和约阿尼斯·帕潘托尼斯。 2020。“可解释机器学习的原理和实践。” arXiv 预印本，编号。 2009.11698。</p>
-<p>陈建波、乐宋、马丁·J·温赖特和迈克尔·乔丹。 2018.“L-Shapley 和 c-Shapley：结构化数据的高效模型解释。” arXiv 预印本，编号。 1808.02610。</p>
-<p>Fisher、亚伦、辛西娅·鲁丁和弗朗西斯卡·多米尼奇。 2019 年。“所有模型都是错误的，但许多模型都是有用的：通过同时研究一整类预测模型来了解变量的重要性。”机器学习研究杂志 20 (177): 1–81。</p>
-<p>Friedman, Jerome H. 2001。“贪婪函数逼近：梯度增强机”。统计年鉴，1189-1232。</p>
-<p>Gower, John C. 1971。“一般相似系数及其一些属性”。生物识别学，857–71。</p>
-<p>霍尔、帕特里克和纳维迪普·吉尔。 2019。机器学习可解释性简介 - 第二版。奥莱利。</p>
-<p>伦德伯格，斯科特·M，李素仁。 2017。“解释模型预测的统一方法。”神经信息处理系统的进展，4765–74。</p>
-<p>莫尔纳，克里斯托夫。 2019。可解释的机器学习：使黑盒模型可解释的指南。精益酒吧/露露。</p>
-<p>克里斯托夫·莫尔纳、朱塞佩·卡萨利基奥和贝恩德·比什尔。 2018.“Iml：用于可解释机器学习的 R 包。”开源软件杂志 3 (27): 786。</p>
-<p>里贝罗、马可·图利奥、萨米尔·辛格和卡洛斯·格斯特林。 2016.“我为什么要相信你？：解释任何分类器的预测。”第 22 届 Acm Sigkdd 国际知识发现和数据挖掘会议论文集，1135-44。 ACM。</p>
-<p>Shapley, Lloyd S. 1953。“N 人游戏的价值”。对博弈论的贡献 2 (28)：307–17。</p>
-<p>斯坦尼亚克、马特乌什和普热梅斯瓦夫·比切克。 2018。“使用 live 和 breakDown 包解释模型预测。” arXiv 预印本，编号。 1804.01955。</p>
-<p>维达尔、蒂博、托尼·帕切科和马克西米利安·希弗。 2020.“重生的树合奏。” arXiv 预印本，编号。 2003.11132。</p>
-<p>赵清远和特雷弗·哈斯蒂。 2020。“黑盒模型的因果解释。”商业与经济统计杂志即将出版。</p>
+<p>Belle, Vaishak, and Ioannis Papantonis. 2020. “Principles and Practice of Explainable Machine Learning.” arXiv Preprint, no. 2009.11698.</p>
+<p>Chen, Jianbo, Le Song, Martin J Wainwright, and Michael I Jordan. 2018. “L-Shapley and c-Shapley: Efficient Model Interpretation for Structured Data.” arXiv Preprint, no. 1808.02610.</p>
+<p>Fisher, Aaron, Cynthia Rudin, and Francesca Dominici. 2019. “All Models Are Wrong, but Many Are Useful: Learning a Variable’s Importance by Studying an Entire Class of Prediction Models Simultaneously.” Journal of Machine Learning Research 20 (177): 1–81.</p>
+<p>Friedman, Jerome H. 2001. “Greedy Function Approximation: A Gradient Boosting Machine.” Annals of Statistics, 1189–1232.</p>
+<p>Gower, John C. 1971. “A General Coefficient of Similarity and Some of Its Properties.” Biometrics, 857–71.</p>
+<p>Hall, Patrick, and Navdeep Gill. 2019. An Introduction to Machine Learning Interpretability - Second Edition. O’Reilly.</p>
+<p>Lundberg, Scott M, and Su-In Lee. 2017. “A Unified Approach to Interpreting Model Predictions.” In Advances in Neural Information Processing Systems, 4765–74.</p>
+<p>Molnar, Christoph. 2019. Interpretable Machine Learning: A Guide for Making Black Box Models Explainable. LeanPub / Lulu.</p>
+<p>Molnar, Christoph, Giuseppe Casalicchio, and Bernd Bischl. 2018. “Iml: An R Package for Interpretable Machine Learning.” Journal of Open Source Software 3 (27): 786.</p>
+<p>Ribeiro, Marco Tulio, Sameer Singh, and Carlos Guestrin. 2016. “Why Should I Trust You?: Explaining the Predictions of Any Classifier.” In Proceedings of the 22nd Acm Sigkdd International Conference on Knowledge Discovery and Data Mining, 1135–44. ACM.</p>
+<p>Shapley, Lloyd S. 1953. “A Value for N-Person Games.” Contributions to the Theory of Games 2 (28): 307–17.</p>
+<p>Staniak, Mateusz, and Przemyslaw Biecek. 2018. “Explanations of Model Predictions with Live and breakDown Packages.” arXiv Preprint, no. 1804.01955.</p>
+<p>Vidal, Thibaut, Toni Pacheco, and Maximilian Schiffer. 2020. “Born-Again Tree Ensembles.” arXiv Preprint, no. 2003.11132.</p>
+<p>Zhao, Qingyuan, and Trevor Hastie. 2020. “Causal Interpretations of Black-Box Models.” Journal of Business &amp; Economic Statistics Forthcoming.</p>
 </div>
 </div>
 </div>

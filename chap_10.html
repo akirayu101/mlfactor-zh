@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>第10章 验证与调参</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>第 10 章 模型验证与超参数调优</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -14245,10 +14245,10 @@ a.anchor-link {
 <!-- End of mathjax configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h1 id="Chapter-10-Validating-and-tuning">第10章 验证与调参<a class="anchor-link" href="#Chapter-10-Validating-and-tuning">¶</a></h1></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h1 id="Chapter-10-Validating-and-tuning">第 10 章 模型验证与超参数调优<a class="anchor-link" href="#Chapter-10-Validating-and-tuning">¶</a></h1></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>如第 5 章到第 11 章所示，机器学习模型在训练之前需要由用户指定若干选择。这些选择包括参数值（学习率、惩罚强度等）或架构选择（例如网络结构）。机器学习引擎中的不同设计可能带来不同预测，因此选出合适设计至关重要。关于超参数调参对模型表现的影响，可参见 Probst、Bischl 和 Boulesteix（2018）的研究。对某些模型（神经网络和提升树）而言，自由度数量非常大，找到合适参数会变得复杂且具有挑战性。本章讨论这些问题，但读者必须意识到，构建好模型没有捷径。打造有效模型耗时费力，往往需要多轮迭代。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>如第 5 章到第 11 章所示，机器学习模型在训练之前需要由用户指定若干选择。这些选择包括参数值（学习率、惩罚强度等）或架构选择（例如网络结构）。机器学习引擎中的不同设计可能带来不同预测，因此选出合适设计至关重要。关于超参数调优对模型表现的影响，可参见 Probst、Bischl 和 Boulesteix（2018）的研究。对某些模型（神经网络和提升树）而言，自由度数量非常大，找到合适参数会变得复杂且具有挑战性。本章讨论这些问题，但读者必须意识到，构建好模型没有捷径。打造有效模型耗时费力，往往需要多轮迭代。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="10.1-Learning-metrics">10.1 学习指标<a class="anchor-link" href="#10.1-Learning-metrics">¶</a></h2></div>
@@ -14260,7 +14260,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="10.1.1-Regression-analysis">10.1.1 回归分析<a class="anchor-link" href="#10.1.1-Regression-analysis">¶</a></h3></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>回归分析中的误差通常可以用直接的方式评估。$L^1$ 和 $L^2$ 范数是主流选择；二者都容易解释，也容易计算。第二个指标，即均方根误差（RMSE），处处可微，但不太直观，且会给予离群点更高权重。第一个指标，即平均绝对误差，给出与实现值的平均距离，但在零点不可微。形式化地，我们将它们定义为</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>回归分析中的误差通常可以直接评估。$L^1$ 和 $L^2$ 范数是主流选择，二者都容易解释和计算。第二个指标，即均方根误差（RMSE），处处可微，但不够直观，且会赋予离群点更高权重。第一个指标，即平均绝对误差，表示预测值与实际值之间的平均距离，但在零点不可微。形式化地，二者定义为</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -14312,7 +14312,7 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>显然，当 $y_i=\tilde{y}_i$ 时，该误差指标等于零。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>当 $y_i=\tilde{y}_i$ 时，该误差指标等于零。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>在转向类别型损失之前，我们简要评论 MSE 的一个缺点。MSE 是回归任务中最广泛使用的指标和目标函数。一个简单分解给出：</p></div>
@@ -14380,10 +14380,10 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>如第 6 章和第 7 章所见，分类器生成的输出是某个样本属于某一类别的概率。随后通过选择概率最高的类别，将这些概率转换成类别。在二分类中，分数高于 0.5 的类别基本上会胜出。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>实践中，0.5 这个阈值未必最优；模型完全可能在概率低于 0.4 时正确预测假样本，在其他情况下正确预测真样本。因此，测试决策阈值变化时会发生什么是一个自然想法。ROC 曲线正是这样做的：当阈值从 0 增加到 1 时，它把召回率绘制为误报率的函数。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>实践中，0.5 这个阈值未必最优；模型完全可能在预测概率低于 0.4 时把样本判为负类，其余样本判为正类。因此，自然要考察决策阈值变化时分类结果如何变化。ROC 曲线正是为此而设：当阈值从 0 增加到 1 时，它以误报率为横轴、召回率为纵轴绘制曲线。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>当阈值等于 0 时，真正例为零，因为模型从不预测正值。因此，召回率和误报率都为零。当阈值等于 1 时，假负例降至零，真负例也降至零，因此召回率和误报率都为一。二者关系在这两个极端之间的行为称为 ROC 曲线。图 10.2 给出了风格化示例。随机分类器在召回率和误报率上表现同样好，因此 ROC 曲线会是从点 (0,0) 到 (1,1) 的直线。为证明这一点，设样本中真实样本比例为 $p\in (0,1)$，分类器以概率 $p'\in (0,1)$ 随机预测为真。由于样本与预测相互独立，$TP=p'p$，$FP = p'(1-p)$，$TN=(1-p')(1-p)$，$FN=(1-p')p$。根据上述定义，可得召回率和误报率都等于 $p'$。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>当阈值等于 0 时，模型从不预测正类，因此真正例为零，召回率和误报率也都为零。当阈值等于 1 时，假负例和真负例都降至零，因此召回率和误报率都为一。二者在这两个极端之间的关系就是 ROC 曲线。图 10.2 给出了一个示意图。随机分类器的召回率与误报率相同，所以 ROC 曲线是从点 (0,0) 到 (1,1) 的直线。为说明这一点，设样本中正类样本的比例为 $p\in (0,1)$，分类器以概率 $p'\in (0,1)$ 随机预测为正类。由于真实类别与预测相互独立，$TP=p'p$，$FP = p'(1-p)$，$TN=(1-p')(1-p)$，$FN=(1-p')p$。根据上述定义，召回率和误报率都等于 $p'$。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p><img src="http://www.mlfactor.com/images/ROCcurve.png" width="400"/>
@@ -14467,7 +14467,7 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="10.2-Validation">10.2 验证<a class="anchor-link" href="#10.2-Validation">¶</a></h2></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>验证是模型在开始部署到真实或实时数据（例如用于交易）之前进行测试和调参的阶段。不用说，它至关重要。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>验证是模型在开始部署到真实或实时数据（例如用于交易）之前进行测试和超参数调优的阶段。不用说，它至关重要。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="10.2.1-The-variance-bias-tradeoff:-theory">10.2.1 方差-偏差权衡：理论<a class="anchor-link" href="#10.2.1-The-variance-bias-tradeoff:-theory">¶</a></h3></div>
@@ -14532,7 +14532,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>机器学习中最常见的是另外两种配置：要么箭（预测）集中在一个小范围内，但这个范围不是靶心；要么箭平均而言围绕靶心分布良好，但平均距离靶心较远。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>方差-偏差权衡的第二种常见描绘方式是通过模型复杂度。所有模型中最简单的是常数模型：预测始终相同，例如等于训练集中标签的平均值。当然，这一预测常常会远离测试集的实现值（偏差会很大），但至少它的方差为零。另一端是叶子数与样本数一样多的决策树，它具有非常复杂的结构。它的偏差可能更小，但毫无疑问，复杂模型带来的方差上升是否能够被偏差下降抵消，并不显然。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>方差-偏差权衡也常用模型复杂度来说明。最简单的是常数模型：它始终给出同一个预测值，例如训练集标签的均值。这类预测往往与测试集的实际标签相差较大，因此偏差很高，但预测方差为零。另一端是叶子数与样本数相同的决策树，其结构极其复杂。它的偏差可能更小，但复杂度带来的方差增幅未必能由偏差降幅抵消。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>图 10.5 展示了这一权衡的这个侧面。在图左侧，简单模型方差小但偏差大；在右侧，复杂模型则相反。好模型往往位于中间某处，但最佳组合很难找到。</p></div>
@@ -14800,7 +14800,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="10.2.4-The-risk-of-overfitting:-some-solutions">10.2.4 过拟合风险：一些解决方案<a class="anchor-link" href="#10.2.4-The-risk-of-overfitting:-some-solutions">¶</a></h3></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>显然，避免过拟合最简单的方法，是抵制复杂模型（例如高维神经网络或树集成）的诱惑。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>避免过拟合最简单的方法，是抵制使用复杂模型（例如高维神经网络或树集成）的诱惑。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>模型复杂度通常用两个度量来近似：模型参数数量及其幅度（通常通过范数概括）。这些代理并不完美，因为某些复杂模型可能只需要少量参数（甚至较小参数值），但至少它们直观且易于处理。处理过拟合并没有通用方法。下面，我们针对若干类机器学习工具介绍一些技巧。</p></div>
@@ -14812,7 +14812,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>对基于树的方法而言，有多种方式可以降低过拟合风险。处理<strong>简单树</strong>时，唯一方法是限制叶子数量。这可以通过多种方式完成。首先，可以施加最大深度。如果它等于 $d$，则树最多有 $2^d$ 个终端节点。通常建议不要超过 $d=6$。rpart 中的复杂度参数（cp）是另一种收缩树规模的方法：任何新分裂都必须带来至少等于 cp 的损失降低。否则，该分裂不会被认为有用，也就不会执行。因此，当 cp 很大时，树不会继续生长。rpart 中最后两个可用参数是每个叶子所需的最小样本数，以及为了继续分裂过程而要求每个簇具有的最小样本数。这些数值越高（即约束越强），越难生成复杂树。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>除这些选项外，<strong>随机森林</strong>还允许控制森林中树的数量。从理论上讲（见 Breiman（2001）），该参数不应影响过拟合风险，因为新增树只会通过分散化帮助降低总误差。实践中，考虑到计算时间，不建议超过 1,000 棵树。另外两个超参数是子样本大小（每个学习器在其上训练）和保留用于学习的特征数量。它们对偏差和权衡没有直接影响，更多影响原始表现。例如，如果子样本过小，树学不到足够信息。特征数量过低也有同样问题。另一方面，选择大量预测变量（即接近总数量）可能导致各学习器预测之间高度相关，因为训练样本所含信息的重叠可能很高。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>除这些选项外，<strong>随机森林</strong>还允许控制森林中树的数量。从理论上讲（见 Breiman（2001）），该参数不应影响过拟合风险，因为新增树只会通过分散化帮助降低总误差。实践中，考虑到计算时间，不建议超过 1,000 棵树。另外两个超参数是子样本大小（每个学习器的训练样本量）和每次学习保留的特征数量。它们并不直接改变偏差-方差权衡，而是更多地影响模型的基本表现。例如，子样本过小会使树无法学到足够信息，特征数量过少也有同样问题。另一方面，选择过多预测变量（即接近变量总数）可能使各学习器的预测高度相关，因为它们使用的训练信息高度重叠。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p><strong>提升树</strong>还有其他选项可帮助缓解过拟合风险。最明显的是学习率，它以 $\eta \in (0,1)$ 折扣每棵新树的影响。当学习率很高时，算法学习过快，容易紧贴训练数据。当学习率较低时，模型学习非常渐进；如果集成中有足够多的树，这可能很有效。事实上，学习率和树的数量必须同步选择：如果二者都低，集成学不到东西；如果二者都高，则会过拟合。提升树参数库不止于此。对得分值和叶子数量的惩罚，自然也是防止模型过度深入训练样本特殊性的工具。最后，第 6.4.5 节提到的单调性约束也是给模型施加某种结构、迫使其检测特定模式的有效方式。</p></div>
@@ -14833,7 +14833,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>独立测试很容易，分为两类：网格（确定性）搜索和随机探索。确定性方法的优点是能均匀覆盖空间，并确保不会遗漏角落。缺点是计算时间。事实上，对每个参数，测试至少五个取值似乎是合理的，这会产生 $5^p$ 个组合。如果 $p$ 较小（小于 3），且回测不太长，这是可管理的。当 $p$ 很大时，组合数可能变得不可承受。这时随机探索会有用，因为用户可以事先指定测试次数，而参数随机抽取（通常在每个参数的给定范围内均匀抽取）。随机搜索的缺陷是参数空间中的某些区域可能没有被覆盖；如果最佳选择位于那里，就会有问题。不过 Bergstra 和 Bengio（2012）表明，随机探索优于网格搜索。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>网格搜索和随机搜索都不是最优的，因为它们很可能把时间花在参数空间中无关的区域，从而浪费计算时间。在已经测试了一些参数点之后，更可取的是把搜索集中在最优点更可能出现的区域。这可以通过一个迭代过程实现：每测试一个新点后调整搜索。在金融这一广阔领域中，专门讨论调参的论文包括 Lee（2020）以及 Nystrup、Lindstrom 和 Madsen（2020）。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>网格搜索和随机搜索都不是最优的，因为它们很可能把时间花在参数空间中无关的区域，从而浪费计算时间。在已经测试了一些参数点之后，更可取的是把搜索集中在最优点更可能出现的区域。这可以通过一个迭代过程实现：每测试一个新点后调整搜索。在金融这一广阔领域中，专门讨论超参数调优的论文包括 Lee（2020）以及 Nystrup、Lindstrom 和 Madsen（2020）。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>朝这个方向的另一种流行方法是<strong>贝叶斯优化</strong>（BO）。核心对象是学习过程的目标函数。我们称该函数为 $O$，它可以广义地看作一个可能结合惩罚和约束的损失函数。为简单起见，这里不再提训练/测试样本，并将其视为固定。感兴趣的变量是向量 $\textbf{p}=(p_1,\dots,p_l)$，它概括了对 $O$ 有影响的超参数（学习率、惩罚强度、模型数量等）。我们关注的程序为</p></div>
@@ -14890,10 +14890,10 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>感兴趣的读者可以参阅 Snoek、Larochelle 和 Adams（2012）以及 Frazier（2018），了解该方法数值层面的更多细节。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>最后，为完整起见，我们提到另一种调参方式。由于优化方案是 $\underset{\textbf{p}}{\text{argmin}} \ O(\textbf{p})$，一种自然做法是利用 $O$ 对 $\textbf{p}$ 的敏感性。事实上，如果梯度 $\frac{\partial O}{\partial p_l}$ 已知，则梯度下降总会改善目标值。问题在于，可靠梯度很难计算（有限差分可能变得昂贵）。尽管如此，一些方法（例如 Maclaurin、Duvenaud 和 Adams（2015））已成功应用于大维度参数空间上的优化。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>最后，为完整起见，我们提到另一种超参数调优方式。由于优化方案是 $\underset{\textbf{p}}{\text{argmin}} \ O(\textbf{p})$，一种自然做法是利用 $O$ 对 $\textbf{p}$ 的敏感性。事实上，如果梯度 $\frac{\partial O}{\partial p_l}$ 已知，则梯度下降总会改善目标值。问题在于，可靠梯度很难计算（有限差分可能变得昂贵）。尽管如此，一些方法（例如 Maclaurin、Duvenaud 和 Adams（2015））已成功应用于大维度参数空间上的优化。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>最后提及 Bouthillier 和 Varoquaux（2020）的综述。该综述覆盖 2019 年举行的两场主要 AI 会议，显示大多数论文都会进行超参数调参。最常被引用的两种方法是手动调参（人工挑选）和网格搜索。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>最后值得一提的是 Bouthillier 和 Varoquaux（2020）的综述。该综述考察了 2019 年举行的两场主要 AI 会议，发现大多数论文都会进行超参数调优。最常见的两种方法是人工调优（手工选取）和网格搜索。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="10.3.2-Example:-grid-search">10.3.2 示例：网格搜索<a class="anchor-link" href="#10.3.2-Example:-grid-search">¶</a></h3></div>
@@ -15053,7 +15053,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="10.3.3-Example:-Bayesian-optimization">10.3.3 示例：贝叶斯优化<a class="anchor-link" href="#10.3.3-Example:-Bayesian-optimization">¶</a></h3></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>Python 中有几个与贝叶斯优化相关的模块，如 Scikit-optimize、PYMC、HyperOpt 等。我们使用 Scikit-optimize，它用途广泛，同时需要的编码投入也较少。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>Python 提供了多个贝叶斯优化软件包，如 Scikit-optimize、PYMC 和 HyperOpt。这里使用 Scikit-optimize，因为它用途广泛，所需代码也较少。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>与网格搜索一样，我们需要编写用于优化超参数的目标函数。</p></div>
@@ -15184,7 +15184,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </ul></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>即使拥有大量计算能力（GPU 等），在许多日期上训练许多模型也很耗时，尤其是在参数空间很大、需要超参数调参时。因此，在样本外期间的每个交易日期验证模型并不现实。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>即使拥有大量计算能力（GPU 等），在许多日期上训练许多模型也很耗时，尤其是在参数空间很大、需要超参数调优时。因此，在样本外期间的每个交易日期验证模型并不现实。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>一种解决方案是保留训练数据的早期部分，并在这个子样本上执行较小规模的验证。超参数在有限数量的日期上测试，并且大多数时候会表现出稳定性：某个日期上令人满意的参数，通常也适用于下一个日期以及再下一个日期。因此，在每期更新模型时，可以用这些取值完成完整回测。不过回测仍然计算密集，因为模型必须在每个再平衡日期用最新数据重新训练。</p></div>

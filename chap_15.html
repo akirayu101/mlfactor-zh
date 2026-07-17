@@ -14625,7 +14625,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>下文的回归示例（表 15.1）展示了使用许多变量时会发生什么。上述现象的一个说明来自变量 Mkt_Cap_12M_Usd 和 Mkt_Cap_6M_Usd，它们在训练样本中的相关系数为 99.6%。二者都被识别为高度显著，但符号相反。此外，它们的系数量级非常接近（0.21 对 0.18），因此净效应相互抵消。显然，只向回归输入这两个变量中的一个会更明智。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>下文的回归示例（表 15.1）展示了使用大量变量可能带来的问题。变量 Mkt_Cap_12M_Usd 与 Mkt_Cap_6M_Usd 在训练样本中的相关系数高达 99.6%，很好地说明了这一点。二者都被识别为高度显著，但系数符号相反；系数绝对值又非常接近（0.21 对 0.18），因此净效应几乎相互抵消。更合理的做法是只把其中一个变量纳入回归。</p></div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
@@ -15930,7 +15930,7 @@ Epoch 15/15
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>那么，在训练样本上计算出的测试特征中某个实例 $\textbf{x}_i$ 的邻域，将为 $y_i$ 提供有价值的信息。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>那么，对于测试集中的某个样本 $\textbf{x}_i$，依据训练样本确定的邻域将为 $y_i$ 提供有价值的信息。</p></div>
 </div>
 </div>
 </div>
@@ -15939,7 +15939,7 @@ Epoch 15/15
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>下文中，我们因此试图寻找某个特定实例 $\textbf{x}_i$（一个 $K$ 维行向量）的邻居。注意，它与上一节有一个重要区别：这里的聚类意图是在观测层面（行），而不是预测变量层面（列）。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>因此，下文将寻找某个具体样本 $\textbf{x}_i$（一个 $K$ 维行向量）的近邻。需要注意，这与上一节有一个重要区别：这里是在观测层面（行）寻找相似性，而不是在预测变量层面（列）聚类。</p></div>
 </div>
 </div>
 </div>
@@ -16011,7 +16011,7 @@ D\left(\textbf{x}_{l_1^i},\textbf{x}_i\right) \le D\left(\textbf{x}_{l_2^i},\tex
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>给定这些邻居后，现在可以为标签端 $y_i$ 构造预测。其逻辑很直接：如果 $\textbf{x}_i$ 接近其他实例 $\textbf{x}_j$，那么标签值 $y_i$ 也应接近 $y_j$（前提是假设特征对标签 $y$ 携带某些预测信息）。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>找到这些近邻后，就可以构造对标签 $y_i$ 的预测。逻辑很直接：如果 $\textbf{x}_i$ 与其他样本 $\textbf{x}_j$ 接近，那么 $y_i$ 也应接近 $y_j$，前提是这些特征确实包含关于标签 $y$ 的预测信息。</p></div>
 </div>
 </div>
 </div>
@@ -16073,7 +16073,7 @@ D\left(\textbf{x}_{l_1^i},\textbf{x}_i\right) \le D\left(\textbf{x}_{l_2^i},\tex
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>关于最优 $k$ 的选择，存在若干复杂技术和准则（例如见 Ghosh (2006) 与 Hall et al. (2008)）。启发式取值通常表现不错。一个经验法则是 $k=\sqrt{I}$（$I$ 为实例总数）通常离最优值不太远，除非 $I$ 极其庞大。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>关于最优 $k$ 的选择，存在若干复杂技术和准则（例如见 Ghosh (2006) 与 Hall et al. (2008)）。启发式取值通常表现不错。一条经验法则是取 $k=\sqrt{I}$（$I$ 为样本总数）；除非 $I$ 极其庞大，这个取值通常不会偏离最优值太远。</p></div>
 </div>
 </div>
 </div>
@@ -16157,7 +16157,7 @@ D\left(\textbf{x}_{l_1^i},\textbf{x}_i\right) \le D\left(\textbf{x}_{l_2^i},\tex
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>在知道邻居和距离后，可以计算目标股票收益率的预测。我们使用函数 $h(z)=e^{-z}$ 通过距离对实例进行加权。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>得到近邻及其距离后，就可以预测目标股票的收益率。这里使用函数 $h(z)=e^{-z}$ 按距离为样本赋权。</p></div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
