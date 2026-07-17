@@ -49,6 +49,28 @@ EXPECTED_HEADINGS = {
   "solutions-to-exercises.html" => "练习解答"
 }.freeze
 
+EXPECTED_NAV_LABELS = {
+  "notdata.html" => "1 符号约定与数据",
+  "intro.html" => "2 导论",
+  "factor.html" => "3 因子投资与资产定价异象",
+  "Data.html" => "4 数据预处理",
+  "lasso.html" => "5 惩罚回归与最小方差组合的稀疏对冲",
+  "trees.html" => "6 树模型",
+  "NN.html" => "7 神经网络",
+  "svm.html" => "8 支持向量机",
+  "bayes.html" => "9 贝叶斯方法",
+  "valtune.html" => "10 模型验证与超参数调优",
+  "ensemble.html" => "11 集成学习",
+  "backtest.html" => "12 投资组合回测",
+  "interp.html" => "13 模型可解释性",
+  "causality.html" => "14 因果关系与非平稳性",
+  "unsup.html" => "15 无监督学习",
+  "RL.html" => "16 强化学习",
+  "data-description.html" => "17 数据说明",
+  "python.html" => "18 Python 笔记本",
+  "solutions-to-exercises.html" => "19 练习解答"
+}.freeze
+
 FORBIDDEN = {
   "现代治疗" => "treatment 的误译",
   "p 黑客攻击" => "p-hacking 的误译",
@@ -160,6 +182,14 @@ files.each do |name|
   end
   if document.css('a[href="intro.html"]').any? { |node| node.text.match?(/\A2\s+简介\z/) }
     errors << "#{name}: 目录中的第 2 章标题应为“导论”"
+  end
+  EXPECTED_NAV_LABELS.each do |href, expected_label|
+    document.css(".book-toc a[href='#{href}']").each do |node|
+      actual_label = node.text.gsub(/\s+/, " ").strip
+      next if actual_label == expected_label
+
+      errors << "#{name}: 目录链接 #{href} 应为“#{expected_label}”，实际为“#{actual_label}”"
+    end
   end
 
   if EXPECTED_HEADINGS.key?(name)
