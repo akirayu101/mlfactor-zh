@@ -43,7 +43,8 @@ function New-PwaIcon {
   $format.Alignment = [System.Drawing.StringAlignment]::Center
   $format.LineAlignment = [System.Drawing.StringAlignment]::Center
   $textRect = [System.Drawing.RectangleF]::new($Size * 0.17, $Size * 0.12, $Size * 0.66, $Size * 0.66)
-  $graphics.DrawString("因", $font, $accent, $textRect, $format)
+  $iconGlyph = [char]0x56E0
+  $graphics.DrawString($iconGlyph, $font, $accent, $textRect, $format)
 
   $points = [System.Drawing.PointF[]]@(
     [System.Drawing.PointF]::new($Size * 0.27, $Size * 0.70),
@@ -69,5 +70,6 @@ function New-PwaIcon {
 }
 
 New-Item -ItemType Directory -Force -Path $OutputDirectory | Out-Null
+New-PwaIcon 180 (Join-Path $OutputDirectory "pwa-icon-180.png")
 New-PwaIcon 192 (Join-Path $OutputDirectory "pwa-icon-192.png")
 New-PwaIcon 512 (Join-Path $OutputDirectory "pwa-icon-512.png")

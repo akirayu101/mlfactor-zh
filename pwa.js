@@ -150,12 +150,90 @@
 
   function addInstallPrompt() {
     var installEvent = null;
+    var isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    var isStandalone = window.matchMedia("(display-mode: standalone)").matches ||
+      navigator.standalone === true;
+
+    if (isStandalone) return;
+
     var button = document.createElement("button");
     button.type = "button";
     button.className = "pwa-install-button";
-    button.textContent = "安装到手机";
+    button.textContent = isIos ? "添加到主屏幕" : "安装到手机";
     button.setAttribute("aria-label", "将本书安装到设备");
     document.body.appendChild(button);
+
+    var dialog = null;
+    var dialogCloseButton = null;
+
+    function closeIosInstructions() {
+      if (!dialog) return;
+      dialog.classList.remove("is-visible");
+      dialog.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("pwa-dialog-open");
+      button.focus();
+    }
+
+    function showIosInstructions() {
+      if (!dialog) {
+        dialog = document.createElement("div");
+        dialog.className = "pwa-install-dialog";
+        dialog.setAttribute("aria-hidden", "true");
+
+        var panel = document.createElement("section");
+        panel.className = "pwa-install-panel";
+        panel.setAttribute("role", "dialog");
+        panel.setAttribute("aria-modal", "true");
+        panel.setAttribute("aria-labelledby", "pwa-install-title");
+
+        var handle = document.createElement("div");
+        handle.className = "pwa-install-handle";
+        handle.setAttribute("aria-hidden", "true");
+
+        var heading = document.createElement("h2");
+        heading.id = "pwa-install-title";
+        heading.textContent = "添加到 iPhone 主屏幕";
+
+        var intro = document.createElement("p");
+        intro.textContent = "iPhone 不会弹出自动安装窗口，请按下面三步操作：";
+
+        var steps = document.createElement("ol");
+        [
+          "点击浏览器底部或顶部的“分享”按钮（方框上箭头）。",
+          "在分享菜单中向上滑，选择“添加到主屏幕”。",
+          "确认名称后点击右上角的“添加”。"
+        ].forEach(function (instruction) {
+          var item = document.createElement("li");
+          item.textContent = instruction;
+          steps.appendChild(item);
+        });
+
+        var note = document.createElement("p");
+        note.className = "pwa-install-note";
+        note.textContent = "如果菜单中没有“添加到主屏幕”，请复制当前链接并改用 Safari 打开。";
+
+        dialogCloseButton = document.createElement("button");
+        dialogCloseButton.type = "button";
+        dialogCloseButton.className = "pwa-install-confirm";
+        dialogCloseButton.textContent = "知道了";
+        dialogCloseButton.addEventListener("click", closeIosInstructions);
+
+        panel.append(handle, heading, intro, steps, note, dialogCloseButton);
+        dialog.appendChild(panel);
+        dialog.addEventListener("click", function (event) {
+          if (event.target === dialog) closeIosInstructions();
+        });
+        document.body.appendChild(dialog);
+      }
+
+      dialog.classList.add("is-visible");
+      dialog.setAttribute("aria-hidden", "false");
+      document.body.classList.add("pwa-dialog-open");
+      dialogCloseButton.focus();
+    }
+
+    if (isIos) button.classList.add("is-visible");
 
     window.addEventListener("beforeinstallprompt", function (event) {
       event.preventDefault();
@@ -164,6 +242,10 @@
     });
 
     button.addEventListener("click", async function () {
+      if (isIos) {
+        showIosInstructions();
+        return;
+      }
       if (!installEvent) return;
       button.classList.remove("is-visible");
       await installEvent.prompt();
@@ -171,7 +253,14 @@
       installEvent = null;
     });
 
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && dialog && dialog.classList.contains("is-visible")) {
+        closeIosInstructions();
+      }
+    });
+
     window.addEventListener("appinstalled", function () {
+      if (dialog) dialog.remove();
       button.remove();
       showToast("安装完成，现在可以离线阅读");
     });

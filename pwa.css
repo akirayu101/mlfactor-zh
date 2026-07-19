@@ -214,6 +214,78 @@ main#content blockquote {
   justify-content: center;
 }
 
+body.pwa-dialog-open {
+  overflow: hidden;
+}
+
+.pwa-install-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 1120;
+  display: none;
+  place-items: end center;
+  padding: 1rem;
+  padding-bottom: max(1rem, var(--reader-safe-bottom));
+  background: rgba(5, 12, 18, 0.58);
+  backdrop-filter: blur(3px);
+}
+
+.pwa-install-dialog.is-visible {
+  display: grid;
+}
+
+.pwa-install-panel {
+  width: min(100%, 32rem);
+  max-height: calc(100vh - 2rem - var(--reader-safe-bottom));
+  padding: 0.8rem 1.15rem 1.15rem;
+  overflow-y: auto;
+  border: 1px solid var(--reader-border);
+  border-radius: 1rem;
+  color: var(--reader-ink);
+  background: var(--reader-paper);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.3);
+}
+
+.pwa-install-handle {
+  width: 2.8rem;
+  height: 0.3rem;
+  margin: 0 auto 0.8rem;
+  border-radius: 999px;
+  background: var(--reader-border);
+}
+
+.pwa-install-panel h2 {
+  margin: 0 0 0.75rem;
+  color: var(--reader-heading);
+  font-size: 1.3rem;
+}
+
+.pwa-install-panel ol {
+  margin: 0.8rem 0;
+  padding-left: 1.35rem;
+}
+
+.pwa-install-panel li {
+  margin-bottom: 0.7rem;
+  line-height: 1.65;
+}
+
+.pwa-install-note {
+  margin: 0.8rem 0 1rem;
+  color: var(--reader-muted);
+  font-size: 0.92rem;
+}
+
+.pwa-install-confirm {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 0.55rem;
+  color: var(--reader-button-text);
+  background: var(--reader-button-bg);
+  font-weight: 700;
+}
+
 .pwa-toast {
   position: fixed;
   left: 50%;
@@ -516,6 +588,7 @@ html[data-theme="dark"] footer.bg-primary {
 @media print {
   .pwa-reading-progress,
   .pwa-install-button,
+  .pwa-install-dialog,
   .pwa-theme-toggle,
   .pwa-toast {
     display: none !important;
