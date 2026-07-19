@@ -1,4 +1,4 @@
-const CACHE_VERSION = "mlfactor-zh-v7";
+const CACHE_VERSION = "mlfactor-zh-v8";
 const PAGE_CACHE = `${CACHE_VERSION}-pages`;
 const ASSET_CACHE = `${CACHE_VERSION}-assets`;
 
@@ -32,6 +32,7 @@ const CORE_ASSETS = [
   "./pwa.css",
   "./pwa.js",
   "./theme-init.js",
+  "./images/pwa-icon-180.png",
   "./images/pwa-icon-192.png",
   "./images/pwa-icon-512.png",
   "./images/cover.png",
