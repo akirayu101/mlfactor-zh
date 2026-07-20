@@ -32,6 +32,53 @@ html[data-theme="dark"] {
   --reader-button-bg: #277f75;
   --reader-button-text: #f7fbfc;
   --reader-toast: rgba(8, 14, 19, 0.96);
+  --reader-code-bg: #0d1821;
+  --reader-code-output-bg: #121f29;
+  --reader-code-border: #2a3d4c;
+  --reader-code-text: #d6deeb;
+  --reader-code-keyword: #c792ea;
+  --reader-code-operator: #89ddff;
+  --reader-code-punctuation: #aab8c2;
+  --reader-code-comment: #7f9f92;
+  --reader-code-number: #f78c6c;
+  --reader-code-string: #c3e88d;
+  --reader-code-name: #82aaff;
+  --reader-code-builtin: #ffcb6b;
+  --reader-code-error: #ff6b81;
+  --jp-cell-editor-background: var(--reader-code-bg);
+  --jp-cell-editor-border-color: var(--reader-code-border);
+  --jp-cell-editor-active-background: var(--reader-code-bg);
+  --jp-cell-editor-active-border-color: var(--reader-code-name);
+  --jp-cell-inprompt-font-color: var(--reader-code-name);
+  --jp-cell-outprompt-font-color: var(--reader-code-number);
+  --jp-layout-color0: var(--reader-paper);
+  --jp-layout-color1: #14212b;
+  --jp-layout-color2: #1c2b36;
+  --jp-layout-color3: var(--reader-code-border);
+  --jp-layout-color4: #607583;
+  --jp-border-color0: #526979;
+  --jp-border-color1: var(--reader-code-border);
+  --jp-border-color2: #263845;
+  --jp-border-color3: #1c2b36;
+  --jp-ui-font-color0: #f2f7f9;
+  --jp-ui-font-color1: var(--reader-ink);
+  --jp-ui-font-color2: var(--reader-muted);
+  --jp-ui-font-color3: #7d8d98;
+  --jp-content-font-color0: #f2f7f9;
+  --jp-content-font-color1: var(--reader-ink);
+  --jp-content-font-color2: var(--reader-muted);
+  --jp-content-font-color3: #7d8d98;
+  --jp-rendermime-error-background: #351b24;
+  --jp-rendermime-table-row-background: #14212b;
+  --jp-rendermime-table-row-hover-background: #1c2b36;
+  --jp-mirror-editor-variable-color: var(--reader-code-text);
+  --jp-mirror-editor-keyword-color: var(--reader-code-keyword);
+  --jp-mirror-editor-operator-color: var(--reader-code-operator);
+  --jp-mirror-editor-punctuation-color: var(--reader-code-punctuation);
+  --jp-mirror-editor-comment-color: var(--reader-code-comment);
+  --jp-mirror-editor-number-color: var(--reader-code-number);
+  --jp-mirror-editor-string-color: var(--reader-code-string);
+  --jp-mirror-editor-error-color: var(--reader-code-error);
 }
 
 html {
@@ -378,15 +425,100 @@ html[data-theme="dark"] .sidebar-book .book-toc a.active {
 }
 
 html[data-theme="dark"] main#content pre,
-html[data-theme="dark"] main#content .sourceCode {
-  border-color: var(--reader-border);
-  color: #d7e3ea;
-  background: #0c141b !important;
+html[data-theme="dark"] main#content .sourceCode,
+html[data-theme="dark"] main#content .highlight,
+html[data-theme="dark"] main#content .highlight pre {
+  border-color: var(--reader-code-border);
+  color: var(--reader-code-text);
+  background: var(--reader-code-bg) !important;
 }
 
-html[data-theme="dark"] main#content code,
+html[data-theme="dark"] main#content pre {
+  border: 1px solid var(--reader-code-border);
+  background: var(--reader-code-output-bg) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  scrollbar-color: #496274 var(--reader-code-bg);
+}
+
+html[data-theme="dark"] main#content .highlight pre,
+html[data-theme="dark"] main#content pre.sourceCode {
+  background: var(--reader-code-bg) !important;
+}
+
+html[data-theme="dark"] main#content :not(pre) > code {
+  border: 1px solid #334958;
+  border-radius: 0.3rem;
+  padding: 0.08em 0.32em;
+  color: var(--reader-code-builtin);
+  background: #192832;
+}
+
 html[data-theme="dark"] main#content .sourceCode a {
-  color: #d9b7ff;
+  color: var(--reader-code-name);
+}
+
+html[data-theme="dark"] main#content .highlight .nf,
+html[data-theme="dark"] main#content .highlight .fm,
+html[data-theme="dark"] main#content .highlight .nc,
+html[data-theme="dark"] main#content .highlight .nn,
+html[data-theme="dark"] main#content .highlight .nd {
+  color: var(--reader-code-name);
+}
+
+html[data-theme="dark"] main#content .highlight .nb,
+html[data-theme="dark"] main#content .highlight .bp {
+  color: var(--reader-code-builtin);
+}
+
+html[data-theme="dark"] body.jp-Notebook {
+  color: var(--reader-ink);
+  background: var(--reader-paper) !important;
+}
+
+html[data-theme="dark"] body.jp-Notebook .jp-InputArea-editor {
+  border-color: var(--reader-code-border);
+  border-radius: 0.45rem;
+  color: var(--reader-code-text);
+  background: var(--reader-code-bg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+html[data-theme="dark"] body.jp-Notebook .highlight,
+html[data-theme="dark"] body.jp-Notebook .highlight pre {
+  color: var(--reader-code-text);
+  background: var(--reader-code-bg) !important;
+}
+
+html[data-theme="dark"] body.jp-Notebook .highlight pre {
+  scrollbar-color: #496274 var(--reader-code-bg);
+}
+
+html[data-theme="dark"] body.jp-Notebook .jp-RenderedText,
+html[data-theme="dark"] body.jp-Notebook .jp-RenderedText pre {
+  color: var(--reader-code-text);
+  background: var(--reader-code-output-bg) !important;
+}
+
+html[data-theme="dark"] body.jp-Notebook .jp-RenderedText {
+  border: 1px solid var(--reader-code-border);
+  border-radius: 0.4rem;
+}
+
+html[data-theme="dark"] body.jp-Notebook .highlight .nf,
+html[data-theme="dark"] body.jp-Notebook .highlight .fm,
+html[data-theme="dark"] body.jp-Notebook .highlight .nc,
+html[data-theme="dark"] body.jp-Notebook .highlight .nn,
+html[data-theme="dark"] body.jp-Notebook .highlight .nd {
+  color: var(--reader-code-name);
+}
+
+html[data-theme="dark"] body.jp-Notebook .highlight .nb,
+html[data-theme="dark"] body.jp-Notebook .highlight .bp {
+  color: var(--reader-code-builtin);
+}
+
+html[data-theme="dark"] body.jp-Notebook a {
+  color: #77bdf2;
 }
 
 html[data-theme="dark"] main#content table,

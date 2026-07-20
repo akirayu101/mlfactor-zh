@@ -66,12 +66,29 @@
     window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
   }
 
+  function isStandaloneApp() {
+    var displayModeStandalone = window.matchMedia &&
+      window.matchMedia("(display-mode: standalone)").matches;
+    return displayModeStandalone || navigator.standalone === true;
+  }
+
+  function hasSameOriginReferrer() {
+    if (!document.referrer) return false;
+    try {
+      return new URL(document.referrer).origin === window.location.origin;
+    } catch (error) {
+      return false;
+    }
+  }
+
   function addReadingPositionMemory() {
     var saved = readSavedPosition();
     var params = new URLSearchParams(window.location.search);
-    var launchedAsApp = params.get("pwa-launch") === "1";
     var resumedFromLaunch = params.get("pwa-resume") === "1";
     var currentPage = getPageName();
+    var legacyStandaloneLaunch = currentPage === "index.html" &&
+      isStandaloneApp() && !hasSameOriginReferrer();
+    var launchedAsApp = params.get("pwa-launch") === "1" || legacyStandaloneLaunch;
 
     if (launchedAsApp && saved && saved.page !== currentPage) {
       var destination = new URL(saved.page, window.location.href);

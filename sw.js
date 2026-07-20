@@ -1,4 +1,4 @@
-const CACHE_VERSION = "mlfactor-zh-v10";
+const CACHE_VERSION = "mlfactor-zh-v13";
 const PAGE_CACHE = `${CACHE_VERSION}-pages`;
 const ASSET_CACHE = `${CACHE_VERSION}-assets`;
 
@@ -57,7 +57,9 @@ const CORE_ASSETS = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(PAGE_CACHE).then((cache) => cache.addAll(CORE_ASSETS))
+    caches.open(PAGE_CACHE)
+      .then((cache) => cache.addAll(CORE_ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
