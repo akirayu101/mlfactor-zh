@@ -4,7 +4,7 @@
   "short_name": "因子投资 ML",
   "description": "《用于因子投资的机器学习》中文在线电子书",
   "lang": "zh-CN",
-  "start_url": "./index.html",
+  "start_url": "./index.html?pwa-launch=1",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
