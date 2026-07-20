@@ -457,6 +457,65 @@ html[data-theme="dark"] main#content .sourceCode a {
   color: var(--reader-code-name);
 }
 
+/* Pandoc/downlit R token colors need explicit dark-mode overrides. */
+html[data-theme="dark"] main#content .sourceCode .va,
+html[data-theme="dark"] main#content .sourceCode .bu,
+html[data-theme="dark"] main#content .sourceCode .ex,
+html[data-theme="dark"] main#content .sourceCode .im {
+  color: var(--reader-code-text);
+}
+
+html[data-theme="dark"] main#content .sourceCode .fu,
+html[data-theme="dark"] main#content .sourceCode .dt {
+  color: var(--reader-code-name);
+}
+
+html[data-theme="dark"] main#content .sourceCode .op,
+html[data-theme="dark"] main#content .sourceCode .ot,
+html[data-theme="dark"] main#content .sourceCode .cf,
+html[data-theme="dark"] main#content .sourceCode .kw {
+  color: var(--reader-code-operator);
+}
+
+html[data-theme="dark"] main#content .sourceCode .st,
+html[data-theme="dark"] main#content .sourceCode .vs,
+html[data-theme="dark"] main#content .sourceCode .ch,
+html[data-theme="dark"] main#content .sourceCode .sc,
+html[data-theme="dark"] main#content .sourceCode .ss {
+  color: var(--reader-code-string);
+}
+
+html[data-theme="dark"] main#content .sourceCode .bn,
+html[data-theme="dark"] main#content .sourceCode .fl,
+html[data-theme="dark"] main#content .sourceCode .dv,
+html[data-theme="dark"] main#content .sourceCode .cn {
+  color: var(--reader-code-number);
+}
+
+html[data-theme="dark"] main#content .sourceCode .co,
+html[data-theme="dark"] main#content .sourceCode .cv,
+html[data-theme="dark"] main#content .sourceCode .an,
+html[data-theme="dark"] main#content .sourceCode .in,
+html[data-theme="dark"] main#content .sourceCode .wa,
+html[data-theme="dark"] main#content .sourceCode .do {
+  color: var(--reader-code-comment);
+}
+
+html[data-theme="dark"] main#content .sourceCode .at,
+html[data-theme="dark"] main#content .sourceCode .pp {
+  color: var(--reader-code-builtin);
+}
+
+html[data-theme="dark"] main#content .sourceCode .er,
+html[data-theme="dark"] main#content .sourceCode .al {
+  color: var(--reader-code-error);
+}
+
+html[data-theme="dark"] main#content .sourceCode span > a {
+  color: inherit;
+  text-decoration-color: currentColor;
+}
+
 html[data-theme="dark"] main#content .highlight .nf,
 html[data-theme="dark"] main#content .highlight .fm,
 html[data-theme="dark"] main#content .highlight .nc,

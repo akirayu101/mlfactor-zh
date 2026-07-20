@@ -1,4 +1,4 @@
-const CACHE_VERSION = "mlfactor-zh-v13";
+const CACHE_VERSION = "mlfactor-zh-v14";
 const PAGE_CACHE = `${CACHE_VERSION}-pages`;
 const ASSET_CACHE = `${CACHE_VERSION}-assets`;
 
