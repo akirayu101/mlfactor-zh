@@ -1,6 +1,161 @@
 (function () {
   "use strict";
 
+  var readingPositionStorageKey = "mlfactor-zh-reading-position-v1";
+
+  function getPageName() {
+    var page = window.location.pathname.split("/").pop();
+    return page || "index.html";
+  }
+
+  function isBookPage(page) {
+    return /^[A-Za-z0-9._-]+\.html$/.test(page) && page !== "404.html" && page !== "offline.html";
+  }
+
+  function readSavedPosition() {
+    try {
+      var saved = JSON.parse(window.localStorage.getItem(readingPositionStorageKey));
+      if (!saved || !isBookPage(saved.page) || !Number.isFinite(saved.scrollY)) return null;
+      return saved;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function readingAnchorAtViewportTop() {
+    if (!document.elementFromPoint) return null;
+    var x = Math.max(1, Math.min(window.innerWidth / 2, window.innerWidth - 1));
+    var y = Math.max(1, Math.min(96, window.innerHeight - 1));
+    var element = document.elementFromPoint(x, y);
+    if (!element || !element.closest) return null;
+    return element.closest(".section[id], h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]");
+  }
+
+  function saveReadingPosition() {
+    var page = getPageName();
+    if (!isBookPage(page)) return;
+
+    var anchor = readingAnchorAtViewportTop();
+    var scrollY = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    var position = {
+      page: page,
+      hash: window.location.hash || "",
+      scrollY: Math.round(scrollY),
+      progress: scrollable > 0 ? scrollY / scrollable : 0,
+      updatedAt: Date.now()
+    };
+
+    if (anchor && anchor.id) {
+      position.anchor = anchor.id;
+      position.anchorOffset = Math.round(scrollY - (anchor.getBoundingClientRect().top + scrollY));
+    }
+
+    try {
+      window.localStorage.setItem(readingPositionStorageKey, JSON.stringify(position));
+    } catch (error) {
+      // Reading still works normally when persistent storage is unavailable.
+    }
+  }
+
+  function cleanResumeParameters() {
+    if (!window.history || !window.history.replaceState) return;
+    var url = new URL(window.location.href);
+    url.searchParams.delete("pwa-launch");
+    url.searchParams.delete("pwa-resume");
+    window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
+  }
+
+  function addReadingPositionMemory() {
+    var saved = readSavedPosition();
+    var params = new URLSearchParams(window.location.search);
+    var launchedAsApp = params.get("pwa-launch") === "1";
+    var resumedFromLaunch = params.get("pwa-resume") === "1";
+    var currentPage = getPageName();
+
+    if (launchedAsApp && saved && saved.page !== currentPage) {
+      var destination = new URL(saved.page, window.location.href);
+      destination.searchParams.set("pwa-resume", "1");
+      if (saved.hash) destination.hash = saved.hash;
+      window.location.replace(destination.href);
+      return true;
+    }
+
+    var shouldRestore = saved && saved.page === currentPage &&
+      (resumedFromLaunch || launchedAsApp || !window.location.hash);
+    cleanResumeParameters();
+
+    var restoreCancelled = false;
+    var previousScrollRestoration = null;
+    var restoreTimers = [];
+
+    function cancelRestore() {
+      restoreCancelled = true;
+      restoreTimers.forEach(window.clearTimeout);
+      restoreTimers = [];
+      window.removeEventListener("keydown", cancelRestoreOnKey);
+      if (previousScrollRestoration !== null) {
+        window.history.scrollRestoration = previousScrollRestoration;
+        previousScrollRestoration = null;
+      }
+    }
+
+    function cancelRestoreOnKey(event) {
+      if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) {
+        cancelRestore();
+      }
+    }
+
+    function restore() {
+      if (!shouldRestore || restoreCancelled) return;
+      var top = saved.scrollY;
+      if (saved.anchor) {
+        var anchor = document.getElementById(saved.anchor);
+        if (anchor) {
+          top = anchor.getBoundingClientRect().top + window.scrollY + (saved.anchorOffset || 0);
+        }
+      }
+      var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      window.scrollTo(0, Math.min(maxScroll, Math.max(0, top)));
+    }
+
+    if (shouldRestore) {
+      if ("scrollRestoration" in window.history) {
+        previousScrollRestoration = window.history.scrollRestoration;
+        window.history.scrollRestoration = "manual";
+      }
+      restore();
+      window.addEventListener("load", restore, { once: true });
+      [250, 750, 1500].forEach(function (delay) {
+        restoreTimers.push(window.setTimeout(restore, delay));
+      });
+      restoreTimers.push(window.setTimeout(function () {
+        if (resumedFromLaunch || launchedAsApp || saved.scrollY > 40) {
+          showToast("已回到上次阅读位置");
+        }
+        cancelRestore();
+      }, 1650));
+
+      ["wheel", "touchstart", "pointerdown"].forEach(function (eventName) {
+        window.addEventListener(eventName, cancelRestore, { once: true, passive: true });
+      });
+      window.addEventListener("keydown", cancelRestoreOnKey);
+    }
+
+    var saveTimer = null;
+    function scheduleSave() {
+      window.clearTimeout(saveTimer);
+      saveTimer = window.setTimeout(saveReadingPosition, 250);
+    }
+
+    window.addEventListener("scroll", scheduleSave, { passive: true });
+    window.addEventListener("pagehide", saveReadingPosition);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") saveReadingPosition();
+    });
+    return false;
+  }
+
   function addReadingProgress() {
     var bar = document.createElement("div");
     bar.className = "pwa-reading-progress";
@@ -318,6 +473,7 @@
   }
 
   function init() {
+    if (addReadingPositionMemory()) return;
     addReadingProgress();
     addNetworkStatus();
     addThemeToggle();
