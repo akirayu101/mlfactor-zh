@@ -580,15 +580,60 @@ html[data-theme="dark"] body.jp-Notebook a {
   color: #77bdf2;
 }
 
+html[data-theme="dark"] main#content table {
+  color: var(--reader-ink);
+  background-color: transparent;
+}
+
+html[data-theme="dark"] main#content table caption {
+  color: var(--reader-muted);
+}
+
+html[data-theme="dark"] main#content table thead th {
+  border-bottom-color: #49606f;
+  color: var(--reader-heading);
+  background-color: rgba(98, 200, 187, 0.1);
+}
+
+html[data-theme="dark"] main#content table tbody th,
+html[data-theme="dark"] main#content table tbody td {
+  color: var(--reader-ink);
+}
+
 html[data-theme="dark"] main#content table,
-html[data-theme="dark"] main#content th,
-html[data-theme="dark"] main#content td {
+html[data-theme="dark"] main#content table th,
+html[data-theme="dark"] main#content table td {
   border-color: var(--reader-border);
 }
 
 html[data-theme="dark"] main#content .table-striped tbody tr:nth-of-type(odd),
-html[data-theme="dark"] main#content table tr:nth-of-type(even) {
+html[data-theme="dark"] main#content table:not(.table-striped) tbody tr:nth-of-type(even) {
   background: rgba(255, 255, 255, 0.035);
+}
+
+html[data-theme="dark"] main#content .table-hover tbody tr:hover {
+  color: var(--reader-heading);
+  background-color: rgba(98, 200, 187, 0.12);
+}
+
+html[data-theme="dark"] #notebook .dataframe {
+  color: var(--reader-ink);
+  background-color: transparent;
+}
+
+html[data-theme="dark"] #notebook .dataframe th,
+html[data-theme="dark"] #notebook .dataframe td {
+  border-color: var(--reader-border);
+  color: var(--reader-ink);
+}
+
+html[data-theme="dark"] #notebook .dataframe thead th {
+  color: var(--reader-heading);
+  background-color: rgba(98, 200, 187, 0.1);
+}
+
+html[data-theme="dark"] #notebook .dataframe tbody tr:nth-of-type(even) {
+  background-color: rgba(255, 255, 255, 0.035);
 }
 
 html[data-theme="dark"] .form-control {
