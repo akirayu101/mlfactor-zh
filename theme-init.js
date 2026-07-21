@@ -18,4 +18,16 @@
   }
 
   document.documentElement.dataset.theme = theme;
+
+  var fontSize = "100";
+  try {
+    var savedFontSize = window.localStorage.getItem("mlfactor-zh-font-size");
+    if (["90", "100", "110", "120", "130"].includes(savedFontSize)) {
+      fontSize = savedFontSize;
+    }
+  } catch (error) {
+    // The default size remains available when persistent storage is blocked.
+  }
+
+  document.documentElement.dataset.readerFontSize = fontSize;
 })();

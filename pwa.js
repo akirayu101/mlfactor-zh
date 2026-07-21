@@ -320,6 +320,142 @@
     }
   }
 
+  function addFontSizeControl() {
+    var storageKey = "mlfactor-zh-font-size";
+    var sizes = [90, 100, 110, 120, 130];
+    var wrapper = document.createElement("div");
+    wrapper.className = "pwa-font-control";
+
+    var toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "btn btn-outline-secondary pwa-font-toggle";
+    toggle.textContent = "Aa";
+    toggle.setAttribute("aria-controls", "pwa-font-menu");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.title = "调整字号";
+
+    var panel = document.createElement("div");
+    panel.id = "pwa-font-menu";
+    panel.className = "pwa-font-menu";
+    panel.setAttribute("role", "group");
+    panel.setAttribute("aria-label", "字体大小");
+    panel.hidden = true;
+
+    var decrease = document.createElement("button");
+    decrease.type = "button";
+    decrease.className = "pwa-font-step";
+    decrease.textContent = "A−";
+    decrease.setAttribute("aria-label", "减小字体");
+
+    var reset = document.createElement("button");
+    reset.type = "button";
+    reset.className = "pwa-font-reset";
+    reset.title = "恢复默认字号";
+
+    var increase = document.createElement("button");
+    increase.type = "button";
+    increase.className = "pwa-font-step";
+    increase.textContent = "A+";
+    increase.setAttribute("aria-label", "增大字体");
+
+    panel.append(decrease, reset, increase);
+    wrapper.append(toggle, panel);
+
+    var actions = document.querySelector(".pwa-header-actions");
+    var themeButton = actions && actions.querySelector(".pwa-theme-toggle");
+    if (actions) {
+      actions.insertBefore(wrapper, themeButton || actions.firstChild);
+    } else {
+      wrapper.classList.add("pwa-font-control-fallback");
+      document.body.appendChild(wrapper);
+    }
+
+    function normalizeSize(value) {
+      var parsed = Number.parseInt(value, 10);
+      return sizes.includes(parsed) ? parsed : 100;
+    }
+
+    function currentSize() {
+      return normalizeSize(document.documentElement.dataset.readerFontSize);
+    }
+
+    function reflectSize(size) {
+      var index = sizes.indexOf(size);
+      reset.textContent = size + "%";
+      reset.setAttribute("aria-label", "恢复默认字号，当前字号 " + size + "%");
+      toggle.setAttribute("aria-label", "调整字体大小，当前字号 " + size + "%");
+      decrease.disabled = index === 0;
+      increase.disabled = index === sizes.length - 1;
+    }
+
+    function applySize(size, persist, preservePosition) {
+      var normalized = normalizeSize(size);
+      var anchor = preservePosition ? readingAnchorAtViewportTop() : null;
+      var anchorTop = anchor ? anchor.getBoundingClientRect().top : null;
+      document.documentElement.dataset.readerFontSize = String(normalized);
+
+      if (persist) {
+        try {
+          window.localStorage.setItem(storageKey, String(normalized));
+        } catch (error) {
+          // Font controls still work when persistent storage is unavailable.
+        }
+      }
+
+      reflectSize(normalized);
+      window.requestAnimationFrame(function () {
+        if (anchor && anchorTop !== null) {
+          window.scrollBy(0, anchor.getBoundingClientRect().top - anchorTop);
+        }
+        window.dispatchEvent(new Event("resize"));
+        if (persist) saveReadingPosition();
+      });
+    }
+
+    function closePanel() {
+      panel.hidden = true;
+      wrapper.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+
+    function openPanel() {
+      panel.hidden = false;
+      wrapper.classList.add("is-open");
+      toggle.setAttribute("aria-expanded", "true");
+    }
+
+    toggle.addEventListener("click", function () {
+      if (panel.hidden) openPanel();
+      else closePanel();
+    });
+
+    decrease.addEventListener("click", function () {
+      var index = sizes.indexOf(currentSize());
+      if (index > 0) applySize(sizes[index - 1], true, true);
+    });
+
+    reset.addEventListener("click", function () {
+      applySize(100, true, true);
+    });
+
+    increase.addEventListener("click", function () {
+      var index = sizes.indexOf(currentSize());
+      if (index < sizes.length - 1) applySize(sizes[index + 1], true, true);
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!wrapper.contains(event.target)) closePanel();
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "Escape" || panel.hidden) return;
+      closePanel();
+      toggle.focus();
+    });
+
+    applySize(currentSize(), false, false);
+  }
+
   function addInstallPrompt() {
     var installEvent = null;
     var isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
@@ -494,6 +630,7 @@
     addReadingProgress();
     addNetworkStatus();
     addThemeToggle();
+    addFontSizeControl();
     addInstallPrompt();
     registerServiceWorker();
   }

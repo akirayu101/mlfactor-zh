@@ -14,6 +14,33 @@
   --reader-button-text: #fff;
   --reader-toast: rgba(28, 52, 70, 0.96);
   --reader-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --reader-content-font-size: 1rem;
+  --reader-mobile-content-font-size: 17px;
+  --reader-notebook-font-size: 13px;
+}
+
+html[data-reader-font-size="90"] {
+  --reader-content-font-size: 0.9rem;
+  --reader-mobile-content-font-size: 15.3px;
+  --reader-notebook-font-size: 11.7px;
+}
+
+html[data-reader-font-size="110"] {
+  --reader-content-font-size: 1.1rem;
+  --reader-mobile-content-font-size: 18.7px;
+  --reader-notebook-font-size: 14.3px;
+}
+
+html[data-reader-font-size="120"] {
+  --reader-content-font-size: 1.2rem;
+  --reader-mobile-content-font-size: 20.4px;
+  --reader-notebook-font-size: 15.6px;
+}
+
+html[data-reader-font-size="130"] {
+  --reader-content-font-size: 1.3rem;
+  --reader-mobile-content-font-size: 22.1px;
+  --reader-notebook-font-size: 16.9px;
 }
 
 html[data-theme="dark"] {
@@ -114,6 +141,7 @@ input:focus-visible {
 main#content {
   background: var(--reader-paper);
   box-shadow: var(--reader-shadow);
+  font-size: var(--reader-content-font-size);
   min-height: 72vh;
   padding-top: 1.5rem;
   padding-bottom: 3rem;
@@ -135,6 +163,22 @@ main#content h4 {
   color: var(--reader-heading);
   line-height: 1.35;
   scroll-margin-top: 1.25rem;
+}
+
+main#content h1 {
+  font-size: 2.5em;
+}
+
+main#content h2 {
+  font-size: 2em;
+}
+
+main#content h3 {
+  font-size: 1.75em;
+}
+
+main#content h4 {
+  font-size: 1.5em;
 }
 
 main#content h2 {
@@ -376,7 +420,13 @@ body.pwa-dialog-open {
   margin-left: 0.5rem;
 }
 
-.pwa-theme-toggle {
+.pwa-font-control {
+  position: relative;
+  display: inline-flex;
+}
+
+.pwa-theme-toggle,
+.pwa-font-toggle {
   display: inline-flex;
   min-width: 44px;
   min-height: 44px;
@@ -391,10 +441,62 @@ body.pwa-dialog-open {
 }
 
 .pwa-theme-toggle:hover,
-.pwa-theme-toggle:focus {
+.pwa-theme-toggle:focus,
+.pwa-font-toggle:hover,
+.pwa-font-toggle:focus {
   border-color: var(--reader-accent);
   color: var(--reader-heading);
   background: color-mix(in srgb, var(--reader-accent) 14%, var(--reader-control));
+}
+
+.pwa-font-toggle {
+  font-size: 0.95rem;
+  font-weight: 750;
+}
+
+.pwa-font-menu {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  z-index: 1090;
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.4rem;
+  border: 1px solid var(--reader-border);
+  border-radius: 0.55rem;
+  background: var(--reader-control);
+  box-shadow: var(--reader-shadow);
+}
+
+.pwa-font-menu[hidden] {
+  display: none;
+}
+
+.pwa-font-menu button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--reader-border);
+  border-radius: 0.4rem;
+  color: var(--reader-heading);
+  background: var(--reader-paper);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pwa-font-menu button:hover,
+.pwa-font-menu button:focus {
+  border-color: var(--reader-accent);
+  background: color-mix(in srgb, var(--reader-accent) 14%, var(--reader-control));
+}
+
+.pwa-font-menu button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.pwa-font-reset {
+  min-width: 58px !important;
 }
 
 .pwa-theme-icon {
@@ -412,6 +514,21 @@ body.pwa-dialog-open {
   right: max(0.75rem, env(safe-area-inset-right, 0px));
   z-index: 1080;
   box-shadow: var(--reader-shadow);
+}
+
+.pwa-font-control-fallback {
+  position: fixed;
+  top: max(0.75rem, env(safe-area-inset-top, 0px));
+  right: calc(max(0.75rem, env(safe-area-inset-right, 0px)) + 3.7rem);
+  z-index: 1080;
+}
+
+.pwa-font-control-fallback .pwa-font-toggle {
+  box-shadow: var(--reader-shadow);
+}
+
+#notebook-container {
+  font-size: var(--reader-notebook-font-size);
 }
 
 html[data-theme="dark"] main#content a,
@@ -742,20 +859,20 @@ html[data-theme="dark"] footer.bg-primary {
     margin: 0;
     padding: 1.25rem 1.1rem calc(3.5rem + var(--reader-safe-bottom));
     box-shadow: none;
-    font-size: 17px;
+    font-size: var(--reader-mobile-content-font-size);
   }
 
   main#content h1 {
-    font-size: clamp(1.75rem, 8vw, 2.25rem);
+    font-size: clamp(1.75em, 8vw, 2.25em);
     margin-bottom: 1.2rem;
   }
 
   main#content h2 {
-    font-size: 1.48rem;
+    font-size: 1.48em;
   }
 
   main#content h3 {
-    font-size: 1.24rem;
+    font-size: 1.24em;
   }
 
   main#content img[align] {
@@ -826,6 +943,7 @@ html[data-theme="dark"] footer.bg-primary {
   .pwa-install-button,
   .pwa-install-dialog,
   .pwa-theme-toggle,
+  .pwa-font-control,
   .pwa-toast {
     display: none !important;
   }
