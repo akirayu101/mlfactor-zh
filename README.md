@@ -6,6 +6,17 @@
 
 https://akirayu101.github.io/mlfactor-zh/
 
+## Quarto 可执行书籍原型
+
+`feat/quarto-executable-book-poc` 分支在 `quarto/` 中提供第 4 章和第 7 章的
+Quarto Book 原型。代表性 Python 单元格使用 Pyodide 在浏览器中运行，同时
+保留可下载的 Jupyter Notebook。
+
+- 原型说明与构建方式见 [`quarto/README.md`](quarto/README.md)。
+- 浏览器数据由 `scripts/build_quarto_web_data.py` 从官方 `data_ml.RData`
+  确定性生成。
+- `quarto-preview/` 是本地构建产物，不提交到 Git。
+
 ## PWA 与本地预览
 
 网站支持安装到手机桌面，并会预缓存中文版正文以供离线阅读。图片和其他资源会在首次阅读时自动缓存。页面支持明暗主题切换，首次访问跟随系统设置，手动选择后会在本机保存。

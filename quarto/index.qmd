@@ -1,0 +1,50 @@
+---
+title: "可执行中文版"
+description: "把中文译文、Python 实验和可复现数据放在同一个阅读界面中。"
+---
+
+::: {.hero-panel}
+## 阅读，修改，然后运行
+
+这不是把 Jupyter Notebook 简单嵌入网页，而是一次“可执行书籍”原型：正文保持适合连续阅读的排版，关键实验则以可编辑的 Python 单元格出现。
+
+::: {.hero-actions}
+[进入第 4 章实验](chapter-04.qmd){.btn .btn-primary}
+[进入第 7 章实验](chapter-07.qmd){.btn .btn-outline-primary}
+[返回现有中文版](../index.html){.btn .btn-outline-secondary}
+:::
+:::
+
+## 本原型验证什么
+
+::: {.prototype-grid}
+::: {.prototype-card}
+### 中文正文
+
+章节不再是孤立的 Notebook 页面。解释、公式、代码和结果在同一条阅读路径中。
+:::
+
+::: {.prototype-card}
+### 浏览器内 Python
+
+点击“运行代码”后，Python 直接在浏览器中启动；GitHub Pages 或普通 Nginx 均不需要 Python 后端。
+:::
+
+::: {.prototype-card}
+### 可复现实验
+
+实验使用固定抽样、固定随机种子和明确的训练/测试时间边界。
+:::
+:::
+
+## 三层运行体验
+
+| 层级 | 默认体验 | 执行环境 |
+|---|---|---|
+| 阅读 | 直接阅读解释与已知结论 | 静态 HTML |
+| 轻量实验 | 修改参数并立即运行 | 浏览器 Pyodide |
+| 完整研究 | 使用全量数据与重量级依赖 | 本地 Jupyter / CPython |
+
+::: {.callout-note title="原型范围"}
+当前只迁移第 4 章“数据预处理”和第 7 章“神经网络”的代表性实验。它们分别验证数据型工作流与模型型工作流，不代表整本书已经完成迁移。
+:::

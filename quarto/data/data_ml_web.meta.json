@@ -1,0 +1,27 @@
+{
+  "source": "material/data_ml.RData",
+  "source_sha256": "eb561b24eeae60de9c3f335f0d388dcd1ed9b04243790aef3ce88d616a44b774",
+  "selection": "Top 60 stock_id values by observation count; ties ordered by stock_id ascending",
+  "rows": 14700,
+  "stocks": 60,
+  "date_min": "1998-11-30",
+  "date_max": "2019-03-31",
+  "columns": [
+    "stock_id",
+    "date",
+    "Mkt_Cap_12M_Usd",
+    "Pb",
+    "Vol1Y_Usd",
+    "Mom_11M_Usd",
+    "R1M_Usd"
+  ],
+  "missing_values": {
+    "stock_id": 0,
+    "date": 0,
+    "Mkt_Cap_12M_Usd": 0,
+    "Pb": 0,
+    "Vol1Y_Usd": 0,
+    "Mom_11M_Usd": 0,
+    "R1M_Usd": 0
+  }
+}

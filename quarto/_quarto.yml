@@ -1,0 +1,47 @@
+project:
+  type: book
+  output-dir: ../quarto-preview
+  resources:
+    - data/data_ml_web.csv.gz
+    - data/data_ml_web.meta.json
+    - notebooks/*.ipynb
+
+lang: zh
+
+book:
+  title: "用于因子投资的机器学习"
+  subtitle: "可执行中文版 · 技术原型"
+  author:
+    - "Guillaume Coqueret"
+    - "Tony Guida"
+  page-navigation: true
+  search: true
+  repo-url: https://github.com/akirayu101/mlfactor-zh
+  repo-branch: feat/quarto-executable-book-poc
+  repo-actions: [source, issue]
+  chapters:
+    - index.qmd
+    - part: "交互式章节原型"
+      chapters:
+        - chapter-04.qmd
+        - chapter-07.qmd
+    - architecture.qmd
+
+format:
+  live-html:
+    theme:
+      light: flatly
+      dark: darkly
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    code-overflow: wrap
+    smooth-scroll: true
+
+execute:
+  freeze: auto
+
+website:
+  favicon: ../images/cover.png

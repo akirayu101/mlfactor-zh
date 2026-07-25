@@ -1,0 +1,37 @@
+---
+title: "原型说明"
+number-sections: false
+---
+
+# 这次原型采用的边界
+
+本分支的目标是验证阅读体验和执行链路，而不是一次性重写整本书。
+
+## 内容层
+
+- 现有中文版继续作为稳定阅读版本。
+- Quarto 源文件进入 `quarto/`。
+- 代表性 Python 实验以可编辑单元格呈现。
+- 完整 Notebook 作为可下载资源保留。
+
+## 数据层
+
+- 原始数据仍保留在 `material/data_ml.RData`。
+- `scripts/build_quarto_web_data.py` 生成确定性的网页样本。
+- 元数据文件记录来源哈希、抽样规则、字段与覆盖范围。
+- 后续全量本地版本将使用 Parquet，并增加字段校验。
+
+## 运行层
+
+| 环境 | 当前原型 | 后续 |
+|---|---|---|
+| GitHub Pages / Nginx | Pyodide 轻量实验 | 扩展兼容章节 |
+| 量化服务器 | Quarto 静态站点 | Jupyter 完整内核 |
+| CI | 构建检查 | 从干净内核执行 Notebook |
+
+## 尚未解决
+
+- 上游内容和数据的再分发许可证需要进一步确认。
+- 旧代码需要按当前 pandas、scikit-learn 和 TensorFlow API 逐章更新。
+- 章节之间的隐藏状态需要改成明确的公共初始化模块。
+- PWA Service Worker 与浏览器执行资源的缓存策略需要统一设计。

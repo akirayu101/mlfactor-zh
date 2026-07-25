@@ -1,0 +1,141 @@
+---
+title: "数据预处理"
+subtitle: "第 4 章交互式实验"
+description: "使用书中真实样本数据检查特征、横截面相关性和极端值。"
+resources:
+  - data/data_ml_web.csv.gz
+pyodide:
+  packages:
+    - pandas
+    - numpy
+    - matplotlib
+  resources:
+    - data/data_ml_web.csv.gz
+---
+
+::: {.chapter-kicker}
+第 4 章 · 浏览器可运行
+:::
+
+# 为什么先从数据开始
+
+投资研究中，模型往往不是最脆弱的一环，数据才是。我们至少要回答三个问题：
+
+1. 数据覆盖了哪些日期和股票？
+2. 特征与未来收益的关系是否稳定？
+3. 少量极端值是否主导了结论？
+
+原书数据包含 283,380 条月度记录、1,207 只匿名股票和 99 个字段。本页使用其中历史最完整的 60 只股票与 7 个字段，保留完整月度时间跨度。这一裁剪使浏览器实验启动足够快，同时仍保留横截面与时间序列结构。
+
+::: {.experiment-meta}
+`14,700` 行 · `60` 只股票 · `1998-11` 至 `2019-03` · 固定样本
+:::
+
+## 载入实验数据
+
+下面的单元格会在浏览器中启动 Python，读取随页面发布的压缩 CSV。你可以修改代码，然后再次运行。
+
+```{pyodide}
+#| autorun: true
+#| edit: false
+#| startover: true
+#| timelimit: 30
+import pandas as pd
+import numpy as np
+
+data = pd.read_csv(
+    "data/data_ml_web.csv.gz",
+    parse_dates=["date"],
+)
+
+print(f"记录数：{len(data):,}")
+print(f"股票数：{data['stock_id'].nunique():,}")
+print(f"日期范围：{data['date'].min():%Y-%m} 至 {data['date'].max():%Y-%m}")
+data.head()
+```
+
+## 横截面相关性不是一个常数
+
+因子研究通常关心某项特征在同一时点的股票横截面上，是否与未来收益相关。下面逐月计算相关系数，再观察其时间分布。
+
+```{pyodide}
+#| caption: "逐月计算四个特征与未来一个月收益率的横截面相关系数"
+#| timelimit: 30
+feature_cols = [
+    "Mkt_Cap_12M_Usd",
+    "Pb",
+    "Vol1Y_Usd",
+    "Mom_11M_Usd",
+]
+
+corr_by_month = (
+    data.groupby("date")[feature_cols + ["R1M_Usd"]]
+        .corr(numeric_only=True)["R1M_Usd"]
+        .unstack()[feature_cols]
+)
+
+summary = pd.DataFrame({
+    "中位数": corr_by_month.median(),
+    "下四分位": corr_by_month.quantile(0.25),
+    "上四分位": corr_by_month.quantile(0.75),
+    "为正的月份占比": (corr_by_month > 0).mean(),
+})
+
+summary.round(3).sort_values("中位数")
+```
+
+::: {.callout-tip title="可以尝试"}
+把 `feature_cols` 缩减为一两个特征，或将 `median()` 改成 `mean()`，观察结论是否变化。编辑后的代码只保存在你的浏览器里，不会修改书籍数据。
+:::
+
+## 把稳定性画出来
+
+```{pyodide}
+#| caption: "特征与下月收益率的月度横截面相关性"
+#| timelimit: 30
+import matplotlib.pyplot as plt
+
+ax = corr_by_month.rolling(12, min_periods=6).mean().plot(
+    figsize=(10, 5),
+    linewidth=1.8,
+)
+ax.axhline(0, color="#667085", linewidth=1)
+ax.set(
+    title="12 个月滚动平均相关系数",
+    xlabel="日期",
+    ylabel="相关系数",
+)
+ax.legend(frameon=False, ncol=2)
+plt.tight_layout()
+plt.show()
+```
+
+这里比单一总体相关系数多了一层信息：某些关系长期接近零，某些关系会改变符号。因子有效性必须结合时间稳定性判断。
+
+## 极端值敏感性
+
+下面允许你修改缩尾分位数，比较处理前后的收益率分布。
+
+```{pyodide}
+#| timelimit: 30
+lower_q = 0.01
+upper_q = 0.99
+
+lower, upper = data["R1M_Usd"].quantile([lower_q, upper_q])
+clipped = data["R1M_Usd"].clip(lower, upper)
+
+pd.DataFrame({
+    "原始收益": data["R1M_Usd"].describe(),
+    "缩尾后收益": clipped.describe(),
+}).round(4)
+```
+
+::: {.callout-warning title="不要机械缩尾"}
+异常值可能是数据错误，也可能是真实的市场尾部事件。处理前应先核对数据来源，并记录阈值、处理日期和受影响记录数。
+:::
+
+## 在本地继续
+
+[下载第 4 章 Notebook](notebooks/chapter-04-data-preprocessing.ipynb){.btn .btn-outline-primary download="chapter-04-data-preprocessing.ipynb"}
+
+本地 Notebook 使用同一份样本数据，可以在量化服务器的 `quant-py312` 内核中运行。完整迁移阶段会再增加全量 Parquet 数据入口。
