@@ -14333,7 +14333,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
 <li>$\mathbb{E}[\textbf{y}|\textbf{X}]=\textbf{X}\boldsymbol{\beta}$：回归函数为<strong>线性形式</strong>；</li>
-<li>$\mathbb{E}[\boldsymbol{\epsilon}|\textbf{X}]=\textbf{0}$：误差与预测变量<strong>不相关</strong>；</li>
+<li>$\mathbb{E}[\boldsymbol{\epsilon}|\textbf{X}]=\textbf{0}$：给定预测变量时，误差项的<strong>条件期望为零</strong>；</li>
 <li>$\mathbb{E}[\boldsymbol{\epsilon}\boldsymbol{\epsilon}'| \textbf{X}]=\sigma^2\textbf{I}$：满足<strong>同方差性</strong>，即误差之间不相关且方差相同；</li>
 <li>$\epsilon_i$ 服从正态分布。</li>
 </ul>
@@ -14341,7 +14341,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在这些假设下，可以对估计系数 $\hat{\boldsymbol{\beta}}$ 进行统计检验。关于线性模型的系统介绍，参见 Greene (2018) 第 2 至第 4 章；相应统计检验的细节见该书第 5 章。</p>
+<p>在这些假设下，可以对系数估计量 $\hat{\boldsymbol{\beta}}$ 进行统计检验。关于线性模型的系统介绍，参见 Greene (2018) 第 2 至第 4 章；相应统计检验的细节见该书第 5 章。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14403,7 +14403,7 @@ y_i = \sum_{j=1}^J \beta_jx_{i,j} + \epsilon_i, \quad i =1,\dots,I, \quad \text{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>不过，两者得到的结果大不相同，因此有必要分别讨论。随着惩罚强度 $\lambda$ 增大（或式 (5.5) 中的 $\delta$ 减小），岭回归的所有系数都会平缓地向零收缩。LASSO 的收缩则更为直接：部分系数会很快变为零。当 $\lambda$ 足够大时，LASSO 最终只保留一个非零系数；岭回归的所有系数则只会渐近趋近于零。关于岭回归在数据科学中的广泛应用，以及它与交叉验证、dropout 正则化等主题的联系，可参阅 Hastie (2020) 的综述。</p>
+<p>不过，两者得到的结果大不相同，因此有必要分别讨论。随着惩罚强度 $\lambda$ 增大（或式 (5.5) 中的 $\delta$ 减小），岭回归的所有系数都会平缓地向零收缩。LASSO 的收缩则更为直接：部分系数会很快变为零。当 $\lambda$ 足够大时，LASSO 最终只保留一个非零系数；岭回归的所有系数则只会渐近趋近于零。关于岭回归在数据科学中的广泛应用，以及它与交叉验证、Dropout（随机失活）正则化等主题的联系，可参阅 Hastie (2020) 的综述。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14983,7 +14983,7 @@ T(1-R^2)\sigma_{\mathbf{r}_1}^2&amp;=\mathbf{r}'_1\mathbf{r}_1-\frac{(\mathbf{1}
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>预测回归领域积累了许多重要研究。Stambaugh (1999) 是其中影响较大的一篇，揭示了自变量存在自相关时进行回归的风险：此时，常规 OLS 估计存在偏差，需要加以修正。此后，相关结果被扩展到多个方向（参见 Campbell 和 Yogo (2006)、Hjalmarsson (2011)、Gonzalo 和 Pitarakis (2018) 的综述，以及 Xu (2020) 关于多预测期可预测性的研究）。</p>
+<p>预测回归领域积累了许多重要研究。Stambaugh (1999) 是其中影响较大的一篇，揭示了自变量存在自相关时进行回归的风险：此时，常规 OLS 估计量有偏，需要加以修正。此后，相关结果被扩展到多个方向（参见 Campbell 和 Yogo (2006)、Hjalmarsson (2011)、Gonzalo 和 Pitarakis (2018) 的综述，以及 Xu (2020) 关于多预测期可预测性的研究）。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">

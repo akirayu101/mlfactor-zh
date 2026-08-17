@@ -126,7 +126,7 @@ max-width: 60rem;
 <h3><span class="header-section-number">11.1.1</span> 原则<a aria-label="锚" class="anchor" href="#principles"><i class="fas fa-link"></i></a></h3>
 <p>本章采用以下符号。设共有 <span class="math inline">\(M\)</span> 个模型，<span class="math inline">\(\tilde{y}_{i,m}\)</span> 表示模型 <span class="math inline">\(m\)</span> 对样本 <span class="math inline">\(i\)</span> 的预测，误差 <span class="math inline">\(\epsilon_{i,m}=y_i-\tilde{y}_{i,m}\)</span> 按列堆叠成 <span class="math inline">\((I\times M)\)</span> 矩阵 <span class="math inline">\(\textbf{E}\)</span>。模型线性组合的样本误差为 <span class="math inline">\(\textbf{Ew}\)</span>，其中 <span class="math inline">\(\textbf{w}=w_m\)</span> 是分配给各模型的权重，并假设 <span class="math inline">\(\textbf{w}'\textbf{1}_M=1\)</span>。因此，最小化误差平方和是一个只有一项约束的二次规划问题。其拉格朗日函数为 <span class="math inline">\(L(\textbf{w})=\textbf{w}'\textbf{E}'\textbf{E}\textbf{w}-\lambda (\textbf{w}'\textbf{1}_M-1)\)</span>，于是
 <span class="math display">\[\frac{\partial}{\partial \textbf{w}}L(\textbf{w})=\textbf{E}'\textbf{E}\textbf{w}-\lambda \textbf{1}_M=0 \quad \Leftrightarrow \quad \textbf{w}=\lambda(\textbf{E}'\textbf{E})^{-1}\textbf{1}_M,\]</span></p>
-<p>结合权重和为 1 的约束，可得 <span class="math inline">\(\textbf{w}^*=\frac{(\textbf{E}'\textbf{E})^{-1}\textbf{1}_M}{(\textbf{1}_M'\textbf{E}'\textbf{E})^{-1}\textbf{1}_M}\)</span>。这一形式与最小方差投资组合相似。若误差无偏，即 <span class="math inline">\(\textbf{1}_I'\textbf{E}=\textbf{0}_M'\)</span>，则 <span class="math inline">\(\textbf{E}'\textbf{E}\)</span> 就是误差的协方差矩阵。</p>
+<p>结合权重和为 1 的约束，可得 <span class="math inline">\(\textbf{w}^*=\frac{(\textbf{E}'\textbf{E})^{-1}\textbf{1}_M}{(\textbf{1}_M'\textbf{E}'\textbf{E})^{-1}\textbf{1}_M}\)</span>。这一形式与最小方差投资组合相似。若误差无偏，即 <span class="math inline">\(\textbf{1}_I'\textbf{E}=\textbf{0}_M'\)</span>，则 <span class="math inline">\(\textbf{E}'\textbf{E}\)</span> 与误差的样本协方差矩阵仅相差一个不影响最优权重的比例因子。</p>
 <p>这个表达式揭示了优化线性集成的一个重要特点：只有当不同模型捕捉到不同信息时，组合才有价值。如果两个模型高度冗余，<span class="math inline">\(\textbf{E}'\textbf{E}\)</span> 会接近奇异矩阵，最优解 <span class="math inline">\(\textbf{w}^*\)</span> 便可能用极端的正负权重在两个模型之间进行虚假的“套利”。这与用高度相关资产构建均值—方差投资组合时的问题完全相同：一旦市场恶化，所有资产同时下跌，分散化便失去作用。投资组合中还会遇到另一问题：观测数相对资产数太少时，收益率协方差矩阵可能奇异。集成学习通常不受这一问题困扰，因为样本数一般远大于模型数（<span class="math inline">\(I&gt;&gt;M\)</span>）。</p>
 <p>当模型误差之间的相关系数趋近于 1 时，上述解会变得极不稳定，集成结果也不再可靠。设 <span class="math inline">\(M=2\)</span>，即可直观看到这一点：
 <span class="math display">\[\textbf{E}'\textbf{E}=\left[
@@ -139,7 +139,7 @@ max-width: 60rem;
 -\rho(\sigma_1\sigma_2)^{-1} &amp; \sigma_2^{-2} \\
 \end{array}
 \right]\]</span></p>
-<p>因此，当 <span class="math inline">\(\rho \rightarrow 1\)</span> 时，误差方差较小的模型（即 <span class="math inline">\(\sigma_i^2\)</span> 较小）会得到趋于无穷大的正权重，另一个模型则得到绝对值同样巨大的<strong>负权重</strong>。优化器实际上是在两个高度相关的模型之间做多空套利，显然不是稳健的做法。</p>
+<p>因此，当 <span class="math inline">\(\rho \rightarrow 1\)</span> 时，误差方差较小的模型（即 <span class="math inline">\(\sigma_i^2\)</span> 较小）会得到趋于无穷大的正权重，另一个模型则得到绝对值同样巨大的<strong>负权重</strong>。这相当于用极端正负头寸在两个高度相关的模型之间构造“多空”对冲，结果对很小的估计误差都极为敏感，因而并不稳健。</p>
 <p>还可以从另一个角度理解相关性的影响。假设有 <span class="math inline">\(M\)</span> 个相关误差 <span class="math inline">\(\epsilon_m\)</span>，两两相关系数均为 <span class="math inline">\(\rho\)</span>，均值为零，方差为 <span class="math inline">\(\sigma^2\)</span>。平均误差的方差为
 <span class="math display">\[\begin{align*}
 \mathbb{E}\left[\frac{1}{M}\sum_{m=1}^M \epsilon_m^2 \right]&amp;=\frac{1}{M^2}\left[\sum_{m=1}^M\epsilon_m^2+\sum_{m\neq n}\epsilon_n\epsilon_m\right] \\
@@ -472,7 +472,7 @@ max-width: 60rem;
 <li><a class="nav-link" href="#ensemble"><span class="header-section-number">11</span> 集成学习</a></li>
 <li>
 <a class="nav-link" href="#linear-ensembles"><span class="header-section-number">11.1</span> 线性集成</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#principles"><span class="header-section-number">11.1.1</span> 原理</a></li>
+<li><a class="nav-link" href="#principles"><span class="header-section-number">11.1.1</span> 原则</a></li>
 <li><a class="nav-link" href="#example"><span class="header-section-number">11.1.2</span> 示例</a></li>
 </ul>
 </li>

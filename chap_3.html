@@ -13210,7 +13210,7 @@ r_{t,n}= \alpha_n+\sum_{k=1}^K\beta_{n,k}f_{t,k}+\epsilon_{t,n},
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>其中，线性模型通常的计量约束成立：$\mathbb{E}[\epsilon_{t,n}]=0$、$\text{cov}(\epsilon_{t,n},\epsilon_{t,m})=0$ 对 $n\neq m$ 成立，并且 $\text{cov}(\textbf{f}_n,\boldsymbol{\epsilon}_n)=0$。如果这样的因子确实存在，它们就与资产定价的基石模型相矛盾：Sharpe (1964)、Lintner (1965) 和 Mossin (1966) 的资本资产定价模型（CAPM）。根据 CAPM，收益率唯一的驱动因素是市场组合。这也解释了为什么因子也被称为“异象”。</p>
+<p>其中，线性模型通常的计量约束成立：$\mathbb{E}[\epsilon_{t,n}]=0$、$\text{cov}(\epsilon_{t,n},\epsilon_{t,m})=0$ 对 $n\neq m$ 成立，并且 $\text{cov}(\textbf{f}_n,\boldsymbol{\epsilon}_n)=0$。如果市场因子之外的这些因子能够系统性解释平均收益率，Sharpe (1964)、Lintner (1965) 和 Mossin (1966) 提出的单因子资本资产定价模型（CAPM）就无法完整解释收益率的横截面差异。在 CAPM 中，市场组合是唯一的系统性风险因子；超出这一基准模型解释范围、具有稳定横截面收益差异的经验规律，通常称为资产定价“异象”。</p>
 </div>
 </div>
 </div>
@@ -13267,7 +13267,7 @@ r_{t,n}= \alpha_n+\sum_{k=1}^K\beta_{n,k}f_{t,k}+\epsilon_{t,n},
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="3.2.2-Simple-portfolio-sorts">3.2.2 简单组合排序<a class="anchor-link" href="#3.2.2-Simple-portfolio-sorts">¶</a></h3>
+<h3 id="3.2.2-Simple-portfolio-sorts">3.2.2 简单投资组合排序法<a class="anchor-link" href="#3.2.2-Simple-portfolio-sorts">¶</a></h3>
 </div>
 </div>
 </div>
@@ -13287,14 +13287,14 @@ r_{t,n}= \alpha_n+\sum_{k=1}^K\beta_{n,k}f_{t,k}+\epsilon_{t,n},
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>最终可得到每个分组 $j$ 的组合收益率时间序列 $r_t^j$。如果第一组（$j=1$）与最后一组（$j=J$）的 $t$ 检验表明平均收益率存在显著差异，就可识别出一个异象。更稳健的检验见 Cattaneo et al. (2020)。这种方法的一项重要局限在于，排序指标对收益率的影响可能并非单调，而只比较两个极端组合无法发现这种情况。Patton and Timmermann (2010) 与 Romano and Wolf (2013) 等研究讨论了这一问题。另一个隐患是，这些排序组合不仅可能捕捉与该特征有关的定价风险，还可能包含某些未定价风险。K. Daniel et al. (2020) 表明，可以将二者分离，并据此改进排序组合。</p>
+<p>最终可得到每个分组 $j$ 的组合收益率时间序列 $r_t^j$。如果第一组（$j=1$）与最后一组（$j=J$）的 $t$ 检验表明平均收益率存在显著差异，就可识别出一个异象。更稳健的检验见 Cattaneo et al. (2020)。这种方法的一项重要局限在于，排序指标对收益率的影响可能并非单调，而只比较两个极端组合无法发现这种情况。Patton and Timmermann (2010) 与 Romano and Wolf (2013) 等研究讨论了这一问题。另一个隐患是，这些排序投资组合不仅可能捕捉与该特征有关的定价风险，还可能包含某些未定价风险。K. Daniel et al. (2020) 表明，可以将二者分离，并据此改进排序投资组合。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>除了只关注一个标准，也可以按照更多特征对资产分组。Fama and French (1992) 的原始论文也将市值与账面市值比结合起来。每个特征被划分为 10 个桶，因此总共形成 100 个组合。除数据可得性之外，排序过程中可纳入的特征数量没有上限。事实上，一些作者研究了更复杂的排序算法，以处理潜在的大量特征（例如 Feng, Polson, and Xu (2019) 以及 Bryzgalova, Pelger, and Zhu (2019)）。</p>
+<p>除了只关注一个标准，也可以按照更多特征对资产分组。Fama and French (1992) 的原始论文也将市值与账面市值比结合起来。每项特征分为 10 组，因此共形成 100 个投资组合。除数据可得性之外，排序过程中可纳入的特征数量没有上限。事实上，一些作者研究了更复杂的排序算法，以处理潜在的大量特征（例如 Feng, Polson, and Xu (2019) 以及 Bryzgalova, Pelger, and Zhu (2019)）。</p>
 </div>
 </div>
 </div>
@@ -13375,7 +13375,7 @@ r_{t,n}= \alpha_n+\sum_{k=1}^K\beta_{n,k}f_{t,k}+\epsilon_{t,n},
 <li>动量（<strong>WML</strong> = 赢家减输家）：Jegadeesh and Titman (1993), Carhart (1997) 以及 C. S. Asness, Moskowitz, and Pedersen (2013)。赢家是过去一年收益率最高的资产（有时收益率计算会截去最近一个月）。横截面动量与时间序列动量（趋势跟随）有关，但并不等同，见 Moskowitz, Ooi, and Pedersen (2012) 与 Lempérière et al. (2014)。动量也与不同频率上的反转运动相关（短期和长期反转），见 Luo, Subrahmanyam, and Titman (2020)。</li>
 <li>盈利能力（<strong>RMW</strong> = 盈利稳健公司减盈利疲弱公司）：Fama and French (2015), Bouchaud et al. (2019)。在前一篇文献中，盈利能力定义为（收入 - 成本和费用）/权益。</li>
 <li>投资（<strong>CMA</strong> = 保守减激进）：Fama and French (2015), Hou, Xue, and Zhang (2015)。投资以总资产增长额除以总资产来衡量。激进型公司是资产增长幅度最大的公司。</li>
-<li>低“风险”（有时为 <strong>BAB</strong> = betting against beta）：Ang et al. (2006), Baker, Bradley, and Wurgler (2011), Frazzini and Pedersen (2014), Boloorforoosh et al. (2020), Baker, Hoeyer, and Wurgler (2020) 以及 Asness et al. (2020)。在这种情形下，风险的计算在不同文章中并不相同（简单波动率、市场 beta、特质波动率等）。</li>
+<li>低“风险”（有时称为 <strong>BAB</strong>，即反贝塔策略）：Ang et al. (2006), Baker, Bradley, and Wurgler (2011), Frazzini and Pedersen (2014), Boloorforoosh et al. (2020), Baker, Hoeyer, and Wurgler (2020) 以及 Asness et al. (2020)。在这种情形下，各篇文章衡量风险的方式并不相同，包括简单波动率、市场贝塔和特质波动率等。</li>
 </ul>
 </div>
 </div>
@@ -13708,14 +13708,14 @@ p-\text{value} &amp;= P[D|H] \\
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>其中，$t$ 是回归得到的 $t$ 统计量，也就是用于定义 p 值的统计量；prior 是分析者对假设（异象）为真所设定的先验赔率。其编码方式如下：假设原假设成立的概率为 p%（因此异象成立的概率为 (1-p)%），赔率写作 $p/(1-p)$。于是，当 t 统计量等于 2（大致对应 5% 的 p 值），先验赔率等于 6 时，Bpv 等于 $e^{-2}\times 6 \times(1+e^{-2}\times 6)^{-1}\approx 0.448$，即原假设为真的概率是 44.8%。这与原始 $p$ 值形成鲜明对比，因为后者不能解释为原假设成立的概率。当然，这种方法的缺点是结果高度依赖先验，而先验完全由使用者设定。</p>
+<p>其中，$t$ 是回归得到的 $t$ 统计量，也就是用于确定 p 值的统计量；公式中的 prior 表示分析者为假设（异象）成立所设定的先验赔率。其编码方式如下：假设原假设成立的先验概率为 p%（因此异象成立的先验概率为 (1-p)%），赔率写作 $p/(1-p)$。于是，当 t 统计量等于 2（大致对应 5% 的 p 值），先验赔率等于 6 时，Bpv 等于 $e^{-2}\times 6 \times(1+e^{-2}\times 6)^{-1}\approx 0.448$，即原假设为真的后验概率是 44.8%。这与原始 $p$ 值形成鲜明对比，因为后者不能解释为原假设成立的概率。当然，这种方法的缺点是结果高度依赖先验赔率的设定，而该设定完全由使用者指定。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Chinco, Neuhierl, and Weber (2020) 的研究路径很不相同，但同样涉及若干关键概念，例如在回归结果中引入贝叶斯先验。他们表明，用 $L^2$ 约束限制预测回归（见第 5 章的岭回归），等价于对 $b$ 的真实分布加入先验判断。约束越强，估计值 $\hat{b}$ 就越会向零收缩。该研究的一项核心假设是，不同异象对应的真实 $b$ 共同服从某个以零为中心的高斯分布。关键参数是这一分布的标准差：标准差越大，显著异象出现的频率越高。值得注意的是，作者还表明该参数会随时间变化；更多细节请参阅原文。</p>
+<p>Chinco, Neuhierl, and Weber (2020) 的研究路径很不相同，但同样涉及若干关键概念，例如在回归中引入参数的先验分布。他们表明，用 $L^2$ 约束限制预测回归（见第 5 章的岭回归），等价于对 $b$ 的真实分布加入先验判断。约束越强，估计值 $\hat{b}$ 就越会向零收缩。该研究的一项核心假设是，不同异象对应的真实 $b$ 共同服从某个以零为中心的高斯分布。关键参数是这一分布的标准差：标准差越大，显著异象出现的频率越高。值得注意的是，作者还表明该参数会随时间变化；更多细节请参阅原文。</p>
 </div>
 </div>
 </div>
@@ -13729,7 +13729,7 @@ p-\text{value} &amp;= P[D|H] \\
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Fama and MacBeth (1973) 提出了另一种识别方法，通过两阶段回归分析风险溢价。第一阶段按股票逐一进行时间序列回归，估计前述关系。得到的估计值 $\hat{\beta}_{i,k}$ 随后代入第二组回归：</p>
+<p>Fama and MacBeth (1973) 提出了另一种异象检验方法，即通过两阶段回归估计因子风险价格。第一阶段按股票逐一进行时间序列回归，估计前述关系并得到因子载荷 $\hat{\beta}_{i,k}$；随后将这些估计值代入第二阶段的横截面回归：</p>
 </div>
 </div>
 </div>
@@ -13745,7 +13745,7 @@ r_{t,n}= \gamma_{t,0} + \sum_{k=1}^K\gamma_{t,k}\hat{\beta}_{n,k} + \varepsilon_
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>这些回归逐日在资产横截面上运行。6 理论上，beta 应当已知，因此回归应使用 $\beta_{n,k}$，而不是它的估计值。$\hat{\gamma}_{t,k}$ 估计因子 $k$ 在时间 $t$ 的风险溢价。若对<br/>
+<p>这些回归逐日在资产横截面上运行。6 理论上，贝塔应当已知，因此回归应使用 $\beta_{n,k}$，而不是其估计值。$\hat{\gamma}_{t,k}$ 是因子 $k$ 在时间 $t$ 的横截面风险价格估计值，其时间均值通常解释为该因子的平均风险溢价。若对<br/>
 $\varepsilon_{t,n}$ 作出适当的分布假设，就可以通过统计检验判断这些溢价是否显著。通常，检验时间聚合后的平均溢价 $\hat{\gamma}_k=\frac{1}{T}\sum_{t=1}^T\hat{\gamma}_{t,k}$ 所用的统计量为：</p>
 </div>
 </div>
@@ -13776,7 +13776,7 @@ t_k=\frac{\hat{\gamma}_k}{\hat{\sigma_k}/\sqrt{T}}$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>下面，我们在样本上执行 Fama and MacBeth (1973) 回归。先从第一阶段开始：逐只股票估计 beta。下面构建一个专用函数来自动化该流程。</p>
+<p>下面，我们在样本上执行 Fama and MacBeth (1973) 回归。先从第一阶段开始：逐只股票估计贝塔。下面构建一个专用函数来自动化该流程。</p>
 </div>
 </div>
 </div>
@@ -13819,7 +13819,7 @@ t_k=\frac{\hat{\gamma}_k}{\hat{\sigma_k}/\sqrt{T}}$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>表 3.2：beta 值样本（行号为股票 ID）。</p>
+<p>表 3.2：贝塔估计值样本（行号为股票 ID）。</p>
 </div>
 </div>
 </div>
@@ -13930,7 +13930,7 @@ t_k=\frac{\hat{\gamma}_k}{\hat{\sigma_k}/\sqrt{T}}$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>表中，MKT_RF 是市场收益率减无风险利率。相应系数通常称为 beta，尤其是在单变量回归中。随后，我们将表 3.2 中的这些 beta 重新整理，为第二阶段作准备。每一行对应一项资产：前 5 列是估计的因子载荷，其余列是资产收益率（逐日期）。</p>
+<p>表中，MKT_RF 是市场收益率减无风险利率。相应系数通常称为贝塔，尤其是在单变量回归中。随后，我们将表 3.2 中的这些贝塔估计值重新整理，为第二阶段作准备。每一行对应一项资产：前 5 列是估计的因子载荷，其余列是资产收益率（逐日期）。</p>
 </div>
 </div>
 </div>
@@ -14159,14 +14159,14 @@ t_k=\frac{\hat{\gamma}_k}{\hat{\sigma_k}/\sqrt{T}}$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>表 3.3：重新整理后的 beta 值样本（可用于回归）。</p>
+<p>表 3.3：重新整理后的贝塔估计值样本（可用于回归）。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>我们看到第一列（市场 beta）的数值围绕 1 波动，这符合预期。最后，我们可以进行第二轮回归。</p>
+<p>我们看到第一列（市场贝塔）的数值围绕 1 波动，这符合预期。最后，我们可以进行第二轮回归。</p>
 </div>
 </div>
 </div>
@@ -14434,7 +14434,7 @@ f_{t,k} = a_k +\sum_{j\neq k} \delta_{k,j} f_{t,j} + \epsilon_{t,k}.
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>回归得到一个 $α$ 值向量。下面将这些数值与 $p$ 值门槛一同整理，并输出为汇总表。系数显著性水平编码如下：$0&lt;(***)&lt;0.001&lt;(**)&lt;0.01&lt;(*)&lt;0.05$</p>
+<p>回归得到一个 $α$ 值向量。下面将这些数值与 $p$ 值门槛一同整理，并输出为汇总表。系数显著性按如下方式标记：<em>p</em> 值小于 0.001 标记为“***”，小于 0.01 标记为“**”，小于 0.05 标记为“*”。</p>
 </div>
 </div>
 </div>
@@ -14566,7 +14566,7 @@ f_{t,k} = a_k +\sum_{j\neq k} \delta_{k,j} f_{t,j} + \epsilon_{t,k}.
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在更宏观的层面上，研究者还试图判断：给定实际观测数据，以及计量经济学家可能设定的先验，哪些模型，也就是哪些因子组合，最有可能得到数据支持。例如，这一研究方向会量化 Fama and French (1993) 的三因子模型在多大程度上优于 Fama and French (2015) 的五因子模型。De Moor, Dhaene, and Sercu (2015) 为此提出一种新的 p 值计算方法，用于比较两个模型通过零 alpha 检验的相对可能性。更一般地，Chib, Zeng, and Zhao (2020) 随后改进了 Barillas and Shanken (2018) 的贝叶斯方法。</p>
+<p>在更宏观的层面上，研究者还试图判断：给定实际观测数据，以及计量经济学家为各候选模型设定的模型先验概率，哪些模型，也就是哪些因子组合，最有可能得到数据支持。例如，这一研究方向会量化 Fama and French (1993) 的三因子模型在多大程度上优于 Fama and French (2015) 的五因子模型。De Moor, Dhaene, and Sercu (2015) 为此提出一种新的 p 值计算方法，用于比较两个模型通过零 alpha 检验的相对可能性。更一般地，Chib, Zeng, and Zhao (2020) 随后改进了 Barillas and Shanken (2018) 的贝叶斯方法。</p>
 </div>
 </div>
 </div>
@@ -14637,7 +14637,7 @@ f_{t,k} = a_k +\sum_{j\neq k} \delta_{k,j} f_{t,j} + \epsilon_{t,k}.
 <li>Chordia, Goyal, and Shanken (2019) 发现，相比因子载荷，特征解释了估计预期收益率变动中更大的比例；</li>
 <li>Kozak, Nagel, and Santosh (2018) 将基于因子的溢价解释与一个理论模型相协调，在该模型中，部分投资者需求由情绪驱动；</li>
 <li>Han et al. (2019) 使用惩罚化回归表明，94 个特征中有 20 到 30 个有助于预测美国股票的月收益率。他们的方法很有意思：先用特征回归收益率并生成预测值，再用该预测值回归收益率，以评估预测是否可靠。后一项回归采用 LASSO 型惩罚（见第 5 章），从而把无用特征排除在模型之外。Rapach and Zhou (2019) 进一步将惩罚扩展到弹性网络（elastic net）。</li>
-<li>Kelly, Pruitt, and Su (2019) 与 Kim, Korajczyk, and Neuhierl (2019) 都估计了这样一类模型：因子是潜变量，而载荷（beta）以及可能的 alpha 取决于公司特征。Kirby (2020) 通过引入状态切换推广了第一种方法。相比之下，Lettau and Pelger (2020a) 与 Lettau and Pelger (2020b) 估计不与特定特征直接关联的潜在因子，并给出其方法的大样本渐近性质。</li>
+<li>Kelly, Pruitt, and Su (2019) 与 Kim, Korajczyk, and Neuhierl (2019) 都估计了这样一类模型：因子是潜变量，而因子载荷（贝塔）以及可能的 alpha 取决于公司特征。Kirby (2020) 通过引入状态切换推广了第一种方法。相比之下，Lettau and Pelger (2020a) 与 Lettau and Pelger (2020b) 估计不与特定特征直接关联的潜在因子，并给出其方法的大样本渐近性质。</li>
 <li>与 Hoechle, Schmid, and Zimmermann (2018) 类似，Gospodinov, Kan, and Robotti (2019) 以及 Bryzgalova (2019) 讨论了利用投资组合排序法生成多空收益率时可能出现的错误。作者表明，在某些情况下，基于这一流程的检验会产生误导；当排序特征与某个外部且不可观测的因子相关时，就会出现这种问题。他们提出一种新的回归方法来规避这一缺陷。</li>
 </ul>
 </div>
@@ -14939,7 +14939,7 @@ g
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>第三种方法来自 Kelly, Pruitt, and Su (2019)，尽管其统计处理本身并不属于机器学习。8 他们的思路恰好相反：因子是潜在且不可观测的，beta，也就是载荷，则取决于公司特征。这为模型提供了很大的自由度，因为在 $r_{t,n}=\alpha_n+(\boldsymbol{\beta}_{t,n}(\textbf{x}_{t-1,n}))'\textbf{f}_t+\epsilon_{t,n},$ 中，只有特征 $\textbf{x}_{t-1,n}$ 已知，因子 $\textbf{f}_t$ 和函数形式 $\boldsymbol{\beta}_{t,n}(\cdot)$ 都需要估计。Kelly, Pruitt, and Su (2019) 使用线性形式，使这一问题更易处理。</p>
+<p>第三种方法来自 Kelly, Pruitt, and Su (2019)，尽管其统计处理本身并不属于机器学习。8 他们的思路恰好相反：因子是潜在且不可观测的，贝塔（因子载荷）则取决于公司特征。这为模型提供了很大的自由度，因为在 $r_{t,n}=\alpha_n+(\boldsymbol{\beta}_{t,n}(\textbf{x}_{t-1,n}))'\textbf{f}_t+\epsilon_{t,n},$ 中，只有特征 $\textbf{x}_{t-1,n}$ 已知，因子 $\textbf{f}_t$ 和函数形式 $\boldsymbol{\beta}_{t,n}(\cdot)$ 都需要估计。Kelly, Pruitt, and Su (2019) 使用线性形式，使这一问题更易处理。</p>
 </div>
 </div>
 </div>
@@ -15011,7 +15011,7 @@ g
 <ol>
 <li>计算成长型组合与价值型组合的年度收益率。以市净率中位数为界划分公司并计算各组平均收益率（该变量在数据集中称为 `<strong>Pb</strong>’）。</li>
 <li>重复上述练习，但改为计算月度收益率，并绘制相应投资组合价值随时间变化的曲线。</li>
-<li>不再使用单一阈值，而是按市值四分位数构造简单排序组合。计算各组合的年度收益率并绘图。</li>
+<li>不再使用单一阈值，而是按市值四分位数构造简单排序投资组合。计算各组合的年度收益率并绘图。</li>
 </ol>
 </div>
 </div>
@@ -15341,21 +15341,21 @@ g
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><span id="fn3"> 6. 最初，Fama and MacBeth (1973) 只使用市场 beta：$r_{t,n}=\alpha_n+\beta_nr_{t,M}+\epsilon_{t,n}$，第二阶段包含非线性项：$r_{t,n}=\gamma_{n,0}+\gamma_{t,1}\hat{\beta}_{n}+\gamma_{t,2}\hat{\beta}^2_n+\gamma_{t,3}\hat{s}_n+\eta_{t,n}$，其中 $\hat{s}_n$ 是与 beta 无关的资产风险估计。随后可以进行资产定价检验来推断某些性质。例如，检验 beta 对收益率是否具有线性影响（$\mathbb{E}[\gamma_{t,2}]=0$），或检验 CAPM 的有效性（其含义是 $\mathbb{E}[\gamma_{t,0}]=0$）。</span></p>
+<p><span id="fn6"> 6. 最初，Fama and MacBeth (1973) 只使用市场贝塔：$r_{t,n}=\alpha_n+\beta_nr_{t,M}+\epsilon_{t,n}$，第二阶段包含非线性项：$r_{t,n}=\gamma_{n,0}+\gamma_{t,1}\hat{\beta}_{n}+\gamma_{t,2}\hat{\beta}^2_n+\gamma_{t,3}\hat{s}_n+\eta_{t,n}$，其中 $\hat{s}_n$ 是与贝塔无关的资产风险估计。随后可以进行资产定价检验来推断某些性质。例如，检验贝塔对收益率是否具有线性影响（$\mathbb{E}[\gamma_{t,2}]=0$），或检验 CAPM 的有效性（其含义是 $\mathbb{E}[\gamma_{t,0}]=0$）。</span></p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><span id="fn3"> 7. 自 Lo and MacKinlay (1990) 的开创性论文以来，整体/组合收益率中的自相关就是一个被广泛记录的效应（另见 Moskowitz, Ooi, and Pedersen (2012)）。</span></p>
+<p><span id="fn7"> 7. 自 Lo and MacKinlay (1990) 的开创性论文以来，整体/组合收益率中的自相关就是一个被广泛记录的效应（另见 Moskowitz, Ooi, and Pedersen (2012)）。</span></p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><span id="fn4"> 8. 同样思路另见 Lettau and Pelger (2020a) 与 Lettau and Pelger (2020b)。</span></p>
+<p><span id="fn8"> 8. 同样思路另见 Lettau and Pelger (2020a) 与 Lettau and Pelger (2020b)。</span></p>
 </div>
 </div>
 </div>

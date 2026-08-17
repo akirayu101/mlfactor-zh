@@ -14772,7 +14772,7 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \text{penalization},
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>选择 softmax 的理由很直接：它可以接受任意实数输入，并把有限维输出转换成各分量之和为 1 的向量。与树模型类似，这可以解释为类别上的“概率”向量。相应损失通常采用树模型中熵的推广形式。给定目标标签 $\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)$ 和预测输出 $\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)$，交叉熵定义为</p>
+<p>选择 softmax 的理由很直接：它可以接受任意实数输入，并把有限维输出转换成各分量之和为 1 的向量。与树模型类似，这可以解释为类别上的“概率”向量。相应损失通常采用树模型中熵的推广形式。给定目标标签 $\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)$ 和预测输出 $\tilde{\textbf{y}}_i=(\tilde{y}_{i,1},\dots,\tilde{y}_{i,L})$，交叉熵定义为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14879,7 +14879,7 @@ U_k\approx \left\lfloor O\left( \frac{I}{O}\right)^{\frac{L+1-k}{L+1}}\right\rfl
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li><strong>训练轮次（epoch）</strong>：当训练集中的每个样本都参与过一次权重更新后，就完成一个 epoch。训练神经网络通常需要数个至数十个 epoch。</li>
+<li><strong>训练轮次（epoch）</strong>：当训练集中的每个样本都被模型处理一次后，就完成一个 epoch；在常见的小批量训练中，每个样本通常恰好出现在一个批次里。训练神经网络通常需要数个至数十个 epoch。</li>
 <li><strong>批量大小</strong>：一次权重更新所使用的样本数。</li>
 <li><strong>迭代次数</strong>：有时指完成一个 epoch 所需的权重更新次数，即样本数除以批量大小；有时也指整个训练过程的更新总数，即前述比值再乘以 epoch 数。</li>
 </ul>
@@ -14897,7 +14897,7 @@ U_k\approx \left\lfloor O\left( \frac{I}{O}\right)^{\frac{L+1-k}{L+1}}\right\rfl
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="7.3.3-Penalizations-and-dropout">7.3.3 惩罚项与 dropout<a class="anchor-link" href="#7.3.3-Penalizations-and-dropout">¶</a></h3>
+<h3 id="7.3.3-Penalizations-and-dropout">7.3.3 惩罚项与 Dropout（随机失活）<a class="anchor-link" href="#7.3.3-Penalizations-and-dropout">¶</a></h3>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14932,7 +14932,7 @@ O=\sum_{i=1}^I \text{loss}(y_i,\tilde{y}_i)+ \sum_{k} \lambda_k||\textbf{W}_k||_
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后，还可以通过暂时缩小模型规模，也就是减少有效参数数目，来降低过拟合风险。Srivastava 等人（2014）提出在训练期间随机停用部分单元，因此称为 <strong>dropout（随机失活）</strong>。被选中单元的权重在该轮训练中设为零，与它相连的输入和输出连接都被忽略，相当于临时缩小网络。测试时会恢复全部单元，但需要相应缩放权重，以补偿训练期间缺失的激活。</p>
+<p>最后，还可以通过暂时缩小模型规模，也就是减少参与计算的单元数，来降低过拟合风险。Srivastava 等人（2014）提出在训练期间随机停用部分单元，因此称为 <strong>Dropout（随机失活）</strong>。被选中单元的输出激活在该轮训练中置为零，使与之相连的边不参与本轮计算；模型参数本身并未被删除或置零。常见的“倒置 Dropout”会在训练时缩放保留的激活，因此推断时恢复全部单元后无需再缩放。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15072,7 +15072,7 @@ _________________________________________________________________
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这里把损失函数设为标准均方误差。其他损失函数见 <a href="https://keras.io/losses/">https://keras.io/losses/</a>：有些只适用于回归，如 MSE、MAE；有些用于分类，如方程（7.5）中的分类交叉熵。RMSprop 优化器是经典的小批量反向传播实现。其他权重更新算法见 <a href="https://keras.io/optimizers/">https://keras.io/optimizers/</a>。度量指标用于评估模型质量，可以不同于训练损失；例如用交叉熵训练模型，却用准确率衡量表现。</p>
+<p>这里把损失函数设为标准均方误差。其他损失函数见 <a href="https://keras.io/losses/">https://keras.io/losses/</a>：有些只适用于回归，如 MSE、MAE；有些用于分类，如方程（7.5）中的分类交叉熵。反向传播负责计算梯度，RMSprop 优化器则根据梯度平方的指数移动平均自适应地缩放参数更新。其他权重更新算法见 <a href="https://keras.io/optimizers/">https://keras.io/optimizers/</a>。度量指标用于评估模型质量，可以不同于训练损失；例如用交叉熵训练模型，却用准确率衡量表现。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15258,7 +15258,7 @@ Epoch 10/10
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后一项新增设置，是在第一层与第二层之间加入 dropout 层，参见第 7.3.3 节。训练期间，第一层四分之一的单元会被随机停用。</p>
+<p>最后一项新增设置，是在第一层与第二层之间加入 Dropout 层，参见第 7.3.3 节。训练期间，第一层四分之一的单元会被随机停用。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15314,7 +15314,7 @@ _________________________________________________________________
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这里的训练设置也有多处变化。损失函数改为交叉熵。由于只有两个类别，采用二元交叉熵；更一般的 categorical_crossentropy 可处理任意多于一个类别的任务。优化器也已更换，并包含多个参数，详见 Kingma 和 Ba（2014）。简单来说，两个 beta 参数控制权重更新中指数加权移动平均的衰减率，这两个移动平均分别估计梯度的一阶矩和二阶矩，可用于加快学习。代码中的表现指标是分类准确率。多类别分类时，每个样本的预测是一个类别概率向量，最终类别取最大分量对应的类别；准确率就是预测类别与真实类别一致的样本比例。</p>
+<p>这里的训练设置也有多处变化。代码使用 binary_crossentropy；它通常与单个 sigmoid 输出搭配处理二分类。本例采用两个 softmax 输出和独热标签，也可以更常规地使用 categorical_crossentropy；后者适用于两个及以上互斥类别。优化器也已更换，并包含多个参数，详见 Kingma 和 Ba（2014）。简单来说，两个 β 参数控制权重更新中指数加权移动平均的衰减率，这两个移动平均分别估计梯度的一阶矩和二阶矩，可用于调整各参数的更新步长。代码中的表现指标是分类准确率。多类别分类时，每个样本的预测是一个类别概率向量，最终类别取最大分量对应的类别；准确率就是预测类别与真实类别一致的样本比例。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15406,7 +15406,7 @@ Epoch 5/20
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>上面代码监控验证指标，这里是“val_loss”，也可以选择“val_acc”。min_delta 规定算法认定为有效改善的最小幅度；若每个 epoch 的验证指标改善不足 0.001，就可能触发停止。patience 参数提供了缓冲：本例要求连续三个 epoch 没有改善后才终止训练。verbose 控制函数输出的信息量；这里不需要过程信息，因此设为零。</p>
+<p>上面代码监控的是验证损失“val_loss”；若希望监控验证准确率，可以改用相应的准确率指标。min_delta 规定算法认定为有效改善的最小幅度；验证损失至少下降 0.001 才计为一次改善。patience 参数提供了缓冲：本例要求连续三个 epoch 没有改善后才终止训练。verbose 控制函数输出的信息量；这里不需要过程信息，因此设为零。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">

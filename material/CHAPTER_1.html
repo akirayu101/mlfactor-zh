@@ -13107,99 +13107,99 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Chapter-1-Notations-and-data">第 1 章 符号与数据<a class="anchor-link" href="#Chapter-1-Notations-and-data">¶</a></h1>
+<h1 id="Chapter-1-Notations-and-data">第 1 章 符号约定与数据<a class="anchor-link" href="#Chapter-1-Notations-and-data">¶</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1.1-Notations">1.1 符号<a class="anchor-link" href="#1.1-Notations">¶</a></h2>
+<h2 id="1.1-Notations">1.1 符号约定<a class="anchor-link" href="#1.1-Notations">¶</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>本节旨在提供全书将使用的正式数学约定。</p>
-<p>粗体符号表示向量和矩阵。我们使用大写字母表示矩阵，使用小写字母表示向量。 $\mathbf{v}'$和$\mathbf{M}'$
-表示$\mathbf{v}$和$\mathbf{M}$. $\mathbf{M}=[m]_{i,j}$
-其中$i$是行索引并且$j$列索引。</p>
+<p>本节给出全书统一采用的数学符号约定。</p>
+<p>粗体符号表示向量和矩阵。矩阵用大写字母表示，向量用小写字母表示。$\mathbf{v}'$ 和 $\mathbf{M}'$
+分别表示 $\mathbf{v}$ 和 $\mathbf{M}$ 的转置。$\mathbf{M}=[m]_{i,j}$
+中，$i$ 是行索引，$j$ 是列索引。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>我们将并行使用两套符号。第一套是纯机器学习符号，其中<strong>标签</strong>（也称为<strong>输出</strong>、<strong>因变量</strong>或<strong>被预测变量</strong>）$\mathbf{y}=y_i$由特征<br/>
-$\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{X}$的维度是$I\times K$：有$I$个<strong>实例</strong>、<strong>记录</strong>或<strong>观测</strong>，每个实例都有$K$个<strong>属性</strong>、<strong>特征</strong>、<strong>输入</strong>或<strong>预测变量</strong>，它们将作为<strong>自变量</strong>和<strong>解释变量</strong>（这些术语会互换使用）。有时，为了简化符号，我们会用$\textbf{x}_i$表示$\textbf{X}$中的一个实例（一行），或用$\textbf{x}_k$表示$\textbf{X}$中的一个（特征）列向量。</p>
+<p>全书同时采用两套相互对应的记号。第一套是机器学习记号，其中<strong>标签</strong>（也称<strong>输出</strong>、<strong>因变量</strong>或<strong>目标变量</strong>）$\mathbf{y}=y_i$ 由特征<br/>
+$\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$ 的函数来近似。特征矩阵 $\mathbf{X}$ 的维度为 $I\times K$：共有 $I$ 个<strong>样本</strong>，每个样本对应矩阵的一行；每个样本有 $K$ 个<strong>属性</strong>、<strong>特征</strong>、<strong>输入变量</strong>或<strong>预测变量</strong>，用作<strong>自变量</strong>或<strong>解释变量</strong>（这些术语在全书中互换使用）。有时，为简化记号，我们将第 $i$ 个样本（一行）记为 $\textbf{x}_i$，它对应 $\textbf{X}$ 中的一行；类似地，将一个特征列向量记为 $\textbf{x}_k$，它对应 $\textbf{X}$ 中的一列。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>第二种符号类型与金融有关，并且与第一种符号类型直接相关。我们经常会处理离散收益率$r_{t,n}=p_{t,n}/p_{t-1,n}-1$根据价格数据计算。这里$t$是时间索引并且$n$资产指数。除非另有说明，收益率总是在一个时期内计算，尽管这个时期有时可以是一个月或一年。每当可能发生混淆时，我们都会为收益率指定其他符号。</p>
+<p>第二套是与第一套直接对应的金融记号。我们经常使用由价格数据计算得到的离散收益率 $r_{t,n}=p_{t,n}/p_{t-1,n}-1$。这里，$t$ 是时间索引，$n$ 是资产索引。除非另作说明，收益率均按一期计算；一期有时为一个月，有时为一年。可能产生歧义时，我们会另行说明收益率的记号。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>沿用前面的约定，收益率日期数记为$T$，资产数量记为$N$。资产的特征或属性记为$x_{t,n}^{(k)}$：它表示公司或资产$n$在时间$t$的第$k$个属性值。在堆叠表示法中，$\mathbf{x}_{t,n}$表示资产$n$在时间$t$的特征向量。此外，$\mathbf{r}_t$表示时间$t$的所有收益率，而$\mathbf{r}_n$表示资产$n$的所有收益率。收益率通常扮演因变量或标签（机器学习术语）的角色。对于无风险资产，我们使用符号$r_{t,f}$。</p>
+<p>与上述约定一致，收益率的观测日期数记为 $T$，资产数记为 $N$。资产的特征或属性记为 $x_{t,n}^{(k)}$：它表示公司或资产 $n$ 在时刻 $t$ 的第 $k$ 个属性值。在堆叠记号中，$\mathbf{x}_{t,n}$ 表示资产 $n$ 在时刻 $t$ 的特征向量。此外，$\mathbf{r}_t$ 表示时刻 $t$ 所有资产的收益率，$\mathbf{r}_n$ 表示资产 $n$ 在所有时期的收益率。收益率通常充当因变量，也就是机器学习中的标签。无风险资产的收益率记为 $r_{t,f}$。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>两种符号之间的联系通常如下。一个<strong>实例</strong>（或<strong>观测</strong>）$i$由某个特定日期和某家公司组成的一对$(t,n)$表示（如果数据是完全矩形且没有缺失字段，则$I=T\times N$）。标签通常是公司在未来某个时期计算得到的表现指标，而特征由公司在时间$t$的属性组成。因此，因子投资中的机器学习引擎旨在确定一个模型，将时间$t$的公司特征映射到其未来表现。</p>
+<p>大多数情况下，两套记号之间的对应关系如下。第 $i$ 个<strong>样本</strong>对应面板数据中的一条资产—日期<strong>观测</strong> $(t,n)$，即某个特定日期与某家特定公司。如果数据为没有缺失字段的完整矩形，则 $I=T\times N$。标签通常是根据未来某段时期计算的公司表现指标，特征则由公司在时刻 $t$ 的属性构成。因此，用于因子投资的机器学习模型旨在确定一种映射关系，将公司在时刻 $t$ 的特征映射到其未来表现。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>就规范矩阵而言：$\mathbf{I}_N$将表示$(N\times N)$单位矩阵。</p>
+<p>对于常用的特殊矩阵，$\mathbf{I}_N$ 表示 $(N\times N)$ 单位矩阵。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>沿用概率论文献，我们使用期望算子$\mathbb{E}[\cdot]$和条件期望$\mathbb{E}_t[\cdot]$，其中相应的滤波$\mathcal{F}_t$对应时间$t$可获得的全部信息。更准确地说，$\mathbb{E}_t[\cdot]=\mathbb{E}[\cdot | \mathcal{F}_t]$，$\mathbb{V}[\cdot]$表示方差算子。根据上下文，概率可以简单写作$P$，有时也会使用更完整的记号$\mathbb{P}$。概率密度函数 (pdf) 用小写字母 ($f$) 表示，累积分布函数 (cdf) 用大写字母 ($F$) 表示。我们将分布相等写作$X \overset{d}{=}Y$，这等价于对变量支持集上的所有$z$都有$F_X(z)=F_Y(z)$。对于随机过程$X_t$，如果$X_t$的分布随时间保持不变，即$X_t\overset{d}{=}X_s$，则称其为<strong>平稳</strong>，其中$\overset{d}{=}$表示分布相等。</p>
+<p>沿用概率论中的记号，我们以 $\mathbb{E}[\cdot]$ 表示期望算子，以 $\mathbb{E}_t[\cdot]$ 表示条件期望；相应的滤过 $\mathcal{F}_t$ 表示时刻 $t$ 可获得的全部信息。更准确地说，$\mathbb{E}_t[\cdot]=\mathbb{E}[\cdot | \mathcal{F}_t]$，$\mathbb{V}[\cdot]$ 表示方差算子。根据上下文，概率简记为 $P$，有时也采用较繁复的记号 $\mathbb{P}$。概率密度函数（pdf）用小写字母（$f$）表示，累积分布函数（cdf）用大写字母（$F$）表示。我们将同分布写作 $X \overset{d}{=}Y$；这等价于在变量的支撑集上，对所有 $z$ 都有 $F_X(z)=F_Y(z)$。对于随机过程 $X_t$，如果 $X_t$ 的分布不随时间变化，即 $X_t\overset{d}{=}X_s$，则称其为<strong>平稳</strong>过程，其中 $\overset{d}{=}$ 表示同分布。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>有时，渐近行为会用常见的朗道符号$o(\cdot)$和$O(\cdot)$来刻画。符号$∝$表示成比例：$x∝y$表示$x$与$y$成比例。关于导数，当对$x$求导时，我们使用标准记号$\frac{\partial}{\partial x}$。当计算所有导数时，我们使用紧凑记号$∇$（梯度向量）。</p>
+<p>渐近行为有时用常见的朗道记号 $o(\cdot)$ 和 $O(\cdot)$ 表示。符号 $∝$ 表示成比例关系：$x∝y$ 表示 $x$ 与 $y$ 成比例。对 $x$ 求导时，采用标准记号 $\frac{\partial}{\partial x}$；计算全部偏导数（即梯度向量）时，则采用紧凑记号 $∇$。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在方程中，等式左端和右端可分别简写为 l.h.s. 和 r.h.s.</p>
+<p>在方程中，等式左端和右端可分别简写为 l.h.s. 和 r.h.s.。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>最后，我们转向函数。我们列出以下一些：</p>
+<p>最后列出几个函数：</p>
 <ul>
-<li>$1_{\{x \}}$：条件的指示函数$x$，等于一，如果$x$
-为 true，否则为零。</li>
-<li>$\phi(\cdot)$和$\Phi(\cdot)$是标准高斯 pdf 和 cdf。</li>
-<li>card $(\cdot)=\#(\cdot)$是基数函数的两种表示法，它计算给定集合中元素的数量（作为函数的参数提供）。</li>
-<li>$\lfloor \cdot \rfloor$是向下取整函数。</li>
-<li>对于实数$x$,$[x]^+$
-是$x$的正数部分，即max $\max(0,x)$</li>
-<li>tanh$(\cdot)$是双曲正切：tanh$(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$</li>
-<li>ReLU$(\cdot)$是 ReLU 激活函数（修正线性单元）：ReLU$(x)=\max(0,x)$</li>
-<li>s$(\cdot)$将是softmax函数： s$(\textbf{x})_i=\frac{e^{x_i}}{\sum_{j=1}^Je^{x_j}}$，其中下标$i$指的是$i^{th}$向量的元素。</li>
+<li>$1_{\{x \}}$：条件 $x$ 的指示函数；$x$
+为真时取 1，否则取 0。</li>
+<li>$\phi(\cdot)$ 和 $\Phi(\cdot)$ 分别是标准正态分布的概率密度函数和累积分布函数。</li>
+<li>card $(\cdot)=\#(\cdot)$ 是基数函数的两种记号，用于计算作为函数参数给定的集合所含元素的数量。</li>
+<li>$\lfloor \cdot \rfloor$ 是向下取整函数。</li>
+<li>对于实数 $x$，$[x]^+$
+是 $x$ 的正部，即 $\max(0,x)$。</li>
+<li>tanh$(\cdot)$ 是双曲正切函数：tanh$(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$。</li>
+<li>ReLU$(\cdot)$ 是修正线性单元激活函数：ReLU$(x)=\max(0,x)$。</li>
+<li>s$(\cdot)$ 表示 softmax 函数：s$(\textbf{x})_i=\frac{e^{x_i}}{\sum_{j=1}^Je^{x_j}}$，其中下标 $i$ 指向量的第 $i^{th}$ 个元素。</li>
 </ul>
 </div>
 </div>
@@ -13214,14 +13214,14 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>贯穿整本书，并且为了<strong>可复现性</strong>，我们将通过基于单个金融数据集的实现示例来说明所提出的概念，该数据集可在<a href="https://github.com/shokru/mlfactor.github.io/tree/master/material">https://github.com/shokru/mlfactor.github.io/tree/master/material</a>获取。该数据集包含 1,207 只在美国上市的股票（可能来自加拿大或墨西哥）的信息。时间范围从 1998 年 11 月开始，到 2019 年 3 月结束。对于每个时间点，有 93 个<strong>特征</strong>描述样本中的公司。这些属性涵盖了广泛的主题：</p>
+<p>为保证<strong>可复现性</strong>，全书都以一个金融数据集为基础，通过实现示例来说明所介绍的概念。该数据集可从 <a href="https://github.com/shokru/mlfactor.github.io/tree/master/material">https://github.com/shokru/mlfactor.github.io/tree/master/material</a> 获取，包含 1,207 只在美国上市的股票（公司可能来自加拿大或墨西哥）的信息，时间范围为 1998 年 11 月至 2019 年 3 月。在每个时点，样本中的公司均由 93 个<strong>特征</strong>描述。这些属性涵盖多个方面：</p>
 <ul>
-<li><strong>估值</strong>（收益率、会计比率）；</li>
-<li><strong>盈利能力</strong>和质量（股本回报率）；</li>
-<li><strong>动量</strong>和技术分析（过往收益、相对强弱指数）；</li>
+<li><strong>估值</strong>（盈利收益率、会计比率）；</li>
+<li><strong>盈利能力</strong>和质量（净资产收益率）；</li>
+<li><strong>动量</strong>和技术分析（过去收益率、相对强弱指标）；</li>
 <li><strong>风险</strong>（波动率）；</li>
-<li><strong>预估</strong> （每股收益）；</li>
-<li><strong>交易量</strong>和<strong>流动性</strong>（股票成交量）。</li>
+<li><strong>估计值</strong>（每股收益）；</li>
+<li><strong>成交量</strong>和<strong>流动性</strong>（股票换手率）。</li>
 </ul>
 </div>
 </div>
@@ -13229,7 +13229,7 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>样本并非完美矩形：没有缺失点，但企业数量及其属性随时间变化，并不恒定。这使得回测中的计算更加棘手，但也更加真实。</p>
+<p>样本并非严格的矩形面板：数据点没有缺失，但公司数量及其属性均随时间变化。这使回测计算更加棘手，却也更贴近现实。</p>
 </div>
 </div>
 </div>
@@ -13329,7 +13329,7 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>数据有99列，268336行。前两列表示股票标识符和日期。接下来的 93 列是特征（详细信息请参见附录中的表 17.1）。最后四列是标签。这些点按月频率采样。正如实践中的情况一样，资产数量随时间变化，如图 1.1 所示。</p>
+<p>该数据共有 99 列、268336 行。前两列是股票标识符和日期，随后 93 列是特征（详见附录中的表 17.1），最后 4 列是标签。观测频率为月度。现实数据通常如此，资产数量会随时间变化，见图 1.1。</p>
 </div>
 </div>
 </div>
@@ -13366,14 +13366,14 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>图 1.1：随时间变化的资产数量。</p>
+<p>图 1.1：各时点的资产数量。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>数据集中有四个直接<strong>标签</strong>：R1M_Usd、R3M_Usd、R6M_Usd 和 R12M_Usd，分别对应股票 1 个月、3 个月、6 个月和 12 个月的未来/远期收益率。这些收益率是<strong>总收益率</strong>，也就是说，它们包含了所考虑期间内可能发生的<strong>股息</strong>支付。与仅使用价格收益率相比，这是财务收益的更好代理变量。关于价格收益率与股息脱钩的影响，可参考 Hartzmark 和 Solomon (2019) 的分析。这些标签位于数据集的最后 4 列中。下面给出它们的描述性统计。</p>
+<p>数据集直接给出四个<strong>标签</strong>：R1M_Usd、R3M_Usd、R6M_Usd 和 R12M_Usd，分别对应股票未来 1 个月、3 个月、6 个月和 12 个月的收益率。这些收益率是<strong>总收益率</strong>，即计入相应期间内可能支付的<strong>股息</strong>，因此比单纯的价格收益率更能反映实际投资收益。关于价格收益率与股息相分离所造成的影响，参见 Hartzmark 和 Solomon (2019) 的分析。这些标签位于数据集最后 4 列。下面给出其描述性统计量。</p>
 </div>
 </div>
 </div>
@@ -13397,7 +13397,7 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>为了对未来模型的预期，我们将预测变量的名称保留在内存中。此外，我们还保留了一个更短的预测变量列表。</p>
+<p>为后续建模做准备，我们将预测变量的名称存入内存，并另存一份短得多的预测变量列表。</p>
 </div>
 </div>
 </div>
@@ -13417,7 +13417,7 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>预测变量已经均匀化，也就是说，对于任意给定特征和时间点，其分布都是均匀的。由于有 1,207 只股票，下图无法显示为完美矩形。</p>
+<p>预测变量已经过均匀化处理，即在任意给定时点，任一特征的横截面分布均为均匀分布。由于样本中只有 1,207 只股票，下图的直方图不会呈现为完美的矩形。</p>
 </div>
 </div>
 </div>
@@ -13455,14 +13455,14 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>图 1.2：2000-02-29 日期的股息收益率分布。</p>
+<p>图 1.2：2000 年 2 月 29 日的股息率特征分布。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>原始标签（未来收益率）是数值型的，将用于回归练习，即目标是预测标量实数时。有时，练习可能会有所不同，目的可能是预测<strong>类别</strong>（也称为<strong>类</strong>），例如“买入”“持有”或“卖出”。为了执行这种分类分析，我们创建了额外的分类标签。</p>
+<p>原始标签（未来收益率）是数值型的，用于以预测标量实数为目标的回归练习。有时，任务也可能是预测<strong>类别</strong>（也称<strong>类</strong>），例如“买入”“持有”或“卖出”。为了进行这类分类分析，我们另外创建了类别型标签。</p>
 </div>
 </div>
 </div>
@@ -13489,14 +13489,14 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>新标签是二进制的：如果原始收益率高于所考虑时间段内的中位数收益率，则它们等于 1（真），否则等于 0（假）。因此，在每个时间点，一半样本的标签等于 0，另一半样本的标签等于 1：一些股票表现优异，另一些股票表现不佳。</p>
+<p>新标签是二元变量：原始收益率高于相应期限收益率的中位数时取 1（真），否则取 0（假）。因此，在每个时点，一半样本的标签为 0，另一半为 1：有些股票跑赢，有些股票跑输。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在机器学习中，模型先在一部分数据（<strong>训练集</strong>）上估计，然后在另一部分数据（<strong>测试集</strong>）上测试，以评估其质量。我们据此分割样本。</p>
+<p>在机器学习中，模型先用一部分数据（<strong>训练集</strong>）拟合，再在另一部分数据（<strong>测试集</strong>）上检验，以评估其样本外表现。我们据此划分样本。</p>
 </div>
 </div>
 </div>
@@ -13516,7 +13516,7 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>我们还在内存中保存了一些关键变量，例如资产标识符列表和矩形版本的收益率。为简单起见，在后者的计算中，我们缩小了投资范围，仅保留我们拥有最多点数的股票。</p>
+<p>我们还在内存中保留若干关键变量，例如资产标识符列表和矩形形式的收益率。为简化后者的计算，我们缩小投资范围，只保留观测数最多的股票。</p>
 </div>
 </div>
 </div>
@@ -13548,7 +13548,7 @@ $\mathbf{X}_i=(x_{i,1},\dots,x_{i,K})$的函数来近似。特征矩阵$\mathbf{
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Hartzmark、塞缪尔·M和大卫·H·所罗门。 2019。“股息脱节。”<em>Journal of Finance</em> 74 (5): 2153–99.</p>
+<p>Hartzmark, Samuel M, and David H Solomon. 2019. “The Dividend Disconnect.” <em>Journal of Finance</em> 74 (5): 2153–99.</p>
 </div>
 </div>
 </div>

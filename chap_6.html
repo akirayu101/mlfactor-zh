@@ -14288,7 +14288,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>分类树和回归树是简单而强大的分组算法，因 Breiman 等人（1984）的专著而得到广泛应用。处理表格数据时，决策树及其扩展通常是高效的预测工具。许多机器学习竞赛的获胜方案，尤其是 Kaggle 网站$^{13}$上的方案，都采用了树模型的改进版本。例如，Olson 等人（2018）针对生物信息学问题比较了 13 种算法；若不计神经网络，提升树和随机森林分列前两位。</p>
+<p>分类树和回归树是简单而强大的递归划分算法，因 Breiman 等人（1984）的专著而得到广泛应用。处理表格数据时，决策树及其扩展通常是高效的预测工具。许多机器学习竞赛的获胜方案，尤其是 Kaggle 网站$^{13}$上的方案，都采用了树模型的改进版本。例如，Olson 等人（2018）针对生物信息学问题比较了 13 种算法；若不计神经网络，提升树和随机森林分列前两位。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14303,8 +14303,8 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="6.1-Simple-trees">6.1 简单树<a class="anchor-link" href="#6.1-Simple-trees">¶</a></h2><h3 id="6.1.1-Principle">6.1.1 原理<a class="anchor-link" href="#6.1.1-Principle">¶</a></h3><p>决策树试图把数据集划分为若干<strong>同质子群</strong>。给定目标变量
-$\mathbf{Y}$ 和特征 $\mathbf{X}$，树会反复将样本分组（通常每次二分），使各组内部的 $\mathbf{Y}$ 尽可能相似。每次划分都依据某一项特征完成。术语上，当 $\mathbf{Y}$ 为实数时，模型称为回归树；当 $\mathbf{Y}$ 为类别时，则称为<strong><em>分类树</em></strong>。</p>
+<h2 id="6.1-Simple-trees">6.1 简单树<a class="anchor-link" href="#6.1-Simple-trees">¶</a></h2><h3 id="6.1.1-Principle">6.1.1 原理<a class="anchor-link" href="#6.1.1-Principle">¶</a></h3><p>决策树试图把数据集划分为若干<strong>内部同质的节点</strong>。给定目标变量
+$\mathbf{Y}$ 和特征 $\mathbf{X}$，树会反复将样本分组（通常每次二分），使各节点内部的 $\mathbf{Y}$ 尽可能相似。每次分裂都依据某一项特征完成。术语上，当 $\mathbf{Y}$ 为实数时，模型称为回归树；当 $\mathbf{Y}$ 为类别时，则称为<strong><em>分类树</em></strong>。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14315,20 +14315,20 @@ $\mathbf{Y}$ 和特征 $\mathbf{X}$，树会反复将样本分组（通常每次
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/tree_scheme.png" width="800"/>
-图 6.1：基本树结构与划分过程示意图。</p>
+图 6.1：基本树结构与分裂过程示意图。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>目标变量是颜色；为便于处理，可以把颜色表示成相应的波长。第一次划分可以依据大小，也可以依据复杂度。显然，复杂度更合适：复杂的星星是蓝色或绿色，简单的星星则是黄色、橙色或红色。若按大小划分，小星星一组会混入蓝色和黄色，大星星一组则会混入绿色和橙色。</p>
-<p>第二步再把两个子群各划分一次。此时只剩大小这项特征有区分作用，因此划分很直接。最终，这棵示意树得到四个内部较为一致的子群。它与因子投资的类比也很清楚：颜色对应资产表现，例如红色表示表现较好，蓝色表示表现平平；星星的大小和复杂度则换成公司规模、会计比率等公司特征。因此，我们希望找到能够区分未来表现较好与较差公司的特征。</p>
-<p>下面转向回归树的正式构造，即节点划分过程。这里沿用 Breiman 等人（1984）以及 Hastie、Tibshirani 和 Friedman（2009）第 9 章的标准方法。给定包含 $I$ 个观测的样本 ($y_i$,$\mathbf{x}_i$)，回归树寻找一个划分点，使两个子群内部 $y_i$ 的总离散度最小；两个子群的大小不必相同。具体分两步进行：先为每项特征 $x_i^{(k)}$ 找到使 $\mathbf{Y}$ 在子群内尽可能同质的最佳划分点，再从所有特征中选出同质性最高的一项。</p>
+<p>目标变量是颜色；为便于处理，可以把颜色表示成相应的波长。第一次分裂可以依据大小，也可以依据复杂度。显然，复杂度更合适：复杂的星星是蓝色或绿色，简单的星星则是黄色、橙色或红色。若按大小分裂，小星星一组会混入蓝色和黄色，大星星一组则会混入绿色和橙色。</p>
+<p>第二步再把两个子节点各分裂一次。此时只剩大小这项特征有区分作用，因此分裂很直接。最终，这棵示意树得到四个内部较为一致的叶节点。它与因子投资的类比也很清楚：颜色对应资产表现，例如红色表示表现较好，蓝色表示表现平平；星星的大小和复杂度则换成公司规模、会计比率等公司特征。因此，我们希望找到能够区分未来表现较好与较差公司的特征。</p>
+<p>下面转向回归树的正式构造，即节点分裂过程。这里沿用 Breiman 等人（1984）以及 Hastie、Tibshirani 和 Friedman（2009）第 9 章的标准方法。给定包含 $I$ 个观测的样本 ($y_i$,$\mathbf{x}_i$)，回归树寻找一个分裂点，使两个子节点内部 $y_i$ 的总离差最小；两个子节点的大小不必相同。具体分两步进行：先为每项特征 $x_i^{(k)}$ 找到使 $\mathbf{Y}$ 在子节点内尽可能同质的最佳分裂点，再从所有特征中选出同质性最高的一项。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>回归树中的同质性与方差密切相关。我们希望同一子群内的 $y_i$ 尽可能接近，因此要分别最小化两个子群内的<strong>变异程度</strong>（或<strong>离散度</strong>），再将二者相加。直接把两个方差相加会忽略子群大小，所以这里采用总离差，也就是方差乘以该子群的样本数。</p>
-<p>下面的记号稍显繁复，因为上标 <strong>k</strong> 表示特征索引；理解思路时可以暂时忽略它。第一步是分别找出每项特征的最佳划分点，即求解 $\underset{c^{(k)}}{\text{argmin}} \ V^{(k)}_I(c^{(k)})$。</p>
+<p>回归树中的同质性与方差密切相关。我们希望同一节点内的 $y_i$ 尽可能接近，因此要分别最小化两个节点内的<strong>变异程度</strong>（或<strong>离散度</strong>），再将二者相加。直接把两个方差相加会忽略节点大小，所以这里采用总离差，也就是方差乘以该节点的样本数。</p>
+<p>下面的记号稍显繁复，因为上标 <strong>k</strong> 表示特征索引；理解思路时可以暂时忽略它。第一步是分别找出每项特征的最佳分裂点，即求解 $\underset{c^{(k)}}{\text{argmin}} \ V^{(k)}_I(c^{(k)})$。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14353,12 +14353,12 @@ m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>它们分别表示 $Y$ 在 $X^{(k)}$ 小于或大于 $c$ 条件下的组内均值。符号 $\#\{\cdot\}$ 表示集合中的样本数。对于特征 $k$，最佳划分点 $c^{k,*}$ 就是使两个子群总离散度最小的划分点。</p>
+<p>它们分别表示 $Y$ 在 $X^{(k)}$ 小于或大于 $c$ 条件下的节点内均值。符号 $\#\{\cdot\}$ 表示集合中的样本数。对于特征 $k$，最佳分裂点 $c^{k,*}$ 就是使两个子节点总离差最小的分裂点。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最佳划分点满足 $c^{k,*}= \underset{c^{(k)}}{\text{argmin}} \ V^{(k)}_I(c^{(k)})$。比较所有候选特征后，树会选择能在全部特征及其划分点中使总离散度最小的那一项：</p>
+<p>最佳分裂点满足 $c^{k,*}= \underset{c^{(k)}}{\text{argmin}} \ V^{(k)}_I(c^{(k)})$。比较所有候选特征后，树会选择能在全部特征及其分裂点中使总离差最小的那一项：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14368,7 +14368,7 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>完成一次划分后，同样的过程会在两个新形成的子群中继续。可以用多种准则决定何时停止（见第 6.1.3 节）。最简单的做法是限制树的最大层数，即最大深度。另一种常见做法是要求每次划分至少带来一定的改善：若划分带来的离散度下降低于给定阈值，就不再继续。关于决策树的更多技术细节，可参见 Hastie、Tibshirani 和 Friedman（2009）第 9.2.4 节。</p>
+<p>完成一次分裂后，同样的过程会在两个新形成的子节点中继续。可以用多种准则决定何时停止（见第 6.1.3 节）。最简单的做法是限制树的最大层数，即最大深度。另一种常见做法是要求每次分裂至少带来一定的改善：若分裂带来的总离差下降低于给定阈值，就不再继续。关于决策树的更多技术细节，可参见 Hastie、Tibshirani 和 Friedman（2009）第 9.2.4 节。</p>
 <p>树构建（训练）完成后，对新样本的预测很直接：根据该样本的特征值沿树向下移动，最终落入某个叶节点；该叶节点内标签的均值就是预测值。当然，这只适用于数值标签。分类任务中的处理方式将在下文说明。</p>
 </div>
 </div>
@@ -14376,23 +14376,23 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="6.1.2-Further-details-on-classification">6.1.2 分类问题的进一步说明<a class="anchor-link" href="#6.1.2-Further-details-on-classification">¶</a></h3><p>分类任务比回归任务稍复杂，最明显的区别在于如何衡量离散度或异质性。损失函数必须考虑到，最终输出不是单个数值，而是一个向量。输出 $\tilde{\textbf{y}}_i$ 的元素个数等于类别数，每个元素表示样本属于相应类别的概率。</p>
 <p>例如，若有<strong><em>买入、持有和卖出</em></strong> 3 个类别，每个样本的标签就包含 3 个分量。按照这一顺序，买入类别的标签可写为 (1,0,0)。相关概念可参见第 4.5.2 节。</p>
-<p>在树中，标签会在每个子群内汇总。典型输出如 (0.6,0.1,0.3)，表示该子群中 60% 的样本属于买入类、10% 属于持有类、30% 属于卖出类。</p>
-<p>损失函数需要体现标签的多维性。构建树的目标是提高子群同质性，因此损失应惩罚类别比例过于分散的情况。例如，输出 (0.3,0.4,0.3) 比 (0.8,0.1,0.1) 更难明确归类。</p>
-<p>因此，算法追求的是纯度：它寻找能产生尽可能纯的子群的划分准则，也就是让某个类别占据明显优势，或至少把类别集中到少数几类。文献提出了多种度量，它们都基于各类别在子群中的比例。若共有 $J$ 个类别，以 $p_j$ 表示相应类别的比例，则每个叶节点常用的损失函数包括：</p>
+<p>在树中，标签会在每个节点内汇总。典型输出如 (0.6,0.1,0.3)，表示该节点中 60% 的样本属于买入类、10% 属于持有类、30% 属于卖出类。</p>
+<p>损失函数需要体现标签的多维性。构建树的目标是提高节点同质性，因此损失应惩罚类别比例过于分散的情况。例如，输出 (0.3,0.4,0.3) 比 (0.8,0.1,0.1) 更难明确归类。</p>
+<p>因此，算法追求的是纯度：它寻找能产生尽可能纯的子节点的分裂准则，也就是让某个类别占据明显优势，或至少把类别集中到少数几类。文献提出了多种度量，它们都基于各类别在节点中的比例。若共有 $J$ 个类别，以 $p_j$ 表示相应类别的比例，则每个叶节点常用的损失函数包括：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>基尼杂质指数：$ 1-\sum_{j=1}^Jp_j^2; $</li>
-<li>误分类误差：$ 1-\underset{j}{\text{max}}\, p_j; $</li>
+<li>基尼不纯度指数：$ 1-\sum_{j=1}^Jp_j^2; $</li>
+<li>误分类率：$ 1-\underset{j}{\text{max}}\, p_j; $</li>
 <li>熵：$ -\sum_{j=1}^J\log(p_j)p_j. $</li>
 </ul>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>基尼不纯度等于 1 减去赫芬达尔指数；后者常用于衡量投资组合的集中度。因此，树会寻找类别最集中的划分。<br/>当某个 $ p_j=1 $、其余比例均为零时，基尼不纯度取得最小值 0；其最大值为 $ 1-1/J$，并在所有 $ p_j=1/J $ 时取得。另外两种损失也具有类似性质。误分类误差的缺点是不可微，这也是实践中更常使用另外两种度量的原因之一。</p>
+<p>基尼不纯度等于 1 减去赫芬达尔指数；后者常用于衡量投资组合的集中度。因此，树会寻找类别最集中的划分。<br/>当某个 $ p_j=1 $、其余比例均为零时，基尼不纯度取得最小值 0；其最大值为 $ 1-1/J$，并在所有 $ p_j=1/J $ 时取得。另外两种损失也具有类似性质。误分类率的缺点是不可微，这也是实践中更常使用另外两种度量的原因之一。</p>
 <p>树生长完成后，新样本会沿树落入某个叶节点。该叶节点对应一组类别比例；做出分类预测时，通常选择比例（或概率）最高的类别。</p>
 </div>
 </div>
@@ -14403,7 +14403,7 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>构建树时，可以持续划分，直到得到一棵完全生长的树，也就是：</p>
+<p>构建树时，可以持续分裂，直到得到一棵完全生长的树，也就是：</p>
 <ul>
 <li>所有样本都各自落入单独的叶节点；和/或</li>
 <li>每个叶节点中的样本都无法再依据现有特征进一步区分。</li>
@@ -14412,22 +14412,22 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>达到这一状态后，树就无法继续划分。</p>
+<p>达到这一状态后，树就无法继续分裂。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>显然，当预测变量有效、数量较多且为数值型时，完全生长的树往往能在训练样本上达到近乎完美的拟合。然而，训练样本中的细枝末节对样本外预测通常没有多少价值。例如，完美拟合 2000 至 2006 年的数据规律，并不意味着这些规律在 2007 至 2009 年仍然有用。树中最可靠的部分通常靠近根节点，因为这些节点覆盖了大量数据；上层子群的均值由许多观测计算而来，因而更可信。最初几次划分揭示的是较普遍的规律，而最深层的划分往往只是在迎合训练样本的特殊性。</p>
+<p>显然，当预测变量有效、数量较多且为数值型时，完全生长的树往往能在训练样本上达到近乎完美的拟合。然而，训练样本中的细枝末节对样本外预测通常没有多少价值。例如，完美拟合 2000 至 2006 年的数据规律，并不意味着这些规律在 2007 至 2009 年仍然有用。树中最可靠的部分通常靠近根节点，因为这些节点覆盖了大量数据；上层节点的均值由许多样本计算而来，因而更可信。最初几次分裂揭示的是较普遍的规律，而最深层的分裂往往只是在迎合训练样本的特殊性。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>因此，必须限制树的规模。树的剪枝方法很多，分别依赖不同的停止准则，常见做法包括：</p>
 <ul>
-<li>规定每个终端节点（叶节点）的最小样本数。这样可以确保最终子群包含足够多的观测，使其标签均值更可靠。</li>
-<li>类似地，只有当当前节点达到一定样本数时，才允许继续划分。该准则与上一项密切相关。</li>
-<li>要求拟合至少改善到某个阈值。如果一次划分不能充分降低损失，就没有必要执行。用户给定一个较小的 $ \epsilon&gt;0 $；只有当划分后的损失小于划分前损失的 $ 1-\epsilon $ 倍时，才接受该划分。</li>
-<li>限制树的深度。深度是从根节点到任一叶节点所经历的最大划分次数。</li>
+<li>规定每个终端节点（叶节点）的最小样本数。这样可以确保每个叶节点包含足够多的样本，使其标签均值更可靠。</li>
+<li>类似地，只有当当前节点达到一定样本数时，才允许继续分裂。该准则与上一项密切相关。</li>
+<li>要求拟合至少改善到某个阈值。如果一次分裂不能充分降低损失，就没有必要执行。用户给定一个较小的 $ \epsilon&gt;0 $；只有当分裂后的损失小于分裂前损失的 $ 1-\epsilon $ 倍时，才接受该分裂。</li>
+<li>限制树的深度。深度是从根节点到任一叶节点所经历的最大分裂次数。</li>
 </ul>
 </div>
 </div>
@@ -14491,16 +14491,16 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>树的绘制通常遵循一套约定。每个节点都用一个布尔条件描述划分：条件为真，样本进入左侧子群；否则进入右侧子群。图 6.2 中，根节点依据市净率进行第一次划分。若样本的 Pb 得分（或数值）高于 0.025，就进入左侧分支，否则进入右侧分支。</p>
-<p>每个节点包含两个重要指标：该子群的标签均值，以及该子群占全部样本的比例。根节点包含全部样本 (100%)，未来 1 个月平均收益率为 1.3%。下一层的左侧子群包含约 98% 的观测，平均收益率为 1.2%；右侧子群仅占 2%，但其平均收益率高达 5.9%。后者可能只是训练样本的特殊现象。</p>
-<p>每个节点都按同样方式继续划分，直到满足停止条件；这里通常是达到最大深度。节点颜色表示平均收益率，从白色（低收益率）渐变到蓝色（高收益率）。最左侧子群的平均收益率最低，其中公司同时满足以下条件：</p>
+<p>树的绘制通常遵循一套约定。每个节点都用一个布尔条件描述分裂：条件为真，样本进入左侧子节点；否则进入右侧子节点。图 6.2 中，根节点依据市净率进行第一次分裂。若样本的 Pb 得分（或数值）高于 0.025，就进入左侧分支，否则进入右侧分支。</p>
+<p>每个节点包含两个重要指标：该节点的标签均值，以及该节点占全部样本的比例。根节点包含全部样本 (100%)，未来 1 个月平均收益率为 1.3%。下一层的左侧子节点包含约 98% 的样本，平均收益率为 1.2%；右侧子节点仅占 2%，但其平均收益率高达 5.9%。后者可能只是训练样本的特殊现象。</p>
+<p>每个节点都按同样方式继续分裂，直到满足停止条件；这里通常是达到最大深度。节点颜色表示平均收益率，从白色（低收益率）渐变到蓝色（高收益率）。最左侧叶节点的平均收益率最低，其中公司同时满足以下条件：</p>
 <p>Pb 得分高于 0.025；
 3 个月市值得分高于 0.16；
 过去 3 个月日均成交量得分高于 0.085。
-需要注意，树中各子群的大小可能相差很大。有时少数子群包含了几乎全部观测，而某些很小的子群只聚集了少量异常值。这并不是理想性质，因为小子群更可能是偶然形成的，也更难推广到样本外。</p>
-<p>因此，构建树时需要施加限制。第一个限制（代码中的 minbucket = 3500）要求每个子群至少包含 3500 个样本。第二个限制 (minsplit) 要求一个节点至少包含 8000 个观测，才允许继续划分。这些参数自然应随训练样本规模调整。代码中的 cp = 0.0001 要求每次划分都把损失降至划分前的 0.9999 倍以下。最后，最大深度为三，表示从根节点到任一终端叶节点最多经历三次划分。</p>
-<p>若以终端叶节点数衡量树的复杂度，那么复杂度会随 minbucket、minsplit 和 cp 增大而降低，随最大深度增大而提高。</p>
-<p>模型训练完成（即树生长完成）后，对任一样本的预测值，就是该样本最终所在子群的标签均值。</p>
+需要注意，树中各叶节点的大小可能相差很大。有时少数叶节点包含了几乎全部样本，而某些很小的叶节点只聚集了少量异常值。这并不是理想性质，因为小叶节点更可能是偶然形成的，也更难推广到样本外。</p>
+<p>因此，构建树时需要施加限制。代码中的 min_samples_leaf=3500 要求每个叶节点至少包含 3500 个样本；min_samples_split=8000 要求一个节点至少包含 8000 个样本，才允许继续分裂。这些参数自然应随训练样本规模调整。ccp_alpha=0.000001 控制最小代价复杂度剪枝的强度，取值越大，剪枝越强。最后，max_depth=3 表示从根节点到任一终端叶节点最多经历三次分裂。</p>
+<p>若以终端叶节点数衡量树的复杂度，那么复杂度通常会随 min_samples_leaf、min_samples_split 和 ccp_alpha 增大而降低，随 max_depth 增大而提高。</p>
+<p>模型训练完成（即树生长完成）后，对任一样本的预测值，就是该样本最终所在叶节点的标签均值。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -14540,7 +14540,7 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>由图可知，前六个样本都落入从左往右数的第二个子群。</p>
+<p>由图可知，前六个样本都落入从左往右数的第二个叶节点。</p>
 <p>为检验树的前几次划分，我们分别以市值、过去收益率和成交量为条件，绘制未来收益率的平滑均值。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
@@ -14576,7 +14576,7 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>图中可以看出，依据市值和市净率划分子群是有意义的：这两项特征得分较低时，平均收益率较高，曲线左端的月收益率接近 +4%。相比之下，成交量对应的规律没有这么明显。</p>
+<p>图中可以看出，依据市值和市净率分裂节点是有意义的：这两项特征得分较低时，平均收益率较高，曲线左端的月收益率接近 +4%。相比之下，成交量对应的规律没有这么明显。</p>
 <p>最后，我们评估一棵在训练集上生长的树在测试集上的预测质量。这里使用一棵更深的树，最大深度为五。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
@@ -14671,20 +14671,20 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>随后，Ho（1995）从实践角度进一步发展了这一思路，而 Breiman（2001）则成为随机森林领域的主要参考文献。Yin（2020）成功地使用装袋法聚合股票收益预测。可以通过两种方式从简单树生成多个预测模型，随机森林把二者结合起来：</p>
+<p>随后，Ho（1995）从实践角度进一步发展了这一思路，而 Breiman（2001）则成为随机森林领域的主要参考文献。Yin（2020）成功地使用 Bagging（自助聚合）聚合股票收益预测。可以通过两种方式从简单树生成多个预测模型，随机森林把二者结合起来：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>第一，在彼此相似但不完全相同的数据集上训练模型。一种实现方法是自助抽样：为每棵树对样本进行有放回或无放回重采样，从而在每次建树时得到新的训练数据。</li>
+<li>第一，在彼此相似但不完全相同的数据集上训练模型。一种实现方法是重采样：经典 Bootstrap（自助抽样）采用有放回抽样，某些实现也允许无放回抽样，从而在每次建树时得到新的训练数据。</li>
 <li>第二，减少每次建模使用的预测变量。不同模型使用不同的特征子集；用户指定保留多少项特征，算法则在每次建树时随机抽取相应数量的特征。</li>
 </ul>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这样就可以方便地生长许多不同的树，而集成模型只是所有树的<strong>加权组合</strong>。通常采用等权重，这是一种不依赖先验判断且较稳健的选择。图 6.4 展示了这种简单组合，也就是装袋法。最终预测值就是各棵树预测值的平均数。</p>
+<p>这样就可以方便地生长许多不同的树，而集成模型只是所有树的<strong>加权组合</strong>。通常采用等权重，这是一种不依赖先验判断且较稳健的选择。图 6.4 展示了这种简单组合，也就是 Bagging。最终预测值就是各棵树预测值的平均数。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14695,7 +14695,7 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>随机森林建立在装袋思想之上，通常比单棵树更有效。Ballings 等人（2015）、Patel、Shah、Thakkar 和 Kotecha（2015a）、Krauss、Do 和 Huck（2017）以及 Huck（2019）都使用了随机森林，并取得良好表现。Breiman（2001）首先针对分类树推导了随机森林的理论性质。在分类任务中，模型通过投票作出决策：每棵树投票支持一个类别，得票最多的类别胜出；若票数相同，可以随机决定。Breiman（2001）将间隔函数定义为</p>
+<p>随机森林建立在 Bagging 思想之上，通常比单棵树更有效。Ballings 等人（2015）、Patel、Shah、Thakkar 和 Kotecha（2015a）、Krauss、Do 和 Huck（2017）以及 Huck（2019）都使用了随机森林，并取得良好表现。Breiman（2001）首先针对分类树推导了随机森林的理论性质。在分类任务中，模型通过投票作出决策：每棵树投票支持一个类别，得票最多的类别胜出；若票数相同，可以随机决定。Breiman（2001）将间隔函数定义为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14724,7 +14724,7 @@ $$k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})$$
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>随机森林有多种实现。为简单起见，这里采用 scikit-learn 软件包中的实现，当然也有其他选择。
-randomForest 的语法与许多机器学习软件包类似，不同实现提供的参数选项可能非常丰富。下面训练一个模型，并展示测试样本中前 5 个观测的预测值。</p>
+randomForest 的语法与许多机器学习软件包类似，不同实现提供的参数选项可能非常丰富。下面训练一个模型，并展示测试集中前 5 个样本的预测值。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -14762,7 +14762,7 @@ randomForest 的语法与许多机器学习软件包类似，不同实现提供�
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>首先可以看到，每个样本都有各自的预测值，这与单棵树中大量样本共享同一叶节点预测值的情形不同。组合许多树后，预测会更细致。还要注意，代码块的第二行固定了随机数生成器。随机森林的结果取决于每棵树随机选取的样本与特征组合，因此固定随机种子有助于复现结果。</p>
-<p>在上例中，每个学习器（树）使用随机抽取的 10,000 个样本训练，抽样不放回；每个终端叶节点（子群）至少包含 250 个观测。模型共聚合 40 棵树，每棵树都从全部特征中随机选择 30 个预测变量。</p>
+<p>在上例中，每个学习器（树）使用随机抽取的 10,000 个样本训练，抽样不放回；参数 min_samples_split=250 要求节点至少包含 250 个样本才允许继续分裂。模型共聚合 40 棵树，每棵树都从全部特征中随机选择 30 个预测变量。</p>
 <p>与单棵树不同，随机森林的学习结果很难用一张图完整说明。虽然可以逐一提取 40 棵树，但几乎无法进行综合可视化。第 13.1.2 节介绍的特征重要性可以提供一种简化视角。</p>
 <p>最后评估模型的预测表现。</p>
 </div>
@@ -14879,7 +14879,7 @@ randomForest 的语法与许多机器学习软件包类似，不同实现提供�
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>准确率并不理想。除训练集与测试集可能具有不同规律外，还有两种可能解释。第一，训练样本或许太小。原始训练集包含 200,000 多个观测，而上述设定只保留了其中十分之一，因而可能遗漏了有用信息。第二，每棵树使用的预测变量数设为 30，约占全部可用预测变量的三分之一，这给算法留下了抽到较弱预测变量的可能。分类任务和回归任务中，程序默认选取的预测变量数分别为 $\sqrt{p}$ 和 $p/3$，其中 $p$ 为特征总数。</p>
+<p>准确率并不理想。除训练集与测试集可能具有不同规律外，还有两种可能解释。第一，训练样本或许太小。原始训练集包含 200,000 多个样本，而上述设定只保留了其中十分之一，因而可能遗漏了有用信息。第二，每棵树使用的预测变量数设为 30，约占全部可用预测变量的三分之一，这给算法留下了抽到较弱预测变量的可能。分类任务和回归任务中，程序默认选取的预测变量数分别为 $\sqrt{p}$ 和 $p/3$，其中 $p$ 为特征总数。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14980,7 +14980,7 @@ w_i \leftarrow w_ie^{f_w(l_m(\textbf{x}_i), \textbf{y}_i)};
 <ol>
 <li>第一步寻找使加权损失最小的学习器（树）$l_m$。基础损失函数 $L$ 取决于具体任务，即回归或分类。</li>
 <li>第二步和第三步构成 AdaBoost 的核心，它们规定算法如何按顺序自适应。模型最终要聚合多个学习器，因此比起给所有学习器相同权重，更合理的做法是分别确定权重。函数 $fa$ 应满足一个自然要求：误差越小、越准确的学习器，权重越大。</li>
-<li>第三步调整观测权重。函数 $fw$ 会提高当前模型预测较差、误差较大样本的权重，使下一位学习器更关注这些难以预测的样本。</li>
+<li>第三步调整样本权重。函数 $fw$ 会提高当前模型预测较差、误差较大样本的权重，使下一位学习器更关注这些难以预测的样本。</li>
 <li>随后只是一个归一化步骤。
 表 6.1 列出了文献中两组具体的权重函数。原始 AdaBoost（Freund 和 Schapire（1996、1997））使用二元标签，取值仅为 +1 和 -1。第二个例子来自 Drucker（1997），专门处理实值标签的回归任务。其他形式可参见 Schapire（2003）和 Ridgeway、Madigan 与 Richardson（1999）。</li>
 </ol>
@@ -15036,7 +15036,7 @@ w_i \leftarrow w_ie^{f_w(l_m(\textbf{x}_i), \textbf{y}_i)};
 <p>最终预测取各学习器预测加权和的符号：加总结果为正时预测 +1，否则预测 -1；恰好为零的情形可以忽略。数值标签的处理稍复杂，具体步骤可参见 @drucker1997improving 第 3 节第 8 步。</p>
 <p>最后讨论样本权重。处理样本权重有两种方式。第一种直接作用于损失函数。对于回归树，方程 \@ref(eq:node) 自然推广为
 $$V^{(k)}_N(c^{(k}), \textbf{w})= \sum_{x_i^{(k)}&lt;c^{(k)}}w_i\left(y_i-m_N^{k,-}(c^{(k)}) \right)^2 + \sum_{x_i^{(k)}&gt;c^{(k)}}w_i\left(y_i-m_N^{k,+}(c^{(k)}) \right)^2,$$</p>
-<p>因此，权重较大的样本 $wi$ 会对所在子群的离散度产生更大影响。分类任务的调整更复杂；Ting（2002）给出了样本加权树的生长算法。这一思路与利用损失矩阵调整误分类风险密切相关，参见 Hastie、Tibshirani 和 Friedman（2009）第 9.2.4 节。</p>
+<p>因此，权重较大的样本 $wi$ 会对所在节点的总离差产生更大影响。分类任务的调整更复杂；Ting（2002）给出了样本加权树的生长算法。这一思路与利用损失矩阵调整误分类风险密切相关，参见 Hastie、Tibshirani 和 Friedman（2009）第 9.2.4 节。</p>
 <p>第二种方式是随机抽样。若样本权重为 $w_i$，可以按由 $w_i$ 决定的概率分布抽取训练样本，再训练学习器。这样，权重较大的样本更有可能进入训练集。原始 AdaBoost 算法采用的正是这种方法。</p>
 </div>
 </div>
@@ -15192,7 +15192,7 @@ $\Omega(T)=\gamma L+\frac{\lambda}{2}\sum_{l=1}^Lw_l^2,$
 <li>第一项惩罚<strong>叶节点总数</strong>；</li>
 <li>第二项惩罚<strong>输出值的大小</strong>，这有助于降低方差。</li>
 </ul>
-<p>第一个惩罚项限制树的深度，第二个惩罚项则收缩最新一棵树带来的调整幅度。</p>
+<p>第一个惩罚项抑制叶节点数量，因而限制树的复杂度；第二个惩罚项则收缩最新一棵树带来的调整幅度。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15224,15 +15224,15 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最后一个问题是<strong>树结构</strong>。先回顾简单回归树：每个节点的输出值等于该节点（或子群）内标签的均值。为了降低损失而加入新树时，节点值需要用完全不同的方式计算，这正是方程（6.5）的作用。</p>
-<p>不过，迭代生长新树的过程仍与简单树相似。算法需要逐项测试特征，找出能使每次划分后的目标函数最小的特征。接下来要确定最佳深度以及何时停止生长。具体做法是：</p>
+<p>最后一个问题是<strong>树结构</strong>。先回顾简单回归树：每个节点的输出值等于该节点内标签的均值。为了降低损失而加入新树时，节点值需要用完全不同的方式计算，这正是方程（6.5）的作用。</p>
+<p>不过，迭代生长新树的过程仍与简单树相似。算法需要逐项测试特征，找出能使每次分裂后的目标函数最小的特征。接下来要确定最佳深度以及何时停止生长。具体做法是：</p>
 <ul>
 <li>逐个节点考察；</li>
-<li>对每个节点，根据目标函数判断该划分是否有益：$\text{Gain}=\frac{1}{2}\left(\text{Gain}_L+\text{Gain}_R-\text{Gain}_O \right)-\gamma$；</li>
-<li>每项增益都根据相应分组中的样本计算：$\text{Gain}_\mathcal{X}= \frac{\left(\sum_{i\in I_\mathcal{X}}(y_i -m_{J-1}(\mathbf{x}_i))\right)^2}{\left(1+\frac{\lambda}{2}\right)\#\{i\in I_\mathcal{X}\}},$
-其中 $I_\mathcal{X}$ 是分组 $\mathcal{X}$ 的样本集合。</li>
+<li>对每个节点，根据目标函数判断该分裂是否有益：$\text{Gain}=\frac{1}{2}\left(\text{Gain}_L+\text{Gain}_R-\text{Gain}_O \right)-\gamma$；</li>
+<li>每项增益都根据相应节点中的样本计算：$\text{Gain}_\mathcal{X}= \frac{\left(\sum_{i\in I_\mathcal{X}}(y_i -m_{J-1}(\mathbf{x}_i))\right)^2}{\left(1+\frac{\lambda}{2}\right)\#\{i\in I_\mathcal{X}\}},$
+其中 $I_\mathcal{X}$ 是节点 $\mathcal{X}$ 的样本集合。</li>
 </ul>
-<p>$\text{Gain}_O$ 是不划分时原节点的增益，$\text{Gain}_L$ 和 $\text{Gain}_R$ 分别是左、右子群的增益。上式还包含 $-\gamma$ 这一调整：一次划分用两个新叶节点替代一个旧叶节点，叶节点净增加 1 个，因此 $\Delta L =1$，相应的复杂度惩罚为 $\gamma$。</p>
+<p>$\text{Gain}_O$ 是分裂前原节点的增益，$\text{Gain}_L$ 和 $\text{Gain}_R$ 分别是左、右子节点的增益。上式还包含 $-\gamma$ 这一调整：一次分裂用两个新叶节点替代一个旧叶节点，叶节点净增加 1 个，因此 $\Delta L =1$，相应的复杂度惩罚为 $\gamma$。</p>
 <p>最后，XGBoost 还使用<strong>学习率</strong>。每棵新树都按因子 $\eta$ 缩放，其中 $\eta \in (0,1]$；加入新树 $T_J$ 时，其输出值要乘以 $\eta$。这种收缩非常重要，因为直接叠加 100 棵已优化的树很容易对训练样本过拟合。</p>
 </div>
 </div>
@@ -15246,7 +15246,7 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 <p>还可以使用若干附加功能，进一步防止提升树过拟合。树的数量足够多时，集成模型可以很好地拟合训练样本，却未必能在样本外保持良好表现。</p>
 <p>在 Srivastava 等人（2014）开创性工作的基础上，Rashmi 和 Gilad-Bachrach（2015）提出了 DART (Dropout for Additive Regression Trees) 模型。其思路是在训练期间随机舍弃一定数量的树。完整设定见 <a href="https://xgboost.readthedocs.io/en/latest/tutorials/dart.html">https://xgboost.readthedocs.io/en/latest/tutorials/dart.html</a>。</p>
 <p>单调约束是 xgboost 和 lightgbm 都支持的另一项功能。有时，我们有理由预期某项特征会对标签产生单调影响。例如，若相信动量效应，那么在股票横截面上，过去收益率越高，未来收益率也应越高。</p>
-<p>由于划分算法具有递归结构，可以根据单调要求决定某项特征上的划分是否可接受。图 6.6 展示了这一过程，其中所有划分都基于同一项特征。第一次划分较简单，只需检查两个子群的均值是否按预期方向排序。更深层的划分则更复杂：上层划分确定的均值会为下层叶节点的可接受均值设定边界。若某次划分违反这些边界，就忽略该划分，改用其他变量。</p>
+<p>由于分裂算法具有递归结构，可以根据单调要求决定某项特征上的分裂是否可接受。图 6.6 展示了这一过程，其中所有分裂都基于同一项特征。第一次分裂较简单，只需检查两个子节点的均值是否按预期方向排序。更深层的分裂则更复杂：上层分裂确定的均值会为下层叶节点的可接受均值设定边界。若某次分裂违反这些边界，就忽略该分裂，改用其他变量。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15263,7 +15263,7 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>本节使用 XGBoost 软件包训练模型。其他选择包括 catboost、gbm、lightgbm，以及 h2o 自带的提升模型实现。与许多软件包不同，XGBoost 函数要求使用特定语法和专用数据格式，因此第一步是按要求封装数据。</p>
-<p>此外，考虑到训练可能耗时较长，我们依照 Coqueret 和 Guida（2020）的建议缩减训练样本：只保留标签值最极端的 40% 观测，即最高 20% 和最低 20%，并使用较小的特征子集。本书所有提升树代码示例都只用 7 项特征训练模型。</p>
+<p>此外，考虑到训练可能耗时较长，我们依照 Coqueret 和 Guida（2020）的建议缩减训练样本：只保留标签值最极端的 40% 样本，即最高 20% 和最低 20%，并使用较小的特征子集。本书所有提升树代码示例都只用 7 项特征训练模型。</p>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
@@ -15541,13 +15541,13 @@ $$O=\underbrace{\sum_{i=1}^I\mathcal{W}_i \times \text{loss}(y_i,\tilde{y}_i)}_{
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>此后所有优化都会使用这些预先指定的权重。它们既可能通过子群的加权总损失改变划分点，也会影响方程（6.5）中的终端权重。</p>
+<p>此后所有优化都会使用这些预先指定的权重。它们既可能通过节点内的加权总损失改变分裂点，也会影响方程（6.5）中的终端叶节点输出值。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="6.5-Discussion">6.5 讨论<a class="anchor-link" href="#6.5-Discussion">¶</a></h2><p>本章最后从投资组合构建的角度讨论预测模型的选择。正如第 3 章所述，机器学习信号只是投资策略构建中的一个环节，最终仍要把信号转换为投资组合权重。</p>
-<p>从这一角度看，单棵树并不是最理想的选择。树的深度通常设为 3 至 6，因而最多只有 8 至 64 个终端叶节点，而且各子群的大小可能很不均衡。某个子群很容易占到样本的 20% 至 30%，这意味着其中所有样本都会得到相同预测值。</p>
+<p>从这一角度看，单棵树并不是最理想的选择。树的深度通常设为 3 至 6，因而最多只有 8 至 64 个终端叶节点，而且各叶节点的大小可能很不均衡。某个叶节点很容易占到样本的 20% 至 30%，这意味着其中所有样本都会得到相同预测值。</p>
 <p>另一方面，投资组合规则往往规定固定的资产数量。若许多资产拥有完全相同的信号，就无法据此进一步排序和筛选。例如，策略要求恰好持有 100 只股票，而 105 只股票的信号相同，此时该信号无法决定应选哪 100 只，只能结合其他信息，如均值方差配置中的协方差矩阵。</p>
 <p>这正是偏好集成模型的原因之一。学习器数量足够多时，甚至 5 个左右就可能足以打破大量并列，模型通常能为不同资产给出更具区分度的预测，进而只选择信号最有利的资产。实践中，随机森林和提升树往往是更合适的选择。</p>
 </div>

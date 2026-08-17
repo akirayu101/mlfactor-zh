@@ -13107,14 +13107,14 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Chapter-2-Introduction">第 2 章 简介<a class="anchor-link" href="#Chapter-2-Introduction">¶</a></h1>
+<h1 id="Chapter-2-Introduction">第 2 章 导论<a class="anchor-link" href="#Chapter-2-Introduction">¶</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>结论通常与介绍相呼应。本章是在本书写作的最后完成的。它概述的原则和想法可能比随后涵盖的技术细节的总和更相关。当结果令人失望时，我们建议读者远离算法，回到本节，以更广阔的视角来了解预测建模中的一些问题。</p>
+<p>结论常常与引言相呼应。本章直到全书写作的最后阶段才完成，其中概述的原则和理念可能比后文技术细节的总和更值得关注。如果迟迟得不到理想结果，我们建议读者暂时从算法中抽身，回到本章，以更宽广的视角审视预测建模中的一些问题。</p>
 </div>
 </div>
 </div>
@@ -13128,49 +13128,49 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>机器学习在因子投资中的蓬勃发展，源于三个有利因素的汇合：数据可得性、计算能力和经济基础。</p>
+<p>机器学习在因子投资领域的蓬勃发展，源于三项有利条件的交汇：数据可得性、计算能力和经济学基础。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>首先，<strong>数据</strong>。如今，彭博、路透社等传统提供商的竞争环境已被利基玩家和聚合平台入侵。<a href="#fn1"><sup>4</sup></a> 此外，高频数据和衍生品报价已成为主流。因此，公司特定的属性很容易编译，而且通常成本低廉。这意味着$\mathbf{X}$ 现在足够大，可以插入到 ML 算法中。可以达到的数量级（2019 年）如下：对数千只股票（至少在美国上市）进行数百个月的观察，涵盖数百个属性。这形成了包含数千万个点的数据集。虽然这是一个相当高的数字，但我们强调，按时间顺序排列的深度可能是弱点，并且在未来几十年内仍将如此，因为会计数据仅按季度发布。不用说，这个缺点对于高频策略来说并不成立。</p>
+<p>首先是<strong>数据</strong>。如今，彭博和路透社等传统数据提供商面临着细分供应商和数据聚合平台的竞争。<a href="#fn1"><sup>4</sup></a> 此外，高频数据和衍生品报价也已成为主流。因此，公司特征不但容易汇集，而且往往成本低廉。这意味着式 (2.1) 中的 $\mathbf{X}$ 如今已有足够大的规模，可以输入机器学习算法。以 2019 年为例，可获得的数据大致达到如下数量级：数千只股票（至少美国上市股票可以达到这一规模）、数百个月度观测和数百个属性，由此形成拥有数千万个数据点的数据集。这个规模已经相当可观，但时间跨度可能仍是短板，而且未来几十年也很可能如此，因为会计数据只按季度发布。当然，这一不足并不适用于高频策略。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>其次，<strong>计算能力</strong>，包括硬件和软件两方面。存储和处理速度不再是技术障碍；借助主要服务商（亚马逊、微软、IBM 和谷歌）以及较小服务商（Rackspace、Techila）托管的服务，模型甚至可以在云端运行。在软件方面，开源已成为常态，由企业（谷歌的 TensorFlow 和 Keras、Facebook 的 Pytorch、h2o 等）、大学（INRIA 的 Scikit-Learn、斯坦福大学的 NLPCore、宾夕法尼亚大学的 NLTK）和小型研究人员团队（如 caret、xgboost、tidymodels 等框架）共同推动。因此，ML 不再是少数计算机专家的私人领地；相反，任何愿意学习和编码的人都可以<strong>使用</strong>它。</p>
+<p>其次是<strong>计算能力</strong>，包括硬件和软件两方面。存储容量和处理速度已不再构成技术障碍；借助大型服务商（亚马逊、微软、IBM 和谷歌）和较小服务商（Rackspace、Techila）提供的服务，模型甚至可以在云端运行。软件方面，开源已经成为主流，其背后既有企业（Google 的 TensorFlow 和 Keras、Facebook 的 Pytorch、h2o 等）和大学（INRIA 的 Scikit-Learn、斯坦福大学的 NLPCore、宾夕法尼亚大学的 NLTK）的支持，也有开发 caret、xgboost、tidymodels 等框架的小型研究团队的贡献。因此，ML 不再是少数计算机科学专家的专属领域，任何愿意学习和编程的人都可以<strong>使用</strong>。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>最后，<strong>经济框架</strong>。金融领域的机器学习应用最初由计算机科学家和信息系统专家（例如 Braun 和 Chandler (1987)、White (1988)）引入，不久之后就被金融经济学界的学者（Bansal 和 Viswanathan (1993)）和对冲基金（例如参见 Zuckerman (2019)）所利用。随后，非线性关系在资产定价中变得更加主流（Freeman 和 Tse (1992)、Bansal、Hsieh 和 Viswanathan (1993)）。这些贡献开始为 2010 年代以来蓬勃发展的、更偏蛮力式的方法铺平道路，这些方法会在整本书中提及。</p>
+<p>最后是<strong>经济学框架</strong>。金融领域的机器学习应用最初由计算机科学家和信息系统专家引入（例如 Braun 和 Chandler (1987)、White (1988)），不久后便被金融经济学者（Bansal 和 Viswanathan (1993)）和对冲基金采用（例如 Zuckerman (2019)）。随后，非线性关系在资产定价研究中逐渐成为主流（Freeman 和 Tse (1992)、Bansal、Hsieh 和 Viswanathan (1993)）。这些工作开始为后来那些更依赖大规模计算的方法铺平道路；这类方法自 2010 年代以来蓬勃发展，本书也会反复提到。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在 R. Arnott、Harvey 和 Markowitz (2019) 的综合提案中，第一个建议是依赖经济上有意义的模型。我们同意这一立场，并且我们在本书中做出的唯一假设是未来收益率取决于公司特征。这些特征与表现之间的关系在很大程度上是未知的，并且可能随时间变化。这就是机器学习有用的原因：检测记录的资产定价异象之外的一些隐藏模式。此外，动态训练可以适应不断变化的市场条件。</p>
+<p>R. Arnott、Harvey 和 Markowitz (2019) 给出了一组综合性建议，其中第一条是采用在经济学上讲得通的模型。我们赞同这一立场。本书所作的唯一假设是，未来收益率取决于公司特征。这些特征与未来表现之间的关系在很大程度上仍是未知的，而且可能随时间变化。机器学习的作用正在于此：发现已记录的资产定价异象以外的潜在模式。此外，动态训练还能使模型适应不断变化的市场环境。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.2---Portfolio-construction:-the-workflow">2.2 投资组合构建：工作流程<a class="anchor-link" href="#2.2---Portfolio-construction:-the-workflow">¶</a></h2>
+<h2 id="2.2---Portfolio-construction:-the-workflow">2.2 投资组合构建：工作流<a class="anchor-link" href="#2.2---Portfolio-construction:-the-workflow">¶</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>构建成功的投资组合策略需要许多步骤。本书涵盖了其中的许多内容，但主要关注预测部分。事实上，大多数时候配置资产都需要下注，从而预测和预见哪些资产会表现良好，哪些资产不会。在本书中，我们主要采用监督学习来预测横截面收益。监督学习中的基线方程</p>
+<p>构建成功的投资组合策略需要多个步骤。本书涉及其中许多步骤，但重点放在预测上。资产配置通常需要对未来作出判断，预判哪些资产表现会好、哪些会差。本书主要采用监督学习来预测横截面上的收益率。监督学习的基本方程为</p>
 </div>
 </div>
 </div>
@@ -13187,7 +13187,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>翻译成财务术语为</p>
+<p>用金融术语可写为</p>
 </div>
 </div>
 </div>
@@ -13204,21 +13204,21 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>其中$f(\mathbf{x}_{t,n})$可以看作在时间$t$计算的时间$t+1$的<strong>预期收益率</strong>，即$\mathbb{E}_t[r_{t+1,n}]$。请注意，该模型<strong>对所有资产通用</strong>（上式中的$f$没有由$n$索引），因此它与面板方法有相似之处。</p>
+<p>其中，$f(\mathbf{x}_{t,n})$ 可视为基于时刻 $t$ 的信息得到的时刻 $t+1$ 的<strong>条件期望收益率</strong>，即 $\mathbb{E}_t[r_{t+1,n}]$。注意，该模型<strong>对所有资产都相同</strong>（上式中的 $f$ 没有下标 $n$），因此与面板方法相似。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>建立准确预测时，需要关注上式中的<strong>所有</strong>项。按时间顺序，第一步是收集数据并对其进行处理（参见第 4 章）。据我们所知，唯一的共识是，在$\textbf{x}$这一侧，特征应包括文献中报告的经典预测变量：市值、会计比率、风险度量、动量代理（参见第 3 章）。对于因变量，许多研究人员和从业者使用月度收益率，但其他期限的样本外表现可能会更好。</p>
+<p>要得到准确的预测，必须关注上述方程中的<strong>所有</strong>项。按照先后顺序，第一步是收集并处理数据（见第 4 章）。据我们所知，唯一的共识是，在 $\textbf{x}$ 一侧，特征应包括文献中常见的经典预测变量，例如市值、会计比率、风险度量和动量代理变量（见第 3 章）。对于因变量，许多研究者和从业者采用月度收益率，但其他期限在样本外的表现可能更好。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="http://www.mlfactor.com/images/scheme2.png"/>图 2.1：基于 ML 的投资组合构建的简化工作流程。</p>
+<p><img src="http://www.mlfactor.com/images/scheme2.png"/>图 2.1：基于机器学习的投资组合构建简化工作流。</p>
 </div>
 </div>
 </div>
@@ -13232,28 +13232,28 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>从定义上说，预测的难处在于它们依赖<strong>过去</strong>数据来推断<strong>未来</strong>波动中的模式。任何预测者都或多或少明确地希望过去能成为未来的良好近似。不用说，这往往只是一种美好愿望；总体而言，预测表现并不好。令人惊讶的是，这并不太取决于计量经济工具的复杂程度。事实上，启发式猜测往往很难被击败。</p>
+<p>预测的固有困境在于，必须依赖<strong>过去</strong>的数据来推断<strong>后续</strong>波动的规律。任何预测者都或多或少抱有这样的愿望：过去会成为未来的良好近似。无须赘言，这往往只是一厢情愿；总体而言，预测表现并不好。令人意外的是，这与计量经济学工具的复杂程度关系不大。事实上，基于经验法则的猜测往往难以超越。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>为了说明这个并不令人愉快的事实，我们在第 5 章到第 7 章中详细介绍的基线算法最多只能产生平庸的结果。这是<strong>有意为之</strong>。这迫使读者明白，盲目地将数据和参数交给已经写好的函数，很少足以达到令人满意的样本外精度。</p>
+<p>为了说明这一令人沮丧的事实，我们在第 5 章至第 7 章详细介绍的基线算法，充其量只能得到平庸的结果。这是<strong>有意安排的</strong>，目的是让读者认识到：把数据和参数盲目地输入编写好的函数，通常不足以获得令人满意的样本外精度。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>在机器学习中，模型先在一部分数据（<strong>训练集</strong>）上估计，然后在另一部分数据（<strong>测试集</strong>）上测试，以评估其质量。我们据此分割样本。</p>
+<p>在机器学习中，模型先用一部分数据（<strong>训练集</strong>）拟合，再在另一部分数据（<strong>测试集</strong>）上检验，以评估其样本外表现。我们据此划分样本。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>下面，我们总结了我们在金融机器学习探索之旅中学到的一些要点。</p>
+<p>下面总结我们在探索金融机器学习过程中得到的几条重要认识。</p>
 </div>
 </div>
 </div>
@@ -13261,12 +13261,12 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>第一点是<strong>因果关系</strong>是关键。如果一个人能够识别$X \rightarrow y$，其中$y$得到预期收益，那么问题就解决了。不幸的是，因果关系很难揭示。</li>
-<li>因此，研究人员大部分时间都在做简单的事情<strong>相关性</strong>模式，其信息量和稳健性要差得多。</li>
-<li>与此相关的是，金融数据集非常嘈杂。这是一项艰巨的任务<strong>提取信号</strong>从他们当中。<strong>无套利</strong>推理意味着，如果一个简单的模式产生了持久的利润，它就会机械地、迅速地消失。</li>
-<li>Wolpert (1992a) 的免费午餐定理要求分析师对模型提出看法。这就是为什么经济或者<strong>计量经济框架</strong>是关键。关于因变量和解释特征所做的假设和选择是决定性的。由此推论，数据是关键。模型的输入可能比模型本身的选择重要得多。</li>
-<li>为了最大限度地提高样本外效率，正确的问题可能是套用杰夫·贝佐斯的话：什么不会改变？具有<strong>持续性</strong>的序列更有可能揭示持久模式。</li>
-<li>每个人都会犯错误。循环或变量索引中的错误是整个过程的一部分。重要的是<strong>学习</strong>从那些失误中。</li>
+<li>首先，<strong>因果关系</strong>至关重要。如果能够识别出 $X \rightarrow y$，其中 $y$ 表示预期收益率，问题也就解决了。遗憾的是，因果关系极难发现。</li>
+<li>因此，研究者大多数时候只能依靠简单的<strong>相关</strong>模式，而这类模式的信息量和鲁棒性要弱得多。</li>
+<li>与此相关，金融数据集中的噪声极大，从中<strong>提取信号</strong>是一项艰巨的任务。<strong>无套利</strong>推理表明，如果一种简单模式能够持续盈利，它就会在市场作用下迅速消失。</li>
+<li>Wolpert (1992a) 的没有免费午餐定理意味着分析师必须对模型提出明确看法。因此，经济学或<strong>计量经济学框架</strong>至关重要。对因变量和解释特征所作的假设与选择具有决定性作用。由此还可推知，数据至关重要：提供给模型的输入很可能远比模型本身的选择重要。</li>
+<li>为尽可能提高样本外表现，或许应该套用杰夫·贝佐斯的问题：什么不会改变？具有<strong>持久性</strong>的序列更有可能揭示长久有效的规律。</li>
+<li>每个人都会犯错。循环或变量索引中的错误也是探索过程的一部分，重要的是从这些疏漏中<strong>吸取教训</strong>。</li>
 </ul>
 </div>
 </div>
@@ -13274,7 +13274,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>最后，我们提醒读者这个显而易见的事实：没有任何东西可以取代<strong>实践</strong>。收集和清理数据、编码回测、调整机器学习模型、测试权重方案、调试、重新开始：这些都是绝对不可或缺的步骤和任务，必须无限期地重复。体验无可替代。</p>
+<p>最后，我们提醒读者一个朴素的事实：<strong>实践</strong>永远无可替代。收集和清理数据、编写回测程序、对机器学习模型进行超参数调优、测试加权方案、调试，再从头开始：这些步骤和任务都不可或缺，而且需要不断重复。经验无可替代。</p>
 </div>
 </div>
 </div>
@@ -13288,56 +13288,56 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Arnott、Rob、Campbell R Harvey 和 Harry Markowitz。 2019.“机器学习时代的回测协议”。金融数据科学杂志 1 (1): 64–74。</p>
+<p>Arnott, Rob, Campbell R Harvey, and Harry Markowitz. 2019. “A Backtesting Protocol in the Era of Machine Learning.” Journal of Financial Data Science 1 (1): 64–74.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Bansal、Ravi、David A Hsieh 和 S Viswanathan。 1993 年。“国际套利定价的新方法。” 《金融杂志》48 (5)：1719–47。</p>
+<p>Bansal, Ravi, David A Hsieh, and S Viswanathan. 1993. “A New Approach to International Arbitrage Pricing.” Journal of Finance 48 (5): 1719–47.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Bansal、Ravi 和 Salim Viswanathan。 1993 年。“无套利和套利定价：一种新方法。”金融杂志 48 (4): 1231–62。</p>
+<p>Bansal, Ravi, and Salim Viswanathan. 1993. “No Arbitrage and Arbitrage Pricing: A New Approach.” Journal of Finance 48 (4): 1231–62.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Braun、Helmut 和 John S Chandler。 1987 年。“通过规则归纳预测股票市场行为：从示例中学习方法的应用。”决策科学 18 (3): 415–29。</p>
+<p>Braun, Helmut, and John S Chandler. 1987. “Predicting Stock Market Behavior Through Rule Induction: An Application of the Learning-from-Example Approach.” Decision Sciences 18 (3): 415–29.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Freeman、Robert N 和 Senyo Y Tse。 1992 年。“证券价格对意外收益反应的非线性模型。”会计研究杂志，185–209。</p>
+<p>Freeman, Robert N, and Senyo Y Tse. 1992. “A Nonlinear Model of Security Price Responses to Unexpected Earnings.” Journal of Accounting Research, 185–209.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>White，Halbert。 1988 年。“使用神经网络进行经济预测：IBM 每日股票收益案例。”</p>
+<p>White, Halbert. 1988. “Economic Prediction Using Neural Networks: The Case of Ibm Daily Stock Returns.”</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Wolpert, David H. 1992a。 “关于样本内测试和泛化误差之间的联系。”复杂系统 6 (1)：47.</p>
+<p>Wolpert, David H. 1992a. “On the Connection Between in-Sample Testing and Generalization Error.” Complex Systems 6 (1): 47.</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Zuckerman，Gregory。 2019。解决市场的人：吉姆·西蒙斯如何发起量化革命。企鹅兰登书屋。</p>
+<p>Zuckerman, Gregory. 2019. The Man Who Solved the Market: How Jim Simons Launched the Quant Revolution. Penguin Random House.</p>
 </div>
 </div>
 </div>
@@ -13351,7 +13351,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><span id="fn1">4。我们参考了替代数据提供商的列表。此外，我们记得 Quandl（一个另类数据中心）于 2018 年 12 月被纳斯达克收购。随着大型参与者收购新来者，该领域可能会整合。</span></p>
+<p><span id="fn1">4. 关于另类数据提供商，可参见相关列表。此外，另类数据平台 Quandl 于 2018 年 12 月被 Nasdaq 收购。随着大型企业不断收购新进入者，这一领域可能趋于整合。</span></p>
 </div>
 </div>
 </div>
@@ -13359,7 +13359,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
-<li>尽管如此，正如 Prado 和 Fabozzi 所提倡的，其他方法也是可能的</li>
+<li>不过，正如 Prado 和 Fabozzi 所主张的，其他方法仍然可行。</li>
 </ol>
 </div>
 </div>

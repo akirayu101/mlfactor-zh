@@ -14736,7 +14736,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 <ul>
 <li>$R^2$，用于衡量模型的<strong>整体拟合程度</strong>。为避免预测变量过多造成过拟合，也可以采用带惩罚的版本。$R^2$ 通常在样本内计算；</li>
 <li>估计值 $\hat{\beta}_k$ 的符号，用于表示特征 $x^k$ 对 $y$ 影响的<strong>方向</strong>；</li>
-<li>$t$ 统计量 $t_{\hat{\beta_k}}$，用于衡量这种影响的<strong>强度</strong>。无论方向如何，绝对值较大的统计量通常表明该变量更重要。实际分析中还常在适当的分布假设下，把 $t$ 统计量换算为 $p$ 值。</li>
+<li>$t$ 统计量 $t_{\hat{\beta_k}}$，用于衡量系数估计相对于其标准误的大小，也就是该系数偏离零的<strong>统计证据</strong>，而不是经济影响本身的大小。实际分析中还常在适当的分布假设下，把 $t$ 统计量换算为 $p$ 值。</li>
 </ul>
 </div>
 </div>
@@ -14748,7 +14748,7 @@ y_i=\alpha+\sum_{k=1}^K\beta_kx_i^k+\epsilon_i,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>后两个指标可以告诉我们哪些特征最重要，以及各预测变量影响的方向，从而简化地展示模型如何把特征映射为输出。大多数黑箱解释工具都沿用了这一基本思路。</p>
+<p>系数符号与统计量分别提供作用方向和统计证据；若要比较经济影响大小，还需要同时考虑系数尺度、特征量纲和估计不确定性。由此可以简化地展示模型如何把特征映射为输出。多数黑箱解释工具也沿用了“方向加贡献大小”的基本思路。</p>
 </div>
 </div>
 </div>
@@ -14927,7 +14927,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>实际使用时通常会对 $I(k)$ 重新缩放，使其在所有 $k$ 上的总和等于 1。此时，$I(k)$ 表示特征 $k$ 在训练过程中降低损失的相对贡献。重要性越高的变量，对预测的影响通常越大，也往往更靠近树根。</p>
+<p>实际使用时通常会对 $I(k)$ 重新缩放，使其在所有 $k$ 上的总和等于 1。此时，$I(k)$ 表示特征 $k$ 在训练过程中降低损失的相对贡献；它依赖训练样本、树算法和分裂准则，不提供作用方向，也不具有因果含义。重要性较高的特征往往更靠近树根。</p>
 </div>
 </div>
 </div>
@@ -15042,7 +15042,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>特征重要性的思想也可以扩展到非树模型。关于这一研究方向，可参阅 Fisher、Rudin 和 Dominici (2019) 及其引用的文献。基本问题与上文相同：衡量某个特征对学习过程贡献了多少。</p>
+<p>特征重要性的思想也可以扩展到非树模型。关于这一研究方向，可参阅 Fisher、Rudin 和 Dominici (2019) 及其引用的文献。这里的目标是量化模型预测性能对每项特征所含信息的依赖程度，而不是识别该特征对标签的因果效应。</p>
 </div>
 </div>
 </div>
@@ -15053,7 +15053,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>衡量某个特征增量价值的一种方法，是把训练集中该特征的取值完全打乱，再观察模型表现如何变化。如果原特征对解释因变量十分重要，打乱后模型的损失应明显上升。</p>
+<p>衡量模型预测对某个特征依赖程度的一种方法，是把样本中该特征的取值完全打乱，再观察模型表现如何变化。如果模型确实依赖该特征所含信息，打乱后模型损失应明显上升。特征高度相关时，其他特征可能替代被置换特征，使重要性被低估；置换也可能产生偏离原始联合分布的样本。</p>
 </div>
 </div>
 </div>
@@ -15244,7 +15244,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>固定一个特征 $k$，我们的目标是理解 $k$ 对已训练模型 $\hat{f}$ 的预测结果产生的<strong>平均影响</strong>。为此，假设特征空间是随机的，并将其分为两部分：特征 $k$ 与 $−k$，后者表示除 $k$ 之外的所有特征。部分依赖函数定义为</p>
+<p>固定一个特征 $k$，我们的目标是考察特征 $k$ 取值变化时，已训练模型 $\hat{f}$ 的<strong>平均响应</strong>。为此，将特征空间分为两部分：目标特征 $k$ 与其余特征 $−k$，后者表示除 $k$ 之外的所有特征。部分依赖函数定义为</p>
 </div>
 </div>
 </div>
@@ -15269,7 +15269,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中 $d\mathbb{P}_{-k}(\cdot)$ 是其余特征 $\textbf{x}_{-k}$ 的多元分布。上述函数以特征值 $x_k$ 为参数，并按照其他特征的样本分布对其取平均，从而单独展示特征 $k$ 的影响。实践中通常用蒙特卡罗模拟估计这一均值：</p>
+<p>其中 $d\mathbb{P}_{-k}(\cdot)$ 是其余特征 $\textbf{x}_{-k}$ 的多元分布。上述函数以特征值 $x_k$ 为参数，并按照其他特征的边际分布取平均，从而得到特征 $k$ 对模型预测的平均响应。若目标特征与其他特征高度相关，这种替换可能生成数据中很少出现甚至不可能出现的特征组合，因此 PDP 需要谨慎解读。实践中通常用蒙特卡罗模拟估计这一均值：</p>
 </div>
 </div>
 </div>
@@ -15372,7 +15372,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>市净率对预测结果的平均影响随其取值上升而下降。结合因变量关于市净率的条件均值来看，这一结果并不意外。图 6.3 展示的条件均值曲线与上图相似：P/B 较低时快速下降，随后趋于平缓。低市净率通常表示公司估值较低，因此较高的未来收益率与价值溢价相符。</p>
+<p>模型预测值对市净率的部分依赖随其取值上升而下降。结合因变量关于市净率的条件均值来看，这一结果并不意外。图 6.3 展示的条件均值曲线与上图相似：P/B 较低时快速下降，随后趋于平缓。低市净率通常表示公司估值较低，因此模型给出的较高条件预期收益率与价值溢价相符。</p>
 </div>
 </div>
 </div>
@@ -15383,7 +15383,7 @@ I(k)=\sum_{n\in \mathcal{N}_k}G(n),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>关于 PDP 是否具有因果含义，可参阅 Zhao 和 Hastie（2020）的理论讨论。从构造方式来看，PDP 在一定条件下可以被解读为某个特征对模型输出的因果作用。</p>
+<p>PDP 通常只描述模型中的关联结构，不能自动作因果解释。关于在何种识别假设下可以赋予其因果含义，可参阅 Zhao 和 Hastie（2020）的理论讨论。</p>
 </div>
 </div>
 </div>
@@ -52924,7 +52924,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Shapley 值与 LIME 的思路有所不同，反而更接近 PDP。它源于合作博弈论（Shapley（1953））。其直觉是：可以通过移除某个变量后模型表现下降多少，来衡量该变量的影响或用途。若移除变量会显著降低模型质量，也就是降低预测准确度，就说明该变量具有较高价值。</p>
+<p>Shapley 值与 LIME 的思路有所不同，更接近基于条件期望的预测归因。它源于合作博弈论（Shapley（1953））：把特征视为参与合作的“参与者”，并将某个样本的预测值相对基准预测的差额分摊给各项特征。</p>
 </div>
 </div>
 </div>
@@ -52935,7 +52935,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>最简单的做法是保留所有变量，只移除其中一个，再评估模型的预测能力。Shapley 值考察得更全面：它枚举不含目标预测变量的各种变量组合，并计算加入目标变量后带来的增益。形式化地，</p>
+<p>简单的删变量法只比较包含和不包含某项特征时的结果，且结论依赖其他特征是否已经进入模型。Shapley 值更全面：它考察把目标特征加入各种可能特征组合时，对待解释预测产生的边际贡献，并按所有加入顺序加权平均。形式化地，</p>
 </div>
 </div>
 </div>
@@ -52971,7 +52971,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Python 中有多个软件包可以计算 Shapley 值，这里选用 Shap 软件包。与 LIME 相比，这种实现有两个限制。第一，图中会显示所有特征，因此必须预先筛选；所以下面的代码只使用第 1.2 节给出的精简预测变量列表。第二，每次只能分析一个样本。</p>
+<p>Python 中有多个软件包可以计算基于 Shapley 值的预测归因，这里选用 SHAP 软件包。与前面的 LIME 实现相比，这里有两项限制。第一，图中会显示所有特征，因此必须预先筛选；所以下面的代码只使用第 1.2 节给出的精简预测变量列表。第二，下面的示例每次只分析一个样本。</p>
 </div>
 </div>
 </div>
@@ -53088,7 +53088,7 @@ Right: 0.020951485
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>图 13.6 的输出再次给出两项关键信息：特征影响的<strong>方向</strong>，以及它相对于其他特征的<strong>重要性</strong>。</p>
+<p>图 13.6 的输出给出两项关键信息：相对于基准预测，各特征对当前样本预测的贡献<strong>方向</strong>和<strong>大小</strong>。这是局部预测归因，不能直接解释为特征的全局重要性或因果效应。</p>
 </div>
 </div>
 </div>

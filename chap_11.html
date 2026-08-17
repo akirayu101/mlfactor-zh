@@ -14297,7 +14297,7 @@ a.anchor-link {
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>约束给出 $\textbf{w}^*=\frac{(\textbf{E}'\textbf{E})^{-1}\textbf{1}_M}{(\textbf{1}_M'\textbf{E}'\textbf{E})^{-1}\textbf{1}_M}$。这种形式类似于最小方差组合。如果误差无偏，即 $\textbf{1}_I'\textbf{E}=\textbf{0}_M'$，则 $\textbf{E}'\textbf{E}$ 是误差的协方差矩阵。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>约束给出 $\textbf{w}^*=\frac{(\textbf{E}'\textbf{E})^{-1}\textbf{1}_M}{(\textbf{1}_M'\textbf{E}'\textbf{E})^{-1}\textbf{1}_M}$。这种形式类似于最小方差投资组合。如果误差无偏，即 $\textbf{1}_I'\textbf{E}=\textbf{0}_M'$，则 $\textbf{E}'\textbf{E}$ 与误差的样本协方差矩阵仅相差一个不影响最优权重的比例因子。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>该表达式展示了优化线性集成的一个重要特征：只有当模型讲述不同故事时，它们才可能增加价值。如果两个模型冗余，$\textbf{E}'\textbf{E}$ 会接近奇异，$\textbf{w}^*$ 会以虚假的方式在二者之间套利。这与用高度相关资产构建均值-方差组合时遇到的问题完全相同：在这种情况下，分散化失败，因为一旦出错，所有资产都会下跌。当观测数量相对于资产数量过少、导致收益协方差矩阵奇异时，也会出现另一个问题。这对集成不是问题，因为观测数量通常远大于模型数量（$I&gt;&gt;M$）。</p></div>
@@ -14320,10 +14320,10 @@ a.anchor-link {
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>因此，当 $\rho \rightarrow 1$ 时，误差最小（最小 $\sigma_i^2$）的模型权重会趋向无穷大，而另一个模型会有类似巨大的<strong>负权重</strong>：模型在两个高度相关变量之间套利。这看起来是一个非常糟糕的想法。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>因此，当 $\rho \rightarrow 1$ 时，误差方差较小的模型（即 $\sigma_i^2$ 较小者）会得到趋于无穷大的正权重，另一个模型则得到绝对值同样巨大的<strong>负权重</strong>。这相当于用极端正负头寸在两个高度相关的模型之间构造多空对冲，结果对很小的估计误差都极为敏感，因而并不稳健。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>相关性导致的问题还有另一个说明。假设我们面对 $M$ 个相关误差 $\epsilon_m$，两两相关系数为 $\rho$，均值为零、方差为 $\sigma^2$。误差方差为</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>还可以从另一个角度理解相关性的影响。假设有 $M$ 个相关误差 $\epsilon_m$，两两相关系数为 $\rho$，均值为零、方差为 $\sigma^2$。等权平均误差的方差为</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -14858,7 +14858,7 @@ Optimal solution found.
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>配置非常简单。我们没有包含任何可选参数，因此模型很可能过拟合。由于我们试图预测收益，损失函数采用标准 $L^2$ 范数。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>该配置非常简单，没有加入额外的正则化参数，因此模型可能过拟合。由于目标是预测收益率，损失函数采用标准 $L^2$ 损失。</p></div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">

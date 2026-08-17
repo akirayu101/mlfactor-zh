@@ -106,15 +106,15 @@ max-width: 60rem;
 </ul>
 <div class="section level2" id="the-original-perceptron" number="7.1">
 <h2>
-<span class="header-section-number">7.1</span> 原始感知器<a aria-label="锚" class="anchor" href="#the-original-perceptron"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.1</span> 原始感知机<a aria-label="锚" class="anchor" href="#the-original-perceptron"><i class="fas fa-link"></i></a>
 </h2>
 <p>
-神经网络的起源至少可追溯到 <span class="citation">Rosenblatt (<a href="solutions-to-exercises.html#ref-rosenblatt1958perceptron" role="doc-biblioref">1958</a>)</span>，当时的目标是二元分类。为简单起见，假设输出为 <span class="math inline">\(\{0\)</span> = 不投资<span class="math inline">\(\}\)</span> 或 <span class="math inline">\(\{1\)</span> = 投资<span class="math inline">\(\}\)</span>，例如可由收益率为负或为正得到。按现在的术语，感知器可定义为经过激活函数处理的线性映射，其模型如下：</p>
+神经网络的起源至少可追溯到 <span class="citation">Rosenblatt (<a href="solutions-to-exercises.html#ref-rosenblatt1958perceptron" role="doc-biblioref">1958</a>)</span>，当时的目标是二元分类。为简单起见，假设输出为 <span class="math inline">\(\{0\)</span> = 不投资<span class="math inline">\(\}\)</span> 或 <span class="math inline">\(\{1\)</span> = 投资<span class="math inline">\(\}\)</span>，例如可由收益率为负或为正得到。按现在的术语，感知机可定义为经过激活函数处理的线性映射，其模型如下：</p>
 <p><span class="math display">\[f(\mathbf{x})=\left\{ \begin{array}{lll}
 1 &amp; \text{if } \mathbf{x}'\mathbf{w}+b &gt;0\\
 0  &amp;\text{otherwise}
 \end{array}\right.\]</span>
-权重向量 <span class="math inline">\(\mathbf{w}\)</span> 对各变量进行缩放，偏置 <span class="math inline">\(b\)</span> 则平移决策边界。给定 <span class="math inline">\(b\)</span> 和 <span class="math inline">\(w_i\)</span> 后，误差为 <span class="math inline">\(\epsilon_i=y_i-1_{\left\{\sum_{j=1}^Jx_{i,j}w_j+w_0&gt;0\right\}}\)</span>。通常令 <span class="math inline">\(b=w_0\)</span>，并为 <span class="math inline">\(x\)</span> 增加常数列 <span class="math inline">\(x_{i,0}=1\)</span>，于是 <span class="math inline">\(\epsilon_i=y_i-1_{\left\{\sum_{j=0}^Jx_{i,j}w_j&gt;0\right\}}\)</span>。与线性回归不同，感知器没有闭式解，只能近似求得最优权重。与回归类似，一种办法是最小化误差平方和。最简单的更新过程为：</p>
+权重向量 <span class="math inline">\(\mathbf{w}\)</span> 对各变量进行缩放，偏置 <span class="math inline">\(b\)</span> 则平移决策边界。给定 <span class="math inline">\(b\)</span> 和 <span class="math inline">\(w_i\)</span> 后，误差为 <span class="math inline">\(\epsilon_i=y_i-1_{\left\{\sum_{j=1}^Jx_{i,j}w_j+w_0&gt;0\right\}}\)</span>。通常令 <span class="math inline">\(b=w_0\)</span>，并为 <span class="math inline">\(x\)</span> 增加常数列 <span class="math inline">\(x_{i,0}=1\)</span>，于是 <span class="math inline">\(\epsilon_i=y_i-1_{\left\{\sum_{j=0}^Jx_{i,j}w_j&gt;0\right\}}\)</span>。与线性回归不同，感知机没有闭式解，只能近似求得最优权重。与回归类似，一种办法是最小化误差平方和。最简单的更新过程为：</p>
 <ol style="list-style-type: decimal">
 <li>计算模型在点 <span class="math inline">\(\textbf{x}_i\)</span> 处的当前预测：<span class="math inline">\(\tilde{y}_i=1_{\left\{\sum_{j=0}^Jw_jx_{i,j}&gt;0\right\}}\)</span>；</li>
 <li>更新权重向量：<span class="math inline">\(w_j \leftarrow w_j + \eta (y_i-\tilde{y}_i)x_{i,j}\)</span>。</li>
@@ -123,8 +123,8 @@ max-width: 60rem;
 <p>图 <a href="NN.html#fig:perceptron">7.1</a> 展示了这一机制。初始模型（灰色虚线）由 7 个点训练得到，其中 3 个红点、4 个蓝点；随后又出现一个黑点。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:perceptron" style="display:block;"></span>
-<img alt="感知器示意图。" src="images/NN_percep_scheme.png" width="450px"/><p class="caption">
-图 7.1：感知器示意图。
+<img alt="感知机示意图。" src="images/NN_percep_scheme.png" width="450px"/><p class="caption">
+图 7.1：感知机示意图。
 </p>
 </div>
 <ul>
@@ -132,30 +132,30 @@ max-width: 60rem;
 </li>
 <li>如果该点实际为蓝色，则需要更新模型。按照上述规则，应向下调整直线斜率；调整后能否改变新点的分类，取决于学习率 <span class="math inline">\(\eta\)</span>。</li>
 </ul>
-<p>感知器问世时被视为重大突破，并得到媒体广泛报道（参见 <span class="citation">Olazaran (<a href="solutions-to-exercises.html#ref-olazaran1996sociological" role="doc-biblioref">1996</a>)</span> 和 <span class="citation">Anderson and Rosenfeld (<a href="solutions-to-exercises.html#ref-anderson2000talking" role="doc-biblioref">2000</a>)</span>）。后来，这种简单结构逐步推广为由多个感知器组合而成的网络：每个感知器都是一个基本单元，多个单元组成一层。下一节介绍多层感知器（MLP）的基本结构。</p>
+<p>感知机问世时被视为重大突破，并得到媒体广泛报道（参见 <span class="citation">Olazaran (<a href="solutions-to-exercises.html#ref-olazaran1996sociological" role="doc-biblioref">1996</a>)</span> 和 <span class="citation">Anderson and Rosenfeld (<a href="solutions-to-exercises.html#ref-anderson2000talking" role="doc-biblioref">2000</a>)</span>）。后来，这种简单结构逐步推广为由多个感知机组合而成的网络：每个感知机都是一个基本单元，多个单元组成一层。下一节介绍多层感知机（MLP）的基本结构。</p>
 </div>
 <div class="section level2" id="multilayer-perceptron" number="7.2">
 <h2>
-<span class="header-section-number">7.2</span> 多层感知器<a aria-label="锚" class="anchor" href="#multilayer-perceptron"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.2</span> 多层感知机<a aria-label="锚" class="anchor" href="#multilayer-perceptron"><i class="fas fa-link"></i></a>
 </h2>
 <p></p>
 <div class="section level3" id="introduction-and-notations" number="7.2.1">
 <h3>
 <span class="header-section-number">7.2.1</span> 简介与记号<a aria-label="锚" class="anchor" href="#introduction-and-notations"><i class="fas fa-link"></i></a>
 </h3>
-<p>感知器可以看作先进行线性映射，再应用 Heaviside（阶跃）函数的模型。当然也可以选用其他函数；在神经网络术语中，这些函数称为激活函数，其作用是为原本由线性映射组成的模型引入非线性。</p>
-<p>类似于随机森林组合多棵树，神经网络也会组合多个类似感知器的基本单元。图 <a href="NN.html#fig:NNnaive">7.2</a> 是常见的神经网络示意图，但它过于简化：每个绿色圆圈实际都包含一个感知器，其输出先经过激活函数，再传给最终的输出聚合层。此类模型因而称为多层感知器（MLP）。</p>
+<p>感知机可以看作先进行线性映射，再应用 Heaviside（阶跃）函数的模型。当然也可以选用其他函数；在神经网络术语中，这些函数称为激活函数，其作用是为原本由线性映射组成的模型引入非线性。</p>
+<p>类似于随机森林组合多棵树，神经网络也会组合多个类似感知机的基本单元。图 <a href="NN.html#fig:NNnaive">7.2</a> 是常见的神经网络示意图，但它过于简化：每个绿色圆圈实际都包含一个感知机，其输出先经过激活函数，再传给最终的输出聚合层。此类模型因而称为多层感知机（MLP）。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:NNnaive" style="display:block;"></span>
-<img alt="多层感知器的简化示意图。" src="images/nn.png" width="480px"/><p class="caption">
-图 7.2：多层感知器的简化示意图。
+<img alt="多层感知机的简化示意图。" src="images/nn.png" width="480px"/><p class="caption">
+图 7.2：多层感知机的简化示意图。
 </p>
 </div>
 <p>图 <a href="NN.html#fig:MLperceptron">7.3</a> 更准确地展示了内部计算过程。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:MLperceptron" style="display:block;"></span>
-<img alt="具有 2 个中间层的感知器的详细示意图。" src="images/NN_scheme.png" width="793"/><p class="caption">
-图 7.3：具有两个中间层的多层感知器详细示意图。
+<img alt="具有 2 个中间层的感知机的详细示意图。" src="images/NN_scheme.png" width="793"/><p class="caption">
+图 7.3：具有两个中间层的多层感知机详细示意图。
 </p>
 </div>
 <p>继续讨论之前，先约定本章使用的记号。</p>
@@ -183,11 +183,11 @@ max-width: 60rem;
 </div>
 <div class="section level3" id="universal-approximation" number="7.2.2">
 <h3>
-<span class="header-section-number">7.2.2</span> 万能近似<a aria-label="锚" class="anchor" href="#universal-approximation"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.2.2</span> 通用逼近<a aria-label="锚" class="anchor" href="#universal-approximation"><i class="fas fa-link"></i></a>
 </h3>
 <p></p>
 <p>神经网络效果出色的原因之一，是它们属于<em>通用逼近器</em>。对于任意有界连续函数，都存在一个单隐藏层网络，能够以任意精度逼近该函数。早期结果见 <span class="citation">Cybenko (<a href="solutions-to-exercises.html#ref-cybenko1989approximation" role="doc-biblioref">1989</a>)</span>；更完整的文献可参阅 <span class="citation">K.-L. Du and Swamy (<a href="solutions-to-exercises.html#ref-du2013neural" role="doc-biblioref">2013</a>)</span> 第 4.2 节和 <span class="citation">Goodfellow et al. (<a href="solutions-to-exercises.html#ref-goodfellow2016deep" role="doc-biblioref">2016</a>)</span> 第 6.4.1 节；较新的结果见 <span class="citation">Guliyev and Ismailov (<a href="solutions-to-exercises.html#ref-guliyev2018approximation" role="doc-biblioref">2018</a>)</span>。</p>
-<p>形式上，单层感知器定义为
+<p>形式上，单层感知机定义为
 <span class="math display">\[f_n(\textbf{x})=\sum_{l=1}^nc_l\phi(\textbf{x}\textbf{w}_l+\textbf{b}_l)+c_0,\]</span>
 其中 <span class="math inline">\(\phi\)</span> 是非常数的有界连续函数。于是，对于任意 <span class="math inline">\(\epsilon&gt;0\)</span>，都能找到某个 <span class="math inline">\(n\)</span>，使任意连续函数 <span class="math inline">\(f\)</span> 在单位超立方体 <span class="math inline">\([0,1]^d\)</span> 上满足
 <span class="math display">\[|f(\textbf{x})-f_n(\textbf{x})|&lt; \epsilon, \quad \forall \textbf{x} \in [0,1]^d.\]</span></p>
@@ -235,7 +235,9 @@ max-width: 60rem;
 &amp;= D'(\tilde{y}_i) \left(f^{(L+1)} \right)'\left( v^{(L+1)}_{i,k}  \right)o^{(L)}_{i,k} \\
 \frac{\partial D(\tilde{y}_i)}{\partial b^{(L+1)}}&amp;=D'(\tilde{y}_i) \left(f^{(L+1)} \right)'\left( b^{(L+1)}+\sum_{k=1}^{U_L} w^{(L+1)}_ko^{(L)}_{i,k}  \right).
 \end{align}\]</span></p>
-<p>这是最简单的一步。若要再向前一层传播，就必须使用链式法则。对于第 <span class="math inline">\(L\)</span> 层，回顾恒等式 <span class="math inline">\(v_{i,k}^{(L)}=(\textbf{o}^{(L-1)}_i)'\textbf{w}^{(L)}_k+b_k^{(L)}=b_k^{(L)}+\sum_{j=1}^{U_L}o^{(L-1)}_{i,j}w^{(L)}_{k,j}\)</span>，于是：</p>
+<p>这是最简单的一步。若要再向前一层传播，就必须使用链式法则。对于第 <span class="math inline">\(L\)</span> 层，有恒等式
+<span class="math display">\[v_{i,k}^{(L)}=(\textbf{o}^{(L-1)}_i)'\textbf{w}^{(L)}_k+b_k^{(L)}=b_k^{(L)}+\sum_{j=1}^{U_L}o^{(L-1)}_{i,j}w^{(L)}_{k,j}.\]</span>
+因此可继续写出：</p>
 <p><span class="math display">\[\begin{align}
 \frac{\partial D(\tilde{y}_i)}{\partial w_{k,j}^{(L)}}&amp;=\frac{\partial D(\tilde{y}_i)}{\partial v^{(L)}_{i,k}}\frac{\partial v^{(L)}_{i,k}}{\partial w_{k,j}^{(L)}} = \frac{\partial D(\tilde{y}_i)}{\partial v^{(L)}_{i,k}}o^{(L-1)}_{i,j}\\
 &amp;=\frac{\partial D(\tilde{y}_i)}{\partial o^{(L)}_{i,k}} \frac{\partial o^{(L)}_{i,k} }{\partial v^{(L)}_{i,k}}  o^{(L-1)}_{i,j} = \frac{\partial D(\tilde{y}_i)}{\partial o^{(L)}_{i,k}}  (f^{(L)})'(v_{i,k}^{(L)})  o^{(L-1)}_{i,j} \\
@@ -282,7 +284,11 @@ max-width: 60rem;
 <p>决策树的最终目标是构造类别尽可能同质的节点，上一章已经介绍了实现过程。神经网络的处理方式不同：它直接最小化预测 <span class="math inline">\(\tilde{\textbf{y}}_i\)</span> 与目标标签 <span class="math inline">\(\textbf{y}_i\)</span> 之间的误差。这里再次强调，<span class="math inline">\(\textbf{y}_i\)</span> 是一个只有对应真实类别的位置取 <em>1</em>、其余元素均为 0 的向量。</p>
 <p>处理分类问题的关键，是在网络输出端使用合适的激活函数。输出层维度应等于 <span class="math inline">\(J\)</span>，即待预测的类别数。为简化记号，令输出层激活前的数值为 <span class="math inline">\(\textbf{x}_i\)</span>，最常用的激活函数是 <em>softmax</em>：</p>
 <p><span class="math display">\[\tilde{\textbf{y}}_i=s(\textbf{x})_i=\frac{e^{x_i}}{\sum_{j=1}^Je^{x_j}}.\]</span></p>
-<p>选择 softmax 的理由很直接：它可以接收任意实数输入，并把有限维输出转换为各元素之和等于 1 的向量。与分类树类似，这可以解释为类别“概率”向量。常用损失函数是树模型中熵概念的推广。给定目标标签 <span class="math inline">\(\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)\)</span> 和预测输出 <span class="math inline">\(\tilde{\textbf{y}}_i=(\tilde{y}_{i,1},\dots,\tilde{y}_{i,L})\)</span>，交叉熵定义为</p>
+<p>选择 softmax 的理由很直接：它可以接收任意实数输入，并把有限维输出转换为各元素之和等于 1 的向量。与分类树类似，这可以解释为类别“概率”向量。常用损失函数是树模型中熵概念的推广。给定目标标签
+<span class="math display">\[\textbf{y}_i=(y_{i,1},\dots,y_{i,L})=(0,0,\dots,0,1,0,\dots,0)\]</span>
+和预测输出
+<span class="math display">\[\tilde{\textbf{y}}_i=(\tilde{y}_{i,1},\dots,\tilde{y}_{i,L}),\]</span>
+交叉熵定义为</p>
 <p><span class="math display" id="eq:crossentropy">\[\begin{equation}
 \tag{7.5}
 \text{CE}(\textbf{y}_i,\tilde{\textbf{y}}_i)=-\sum_{j=1}^J\log(\tilde{y}_{i,j})y_{i,j}.
@@ -299,7 +305,7 @@ max-width: 60rem;
 <h3>
 <span class="header-section-number">7.3.1</span> 架构选择<a aria-label="锚" class="anchor" href="#architectural-choices"><i class="fas fa-link"></i></a>
 </h3>
-<p>首先要确定网络结构。除前馈网络与循环网络之分（参见第 <a href="#recurrent-networks"><strong>??</strong></a> 节）外，最直接的问题是网络应有多宽、多深。
+<p>首先要确定网络结构。除前馈网络与循环网络之分（参见第 <a href="#RNN">7.5</a> 节）外，最直接的问题是网络应有多宽、多深。
 先计算网络中需要估计或优化的参数数量，即参数权重与偏置的总数。</p>
 <ul>
 <li>第一层包含 <span class="math inline">\((U_0+1)U_1\)</span> 个参数，其中 <span class="math inline">\(U_0\)</span> 是 <span class="math inline">\(\mathbb{X}\)</span> 的列数，即解释变量数，<span class="math inline">\(U_1\)</span> 是该层单元数。<br/>
@@ -330,7 +336,7 @@ max-width: 60rem;
 <p>也就是说，参数权重的变化由该批次所有样本的平均损失决定。训练过程中常用以下概念：</p>
 <ul>
 <li>
-<strong>训练周期（epoch）</strong>：训练集中的每个样本都参与过一次参数更新后，就完成一个训练周期。训练神经网络通常需要几个到几十个周期。<br/>
+<strong>训练周期（epoch）</strong>：训练集中的每个样本都被模型处理一次后，就完成一个训练周期；在常见的小批次训练中，每个样本通常恰好出现在一个批次里。训练神经网络通常需要几个到几十个周期。<br/>
 </li>
 <li>
 <strong>批次大小</strong>：一次参数更新所使用的样本数。<br/>
@@ -343,7 +349,7 @@ max-width: 60rem;
 </div>
 <div class="section level3" id="penalizations-and-dropout" number="7.3.3">
 <h3>
-<span class="header-section-number">7.3.3</span> 惩罚项与 dropout<a aria-label="锚" class="anchor" href="#penalizations-and-dropout"><i class="fas fa-link"></i></a>
+<span class="header-section-number">7.3.3</span> 惩罚项与 Dropout（随机失活）<a aria-label="锚" class="anchor" href="#penalizations-and-dropout"><i class="fas fa-link"></i></a>
 </h3>
 <p>
 可以在每一层对参数权重和偏置施加约束或惩罚。与树模型一样，这会限制模型的拟合能力，从而降低对训练样本过拟合的风险。把惩罚项直接加入损失函数后，目标函数写为</p>
@@ -355,7 +361,7 @@ max-width: 60rem;
 </li>
 <li>非负约束：所有参数权重必须非负。</li>
 </ul>
-<p>另一种降低过拟合风险的方法，是在训练时暂时缩小模型，即减少参与计算的参数数量。<span class="citation">Srivastava et al. (<a href="solutions-to-exercises.html#ref-srivastava2014dropout" role="doc-biblioref">2014</a>)</span> 建议训练期间随机舍弃部分单元，这就是 <strong>dropout</strong>。被选中单元的参数权重暂时设为 0，与该单元相连的所有边都不参与计算，网络因而在本轮训练中变小。测试时会重新启用全部单元，但需要适当缩放输出或参数权重，以补偿训练阶段缺失的激活。</p>
+<p>另一种降低过拟合风险的方法，是在训练时暂时缩小模型，即减少参与计算的单元数量。<span class="citation">Srivastava et al. (<a href="solutions-to-exercises.html#ref-srivastava2014dropout" role="doc-biblioref">2014</a>)</span> 建议训练期间随机舍弃部分单元，这就是 <strong>Dropout（随机失活）</strong>。被选中单元的输出激活暂时置为 0，使与之相连的边在本轮计算中不起作用；模型参数本身并未被删除或置零。常见的“倒置 Dropout”会在训练时缩放保留的激活，因此推断时重新启用全部单元后无需再缩放。</p>
 <p>关于神经网络配置的更多实践建议，可参阅 <span class="citation">Bengio (<a href="solutions-to-exercises.html#ref-bengio2012practical" role="doc-biblioref">2012</a>)</span>、<span class="citation">Hanin and Rolnick (<a href="solutions-to-exercises.html#ref-hanin2018start" role="doc-biblioref">2018</a>)</span> 和 <span class="citation">L. N. Smith (<a href="solutions-to-exercises.html#ref-smith2018disciplined" role="doc-biblioref">2018</a>)</span>。<span class="citation">S. I. Lee (<a href="solutions-to-exercises.html#ref-lee2020hyperparameter" role="doc-biblioref">2020</a>)</span> 专门讨论了股票收益预测中的超参数调优。</p>
 </div>
 </div>
@@ -364,7 +370,7 @@ max-width: 60rem;
 <span class="header-section-number">7.4</span> 基础 MLP 的代码示例与说明<a aria-label="锚" class="anchor" href="#code-samples-and-comments-for-vanilla-mlp"><i class="fas fa-link"></i></a>
 </h2>
 <p>多种框架与软件库都能稳健、灵活地构建神经网络。本书写作时，Google 开发的 Keras 和 TensorFlow 使用最为广泛，Facebook 推出的 PyTorch 则是另一种选择。为简化代码，本书使用 Keras，它是 TensorFlow 的高级 API（见 <a class="uri" href="https://www.tensorflow.org">https://www.tensorflow.org</a>）。Python 版本见 <a class="uri" href="https://keras.io">https://keras.io</a>，R 接口说明见 <a class="uri" href="https://keras.rstudio.com">https://keras.rstudio.com</a>。继续之前应先完成安装配置。TensorFlow 和 Keras 的原生实现使用 Python 编写，R 通过 <em>reticulate</em> 软件包调用，因此还需要可运行的 Python 环境。Keras 的安装步骤见 <a class="uri" href="https://keras.rstudio.com">https://keras.rstudio.com</a>。</p>
-<p>本节较为详细但并不穷尽地介绍如何用 Keras 训练神经网络。内容分为两步：先用一个简单回归任务熟悉 Keras 语法，再通过分类任务展示更多配置选项。两个示例覆盖前馈多层感知器的大部分常用概念。</p>
+<p>本节较为详细但并不穷尽地介绍如何用 Keras 训练神经网络。内容分为两步：先用一个简单回归任务熟悉 Keras 语法，再通过分类任务展示更多配置选项。两个示例覆盖前馈多层感知机的大部分常用概念。</p>
 <div class="section level3" id="regression-example" number="7.4.1">
 <h3>
 <span class="header-section-number">7.4.1</span> 回归示例<a aria-label="锚" class="anchor" href="#regression-example"><i class="fas fa-link"></i></a>
@@ -420,7 +426,7 @@ max-width: 60rem;
 ## __________________________________________________________________________________________</code></pre>
 <p></p>
 <p>模型摘要按从输入到输出，即前向传播的顺序列出各层。这里共有 93 个特征，第一层有 16 个单元，因此参数数目为 (93 + 1) × 16 = 1,504，其中额外的 1 对应偏置。第二层的输入数等于上一层的 16 个输出；该层有 8 个单元，因此参数总数为 (16 + 1) × 8 = 136。</p>
-<p>损失函数设为标准均方误差。其他损失函数见 <a class="uri" href="https://keras.io/losses/">https://keras.io/losses/</a>：有些只适用于回归，如 MSE 和 MAE；有些用于分类，如式 <a href="NN.html#eq:crossentropy">(7.5)</a> 的分类交叉熵。RMSprop 优化器实现经典的小批次反向传播，其他参数更新算法见 <a class="uri" href="https://keras.io/optimizers/">https://keras.io/optimizers/</a>。评价指标用于衡量模型质量，不必与训练损失相同；例如，可以用交叉熵训练，再用准确率评价表现。</p>
+<p>损失函数设为标准均方误差。其他损失函数见 <a class="uri" href="https://keras.io/losses/">https://keras.io/losses/</a>：有些只适用于回归，如 MSE 和 MAE；有些用于分类，如式 <a href="NN.html#eq:crossentropy">(7.5)</a> 的分类交叉熵。反向传播负责计算梯度，RMSprop 优化器则根据梯度平方的指数移动平均自适应地缩放参数更新；其他参数更新算法见 <a class="uri" href="https://keras.io/optimizers/">https://keras.io/optimizers/</a>。评价指标用于衡量模型质量，不必与训练损失相同；例如，可以用交叉熵训练，再用准确率评价表现。</p>
 <p>最后用数据拟合模型，并指定额外的训练参数：</p>
 <div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_NN</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> 
@@ -477,7 +483,7 @@ max-width: 60rem;
 <p>这里选用的配置主要用于展示功能，并不保证改善模型表现。与第 <a href="NN.html#regression-example">7.4.1</a> 节相比，首先改变的是激活函数。前两个隐藏层的激活函数只是新的示例；输出层的 softmax 则由分类任务决定。分类模型的输出维度必须等于标签的类别数，因此末层设置两个单元，并用 softmax 输出两个类别的概率。</p>
 <p>第二类新配置涉及模型参数，包括参数权重和偏置的初始化。在 Keras 中，层的参数权重称为 kernel。可用的初始化器很多，详见 Keras 文档（<a class="uri" href="https://keras.io/initializers/">https://keras.io/initializers/</a>）；多数初始化器带有随机性，也有常数初始化器。</p>
 <p>还可以在训练过程中对参数权重和偏置施加约束或范数惩罚。本例把第一层的参数权重约束为非负值，并对第二层参数权重的 <span class="math inline">\(L^2\)</span> 范数施加系数为 0.01 的惩罚。</p>
-<p>最后，第一层与第二层之间加入了 dropout 层（参见第 <a href="NN.html#penalizations-and-dropout">7.3.3</a> 节）。训练时，该层会随机屏蔽第一层四分之一的单元。</p>
+<p>最后，第一层与第二层之间加入了 Dropout 层（参见第 <a href="NN.html#penalizations-and-dropout">7.3.3</a> 节）。训练时，该层会随机屏蔽第一层四分之一的单元。</p>
 <p>模型的训练配置如下。</p>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_C</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/compile.html">compile</a></span><span class="op">(</span>                               <span class="co"># Model specification</span>
@@ -505,7 +511,7 @@ max-width: 60rem;
 ## Non-trainable params: 0
 ## __________________________________________________________________________________________</code></pre>
 <p></p>
-<p>这一次，损失函数、优化器和评估指标都发生了变化。损失函数改为交叉熵；由于这里只有两个类别，代码使用 binary_crossentropy，而更一般的 categorical_crossentropy 可用于任意两个及以上类别。优化器改用 Adam，相关参数详见 <span class="citation">Kingma and Ba (<a href="solutions-to-exercises.html#ref-kingma2014adam" role="doc-biblioref">2014</a>)</span>。简要地说，beta_1 和 beta_2 分别控制梯度一阶矩与二阶矩指数移动平均的衰减率，Adam 利用这两个矩估计调整参数更新。评估指标 categorical_accuracy 表示分类准确率。对于每个样本，模型输出一个类别概率向量，概率最大的类别就是最终预测；准确率则是预测类别与实际类别相同的样本占比。</p>
+<p>这一次，损失函数、优化器和评估指标都发生了变化。代码使用 binary_crossentropy；它通常与单个 sigmoid 输出搭配处理二分类。本例采用两个 softmax 输出和独热标签，也可以更常规地使用 categorical_crossentropy；后者适用于两个及以上互斥类别。优化器改用 Adam，相关参数详见 <span class="citation">Kingma and Ba (<a href="solutions-to-exercises.html#ref-kingma2014adam" role="doc-biblioref">2014</a>)</span>。简要地说，beta_1 和 beta_2 分别控制梯度一阶矩与二阶矩指数移动平均的衰减率，Adam 利用这两个矩估计调整参数更新。评估指标 categorical_accuracy 表示分类准确率。对于每个样本，模型输出一个类别概率向量，概率最大的类别就是最终预测；准确率则是预测类别与实际类别相同的样本占比。</p>
 <p>接下来训练该模型。</p>
 <div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_NN_C</span> <span class="op">&lt;-</span> <span class="va">model_C</span> <span class="op"><a href="https://rdrr.io/pkg/keras/man/pipe.html">%&gt;%</a></span> 
@@ -591,7 +597,7 @@ Keras 允许用户自行定义损失函数，这在某些任务中很有用。�
 <span class="header-section-number">7.5.1</span> 基本原理<a aria-label="锚" class="anchor" href="#presentation"><i class="fas fa-link"></i></a>
 </h3>
 <p>
-多层感知器属于前馈网络：信息从输入端单向流向输出端，中间没有循环连接。时间序列和语音识别等任务具有天然顺序，当前预测往往需要参考先前样本的信息。要给网络加入这种“记忆”，可以考虑下面这个只有一个隐藏层的结构：
+多层感知机属于前馈网络：信息从输入端单向流向输出端，中间没有循环连接。时间序列和语音识别等任务具有天然顺序，当前预测往往需要参考先前样本的信息。要给网络加入这种“记忆”，可以考虑下面这个只有一个隐藏层的结构：
 <span class="math display">\[\begin{align*}
 \tilde{y}_i&amp;=f^{(y)}\left(\sum_{j=1}^{U_1}h_{i,j}w^{(y)}_j+b^{(2)}\right) \\
 \textbf{h}_{i} &amp;=f^{(h)}\left(\sum_{k=1}^{U_0}x_{i,k}w^{(h,1)}_k+b^{(1)}+ \underbrace{\sum_{k=1}^{U_1}  w^{(h,2)}_{k}h_{i-1,k}}_{\text{memory part}} \right),
@@ -622,7 +628,7 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 <h3>
 <span class="header-section-number">7.5.2</span> 代码与结果<a aria-label="锚" class="anchor" href="#code-and-results-2"><i class="fas fa-link"></i></a>
 </h3>
-<p>循环网络不仅理论结构比多层感知器复杂，实现时也更具挑战。与前馈网络相比，时序连接要求我们谨慎组织数据。在资产定价场景中，每只股票都有独立的时间序列，不能把不同股票首尾相接成一条序列；模型必须沿各只股票自身的时间顺序学习。</p>
+<p>循环网络不仅理论结构比多层感知机复杂，实现时也更具挑战。与前馈网络相比，时序连接要求我们谨慎组织数据。在资产定价场景中，每只股票都有独立的时间序列，不能把不同股票首尾相接成一条序列；模型必须沿各只股票自身的时间顺序学习。</p>
 <p>因此，输入张量的维度至关重要。Keras 中的 RNN 输入按以下三个维度组织：</p>
 <ol style="list-style-type: decimal">
 <li>批量大小：本例设为资产数量，每项资产对应批量中的一条独立序列。<br/>
@@ -744,7 +750,7 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 <div class="figure" style="text-align: center">
 <span id="fig:sparsemax" style="display:block;"></span>
 <img alt="一维中的 Softmax 与 sparsemax。" src="ML_factor_files/figure-html/sparsemax-1.png" width="600"/><p class="caption">
-图 7.11： 一维中的 Softmax 与 sparsemax。
+图 7.11：一维中的 Softmax 与 sparsemax。
 </p>
 </div>
 </div>
@@ -863,12 +869,12 @@ r_i &amp;= \text{sig}(\textbf{w}_r'\textbf{x}_i+b_r+u_r\tilde{y}_{i-1}) \hspace{
 \text{input} &amp;&amp; \text{encoder} &amp;&amp; \text{code} &amp;&amp; \text{decoder} &amp;&amp; \text{modified input}
 \end{array}\]</span></p>
 <p>由于自动编码器不属于监督学习方法，本书把更完整的介绍放到第 <a href="unsup.html#ae">15.2.3</a> 节。</p>
-<p><span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2019autoencoder" role="doc-biblioref">2020a</a>)</span> 借鉴自动编码器思想，同时扩展了资产定价模型。以简单模型 <span class="math inline">\(r_t=\boldsymbol{\beta}_{t-1}\textbf{f}_t+e_t\)</span> 为起点（为简化符号，省略资产下标），他们进一步假设 beta 取决于公司特征，而因子可以是收益率本身的非线性函数。模型写为：
+<p><span class="citation">Gu, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-gu2019autoencoder" role="doc-biblioref">2020a</a>)</span> 借鉴自动编码器思想，同时扩展了资产定价模型。以简单模型 <span class="math inline">\(r_t=\boldsymbol{\beta}_{t-1}\textbf{f}_t+e_t\)</span> 为起点（为简化符号，省略资产下标），他们进一步假设贝塔（因子载荷）取决于公司特征，而因子可以是收益率本身的非线性函数。模型写为：
 <span class="math display" id="eq:AEgu">\[\begin{equation}
 \tag{7.9}
 r_{t,i}=\textbf{NN}_{\textbf{beta}}(\textbf{x}_{t-1,i})+\textbf{NN}_{\textbf{factor}}(\textbf{r}_t)+e_{t,i},
 \end{equation}\]</span>
-其中 <span class="math inline">\(\textbf{NN}_{\textbf{beta}}\)</span> 和 <span class="math inline">\(\textbf{NN}_{\textbf{factor}}\)</span> 是两个神经网络。收益率同时作为输入与输出，因此上式<em>具有自动编码器的形式</em>；额外的复杂性来自刻画条件 beta 的 <span class="math inline">\(\textbf{NN}_{\textbf{beta}}\)</span>。Keras 等现代神经网络库支持这种自定义结构，其实现留作本章练习。</p>
+其中 <span class="math inline">\(\textbf{NN}_{\textbf{beta}}\)</span> 和 <span class="math inline">\(\textbf{NN}_{\textbf{factor}}\)</span> 是两个神经网络。收益率同时作为输入与输出，因此上式<em>具有自动编码器的形式</em>；额外的复杂性来自刻画条件贝塔的 <span class="math inline">\(\textbf{NN}_{\textbf{beta}}\)</span>。Keras 等现代神经网络库支持这种自定义结构，其实现留作本章练习。</p>
 </div>
 <div class="section level3" id="CNN" number="7.7.3">
 <h3>
@@ -912,12 +918,12 @@ r_{t,i}=\textbf{NN}_{\textbf{beta}}(\textbf{x}_{t-1,i})+\textbf{NN}_{\textbf{fac
 </div>
 <p>要充分利用 Keras 构建这类非顺序结构，需要采用更通用的神经网络定义方式，即 <em>functional API</em>：<a class="uri" href="https://keras.rstudio.com/articles/functional_api.html">https://keras.rstudio.com/articles/functional_api.html</a>。</p>
 <ol start="2" style="list-style-type: decimal">
-<li>用一个简单神经网络演示万能近似性质。选择区间 [0,6] 上的 sin(x)，先用一个只有一层、含 16 个单元的前馈网络拟合该函数；再把单元数增加到 128，比较拟合效果如何变化。</li>
+<li>用一个简单神经网络演示通用逼近性质。选择区间 [0,6] 上的 sin(x)，先用一个只有一层、含 16 个单元的前馈网络拟合该函数；再把单元数增加到 128，比较拟合效果如何变化。</li>
 </ol>
 <div class="figure" style="text-align: center">
 <span id="fig:exoUA" style="display:block;"></span>
 <img alt="目标：近似这个简单的函数。" src="ML_factor_files/figure-html/exoUA-1.png" width="400px"/><p class="caption">
-图 7.15： 目标：近似这个简单函数。
+图 7.15：目标：近似这个简单函数。
 </p>
 </div>
 </div>
@@ -929,11 +935,11 @@ r_{t,i}=\textbf{NN}_{\textbf{beta}}(\textbf{x}_{t-1,i})+\textbf{NN}_{\textbf{fac
 <nav aria-label="本页目录" data-toggle="toc" id="toc"><h2>本页目录</h2>
 <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#NN"><span class="header-section-number">7</span> 神经网络</a></li>
-<li><a class="nav-link" href="#the-original-perceptron"><span class="header-section-number">7.1</span> 原始感知器</a></li>
+<li><a class="nav-link" href="#the-original-perceptron"><span class="header-section-number">7.1</span> 原始感知机</a></li>
 <li>
-<a class="nav-link" href="#multilayer-perceptron"><span class="header-section-number">7.2</span> 多层感知器</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#multilayer-perceptron"><span class="header-section-number">7.2</span> 多层感知机</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#introduction-and-notations"><span class="header-section-number">7.2.1</span> 简介与记号</a></li>
-<li><a class="nav-link" href="#universal-approximation"><span class="header-section-number">7.2.2</span> 万能近似</a></li>
+<li><a class="nav-link" href="#universal-approximation"><span class="header-section-number">7.2.2</span> 通用逼近</a></li>
 <li><a class="nav-link" href="#backprop"><span class="header-section-number">7.2.3</span> 通过反向传播学习</a></li>
 <li><a class="nav-link" href="#NNclass"><span class="header-section-number">7.2.4</span> 分类问题的进一步说明</a></li>
 </ul>
@@ -942,7 +948,7 @@ r_{t,i}=\textbf{NN}_{\textbf{beta}}(\textbf{x}_{t-1,i})+\textbf{NN}_{\textbf{fac
 <a class="nav-link" href="#howdeep"><span class="header-section-number">7.3</span> 网络应有多深及其他实践问题</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#architectural-choices"><span class="header-section-number">7.3.1</span> 架构选择</a></li>
 <li><a class="nav-link" href="#frequency-of-weight-updates-and-learning-duration"><span class="header-section-number">7.3.2</span> 参数更新频率与训练时长</a></li>
-<li><a class="nav-link" href="#penalizations-and-dropout"><span class="header-section-number">7.3.3</span> 惩罚项与 dropout</a></li>
+<li><a class="nav-link" href="#penalizations-and-dropout"><span class="header-section-number">7.3.3</span> 惩罚项与 Dropout（随机失活）</a></li>
 </ul>
 </li>
 <li>

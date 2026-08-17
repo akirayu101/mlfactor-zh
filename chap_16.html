@@ -14749,7 +14749,7 @@ v_\pi(s)=\mathbb{E}_\pi\left[ G_t | S_t=s \right],
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中时间下标 $t$ 与函数记号关系不大，因此省略。期望算子 $\mathbb{E}[\cdot]$ 下方的下标 $\pi$ 只是表示在执行策略 $\pi$ 时取平均。价值函数就等于在状态为 $s$ 条件下的平均收益。用金融语言说，这等价于当市场环境为 $s$ 且智能体按 $\pi$ 驱动采取动作时的平均利润。更一般地，也可以不仅以状态为条件，还以采取的动作为条件。因此，我们引入 $q_\pi$ 动作价值函数：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中时间下标 $t$ 与函数记号关系不大，因此省略。期望算子 $\mathbb{E}[\cdot]$ 下方的下标 $\pi$ 表示期望是在执行策略 $\pi$ 时计算的。状态价值函数给出状态为 $s$ 时的期望回报。用金融语言说，它表示市场环境为 $s$ 且智能体按策略 $\pi$ 行动时的预期累计折扣回报。还可以同时对状态和当前动作取条件，从而得到 $q_\pi$，即动作价值函数：</p></div>
 </div>
 </div>
 </div>
@@ -14772,7 +14772,7 @@ q_\pi(s,a)=\mathbb{E}_\pi\left[ G_t | S_t=s, \ A_t=a \right].
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>$q_\pi$ 函数非常重要，因为它给出状态和动作固定时的平均收益。因此，在已知当前状态时，自然会选择使 $q_\pi(s,\cdot)$ 最大的动作。不过，只有当 $q_\pi$ 的最优值已知时，这才是最佳解，而实践中通常并非如此。价值函数可由 $q_\pi$ 直接得到：$v_\pi(s)=\sum_a \pi(a,s)q_\pi(s,a)$</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>$q_\pi$ 给出状态和当前动作固定、此后遵循策略时的期望回报。因此，在已知当前状态时，可以选择使 $q_\pi(s,\cdot)$ 最大的动作。不过，这要求 $q_\pi$ 的真实值已知，而实践中通常需要估计 $q_\pi$。状态价值函数可由动作价值函数直接得到：$v_\pi(s)=\sum_a \pi(a,s)q_\pi(s,a)$</p></div>
 </div>
 </div>
 </div>
@@ -14819,7 +14819,7 @@ q_\pi(s,a)=\mathbb{E}_\pi\left[ G_t | S_t=s, \ A_t=a \right].
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="16.1.2-Q-learning">16.1.2 Q-learning<a class="anchor-link" href="#16.1.2-Q-learning">¶</a></h3></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="16.1.2-Q-learning">16.1.2 Q 学习<a class="anchor-link" href="#16.1.2-Q-learning">¶</a></h3></div>
 </div>
 </div>
 </div>
@@ -14828,7 +14828,7 @@ q_\pi(s,a)=\mathbb{E}_\pi\left[ G_t | S_t=s, \ A_t=a \right].
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>针对寻找 $v_*(s)$ 和 $q_*(s,a)$ 的问题，一个有趣的捷径是去除其对策略的依赖。于是当然也就不需要迭代改进策略。实现这一点所需的核心关系，是 $q_\pi(s,a)$ 满足的所谓 Bellman 方程。我们在下文详细推导。首先回顾：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>求解 $v_*(s)$ 和 $q_*(s,a)$ 的一种捷径，是直接学习与具体策略无关的最优动作价值函数，而不必显式地反复执行策略评估与策略改进。实现这一点的核心关系，是 $q_\pi(s,a)$ 满足的 Bellman 方程。下文从其定义开始推导：</p></div>
 </div>
 </div>
 </div>
@@ -14956,7 +14956,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(\underbrace{r_{i+1}+\
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>该更新规则有效的根本原因，可与压缩映射的不动点定理联系起来。若函数 $f$ 满足 $|f(x)-f(y)|&lt; \delta |x-y|$（Lipschitz 连续），则满足 $f(z)=z$ 的不动点 $z$ 可通过 $z \leftarrow f(z)$ 迭代获得。该更新规则会收敛到不动点。式 (16.7) 可用类似原则求解，只是学习率 $\eta$ 会放慢学习过程，同时在技术假设下也从技术上保证收敛。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>该更新规则可与压缩映射的不动点定理联系起来。若收缩系数 δ 的取值在 0 与 1 之间，且函数 $f$ 满足 $|f(x)-f(y)|&lt; \delta |x-y|$，则满足 $f(z)=z$ 的唯一不动点 $z$ 可通过 $z \leftarrow f(z)$ 迭代求得。式 (16.7) 可按类似思路理解；在满足充分探索、步长衰减等条件时，学习率 $\eta$ 控制随机近似更新并支持收敛。</p></div>
 </div>
 </div>
 </div>
@@ -14988,7 +14988,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(\underbrace{r_{i+1}+\
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中最后一部分可视为误差项。从旧估计出发，新估计因此朝“正确”（或所寻求）的方向移动，同时通过折现项确保该方向的幅度不会过大。式 (16.8) 的更新规则通常称为<em>时间差分</em>学习，因为它由时间 $t+1$ 已知估计（目标）相对于时间 $t$ 已知估计带来的改进所驱动。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>最后一项是时序差分误差。新估计从旧估计出发，按学习率给定的步长朝目标修正；这里控制单次修正幅度的是学习率，而折扣因子用于降低未来动作价值的权重。式 (16.8) 的更新规则称为<em>时序差分学习</em>，因为目标包含 $t+1$ 时刻的价值估计，并与 $t$ 时刻的当前估计作差。</p></div>
 </div>
 </div>
 </div>
@@ -14997,7 +14997,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(\underbrace{r_{i+1}+\
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>Q-learning 序列（<strong>QL</strong>）中的一个重要步骤是第二步，即选择动作 $a_i$。在 RL 中，最好的算法结合两个特征：<strong>利用</strong>和<strong>探索</strong>。利用是指机器使用当前掌握的信息来选择下一步动作。在这种情况下，对给定状态 $s_i$，它选择使期望奖励 $Q_i(s_i,a_i)$ 最大的动作 $a_i$。虽然这很自然，但如果当前函数 $Q_i$ 与真实 $Q$ 相距较远，该选择并非最优。重复局部最优策略很可能偏向有限数量的动作，从而只能狭窄地提高 $Q$ 函数精度。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>Q 学习序列（<strong>QL</strong>）中的一个重要步骤是第二步，即选择动作 $a_i$。强化学习算法需要权衡<strong>利用</strong>和<strong>探索</strong>。利用是根据当前信息选择下一步动作：对给定状态 $s_i$，选择使当前估计的预期回报，即动作价值 $Q_i(s_i,a_i)$，最大的动作 $a_i$。如果当前估计 $Q_i$ 与真实的 $Q$ 相距较远，这种选择可能并非最优。反复采用当前看来最优的动作会把数据集中在少数动作上，因而只能局部提高 $Q$ 函数的估计精度。</p></div>
 </div>
 </div>
 </div>
@@ -15123,7 +15123,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="16.2-The-curse-of-dimensionality">16.2 维度灾难<a class="anchor-link" href="#16.2-The-curse-of-dimensionality">¶</a></h2></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="16.2-The-curse-of-dimensionality">16.2 维数灾难<a class="anchor-link" href="#16.2-The-curse-of-dimensionality">¶</a></h2></div>
 </div>
 </div>
 </div>
@@ -15200,7 +15200,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>这种维度灾难还伴随着训练数据这一根本问题。可以设想两种选择：市场数据与模拟。在给定的受控样本生成器下，很难想象算法会击败最大化给定效用函数的解。至少，它应当在平稳数据生成过程中收敛到静态最优解（交易任务可见 Chaouki et al. (2020)），而这本身也是一个非常强的建模假设。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>这种维数灾难还伴随着训练数据这一根本问题。可以设想两种选择：市场数据与模拟。在给定的受控样本生成器下，很难想象算法会击败最大化给定效用函数的解。至少，它应当在平稳数据生成过程中收敛到静态最优解（交易任务可见 Chaouki et al. (2020)），而这本身也是一个非常强的建模假设。</p></div>
 </div>
 </div>
 </div>
@@ -15268,7 +15268,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>$\pi_{\boldsymbol{\theta}}$ 的一个期望性质是它关于 $\theta$ 可微，使得 $\theta$ 可通过某种梯度方法改进。关于策略梯度最简单、最直观的结果出现在回合式任务（有限期限）情形中，此时目标是最大化平均收益 $\mathbb{E}_{\boldsymbol{\theta}}[G_t]$，其中收益定义见式 (16.3)。期望按依赖 $\theta$ 的特定策略计算，这也是我们使用简单下标的原因。一个核心结果是所谓策略梯度定理，其表明：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>策略 $\pi_{\boldsymbol{\theta}}$ 应当关于 $\theta$ 可微，以便通过梯度方法改进 $\theta$。策略梯度最简单直观的结果适用于有限期限的回合式任务，此时目标是最大化期望回报 $\mathbb{E}_{\boldsymbol{\theta}}[G_t]$，其中回报定义见式 (16.3)。期望是在由 $\theta$ 参数化的策略下计算的，因此使用该参数作为下标。策略梯度定理给出：</p></div>
 </div>
 </div>
 </div>
@@ -15355,7 +15355,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>但技巧在于向量 $\textbf{w}$ 也必须更新。actor 是策略端，负责驱动决策。critic 是价值函数端，用来评价 actor 的表现。随着学习推进（每次两组参数都被更新），两端都会改进。精确的算法表述略长；关于 AC 的具体步骤序列，可参见 Sutton and Barto (2018) 第 13.5 节。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>关键在于向量 $\textbf{w}$ 也必须更新。演员是策略一侧，负责驱动决策；评论家是价值函数一侧，负责评价演员的表现。随着学习推进，两组参数都会持续更新。完整算法较长；AC 的具体步骤可参见 Sutton and Barto (2018) 第 13.5 节。</p></div>
 </div>
 </div>
 </div>
@@ -15414,7 +15414,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>一些自然的参数分布可以作为替代。如果只交易一项资产，可用 Bernoulli 分布决定是否买入该资产。如果存在无风险资产，beta 分布提供了更多灵活性，因为投资于风险资产的比例可覆盖整个区间，剩余部分可投向安全资产。当交易多项资产时，由于预算约束，情况更复杂。一个理想候选是 Dirichlet 分布，因为它定义在单纯形上（见式 (16.13)）：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>一些自然的参数分布可以作为替代。如果只交易一项资产，可用伯努利分布决定是否买入该资产。如果存在无风险资产，贝塔分布提供了更多灵活性，因为投资于风险资产的比例可覆盖整个区间，剩余部分可投向安全资产。当交易多项资产时，由于预算约束，情况更复杂。一个理想候选是狄利克雷分布，因为它定义在单纯形上（见式 (16.13)）：</p></div>
 </div>
 </div>
 </div>
@@ -15436,7 +15436,7 @@ f_{\boldsymbol{\alpha}}(w_1,\dots,w_n)=\frac{1}{B(\boldsymbol{\alpha})}\prod_{n=
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中 $B(\boldsymbol{\alpha})$ 是多项 beta 函数：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中 $B(\boldsymbol{\alpha})$ 是多元贝塔函数：</p></div>
 </div>
 </div>
 </div>
@@ -15583,7 +15583,7 @@ B(\boldsymbol{\alpha})=\frac{\prod_{n=1}^N\Gamma(\alpha_n)}{\Gamma\left(\sum_{n=
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="16.4.1-Q-learning-with-simulations">16.4.1 基于模拟的 Q-learning<a class="anchor-link" href="#16.4.1-Q-learning-with-simulations">¶</a></h3></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="16.4.1-Q-learning-with-simulations">16.4.1 基于模拟的 Q 学习<a class="anchor-link" href="#16.4.1-Q-learning-with-simulations">¶</a></h3></div>
 </div>
 </div>
 </div>
@@ -15592,7 +15592,7 @@ B(\boldsymbol{\alpha})=\frac{\prod_{n=1}^N\Gamma(\alpha_n)}{\Gamma\left(\sum_{n=
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>为说明上述问题的要点，我们给出两个 $Q$-learning 实现。为简单起见，第一个基于模拟。这有助于在简化框架中理解学习过程。我们考虑两项资产：一项风险资产和一项无风险资产，后者收益为零。风险过程的收益服从一阶自回归模型（AR(1)）：$r_{t+1}=a+\rho r_t+\epsilon_{t+1}$，其中 $|\rho|&lt;1$，$ϵ$ 是方差为 $\sigma^2$ 的标准白噪声。在实践中，个股（月度）收益很少自相关，但调整自相关有助于理解算法是否正确学习（见下方练习）。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>为说明上述问题的要点，我们给出两个 $Q$ 学习实现。为简单起见，第一个基于模拟。这有助于在简化框架中理解学习过程。我们考虑两项资产：一项风险资产和一项无风险资产，后者收益为零。风险过程的收益服从一阶自回归模型（AR(1)）：$r_{t+1}=a+\rho r_t+\epsilon_{t+1}$，其中 $|\rho|&lt;1$，$ϵ$ 是方差为 $\sigma^2$ 的标准白噪声。在实践中，个股（月度）收益很少自相关，但调整自相关有助于理解算法是否正确学习（见下方练习）。</p></div>
 </div>
 </div>
 </div>
@@ -15735,7 +15735,7 @@ B(\boldsymbol{\alpha})=\frac{\prod_{n=1}^N\Gamma(\alpha_n)}{\Gamma\left(\sum_{n=
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>Q-learning 算法的实现中有 3 个参数：</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>Q 学习算法的实现中有 3 个参数：</p>
 <ul>
 <li>$\eta$，即更新方程 (16.8) 中的学习率。</li>
 <li>$\gamma$，奖励的折现率（也见方程 (16.8)）；</li>
@@ -15822,7 +15822,7 @@ Reward (last iteration): 456.1509459790951
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="16.4.2-Q-learning-with-market-data">16.4.2 基于市场数据的 Q-learning<a class="anchor-link" href="#16.4.2-Q-learning-with-market-data">¶</a></h3></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="16.4.2-Q-learning-with-market-data">16.4.2 基于市场数据的 Q 学习<a class="anchor-link" href="#16.4.2-Q-learning-with-market-data">¶</a></h3></div>
 </div>
 </div>
 </div>

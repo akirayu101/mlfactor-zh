@@ -137,7 +137,7 @@ q_\pi(s,a)=\mathbb{E}_\pi\left[ G_t | S_t=s, \ A_t=a \right].
 </div>
 <div class="section level3" id="q-learning" number="16.1.2">
 <h3><span class="header-section-number">16.1.2</span> Q 学习<a aria-label="锚" class="anchor" href="#q-learning"><i class="fas fa-link"></i></a></h3>
-<p>求解 <span class="math inline">\(v_*(s)\)</span> 和 <span class="math inline">\(q_*(s,a)\)</span> 的一种捷径，是消除它们对策略的依赖，从而不必反复改进策略。实现这一点的核心关系，是 <span class="math inline">\(q_\pi(s,a)\)</span> 所满足的<strong>贝尔曼方程</strong>。推导从下式开始：
+<p>求解 <span class="math inline">\(v_*(s)\)</span> 和 <span class="math inline">\(q_*(s,a)\)</span> 的一种捷径，是直接学习与具体策略无关的最优动作价值函数，而不必显式地反复执行策略评估与策略改进。实现这一点的核心关系，是 <span class="math inline">\(q_\pi(s,a)\)</span> 所满足的<strong>贝尔曼方程</strong>。推导从下式开始：
 <span class="math display">\[\begin{align*}
 q_\pi(s,a) &amp;= \mathbb{E}_\pi[G_t|S_t=s,A_t=a] \\
 &amp;= \mathbb{E}_\pi[R_{t+1}+ \gamma G_{t+1}|S_t=s,A_t=a],
@@ -166,14 +166,14 @@ q_*(s,a) &amp;= \underset{a'}{\max} \sum_{r,s'}p(s',r|s,a) \left[ r+\gamma q_*(s
 \tag{16.8}
 Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(\underbrace{r_{i+1}+\gamma \, \underset{a}{\max} \, Q_i(s_{i+1},a)}_{\text{echo of Bellman eq.}}-Q_i(s_i,a_i) \right)
 \end{equation}\]</span></p>
-<p>该更新规则可由压缩映射的不动点定理来理解。若函数 <span class="math inline">\(f\)</span> 满足 <span class="math inline">\(|f(x)-f(y)|&lt; \delta |x-y|\)</span>（Lipschitz 连续性），就可以通过 <span class="math inline">\(z \leftarrow f(z)\)</span> 迭代求得满足 <span class="math inline">\(f(z)=z\)</span> 的不动点 <span class="math inline">\(z\)</span>，而更新过程会收敛到该不动点。式 <a href="RL.html#eq:bellmanq">(16.7)</a> 可按类似思路求解；学习率 <span class="math inline">\(\eta\)</span> 虽然减慢学习，却也在相应技术条件下帮助保证收敛。</p>
+<p>该更新规则可由压缩映射的不动点定理来理解。若收缩系数 δ 的取值在 0 与 1 之间，且函数 <span class="math inline">\(f\)</span> 满足 <span class="math inline">\(|f(x)-f(y)|&lt; \delta |x-y|\)</span>，则可以通过 <span class="math inline">\(z \leftarrow f(z)\)</span> 迭代求得满足 <span class="math inline">\(f(z)=z\)</span> 的唯一不动点 <span class="math inline">\(z\)</span>。式 <a href="RL.html#eq:bellmanq">(16.7)</a> 可按类似思路理解；在满足充分探索、步长衰减等条件时，学习率 <span class="math inline">\(\eta\)</span> 控制随机近似更新并支持收敛。</p>
 <p>更一般地，式 <a href="RL.html#eq:QLupdate">(16.8)</a> 具有强化学习中常见的更新形式，见 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 式 (2.4)：
 <span class="math display" id="eq:RLeq">\[\begin{equation}
 \tag{16.9}
 \text{New estimate} \leftarrow \text{Old estimate + Step size (}i.e., \text{ learning rate)} \times (\text{Target - Old estimate}),
 \end{equation}\]</span></p>
 <p>最后一项可视为误差：新估计从旧估计出发，按一定步长朝目标方向修正，避免单次调整过大。式 <a href="RL.html#eq:QLupdate">(16.8)</a> 的更新方式通常称为<strong>时序差分学习</strong>，因为修正信号来自 <span class="math inline">\(t+1\)</span> 时刻的目标估计与 <span class="math inline">\(t\)</span> 时刻旧估计之间的差。</p>
-<p><em>Q</em> 学习流程（<strong>QL</strong>）的第 2 步需要选择动作 <span class="math inline">\(a_i\)</span>。优秀的强化学习算法需要兼顾<strong>利用</strong>与<strong>探索</strong>。利用是根据现有信息选择下一步动作：给定状态 <span class="math inline">\(s_i\)</span>，选择使预期奖励 <span class="math inline">\(Q_i(s_i,a_i)\)</span> 最大的动作 <span class="math inline">\(a_i\)</span>。但若当前估计 <span class="math inline">\(Q_i\)</span> 与真实的 <span class="math inline">\(Q\)</span> 相差很远，这种选择并非最优。反复采用局部最优动作只会集中探索少数动作，因而只能局部提高 <span class="math inline">\(Q\)</span> 函数的估计精度。</p>
+<p><em>Q</em> 学习流程（<strong>QL</strong>）的第 2 步需要选择动作 <span class="math inline">\(a_i\)</span>。强化学习算法需要权衡<strong>利用</strong>与<strong>探索</strong>。利用是根据现有信息选择下一步动作：给定状态 <span class="math inline">\(s_i\)</span>，选择使当前估计的预期回报，即动作价值 <span class="math inline">\(Q_i(s_i,a_i)\)</span>，最大的动作 <span class="math inline">\(a_i\)</span>。但若当前估计 <span class="math inline">\(Q_i\)</span> 与真实的 <span class="math inline">\(Q\)</span> 相差很远，这种选择并非最优。反复采用当前看来最优的动作会把数据集中在少数动作上，因而只能局部提高 <span class="math inline">\(Q\)</span> 函数的估计精度。</p>
 <p>为了从尚未充分尝试、却可能带来更高奖励的动作中获取信息，就需要探索，即随机选择动作 <span class="math inline">\(a_i\)</span>。结合利用与探索的常见方法称为 <span class="math inline">\(\epsilon\)</span>-贪婪策略。动作 <span class="math inline">\(a_i\)</span> 按下式选择：</p>
 <p><span class="math display" id="eq:egreedy">\[\begin{equation}
 \tag{16.10}
@@ -242,12 +242,12 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 </div>
 <div class="section level3" id="extensions-2" number="16.3.2">
 <h3><span class="header-section-number">16.3.2</span> 扩展<a aria-label="锚" class="anchor" href="#extensions-2"><i class="fas fa-link"></i></a></h3>
-<p>REINFORCE 的一个常用扩展是<strong>行动者—评论家（actor–critic，AC）</strong>方法，它把策略梯度与 <span class="math inline">\(Q\)</span> 学习或 <span class="math inline">\(v\)</span> 学习结合起来。AC 可以看作策略梯度与 SARSA 的一种融合。其核心要求之一，是状态价值函数 <span class="math inline">\(v(\cdot)\)</span> 关于参数向量 <span class="math inline">\(\textbf{w}\)</span> 可微；该函数通常由神经网络表示。此时更新规则为</p>
+<p>REINFORCE 的一个常用扩展是<strong>演员—评论家（actor–critic，AC）</strong>方法，它把策略梯度与 <span class="math inline">\(Q\)</span> 学习或 <span class="math inline">\(v\)</span> 学习结合起来。AC 可以看作策略梯度与 SARSA 的一种融合。其核心要求之一，是状态价值函数 <span class="math inline">\(v(\cdot)\)</span> 关于参数向量 <span class="math inline">\(\textbf{w}\)</span> 可微；该函数通常由神经网络表示。此时更新规则为</p>
 <p><span class="math display" id="eq:ascentAC">\[\begin{equation}
 \tag{16.17}
 \boldsymbol{\theta} \leftarrow \boldsymbol{\theta} + \eta \left(R_{t+1}+\gamma v(S_{t+1},\textbf{w})-v(S_t,\textbf{w}) \right)\frac{\nabla \pi_{\boldsymbol{\theta}}}{\pi_{\boldsymbol{\theta}}},
 \end{equation}\]</span>
-关键在于，向量 <span class="math inline">\(\textbf{w}\)</span> 也必须同步更新。行动者对应策略，负责作出决策；评论家对应价值函数，负责评价行动者的表现。学习过程中，两组参数不断交替更新。完整算法较长，AC 的具体步骤可参见 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 第 13.5 节。</p>
+关键在于，向量 <span class="math inline">\(\textbf{w}\)</span> 也必须同步更新。演员对应策略，负责作出决策；评论家对应价值函数，负责评价演员的表现。学习过程中，两组参数不断交替更新。完整算法较长，AC 的具体步骤可参见 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 第 13.5 节。</p>
 <p><span class="citation">Aboussalah and Lee (<a href="solutions-to-exercises.html#ref-aboussalah2020continuous" role="doc-biblioref">2020</a>)</span> 展示了参数化策略的另一项应用。作者用循环神经网络定义交易策略，因此参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 包含该网络的全部权重与偏置。</p>
 <p>参数化策略还有一个优点：它可以兼容连续动作集。除式 <a href="RL.html#eq:policyex">(16.14)</a> 的形式外，还可以用其他方式构造 <span class="math inline">\(\pi_{\boldsymbol{\theta}}\)</span>。若 <span class="math inline">\(\mathcal{A}\)</span> 是 <span class="math inline">\(\mathbb{R}\)</span> 的子集，且 <span class="math inline">\(f_{\boldsymbol{\Omega}}\)</span> 是参数为 <span class="math inline">\(\boldsymbol{\Omega}\)</span> 的密度函数，则 <span class="math inline">\(\pi_{\boldsymbol{\theta}}\)</span> 可以写成</p>
 <p><span class="math display" id="eq:parpol">\[\begin{equation}
@@ -258,7 +258,7 @@ Q_{i+1}(s_i,a_i) \longleftarrow Q_i(s_i,a_i) + \eta  \left(r_{i+1}+\gamma \, \su
 <p>高斯分布通常是首选（参见 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 第 13.7 节），但若动作必须落在单位区间内，就需要额外变换。一种简单做法，是对高斯策略的输出应用正态累积分布函数。<span class="citation">H. Wang and Zhou (<a href="solutions-to-exercises.html#ref-wang2019continuous" role="doc-biblioref">2019</a>)</span> 从理论上研究了多元高斯策略，但其设定不对投资组合权重施加约束。</p>
 <p>其他参数分布也提供了自然的替代方案。若只交易一种资产，可以用伯努利分布决定是否买入。若同时有无风险资产，贝塔分布更灵活：风险资产的配置比例可以覆盖整个单位区间，其余资金配置于无风险资产。交易多种资产时，预算约束会使问题更复杂。狄利克雷分布是在单纯形上定义的，因此是理想的候选分布（参见式 <a href="RL.html#eq:simplex">(16.13)</a>）：
 <span class="math display">\[f_{\boldsymbol{\alpha}}(w_1,\dots,w_n)=\frac{1}{B(\boldsymbol{\alpha})}\prod_{n=1}^Nw_n^{\alpha_n-1},\]</span>
-其中 <span class="math inline">\(B(\boldsymbol{\alpha})\)</span> 是多元 beta 函数：
+其中 <span class="math inline">\(B(\boldsymbol{\alpha})\)</span> 是多元贝塔函数：
 <span class="math display">\[B(\boldsymbol{\alpha})=\frac{\prod_{n=1}^N\Gamma(\alpha_n)}{\Gamma\left(\sum_{n=1}^N\alpha_n \right)}.\]</span></p>
 <p>若令 <span class="math inline">\(\pi=\pi_{\boldsymbol{\alpha}}=f_{\boldsymbol{\alpha}}\)</span>，就可以通过 <span class="math inline">\({\boldsymbol{\alpha}}\)</span> 以线性形式编码因子或特征与配置权重之间的联系：
 <span class="math display">\[\begin{equation}
@@ -467,7 +467,7 @@ max-width: 60rem;
 <li>
 <a class="nav-link" href="#simple-examples"><span class="header-section-number">16.4</span> 简单示例</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#q-learning-with-simulations"><span class="header-section-number">16.4.1</span> 通过模拟进行 Q 学习</a></li>
-<li><a class="nav-link" href="#RLemp2"><span class="header-section-number">16.4.2</span> 通过市场数据进行 Q 学习</a></li>
+<li><a class="nav-link" href="#RLemp2"><span class="header-section-number">16.4.2</span> 利用市场数据进行 Q 学习</a></li>
 </ul>
 </li>
 <li><a class="nav-link" href="#concluding-remarks"><span class="header-section-number">16.5</span> 结束语</a></li>

@@ -96,11 +96,11 @@ max-width: 60rem;
 <span class="header-section-number">8.1</span> 用于分类的 SVM<a aria-label="锚" class="anchor" href="#svm-for-classification"><i class="fas fa-link"></i></a>
 </h2>
 <p>
-机器学习中的复杂方法通常可以借助二分类图示直观说明，有些方法原本就是为二分类设计的，例如感知器。下面考虑只有两个特征的平面情形。图 <a href="svm.html#fig:svmscheme">8.1</a> 的目标是找到一条决策边界，正确区分实心圆与空心方块。</p>
+机器学习中的复杂方法通常可以借助二分类图示直观说明，有些方法原本就是为二分类设计的，例如感知机。下面考虑只有两个特征的平面情形。图 <a href="svm.html#fig:svmscheme">8.1</a> 的目标是找到一条决策边界，正确区分实心圆与空心方块。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:svmscheme" style="display:block;"></span>
-<img alt="具有支持向量的二元分类图。" src="images/svm.png" width="500px"/><p class="caption">
-图 8.1：带有支持向量的二元分类图。
+<img alt="包含支持向量的二元分类示意图。" src="images/svm.png" width="500px"/><p class="caption">
+图 8.1：包含支持向量的二元分类示意图。
 </p>
 </div>
 <p>模型用参数权重 <span class="math inline">\(\textbf{w}=(w_1,w_2)\)</span> 组合两个特征，在平面上形成线性决策边界。图中给出三条候选边界。红线两侧都混有圆和方块，无法正确分类；蓝线与绿线都能把圆和方块完全分开，但二者的稳健性并不相同。</p>
@@ -119,7 +119,7 @@ max-width: 60rem;
 \tag{8.2}
 \underset{\textbf{w}, b}{\text{argmin}} \ \frac{1}{2} ||\textbf{w}||^2 \ \text{ s.t. } y_i\left(\sum_{k=1}^Kw_kx_{i,k}+b \right)\ge 1.
 \end{equation}\]</span></p>
-<p>该问题的拉格朗日形式（参见 <span class="citation">Boyd and Vandenberghe (<a href="solutions-to-exercises.html#ref-boyd2004convex" role="doc-biblioref">2004</a>)</span> 第 5 章）为：</p>
+<p>为求解该问题，可构造如下拉格朗日函数（参见 <span class="citation">Boyd and Vandenberghe (<a href="solutions-to-exercises.html#ref-boyd2004convex" role="doc-biblioref">2004</a>)</span> 第 5 章）：</p>
 <p><span class="math display" id="eq:svm1b">\[\begin{equation}
 \tag{8.3}
 L(\textbf{w},b,\boldsymbol{\lambda})=
@@ -141,8 +141,8 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 <p>其中，<span class="math inline">\(\xi_i\)</span> 是非负的<strong>松弛变量</strong>，用于度量第 i 个样本对间隔约束的违反程度，使原本不可行的问题变得可行。图 <a href="svm.html#fig:svmscheme2">8.2</a> 展示了这种情形：不存在能够完美区分两类样本的线性边界。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:svmscheme2" style="display:block;"></span>
-<img alt="SVM 的二元分类图 - 线性不可分离的数据。" src="images/svm2.png" width="500px"/><p class="caption">
-图 8.2： SVM 的二元分类图 - 线性不可分数据。
+<img alt="SVM 二元分类示意图：线性不可分数据。" src="images/svm2.png" width="500px"/><p class="caption">
+图 8.2：SVM 二元分类示意图：线性不可分数据。
 </p>
 </div>
 <p>于是，软间隔 SVM 的优化问题变为：
@@ -151,7 +151,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 \underset{\textbf{w},b, \boldsymbol{\xi}}{\text{argmin}} \ \frac{1}{2} ||\textbf{w}||^2+C\sum_{i=1}^I\xi_i \ \text{ s.t. } \left\{ y_i\left(\sum_{k=1}^Kw_k\phi(x_{i,k})+b \right)\ge 1-\xi_i \ \text{ and } \ \xi_i\ge 0, \ \forall i  \right\},
 \end{equation}\]</span>
 其中超参数 <span class="math inline">\(C&gt;0\)</span> 控制违反间隔约束的成本：<span class="math inline">\(C\)</span> 越大，模型对松弛变量和误分类的惩罚越重，因而更强调训练集拟合。</p>
-<p>此外，可通过非线性特征映射 <span class="math inline">\(\phi\)</span> 变换输入 <span class="math inline">\(x_{i,k}\)</span>，并借助核技巧处理直线无法描述的复杂边界（见图 <a href="svm.html#fig:svmscheme4">8.3</a>）。常见选择包括多项式核、径向基函数核和 sigmoid 核。模型可用标准的约束二次规划方法求解。训练得到参数权重 <span class="math inline">\(\textbf{w}\)</span> 与偏置 <span class="math inline">\(b\)</span> 后，对于新向量 <span class="math inline">\(\textbf{x}_j\)</span>，计算 <span class="math inline">\(\sum_{k=1}^Kw_k\phi(x_{j,k})+b\)</span>，再根据结果的正负号确定类别。</p>
+<p>此外，可通过非线性特征映射 <span class="math inline">\(\phi\)</span> 变换输入 <span class="math inline">\(x_{i,k}\)</span>，从而处理直线无法描述的复杂边界（见图 <a href="svm.html#fig:svmscheme4">8.3</a>）。在对偶问题中，直接用核函数计算映射后特征的内积，无须显式构造高维映射，这就是<strong>核技巧</strong>。常见选择包括多项式核、径向基函数核和 sigmoid 核。模型可用标准的约束二次规划方法求解。训练得到参数权重 <span class="math inline">\(\textbf{w}\)</span> 与偏置 <span class="math inline">\(b\)</span> 后，对于新向量 <span class="math inline">\(\textbf{x}_j\)</span>，计算 <span class="math inline">\(\sum_{k=1}^Kw_k\phi(x_{j,k})+b\)</span>，再根据结果的正负号确定类别。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:svmscheme4" style="display:block;"></span>
 <img alt="非线性核函数的示例。" src="images/kernel.png" width="400px"/><p class="caption">
@@ -170,11 +170,11 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 &amp;  y_i-\sum_{k=1}^Kw_k\phi(x_{i,k})-b \le \epsilon+\xi_i^* \\
 &amp;\xi_i,\xi_i^*\ge 0, \ \forall i  ,
 \end{align}\]</span></p>
-<p>图 <a href="svm.html#fig:svmscheme3">8.4</a> 展示了其几何含义。用户指定一个<strong>不敏感带</strong>，其宽度为 <span class="math inline">\(\epsilon\)</span>；模型寻找标签 <span class="math inline">\(y_i\)</span> 与输入 <span class="math inline">\(\textbf{x}_i\)</span> 之间的线性关系，若使用核映射，则是在变换后的特征空间中建立线性关系。数据点落在带内时，松弛变量 <span class="math inline">\(\xi_i\)</span> 和 <span class="math inline">\(\xi_i^*\)</span> 都为零，其误差不计入损失；超出带宽的部分才受惩罚。较大的 <span class="math inline">\(\epsilon\)</span> 会扩大容忍区间，忽略更多小误差。训练完成后，对新输入 <span class="math inline">\(\textbf{x}_j\)</span> 的预测为 <span class="math inline">\(\sum_{k=1}^Kw_k\phi(x_{j,k})+b\)</span>。</p>
+<p>图 <a href="svm.html#fig:svmscheme3">8.4</a> 展示了其几何含义。用户指定一个 <span class="math inline">\(\epsilon\)</span>-<strong>不敏感带</strong>，即预测函数上下各允许相应幅度的偏差；模型寻找标签 <span class="math inline">\(y_i\)</span> 与输入 <span class="math inline">\(\textbf{x}_i\)</span> 之间的线性关系，若使用核映射，则是在变换后的特征空间中建立线性关系。数据点落在带内时，松弛变量 <span class="math inline">\(\xi_i\)</span> 和 <span class="math inline">\(\xi_i^*\)</span> 都为零，其误差不计入损失；超出不敏感带的部分才受惩罚。较大的 <span class="math inline">\(\epsilon\)</span> 会扩大容忍区间，忽略更多小误差。训练完成后，对新输入 <span class="math inline">\(\textbf{x}_j\)</span> 的预测为 <span class="math inline">\(\sum_{k=1}^Kw_k\phi(x_{j,k})+b\)</span>。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:svmscheme3" style="display:block;"></span>
-<img alt="SVM 回归图。" src="images/svm3.png" width="500px"/><p class="caption">
-图 8.4： SVM 回归图。
+<img alt="SVM 回归示意图。" src="images/svm3.png" width="500px"/><p class="caption">
+图 8.4：SVM 回归示意图。
 </p>
 </div>
 <p>概括而言，SVR 在误差不超过容忍范围（超出部分由松弛变量吸收）的前提下，尽量减小参数权重平方和 <span class="math inline">\(||\textbf{w}||^2\)</span>。从形式上看，这与惩罚线性回归的侧重点相反：后者首先最小化预测误差，同时约束或惩罚参数权重的大小；二者本质上都在拟合程度与模型复杂度之间权衡。</p>

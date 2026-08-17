@@ -14259,7 +14259,7 @@ a.anchor-link {
 </head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h1 id="Chapter-12-Portfolio-backtesting">第 12 章 组合回测<a class="anchor-link" href="#Chapter-12-Portfolio-backtesting">¶</a></h1></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h1 id="Chapter-12-Portfolio-backtesting">第 12 章 投资组合回测<a class="anchor-link" href="#Chapter-12-Portfolio-backtesting">¶</a></h1></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>本节介绍分析和比较投资策略时会使用的记号与框架。组合回测常被构想和理解为寻找最佳策略，或至少寻找一个稳定盈利策略的过程。如果执行得很彻底，这项可能漫长的工作会诱使外行把偶然好运误认为稳健策略。两篇连续发表的论文警示了<strong>数据窥探的危险</strong>，这与 $p$-hacking 有关。在两种情形中，研究者都会反复折磨数据，直到找到想要的结果。</p></div>
@@ -14268,7 +14268,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>Fabozzi 和 Prado（2018）指出，公开发表的通常只有看似有效的策略，而背后往往已经测试过成千上万种方案。从中挑出一个表现出众的离群值，也就是唯一看似奏效的策略，转入实际交易后很可能令人失望。类似地，R. Arnott、Harvey 和 Markowitz（2019）提出了一系列原则和防护措施，供分析师在策略回测中遵循，以避免各类错误。最严重的错误之一是<strong>假阳性</strong>：研究者通过选择性报告，发现某个策略只在极为特定的设定下跑赢，而一旦投入实际交易便很可能失效。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>除了关于组合构建的这些建议，R. Arnott 等（2019）还警告，不要盲目投资与学术因子相关的智能 beta 产品。直白地说，预期不应设得太高，否则会面临失望风险。他们文章的另一个要点是，<strong>经济周期</strong>对因子收益有很强影响：相关性会快速变化，重大下行期的回撤可能被放大。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>除了关于组合构建的这些建议，R. Arnott 等（2019）还警告，不要盲目投资与学术因子相关的智能贝塔产品。直白地说，预期不应设得太高，否则会面临失望风险。他们文章的另一个要点是，<strong>经济周期</strong>对因子收益有很强影响：相关性会快速变化，重大下行期的回撤可能被放大。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>回测比看起来更复杂，很容易犯一些小错误，从而得到<em>表面上</em>不错的组合策略。本章给出执行这一工作的严谨方法，讨论若干注意事项，并提供一个较长示例。</p></div>
@@ -14290,7 +14290,7 @@ a.anchor-link {
 图 12.1：使用滚动窗口进行回测。第一期的训练集就是初始缓冲期。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>两个关键设计选择是<strong>再平衡频率</strong>和计算标签时采用的<strong>期限</strong>。二者不一定必须相同，但搭配应当合理。用未来 12 个月收益率作为标签，以捕捉较长期趋势，再按月或按季度投资，可能是合理的。反过来，若用短期（月度）波动训练模型，却按较长期限投资，就不太合理。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>两个关键设计选择是<strong>再平衡频率</strong>和标签对应的<strong>预测期</strong>。二者不必相同，但必须相互协调。用未来 12 个月收益率作为标签以捕捉较长期趋势，再按月或按季度调整持仓，可能是合理的；反过来，用月度收益率训练短期信号，却按较长期限持有而不调整，就不太一致。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>这些选择会直接影响回测的执行方式。如果记：</p></div>
@@ -14298,8 +14298,8 @@ a.anchor-link {
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><ul>
 <li>$\Delta_h$ 表示两次再平衡日期之间的持有期（以天或月计）；</li>
-<li>$\Delta_s$ 表示期望训练样本大小（以天或月计，不考虑资产数量）；</li>
-<li>$\Delta_l$ 表示计算标签时采用的期限（以天或月计），</li>
+<li>$\Delta_s$ 表示所需训练窗口的长度（以天或月计，不考虑横截面上的资产数量）；</li>
+<li>$\Delta_l$ 表示计算标签所覆盖的预测期（以天或月计），</li>
 </ul></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14310,19 +14310,19 @@ a.anchor-link {
 图 12.2：滚动训练样本中的细节。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="12.2-Turning-signals-into-portfolio-weights">12.2 将信号转化为组合权重<a class="anchor-link" href="#12.2-Turning-signals-into-portfolio-weights">¶</a></h2></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="12.2-Turning-signals-into-portfolio-weights">12.2 将信号转化为投资组合权重<a class="anchor-link" href="#12.2-Turning-signals-into-portfolio-weights">¶</a></h2></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>第 5 章到第 11 章介绍的预测工具，只是为了提供一个预期能给出资产未来盈利性信息的信号。这个信号可以通过许多方式融入投资决策（关于如何把机器学习工具整合到这一任务中，见 Snow（2020））。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>第 5 章到第 11 章介绍的预测工具首先产生一个信号，该信号应当包含有关资产未来收益率的信息。这个信号可以通过多种方式转化为投资决策；关于如何把机器学习工具纳入这一过程，可参阅 Snow（2020）。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>组合构建至少包含两个步骤，信号可以用于其中任一步。如果两个步骤都依赖信号，预测结果就会对最终组合产生很大影响，因此只有在对预测具有较高置信度时才应这样做。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>第一步是<strong>筛选</strong>。虽然预测练习可以在大量资产上执行，但并不必须投资于所有这些资产。事实上，对于多头组合，利用信号排除那些未来可能表现较差的资产是有意义的。组合策略通常具有固定规模，要求资产数量保持不变。利用信号的一种启发式方式，是选择预测最有利的资产并舍弃其他资产。这种朴素想法常用于资产定价文献：组合根据底层特征的分位数形成；如果对应的<strong>排序组合</strong>表现出非常不同的盈利性（例如高分位组合的平均收益高，而低分位组合的平均收益低），则某些特征被认为有意义。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>第一步是<strong>资产选择</strong>。即使模型能为大量资产生成预测，也没有必要持有全部资产。对于只做多的投资组合，利用信号剔除预计未来表现较差的资产尤其合理。许多投资策略会预先规定持仓数量，因此最直接的做法是保留预测最有利的资产、舍弃其余资产。资产定价研究经常使用这种简单方法：按某项基础特征的分位数组建<strong>排序投资组合</strong>；如果不同分位数组合的收益表现明显不同，例如高分位数组合平均收益率较高、低分位数组合较低，就说明该特征可能具有定价信息。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>例如，这是一种检验信号相关性的有效方式。如果按照资产相对于信号的排序形成 $Q$ 个组合 $q=1,\dots,Q$，那么人们会预期组合的样本外表现随 $q$ 单调变化。严格的单调性检验需要纳入所有组合（见例如 Romano 和 Wolf（2013）），但通常只假设极端组合足够。如果第 1 号组合与第 $Q$ 号组合之间的差异很大，则信号有价值。只要投资者能够卖空资产，这就等价于一个美元中性策略。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>这种排序也是检验信号有效性的一种简便方法。若按照信号排名构造 $Q$ 个组合 $q=1,\dots,Q$，那么组合的样本外表现理应随 $q$ 呈单调变化。严格的单调性检验需要同时考察全部组合（例如 Romano 和 Wolf（2013）），实践中则常只比较两个极端组合。如果第 1 组与第 $Q$ 组的收益差异显著，说明信号具有价值。若允许卖空，以相等名义金额做多一个极端组合并做空另一个极端组合，便可构造美元中性的多空策略。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>第二步是<strong>加权</strong>。如果筛选过程已经依赖信号，那么简单加权方案通常是好主意。等权组合以难以击败而闻名（见 DeMiguel、Garlappi 和 Uppal（2009）），尤其是与市值加权替代方案相比，如 Plyakha、Uppal 和 Vilkov（2016）所示。更高级的方案包括等风险贡献（Maillard、Roncalli 和 Teiletche（2010））和有约束最小方差（Coqueret（2015））。二者都只依赖资产协方差矩阵，而不依赖预期收益向量的任何代理。</p></div>
@@ -14386,11 +14386,11 @@ L(\textbf{w})= \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textb
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>该参数确保预算约束得到满足。式 (12.3) 中的最优权重依赖三个超参数调优参数：$\lambda$、$\kappa_R$ 和 $\kappa_D$。</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>该参数确保预算约束得到满足。式 (12.3) 中的最优权重取决于三个调节参数：$\lambda$、$\kappa_R$ 和 $\kappa_D$。</p>
 <ul>
 <li>当 $\lambda$ 较大时，重点更多放在降低风险而非最大化利润上（鉴于风险更容易预测，这通常是个好主意）；</li>
 <li>当 $\kappa_R$ 较大时，式 (12.2) 中交易成本的重要性较高，因此在 $\kappa_R \rightarrow \infty$ 的极限下，最优权重等于旧权重 $\textbf{w}_-$（其他参数取有限值时）。</li>
-<li>当 $$\kappa_R$ $ 较大时，组合更加分散；在其他条件相同时，当 $\kappa_D \rightarrow \infty$，权重全部相等（等于 $1/N$）。</li>
+<li>当 $\kappa_D$ 较大时，投资组合更加分散；在其他条件相同时，当 $\kappa_D \rightarrow \infty$，各资产权重趋于相等（等于 $1/N$）。</li>
 <li>当 $\kappa_R=\kappa_D=0$ 时，我们恢复经典均值-方差权重，它是最大夏普比率组合（与 $(\boldsymbol{\Sigma})^{-1} \boldsymbol{\mu}$ 成比例）和最小方差组合（与 $(\boldsymbol{\Sigma})^{-1} \textbf{1}_N$ 成比例）的混合。</li>
 </ul></div>
 </div>
@@ -14398,10 +14398,10 @@ L(\textbf{w})= \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textb
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>这个看似复杂的公式实际上非常灵活且易于处理。在找到 $\lambda$、$kappa_R$ 和 $kappa_D$ 的现实取值之前，需要一些测试和调整（见本章末的练习）。Pedersen、Babu 和 Levine（2020）建议了类似形式，只是协方差矩阵会向样本方差对角矩阵收缩，而预期收益是信号与锚定组合的混合。作者认为，他们的一般形式与稳健优化（另见 Kim、Kim 和 Fabozzi（2014））、贝叶斯推断（Lai 等（2011））、随机矩阵理论下的矩阵去噪，以及自然地与<strong>收缩</strong>有关。事实上，收缩预期收益已经存在相当长时间（Jorion（1985）、Kan 和 Zhou（2007）以及 Bodnar、Parolya 和 Schmid（2013）），其目的只是分散化并降低估计风险。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="12.3-Performance-metrics">12.3 绩效指标<a class="anchor-link" href="#12.3-Performance-metrics">¶</a></h2></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="12.3-Performance-metrics">12.3 投资组合评估指标<a class="anchor-link" href="#12.3-Performance-metrics">¶</a></h2></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>绩效评估是回测中的关键阶段。本节虽不穷尽所有内容，但旨在覆盖组合评估中最重要的方面。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>投资组合评估是回测中的关键阶段。本节虽不穷尽所有内容，但旨在覆盖组合评估中最重要的方面。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="12.3.1-Discussion">12.3.1 讨论<a class="anchor-link" href="#12.3.1-Discussion">¶</a></h3></div>
@@ -14416,7 +14416,7 @@ L(\textbf{w})= \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textb
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>在组合选择中，最基本的配置是均匀配置，即每个资产获得相同权重。这个看似简单的方案实际上是一个极强基准，长期持续击败它很难（见 DeMiguel、Garlappi 和 Uppal（2009）以及 Plyakha、Uppal 和 Vilkov（2016））。理论上，当不确定性、模糊性或估计风险很高时，均匀组合是最优的（Pflug、Pichler 和 Wozabal（2012），Maillet、Tokpavi 和 Vaucher（2015））；实证上，即便在因子层面也无法跑赢它（Dichtl、Drobetz 和 Wendt（2020））。下面，我们将选择所有股票的<strong>等权</strong>（EW）组合作为基准。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="12.3.2-Pure-performance-and-risk-indicators">12.3.2 纯绩效与风险指标<a class="anchor-link" href="#12.3.2-Pure-performance-and-risk-indicators">¶</a></h3></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="12.3.2-Pure-performance-and-risk-indicators">12.3.2 收益与风险指标<a class="anchor-link" href="#12.3.2-Pure-performance-and-risk-indicators">¶</a></h3></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>接下来定义从业者和学术界常用的指标。下文分别用 $r^P=(r_t^P)_{1\le t\le T}$ 和 $r^B=(r_t^B)_{1\le t\le T}$ 表示组合收益和基准收益。提到一般收益时，则简单写作 $r_t$。分析它们有许多方式，其中大多数依赖其分布。</p></div>
@@ -14445,13 +14445,13 @@ L(\textbf{w})= \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textb
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>第二个定义的好处是考虑了收益复利，因此能够补偿波动泵效应。为理解这一点，考虑一个非常简单的两期模型，收益分别为 $−r$ 和 $+r$。算术平均为零，但几何平均 $\sqrt{1-r^2}-1$ 为负。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>与准确率类似，命中率衡量持仓方向正确的次数比例（实现收益为正时做多，实现收益为负时做空）。因此，命中率评估的是做出正确猜测的倾向。它可以在资产层面（持仓方向正确的比例24）或组合层面计算。在所有情况下，计算都可以基于原始收益或相对收益（例如相对于某个基准）。一个有意义的命中率是策略跑赢基准的次数比例。当然，这还不够，因为许多小收益可能被少数大亏损抵消。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>与分类任务中的准确率类似，命中率衡量仓位方向判断正确的比例，即已实现收益率为正时做多，或已实现收益率为负时做空。它可以在资产层面计算（方向正确的头寸占比24），也可以在投资组合层面计算；还可以基于绝对收益率或相对基准的收益率定义。更有意义的一种口径是策略跑赢基准的期数占比。但命中率本身并不充分，因为许多次小幅盈利仍可能被少数几次巨额亏损抵消。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>最后，一个重要的说明。在本书所有监督学习工具示例中，我们都把命中率与 0.5 比较。这实际上是错误的，因为如果投资者看多，他或她可以始终押注上涨。在这种情况下，命中率就是收益为正的时间比例。长期来看，该概率高于 0.5。在我们的样本中，它等于 0.556，明显高于 0.5。这可以被视为一个需要超越的基准。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>纯绩效度量几乎总是伴随<strong>风险度量</strong>。收益的二阶矩通常用于量化组合波动幅度。较大方差意味着收益、进而组合价值会有较大波动。这就是为什么收益标准差被称为组合波动率。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>收益指标几乎总是伴随<strong>风险度量</strong>。收益的二阶矩通常用于量化组合波动幅度。较大方差意味着收益、进而组合价值会有较大波动。这就是为什么收益标准差被称为组合波动率。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -14520,7 +14520,7 @@ MD_T^P=\underset{0 \le s \le T}{\text{max}} \left(\underset{0 \le t \le s}{\text
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="12.3.3-Factor-based-evaluation">12.3.3 基于因子的评估<a class="anchor-link" href="#12.3.3-Factor-based-evaluation">¶</a></h3></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>按照因子模型的思路，也可以从因子暴露的角度评估绩效。式 (3.1) 的原始形式为：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>按照因子模型的思路，也可以从因子暴露的角度评估投资表现。式 (3.1) 的原始形式为：</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -14530,7 +14530,7 @@ r_{t,n}= \alpha_n+\sum_{k=1}^K\beta_{t,k,n}f_{t,k}+\epsilon_{t,n},
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>则估计得到的 $\hat{\alpha}_n$ 是无法由其他因子解释的表现。当收益为超额收益（高于无风险利率），且只有一个因子即市场因子时，该量称为 Jensen's alpha（Jensen（1968））。通常，它简称为 alpha。另一个估计量 $\hat{\beta}_{t,M,n}$（$M$ 表示市场）是市场 beta。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>则估计得到的 $\hat{\alpha}_n$ 是无法由其他因子解释的表现。当收益为超额收益（高于无风险利率），且只有一个因子即市场因子时，该量称为 Jensen's alpha（Jensen（1968））。通常，它简称为 alpha。另一个估计值 $\hat{\beta}_{t,M,n}$（$M$ 表示市场）是市场贝塔。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>随着因子投资兴起，报告包含更多因子的回归 alpha 也成为惯例。加入规模与价值溢价（如 Fama 和 French（1993）），甚至加入动量因子（Carhart（1997）），有助于判断策略是否创造了超出常见因子溢价的增量价值。</p></div>
@@ -14575,7 +14575,7 @@ MAR^P = \frac{\tilde{\mu}_P}{MD^P},
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>即（超额）收益除以市场 beta（见 Treynor（1965））。Hübner（2005）将这一定义推广到多因子暴露，形成广义 Treynor 比率：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>即（超额）收益除以市场贝塔（见 Treynor（1965））。Hübner（2005）将这一定义推广到多因子暴露，形成广义 Treynor 比率：</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -14604,7 +14604,7 @@ MAR^P = \frac{\tilde{\mu}_P}{MD^P},
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中 $w_{t,n}$ 是时间 $t$ 的目标组合权重，$w_{t-,n}$ 是再平衡前的权重。按惯例，第一期持仓（初始权重）不纳入计算。交易成本可以近似为换手率乘以公司横截面上的平均或中位交易成本。这只是实际成本的一阶估计，没有考虑组合规模随时间的变化。即便如此，粗略估计也远好于完全忽略成本。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中 $w_{t,n}$ 是时间 $t$ 再平衡后的目标权重，$w_{t-,n}$ 是再平衡前、经上一持有期已实现收益率漂移后的实际权重。按惯例，初始建仓不纳入平均换手率。交易成本可以近似为换手率乘以资产横截面上的平均或中位单位交易成本。这只是已实现成本的一阶估计，没有考虑投资组合规模随时间的变化；即便如此，粗略估计也远好于完全忽略成本。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>一旦交易成本（TC）年化，就可以从平均收益中扣除，以得到更现实的盈利性图景。同样，组合 $P$ 经交易成本调整后的夏普比率为</p></div>
@@ -14627,7 +14627,7 @@ SR_{TC}=\frac{\mu_P-TC}{\sigma_P}.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="12.4.1-Forward-looking-data">12.4.1 前视数据<a class="anchor-link" href="#12.4.1-Forward-looking-data">¶</a></h2></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>组合回测中最常见的错误之一是使用前视数据。例如，很容易落入图 12.2 所示危险区的陷阱。在这种情况下，时间 $t$ 使用的标签是在知道时间 $t+1$、$t+2$ 等之后发生什么的情况下计算的。值得对代码中的每一步反复检查，确保策略不是建立在预知数据之上。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>投资组合回测中最常见的错误之一，是使用决策时尚不可得的前视数据。例如，若把图 12.2 所示危险区内的样本纳入训练，时间 $t$ 使用的标签就会依赖 $t+1$、$t+2$ 等未来时点的信息。应逐步检查代码，确保每次决策只使用当时已经公布且实际可得的数据，避免产生前视偏差。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="12.4.2-Backtest-overfitting">12.4.2 回测过拟合<a class="anchor-link" href="#12.4.2-Backtest-overfitting">¶</a></h2></div>
@@ -14639,7 +14639,7 @@ SR_{TC}=\frac{\mu_P-TC}{\sigma_P}.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>在任意给定时点，回测只依赖于一个特定数据集。第一次回测的结果往往并不令人满意，原因可能有很多。因此，人们很容易想再试一次，调整一些可能并非最优的参数。第二次测试可能更好，但还不够好。于是第三次尝试中，可以测试新的加权方案，并搭配一个新的（更复杂的）预测引擎。通过迭代，回测者最终总能得到一个表现足够好的策略，这只是时间和试验次数问题。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>回测过拟合意味着，不能指望实际交易中的夏普比率与回测结果相同。审慎的专业人士至少会把夏普比率减半（Harvey 和 Liu（2015），Suhonen、Lennkh 和 Perez（2017））。Bailey 和 Prado（2014）还提出了一项夏普比率统计检验，前提是保留所有已测试策略的相关指标。缩减夏普比率的公式为：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>回测过拟合意味着，不能指望实盘夏普比率达到回测水平。审慎的从业者通常至少把回测夏普比率打五折（Harvey 和 Liu（2015），Suhonen、Lennkh 和 Perez（2017））。Bailey 和 Prado（2014）进一步提出了对非正态收益和多次策略试验进行校正的去膨胀夏普比率（Deflated Sharpe Ratio）检验，前提是保留所有已测试策略的相关指标。其统计量为：</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -14671,7 +14671,7 @@ SR^*=\mathbb{E}[SR]+\sqrt{\mathbb{V}[SR]}\left((1-\gamma)\phi^{-1}\left(1-\frac{
 </ul></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>如果上面定义的 $t$ 低于某个阈值（例如 0.95），就不能认为 $SR$ 在全部已测试策略中具有显著性。遗憾的是，多数情况下正是如此。在式 (12.5) 中，已实现的 SR 必须高于理论平均最大值 $SR^∗$，而且缩放因子必须足够大，使 $\phi$ 的自变量足够接近 2，从而让 $t$ 超过 0.95。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>如果上面定义的 $t$ 低于某个阈值（例如 0.95），就不能认为 $SR$ 在全部已测试策略中具有显著性。遗憾的是，多数情况下正是如此。在式 (12.5) 中，观测到的 SR 必须高于理论平均最大值 $SR^∗$，而且缩放因子必须足够大，使 $\phi$ 的自变量足够接近 2，从而让 $t$ 超过 0.95。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>在科学研究中，这类测试过拟合也称为 p 值操纵。它在金融经济学中相当常见，强烈建议阅读 Harvey（2017）以了解这一现象的规模。凡是广泛使用统计检验的领域，都可能出现 p 值操纵（例如见 Head 等（2015））。应对方法包括：</p></div>
@@ -14773,7 +14773,7 @@ E_k(S)= \int_{f,h}\int_{\textbf{x}\notin S} \underbrace{ (1-\delta(f(\textbf{x})
 <li>变量的创建/初始化；</li>
 <li>在一个主函数中定义策略；</li>
 <li>回测循环本身；</li>
-<li>绩效指标。</li>
+<li>评估指标。</li>
 </ol></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -15091,7 +15091,7 @@ E_k(S)= \int_{f,h}\int_{\textbf{x}\notin S} \underbrace{ (1-\delta(f(\textbf{x})
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="12.7-Second-example:-backtest-overfitting">12.7 第二个示例：回测过拟合<a class="anchor-link" href="#12.7-Second-example:-backtest-overfitting">¶</a></h2></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>为结束本章，我们量化第 12.4.2 节的概念。首先，构建一个函数，用于为可批量评估的简单策略生成绩效指标。这些策略是纯因子押注，依赖三个输入：所选特征（例如市值）、阈值水平（该特征的分位数）和方向（在分布顶部或底部做多）。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>为结束本章，我们量化第 12.4.2 节的概念。首先，构建一个函数，用于为可批量评估的简单策略生成策略评估指标。这些策略是纯因子押注，依赖三个输入：所选特征（例如市值）、阈值水平（该特征的分位数）和方向（在分布顶部或底部做多）。</p></div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">

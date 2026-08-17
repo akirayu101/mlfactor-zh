@@ -108,9 +108,9 @@ max-width: 60rem;
 <ul>
 <li><span class="math inline">\(R^2\)</span>，用于衡量模型的<strong>整体拟合优度</strong>；当预测变量很多时，也可采用带惩罚的版本以防止过拟合。<span class="math inline">\(R^2\)</span> 通常在样本内计算；<br/></li>
 <li>估计值 <span class="math inline">\(\hat{\beta}_k\)</span> 的符号，表示特征 <span class="math inline">\(x^k\)</span> 对 <span class="math inline">\(y\)</span> 影响的<strong>方向</strong>；</li>
-<li><span class="math inline">\(t\)</span> 统计量 <span class="math inline">\(t_{\hat{\beta_k}}\)</span>，用于衡量这种影响的<strong>强度</strong>。不论方向如何，绝对值较大的统计量通常意味着对应变量较重要。<span class="math inline">\(t\)</span> 统计量还常在适当的分布假设下转换为 <span class="math inline">\(p\)</span> 值。</li>
+<li><span class="math inline">\(t\)</span> 统计量 <span class="math inline">\(t_{\hat{\beta_k}}\)</span>，用于衡量系数估计相对于其标准误的大小，也就是该系数偏离零的<strong>统计证据</strong>，而不是经济影响本身的大小。<span class="math inline">\(t\)</span> 统计量还常在适当的分布假设下转换为 <span class="math inline">\(p\)</span> 值。</li>
 </ul>
-<p>后两项信息尤其有用：它们分别说明哪些特征更重要，以及各预测变量作用的方向。由此可以得到模型如何将特征映射为输出的简化描述。多数黑箱模型解释工具也遵循这一思路。</p>
+<p>系数符号与统计量分别提供作用方向和统计证据；若要比较经济影响大小，还需要同时考虑系数尺度、特征量纲和估计不确定性。由此可以得到模型如何将特征映射为输出的简化描述。多数黑箱模型解释工具也遵循“方向加贡献大小”的思路。</p>
 <p>决策树可以直接画成树状结构，因此本身具有较强的可解释性，也常被用作简单、透明的参照模型。<span class="citation">Vidal, Pacheco, and Schiffer (<a href="solutions-to-exercises.html#ref-vidal2020born" role="doc-biblioref">2020</a>)</span> 提出了一种将树集成压缩为单棵树的方法，目标是用更简单的模型复现复杂模型的行为。</p>
 <p>更一般地，可以用简单模型近似复杂算法，构建所谓的<strong>代理模型</strong>。步骤如下：</p>
 <ol style="list-style-type: decimal">
@@ -138,7 +138,7 @@ max-width: 60rem;
 <p>随机森林和提升树由多棵树组成，难以完整展示模型内部的全部决策过程。不过，模型训练完成后，仍可汇总某项特征对树结构形成过程的贡献，并将其作为特征重要性。</p>
 <p>训练完成后，对每个非叶节点 <span class="math inline">\(n\)</span>，都可以计算下一次分裂带来的增益 <span class="math inline">\(G(n)\)</span>。同时也能确定该节点采用了哪项特征进行分裂。记 <span class="math inline">\(\mathcal{N}_k\)</span> 为所有使用特征 <span class="math inline">\(k\)</span> 分裂的节点集合，则该特征的全局重要性为
 <span class="math display">\[I(k)=\sum_{n\in \mathcal{N}_k}G(n),\]</span>
-通常还会重新缩放，使所有 <span class="math inline">\(k\)</span> 对应的 <span class="math inline">\(I(k)\)</span> 之和等于 1。此时，<span class="math inline">\(I(k)\)</span> 衡量特征 <span class="math inline">\(k\)</span> 在训练过程中降低损失的相对贡献。重要性越高，对预测的影响通常越大；这类特征往往出现在更靠近树根的位置。</p>
+通常还会重新缩放，使所有 <span class="math inline">\(k\)</span> 对应的 <span class="math inline">\(I(k)\)</span> 之和等于 1。此时，<span class="math inline">\(I(k)\)</span> 衡量特征 <span class="math inline">\(k\)</span> 在训练过程中降低损失的相对贡献；它依赖训练样本、树算法和分裂准则，不提供作用方向，也不具有因果含义。重要性较高的特征往往出现在更靠近树根的位置。</p>
 <p>下面考察第 <a href="trees.html#trees">6</a> 章训练的三种树模型。先提取三个拟合对象中的特征重要性。不同模型对象的结构不同，对应的重要性向量名称也不同。</p>
 <div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tree_VI</span> <span class="op">&lt;-</span> <span class="va">fit_tree</span><span class="op">$</span><span class="va">variable.importance</span>  <span class="op"><a href="https://rpkgs.datanovia.com/ggpubr/reference/pipe.html">%&gt;%</a></span>                        <span class="co"># VI from tree model</span>
@@ -167,8 +167,8 @@ max-width: 60rem;
 </div>
 <div class="section level3" id="variable-importance-agnostic" number="13.1.3">
 <h3><span class="header-section-number">13.1.3</span> 特征重要性（模型无关）<a aria-label="锚" class="anchor" href="#variable-importance-agnostic"><i class="fas fa-link"></i></a></h3>
-<p>特征重要性的概念也可扩展到非树模型。相关研究可参阅 <span class="citation">Fisher, Rudin, and Dominici (<a href="solutions-to-exercises.html#ref-fisher2018all" role="doc-biblioref">2019</a>)</span> 所引文献。目标仍然相同：量化每项特征对模型学习的贡献。</p>
-<p>一种通用做法是置换特征值：将某项特征在样本中的取值完全打乱，再观察模型表现如何变化。如果原特征对解释因变量很重要，打乱它与其他变量之间的对应关系后，模型损失应明显上升。</p>
+<p>特征重要性的概念也可扩展到非树模型。相关研究可参阅 <span class="citation">Fisher, Rudin, and Dominici (<a href="solutions-to-exercises.html#ref-fisher2018all" role="doc-biblioref">2019</a>)</span> 所引文献。这里的目标是量化模型预测性能对每项特征所含信息的依赖程度，而不是识别该特征对标签的因果效应。</p>
+<p>一种通用做法是置换特征值：将某项特征在样本中的取值完全打乱，再观察模型表现如何变化。如果模型的预测确实依赖该特征所含信息，打乱它与标签及其他变量之间的对应关系后，模型损失应明显上升。特征高度相关时，其他特征可能替代被置换特征，使重要性被低估；置换也可能产生偏离原始联合分布的样本。</p>
 <p>置换特征重要性的基本步骤如下：</p>
 <ol style="list-style-type: decimal">
 <li>在原始数据上训练模型，并计算基准损失 <span class="math inline">\(l^*\)</span>；<br/></li>
@@ -211,12 +211,12 @@ max-width: 60rem;
 <div class="section level3" id="partial-dependence-plot" number="13.1.4">
 <h3><span class="header-section-number">13.1.4</span> 部分依赖图<a aria-label="锚" class="anchor" href="#partial-dependence-plot"><i class="fas fa-link"></i></a></h3>
 <p>部分依赖图（partial dependence plot，PDP）用于展示模型输出与某项特征取值之间的关系。该方法的早期论述可参阅 <span class="citation">J. H. Friedman (<a href="solutions-to-exercises.html#ref-friedman2001greedy" role="doc-biblioref">2001</a>)</span> 第 8.2 节。</p>
-<p>选定特征 <span class="math inline">\(k\)</span>。我们希望考察特征 <span class="math inline">\(k\)</span> 对已训练模型 <span class="math inline">\(\hat{f}\)</span> 预测结果的<strong>平均影响</strong>。将特征分为两部分：目标特征 <span class="math inline">\(k\)</span>，以及其余所有特征 <span class="math inline">\(-k\)</span>；后者代表除 <span class="math inline">\(k\)</span> 以外的全部特征。部分依赖函数定义为</p>
+<p>选定特征 <span class="math inline">\(k\)</span>。我们希望考察特征 <span class="math inline">\(k\)</span> 取值变化时，已训练模型 <span class="math inline">\(\hat{f}\)</span> 的<strong>平均响应</strong>。将特征分为两部分：目标特征 <span class="math inline">\(k\)</span>，以及其余所有特征 <span class="math inline">\(-k\)</span>；后者代表除 <span class="math inline">\(k\)</span> 以外的全部特征。部分依赖函数定义为</p>
 <p><span class="math display" id="eq:pdp">\[\begin{equation}
 \tag{13.1}
 \bar{f}_k(x_k)=\mathbb{E}[\hat{f}(\textbf{x}_{-k},x_k)]=\int \hat{f}(\textbf{x}_{-k},x_k)d\mathbb{P}_{-k}(\textbf{x}_{-k}),
 \end{equation}\]</span></p>
-<p>其中，<span class="math inline">\(d\mathbb{P}_{-k}(\cdot)\)</span> 是除 <span class="math inline">\(k\)</span> 外其余特征 <span class="math inline">\(\textbf{x}_{-k}\)</span> 的多元分布。函数以目标特征值 <span class="math inline">\(x_k\)</span> 为自变量，并对其他特征在其分布上的取值取平均，从而隔离出特征 <span class="math inline">\(k\)</span> 对预测的平均影响。实际计算通常使用蒙特卡罗近似：</p>
+<p>其中，<span class="math inline">\(d\mathbb{P}_{-k}(\cdot)\)</span> 是除 <span class="math inline">\(k\)</span> 外其余特征 <span class="math inline">\(\textbf{x}_{-k}\)</span> 的多元分布。函数以目标特征值 <span class="math inline">\(x_k\)</span> 为自变量，并对其他特征在其边际分布上的取值取平均，从而得到特征 <span class="math inline">\(k\)</span> 对模型预测的平均响应。若目标特征与其他特征高度相关，这种替换可能生成数据中很少出现甚至不可能出现的特征组合，因此 PDP 需要谨慎解读。实际计算通常使用蒙特卡罗近似：</p>
 <p><span class="math display" id="eq:pdpMC">\[\begin{equation}
 \tag{13.2}
 \bar{f}_k(x_k)\approx \frac{1}{M}\sum_{m=1}^M\hat{f}\left(x_k,\textbf{x}_{-k}^{(m)}\right),
@@ -235,8 +235,8 @@ max-width: 60rem;
 <img alt="随机森林模型市净率的部分依赖图。" src="ML_factor_files/figure-html/pdp-1.png" width="450px"/><p class="caption">图 13.4：随机森林模型市净率的部分依赖图。</p>
 </div>
 <p></p>
-<p>图中，市净率对预测值的平均影响随其取值上升而下降。这与图 <a href="trees.html#fig:rpart3mkt">6.3</a> 所示的收益率条件均值规律相近：P/B 较低时曲线快速下降，随后趋于平坦。较低的市净率通常对应估值较低的公司，因此其较高预期收益率与<em>价值</em>溢价一致。</p>
-<p>关于 PDP 能否作因果解释，可参阅 <span class="citation">Q. Zhao and Hastie (<a href="solutions-to-exercises.html#ref-zhao2019causal" role="doc-biblioref">2020</a>)</span> 的理论讨论。该文说明，在满足相应条件时，PDP 的构造可以赋予模型输出关于特征的<em>因果解释</em>。</p>
+<p>图中，模型预测值对市净率的部分依赖随其取值上升而下降。这与图 <a href="trees.html#fig:rpart3mkt">6.3</a> 所示的收益率条件均值规律相近：P/B 较低时曲线快速下降，随后趋于平坦。较低的市净率通常对应估值较低的公司，因此模型给出的较高条件预期收益率与<em>价值</em>溢价一致。</p>
+<p>PDP 通常只描述模型中的关联结构，不能自动作因果解释。可参阅 <span class="citation">Q. Zhao and Hastie (<a href="solutions-to-exercises.html#ref-zhao2019causal" role="doc-biblioref">2020</a>)</span> 关于在何种识别假设下可以赋予 PDP <em>因果含义</em>的理论讨论。</p>
 </div>
 </div>
 <div class="section level2" id="local-interpretations" number="13.2">
@@ -308,9 +308,9 @@ max-width: 60rem;
 <p>欧几里得距离和曼哈顿距离不能直接处理分类变量，此时可使用 Gower 度量（<span class="citation">Gower (<a href="solutions-to-exercises.html#ref-gower1971general" role="doc-biblioref">1971</a>)</span>）。它按特征类型分别处理，并且还能处理缺失值。对分类特征，取值相同记为 1，不同记为 0，即 <span class="math inline">\(1_{\{x_n=y_n\}}\)</span>；对数值特征，以 <span class="math inline">\(1-\frac{|x_n-y_n|}{R_n}\)</span> 衡量相似程度，其中 <span class="math inline">\(R_n\)</span> 是该特征可取的最大绝对值。再把各特征的相似度汇总为总分。需要注意，这里实际使用的是相似度方向：分数接近 1 时，<span class="math inline">\(\textbf{x}\)</span> 与 <span class="math inline">\(\textbf{y}\)</span> 很接近；接近 0 时则相距较远。</p>
 </div>
 <div class="section level3" id="shapley-values" number="13.2.2"><h3><span class="header-section-number">13.2.2</span> Shapley 值<a aria-label="锚" class="anchor" href="#shapley-values"><i class="fas fa-link"></i></a></h3>
-<p>Shapley 值与 LIME 的做法不同，在思路上更接近 PDP。它源于合作博弈论（<span class="citation">Shapley (<a href="solutions-to-exercises.html#ref-shapley1953value" role="doc-biblioref">1953</a>)</span>）。基本直觉是：删除某个变量后，如果模型质量、尤其是预测准确度明显下降，该变量就具有较高价值。</p>
+<p>Shapley 值与 LIME 的做法不同，在思路上更接近基于条件期望的预测归因。它源于合作博弈论（<span class="citation">Shapley (<a href="solutions-to-exercises.html#ref-shapley1953value" role="doc-biblioref">1953</a>)</span>）：把特征视为参与合作的“参与者”，并将某个样本的预测值相对基准预测的差额分摊给各项特征。</p>
 <p>在投资领域，Shapley 值已被用于分解投资组合的风险或业绩贡献，参见 <span class="citation">Shalit (<a href="solutions-to-exercises.html#ref-shalit2020shapley" role="doc-biblioref">2020</a>)</span>、<span class="citation">Shalit (<a href="solutions-to-exercises.html#ref-shalit2020shapley" role="doc-biblioref">2020</a>)</span> 和 <span class="citation">Moehle, Boyd, and Ang (<a href="solutions-to-exercises.html#ref-moehle2021portfolio" role="doc-biblioref">2021</a>)</span>。</p>
-<p>最简单的数值方法是从完整变量集中逐项删除变量，并比较预测能力。Shapley 值考察得更全面：对目标预测变量加入各种可能变量组合时的边际贡献进行加权平均。形式化定义为：</p>
+<p>简单的删变量法只比较包含和不包含某项特征时的结果，且结论依赖其他特征是否已经进入模型。Shapley 值更全面：它考察把目标特征加入各种可能特征组合时，对待解释预测产生的边际贡献，并按所有加入顺序加权平均。形式化定义为：</p>
 <p><span class="math display" id="eq:shapley">\[\begin{equation}
 \tag{13.3}
 \phi_k=\sum_{S \subseteq \{x_1,\dots,x_K \} \backslash x_k}\underbrace{\frac{\text{Card}(S)!(K-\text{Card}(S)-1)!}{K!}}_{\text{weight of coalition}}\underbrace{\left(\hat{f}_{S \cup \{x_k\}}(S \cup \{x_k\})-\hat{f}_S(S)\right)}_{\text{gain when adding } x_k}
@@ -348,10 +348,10 @@ max-width: 60rem;
 <img alt="Shapley 方法的插图。" src="ML_factor_files/figure-html/shapley-1.png" width="450px"/><p class="caption">图 13.6：Shapley 方法图解。</p>
 </div>
 <p></p>
-<p>图 <a href="interp.html#fig:shapley">13.6</a> 的输出再次提供两项关键信息：特征影响的<strong>方向</strong>，以及它相对于其他特征的<strong>重要性</strong>。</p></div>
+<p>图 <a href="interp.html#fig:shapley">13.6</a> 的输出提供两项关键信息：相对于基准预测，各特征对当前样本预测的贡献<strong>方向</strong>和<strong>大小</strong>。这是局部预测归因，不能直接解释为特征的全局重要性或因果效应。</p></div>
 <div class="section level3" id="breakdown" number="13.2.3">
 <h3><span class="header-section-number">13.2.3</span> 分解法<a aria-label="锚" class="anchor" href="#breakdown"><i class="fas fa-link"></i></a></h3>
-<p>分解法（例如参见 <span class="citation">Staniak and Biecek (<a href="solutions-to-exercises.html#ref-staniak2018explanations" role="doc-biblioref">2018</a>)</span>）结合了 PDP 与 Shapley 值的思想。其核心是式 <a href="interp.html#eq:breakdown">(13.4)</a> 定义的<strong>松弛模型预测</strong>，概念上接近式 <a href="interp.html#eq:pdp">(13.1)</a>。区别在于，分解法作局部解释，只针对一个具体观测 <span class="math inline">\(x^*\)</span>。为了衡量一组预测变量对 <span class="math inline">\(x^*\)</span> 预测结果的影响，将特征分为固定集合 <span class="math inline">\(\textbf{k}\)</span> 和自由集合 <span class="math inline">\(-\textbf{k}\)</span>。当集合 <span class="math inline">\(\textbf{k}\)</span> 中的预测变量固定为 <span class="math inline">\(x^*\)</span> 的对应取值时，用下式作为估计模型 <span class="math inline">\(\hat{f}\)</span> 平均预测的代理，其中固定值写作 <span class="math inline">\(x^*_{\textbf{k}}\)</span>：</p>
+<p>分解法（例如参见 <span class="citation">Staniak and Biecek (<a href="solutions-to-exercises.html#ref-staniak2018explanations" role="doc-biblioref">2018</a>)</span>）结合了 PDP 与 Shapley 值的思想。其核心是式 <a href="interp.html#eq:breakdown">(13.4)</a> 定义的<strong>放宽模型预测</strong>，概念上接近式 <a href="interp.html#eq:pdp">(13.1)</a>。区别在于，分解法作局部解释，只针对一个具体观测 <span class="math inline">\(x^*\)</span>。为了衡量一组预测变量对 <span class="math inline">\(x^*\)</span> 预测结果的影响，将特征分为固定集合 <span class="math inline">\(\textbf{k}\)</span> 和自由集合 <span class="math inline">\(-\textbf{k}\)</span>。当集合 <span class="math inline">\(\textbf{k}\)</span> 中的预测变量固定为 <span class="math inline">\(x^*\)</span> 的对应取值时，用下式作为估计模型 <span class="math inline">\(\hat{f}\)</span> 平均预测的代理，其中固定值写作 <span class="math inline">\(x^*_{\textbf{k}}\)</span>：</p>
 <p><span class="math display" id="eq:breakdown">\[\begin{equation}
 \tag{13.4}
 \tilde{f}_{\textbf{k}}(x^*)=\frac{1}{M}\sum_{m=1}^M \hat{f}\left(x^{(m)}_{-\textbf{k}},x^*_{\textbf{k}} \right).

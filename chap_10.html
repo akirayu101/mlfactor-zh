@@ -14265,7 +14265,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>如第 5 章到第 11 章所示，机器学习模型在训练之前需要由用户指定若干选择。这些选择包括参数值（学习率、惩罚强度等）或架构选择（例如网络结构）。机器学习引擎中的不同设计可能带来不同预测，因此选出合适设计至关重要。关于超参数调优对模型表现的影响，可参见 Probst、Bischl 和 Boulesteix（2018）的研究。对某些模型（神经网络和提升树）而言，自由度数量非常大，找到合适参数会变得复杂且具有挑战性。本章讨论这些问题，但读者必须意识到，构建好模型没有捷径。打造有效模型耗时费力，往往需要多轮迭代。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="10.1-Learning-metrics">10.1 学习指标<a class="anchor-link" href="#10.1-Learning-metrics">¶</a></h2></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="10.1-Learning-metrics">10.1 模型评估指标<a class="anchor-link" href="#10.1-Learning-metrics">¶</a></h2></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>训练前设定的参数值称为<strong>超参数</strong>。为了选择好的超参数，必须定义用于评估机器学习模型表现的指标。与机器学习中常见的情况一样，这里也存在一种二分：一类模型试图预测数值（回归），另一类模型试图预测类别（分类）。在介绍常见评估基准之前，我们先提到 J. Li、Liao 和 Quaedvlieg（2020）的计量经济学方法。作者提出，相对于给定基准来评估某种预测方法的表现时，应当<strong>以某个外部变量为条件</strong>。这有助于监控模型在何种（经济）条件下优于基准。该检验的完整实现较为复杂，感兴趣的读者可以查阅论文中的推导。</p></div>
@@ -14274,7 +14274,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h3 id="10.1.1-Regression-analysis">10.1.1 回归分析<a class="anchor-link" href="#10.1.1-Regression-analysis">¶</a></h3></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>回归分析中的误差通常可以直接评估。$L^1$ 和 $L^2$ 范数是主流选择，二者都容易解释和计算。第二个指标，即均方根误差（RMSE），处处可微，但不够直观，且会赋予离群点更高权重。第一个指标，即平均绝对误差，表示预测值与实际值之间的平均距离，但在零点不可微。形式化地，二者定义为</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>回归任务中的预测误差通常可以直接衡量。最常用的是基于 $L^1$ 的平均绝对误差（MAE）和基于 $L^2$ 的均方误差（MSE），二者都容易计算和解释。MSE 处处可微，但直观性稍弱，而且会给予异常值更大的权重；MAE 表示预测值与已实现值之间的平均距离，但在误差为零处不可微。二者定义为</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -14348,17 +14348,17 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>类别型输出的表现指标与数值型输出的指标有很大不同。相当多指标专门用于二分类，不过其中一些也可以容易地推广到多分类模型。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>我们按复杂度递增的顺序介绍这些指标的相关概念，并从两组二分开始：真与假，正与负。在二分类中，用真与假来思考很方便。在投资场景中，真可以对应正收益，或收益高于某个基准；假则表示相反情况。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>我们按复杂度递增的顺序介绍这些指标，先区分正类与负类，以及预测正确与预测错误。在投资场景中，可以把正类定义为收益率为正或高于某个基准，负类则表示相反情形。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>因此，一次预测可能产生 4 种结果。预测正确时有两种（预测为真且实现为真，或预测为假且结果为假），预测错误时也有两种（预测为真但实现为假，以及相反情形）。我们在下方定义相应的汇总指标：</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><ul>
-<li>真正例频率：$TP=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=1 \}},$</li>
-<li>真负例频率：$TN=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=0 \}},$</li>
-<li>假正例频率：$FP=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=1,y_i=0 \}},$</li>
-<li>假负例频率：$FN=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=0,y_i=1 \}},$</li>
+<li>真阳性比例：$TP=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=1 \}},$</li>
+<li>真阴性比例：$TN=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=0 \}},$</li>
+<li>假阳性比例：$FP=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=1,y_i=0 \}},$</li>
+<li>假阴性比例：$FN=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=0,y_i=1 \}},$</li>
 </ul></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14397,7 +14397,7 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>实践中，0.5 这个阈值未必最优；模型完全可能在预测概率低于 0.4 时把样本判为负类，其余样本判为正类。因此，自然要考察决策阈值变化时分类结果如何变化。ROC 曲线正是为此而设：当阈值从 0 增加到 1 时，它以误报率为横轴、召回率为纵轴绘制曲线。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>当阈值等于 0 时，模型从不预测正类，因此真正例为零，召回率和误报率也都为零。当阈值等于 1 时，假负例和真负例都降至零，因此召回率和误报率都为一。二者在这两个极端之间的关系就是 ROC 曲线。图 10.2 给出了一个示意图。随机分类器的召回率与误报率相同，所以 ROC 曲线是从点 (0,0) 到 (1,1) 的直线。为说明这一点，设样本中正类样本的比例为 $p\in (0,1)$，分类器以概率 $p'\in (0,1)$ 随机预测为正类。由于真实类别与预测相互独立，$TP=p'p$，$FP = p'(1-p)$，$TN=(1-p')(1-p)$，$FN=(1-p')p$。根据上述定义，召回率和误报率都等于 $p'$。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>按照“预测概率高于阈值即判为正类”的惯例，当阈值为 0 时，所有样本都被判为正类，因此召回率和假阳性率均为 1；当阈值为 1 时，所有样本都被判为负类，因此二者均为 0。两个极端之间形成的轨迹称为 ROC 曲线。图 10.2 给出了一个示意图。随机分类器的召回率与假阳性率相同，所以 ROC 曲线是连接点 (0,0) 与 (1,1) 的对角线。为说明这一点，设样本中正类比例为 $p\in (0,1)$，分类器以概率 $p'\in (0,1)$ 随机预测为正类。由于真实类别与预测相互独立，$TP=p'p$，$FP = p'(1-p)$，$TN=(1-p')(1-p)$，$FN=(1-p')p$。根据上述定义，召回率和假阳性率都等于 $p'$。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p><img src="http://www.mlfactor.com/images/ROCcurve.png" width="400"/>
@@ -14507,7 +14507,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>给定一个未知样本 $\textbf{x}$，平均平方误差可分解为</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>对于一条未见过的输入观测 $\textbf{x}$，平均平方误差可分解为</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
@@ -14556,7 +14556,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 图 10.5：方差-偏差权衡的第二种表示。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>方差-偏差权衡最易处理的理论形式是岭回归。22 这种回归中的系数估计为
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>方差-偏差权衡最易处理的理论形式是岭回归。22 这种回归中的系数估计量为
  $\hat{\mathbf{b}}_\lambda=(\mathbf{X}'\mathbf{X}+\lambda \mathbf{I}_N)^{-1}\mathbf{X}'\mathbf{Y}$（见第 5.1.1 节），其中 $\lambda$ 是惩罚强度。假设数据生成过程具有真实线性形式（$\textbf{y}=\textbf{Xb}+\boldsymbol{\epsilon}$，其中 $\textbf{b}$ 未知，$\sigma^2$ 是误差方差，且误差相关矩阵为单位矩阵），则得到</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14820,7 +14820,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>模型复杂度通常用两个度量来近似：模型参数数量及其幅度（通常通过范数概括）。这些代理并不完美，因为某些复杂模型可能只需要少量参数（甚至较小参数值），但至少它们直观且易于处理。处理过拟合并没有通用方法。下面，我们针对若干类机器学习工具介绍一些技巧。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>对<strong>回归</strong>而言，有两种简单方法可以处理过拟合。第一是控制参数数量，即预测变量数量。有时只选择特征子样本会更好，尤其是在某些特征高度相关时（通常，特征之间绝对相关性超过 70% 会被认为过高）。第二种方案是惩罚化（通过 LASSO、ridge 或 elasticnet），它有助于降低估计量幅度，从而降低预测方差。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>对<strong>回归</strong>而言，有两种简单方法可以处理过拟合。第一是控制参数数量，即预测变量数量。有时只选择特征子样本会更好，尤其是在某些特征高度相关时（通常，特征之间绝对相关性超过 70% 会被认为过高）。第二种方案是惩罚化（通过 LASSO、ridge 或 elasticnet），它有助于降低估计值的幅度，从而降低预测方差。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>对基于树的方法而言，有多种方式可以降低过拟合风险。处理<strong>简单树</strong>时，唯一方法是限制叶子数量。这可以通过多种方式完成。首先，可以施加最大深度。如果它等于 $d$，则树最多有 $2^d$ 个终端节点。通常建议不要超过 $d=6$。rpart 中的复杂度参数（cp）是另一种收缩树规模的方法：任何新分裂都必须带来至少等于 cp 的损失降低。否则，该分裂不会被认为有用，也就不会执行。因此，当 cp 很大时，树不会继续生长。rpart 中最后两个可用参数是每个叶子所需的最小样本数，以及为了继续分裂过程而要求每个簇具有的最小样本数。这些数值越高（即约束越强），越难生成复杂树。</p></div>
@@ -14832,7 +14832,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p><strong>提升树</strong>还有其他选项可帮助缓解过拟合风险。最明显的是学习率，它以 $\eta \in (0,1)$ 折扣每棵新树的影响。当学习率很高时，算法学习过快，容易紧贴训练数据。当学习率较低时，模型学习非常渐进；如果集成中有足够多的树，这可能很有效。事实上，学习率和树的数量必须同步选择：如果二者都低，集成学不到东西；如果二者都高，则会过拟合。提升树参数库不止于此。对得分值和叶子数量的惩罚，自然也是防止模型过度深入训练样本特殊性的工具。最后，第 6.4.5 节提到的单调性约束也是给模型施加某种结构、迫使其检测特定模式的有效方式。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>最后，<strong>神经网络</strong>也有许多旨在防止过拟合的选项。与提升树一样，其中一些选项是学习率以及对权重和偏置（通过其范数）的惩罚。约束（如非负约束）在模型理论上要求正输入时也会有帮助。最后，dropout 始终是降低网络维度（参数数量）的直接方法。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>最后，<strong>神经网络</strong>也有许多旨在防止过拟合的选项。与提升树一样，其中一些选项是学习率以及对权重和偏置（通过其范数）的惩罚。约束（如非负约束）在模型理论上要求正输入时也会有帮助。最后，Dropout 始终是降低网络维度（参数数量）的直接方法。</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="10.3-The-search-for-good-hyperparameters">10.3 寻找良好超参数<a class="anchor-link" href="#10.3-The-search-for-good-hyperparameters">¶</a></h2></div>
@@ -14875,7 +14875,7 @@ y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i.
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中正部 $[\cdot]_+$ 强调，当 $O(\textbf{p})\ge O(\textbf{p}_m^*)$ 时，收益为零。期望以下标 $m$ 标记，因为它是基于 $m$ 个样本 $\textbf{p}^{(m)}$，相对于 $O(\textbf{p})$ 的后验分布计算的。下一个样本 $\textbf{p}^{(m)}$ 的最佳选择随后为</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中正部 $[\cdot]_+$ 强调，当 $O(\textbf{p})\ge O(\textbf{p}_m^*)$ 时，改进量为零。期望以下标 $m$ 标记，因为它是基于 $m$ 个样本 $\textbf{p}^{(m)}$，相对于 $O(\textbf{p})$ 的后验分布计算的。下一个样本 $\textbf{p}^{(m+1)}$ 的最佳选择随后为</p></div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">

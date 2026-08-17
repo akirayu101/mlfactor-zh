@@ -6,6 +6,8 @@ require "json"
 require "digest"
 require "open3"
 require "pathname"
+require "set"
+require "uri"
 
 ROOT = Pathname.new(__dir__).parent
 UPSTREAM = ENV["MLFACTOR_UPSTREAM"] && Pathname.new(ENV.fetch("MLFACTOR_UPSTREAM"))
@@ -125,6 +127,12 @@ def digest_items(items)
   Digest::SHA256.hexdigest(items.join("\u0000"))
 end
 
+def visible_heading_text(node)
+  copy = node.dup
+  copy.css(".header-section-number, .anchor, .anchor-link, .sr-only").remove
+  copy.text.gsub(/\s+/, " ").strip
+end
+
 def integrity_fingerprint(document)
   content = document.at_css("main#content") || document.at_css("body")
   {
@@ -154,6 +162,7 @@ end
 errors = []
 warnings = []
 files = BOOK_FILES + NOTEBOOK_FILES
+documents = {}
 baseline = STRUCTURE_BASELINE.file? ? JSON.parse(STRUCTURE_BASELINE.read) : {}
 integrity_baseline = INTEGRITY_BASELINE.file? ? JSON.parse(INTEGRITY_BASELINE.read) : {}
 current_structure = {}
@@ -166,7 +175,11 @@ files.each do |name|
   end
 
   html = path.read(encoding: "UTF-8")
+  if html.match?(/[\x00-\x08\x0B\x0C\x0E-\x1F]/)
+    errors << "#{name}: 含有会破坏公式或正文的控制字符"
+  end
   document = Nokogiri::HTML(html)
+  documents[name] = document
   lang = document.at_css("html")&.[]("lang")
   errors << "#{name}: html lang=#{lang.inspect}" unless lang == "zh-CN"
 
@@ -190,6 +203,33 @@ files.each do |name|
 
       errors << "#{name}: 目录链接 #{href} 应为“#{expected_label}”，实际为“#{actual_label}”"
     end
+  end
+
+  nodes_by_id = document.css("[id]").each_with_object({}) do |node, index|
+    index[node["id"]] ||= node
+  end
+  duplicate_ids = document.css("[id]").each_with_object(Hash.new(0)) do |node, counts|
+    counts[node["id"]] += 1
+  end.select { |_id, count| count > 1 }.keys
+  unless duplicate_ids.empty?
+    errors << "#{name}: 含有重复 HTML id：#{duplicate_ids.join('、')}"
+  end
+  document.css('nav#toc a[href^="#"]').each do |link|
+    target = nodes_by_id[link["href"].delete_prefix("#")]
+    next unless target
+
+    heading = if target.name.match?(/\Ah[1-6]\z/)
+      target
+    else
+      target.at_xpath("./h1|./h2|./h3|./h4|./h5|./h6")
+    end
+    next unless heading
+
+    toc_label = visible_heading_text(link)
+    heading_label = visible_heading_text(heading)
+    next if toc_label == heading_label
+
+    errors << "#{name}: 页内目录“#{toc_label}”与正文标题“#{heading_label}”不一致"
   end
 
   if EXPECTED_HEADINGS.key?(name)
@@ -259,6 +299,35 @@ files.each do |name|
   end
   if current_counts[:blocks] != original_counts[:blocks]
     warnings << "#{name}: 正文块数量变化 #{original_counts[:blocks]} -> #{current_counts[:blocks]}"
+  end
+end
+
+# Verify that local chapter and bibliography links point to real HTML fragments.
+fragment_ids = {}
+documents.each do |source_name, document|
+  document.css("a[href]").each do |link|
+    href = link["href"].to_s
+    next unless href.include?("#")
+    next if href.match?(%r{\A(?:https?:|mailto:|javascript:|data:|//)})
+
+    target_part, fragment = href.split("#", 2)
+    next if fragment.nil? || fragment.empty?
+
+    target_path = if target_part.empty?
+      ROOT.join(source_name)
+    else
+      ROOT.join(source_name).dirname.join(URI::DEFAULT_PARSER.unescape(target_part)).cleanpath
+    end
+    next unless target_path.file? && target_path.extname == ".html"
+
+    target_key = target_path.to_s
+    fragment_ids[target_key] ||= Nokogiri::HTML(target_path.read(encoding: "UTF-8"))
+      .css("[id]").map { |node| node["id"] }.to_set
+    decoded_fragment = URI::DEFAULT_PARSER.unescape(fragment)
+    next if fragment_ids[target_key].include?(decoded_fragment)
+
+    relative_target = target_path.relative_path_from(ROOT)
+    errors << "#{source_name}: 本地链接 #{relative_target}##{decoded_fragment} 的锚点不存在"
   end
 end
 

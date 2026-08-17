@@ -14296,7 +14296,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>间隔的两条边界线与分类超平面平行；选择分类超平面时，要使其与两侧最近的正确分类样本之间的距离尽可能大。这些最近的样本称为<strong>支持向量</strong>，该方法也因此得名。显然，绿线对应的间隔大于蓝线。SVM 的核心思想是：在分类器不出错的约束下最大化间隔。换言之，它从所有能够正确分类训练样本的模型中，选择对扰动最稳健的一个。</p>
+<p>间隔的两条边界线与分类超平面平行；选择分类超平面时，要使其与两侧最近的正确分类样本之间的距离尽可能大。这些最近的样本称为<strong>支持向量</strong>，该方法也因此得名。显然，绿线对应的间隔大于蓝线。<strong>硬间隔 SVM</strong> 的核心思想是：在分类器不出错的约束下最大化间隔。换言之，它从所有能够正确分类训练样本的模型中，选择对扰动最稳健的一个。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14330,7 +14330,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>该优化问题的对偶形式（参见 Boyd 和 Vandenberghe (2004) 第 5 章）为</p>
+<p>为求解该问题，可构造如下拉格朗日函数（参见 Boyd 和 Vandenberghe (2004) 第 5 章）：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14344,7 +14344,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>该优化问题的对偶形式（参见 Boyd 和 Vandenberghe (2004) 第 5 章）为</p>
+<p>为求解该问题，可构造如下拉格朗日函数（参见 Boyd 和 Vandenberghe (2004) 第 5 章）：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14387,7 +14387,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>如果无论怎样选择系数，都无法用一条直线将两类样本完全分开，上述约束就无法同时满足，优化问题也就没有可行解。现实数据通常属于这种情形，称为<em>线性不可分</em>。一种处理方法是在式 (8.1) 中加入修正变量，允许少量违反约束：</p>
+<p>如果无论怎样选择系数，都无法用一条直线将两类样本完全分开，上述硬间隔约束就无法同时满足，优化问题也就没有可行解。现实数据通常属于这种情形，称为<em>线性不可分</em>。一种处理方法是在式 (8.1) 中加入松弛变量，允许样本落入间隔甚至被误分类：</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14403,7 +14403,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中，新引入的 $\xi_i$ 是非负的<strong>松弛变量</strong>，用于使约束条件存在可行解。图 8.2 展示了这些变量所对应的情形：此时不存在能够将两类样本完全分开的线性模型。</p>
+<p>其中，新引入的 $\xi_i$ 是非负的<strong>松弛变量</strong>，用于度量各样本违反间隔约束的程度，并使约束条件存在可行解。图 8.2 展示了这些变量所对应的情形：此时不存在能够将两类样本完全分开的线性模型。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14414,7 +14414,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>于是，优化问题变为</p>
+<p>于是，软间隔 SVM 的优化问题变为</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14427,12 +14427,12 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>参数 $C&gt;0$ 用于调节误分类的代价：$C$ 越大，对误分类的惩罚越重。</p>
+<p>参数 $C&gt;0$ 用于调节违反间隔约束的代价：$C$ 越大，对松弛变量以及误分类的惩罚越重。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>此外，对输入 $x_{i,k}$ 应用核函数 $\phi$，还可以将上述方法推广到非线性模型。非线性核能够刻画比直线更复杂的模式（见图 8.3）；常用选择包括多项式核、径向基核和 sigmoid 核。该问题可用较为标准的约束二次规划方法求解。训练得到权重 $\textbf{w}$ 和偏置 $b$ 后，只需计算 $\sum_{k=1}^Kw_k\phi(x_{j,k})+b$，再根据结果的正负为新向量 $\textbf{x}_j$ 确定类别。</p>
+<p>此外，可将输入 $x_{i,k}$ 送入非线性特征映射 $\phi$，从而把上述方法推广到非线性模型。在对偶问题中，直接用核函数计算映射后特征的内积，无须显式构造高维映射，这就是<strong>核技巧</strong>。非线性核能够刻画比直线更复杂的模式（见图 8.3）；常用选择包括多项式核、径向基函数核和 sigmoid 核。该问题可用较为标准的约束二次规划方法求解。训练得到权重 $\textbf{w}$ 和偏置 $b$ 后，只需计算 $\sum_{k=1}^Kw_k\phi(x_{j,k})+b$，再根据结果的正负为新向量 $\textbf{x}_j$ 确定类别。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14463,7 +14463,7 @@ L(\textbf{w},b,\boldsymbol{\lambda})=
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>图 8.4 展示了这一思路。用户先指定<strong>间隔宽度</strong> $\epsilon$，模型再寻找标签 $y_1$ 与输入 $\textbf{x}_i$ 之间的线性关系（允许先经过核函数变换）。与分类任务类似，若数据点落在间隔带内，松弛变量 $\xi_i$ 和 $\xi_i^*$ 均为零；若数据点超出间隔带，目标函数（公式第一行）就会受到相应惩罚。较大的 $\epsilon$ 会容许更大的预测误差。模型训练完成后，对 $\textbf{x}_j$ 的预测值为 $\sum_{k=1}^Kw_k\phi(x_{j,k})+b$。</p>
+<p>图 8.4 展示了这一思路。用户先指定一个 $\epsilon$-<strong>不敏感带</strong>，即预测函数上下各允许相应幅度的偏差；模型再寻找标签 $y_1$ 与输入 $\textbf{x}_i$ 之间的线性关系（允许先经过特征映射）。与分类任务类似，若数据点落在不敏感带内，松弛变量 $\xi_i$ 和 $\xi_i^*$ 均为零，其误差不计入损失；超出不敏感带的部分才会受到惩罚。较大的 $\epsilon$ 会扩大容忍区间，忽略更多小误差。模型训练完成后，对 $\textbf{x}_j$ 的预测值为 $\sum_{k=1}^Kw_k\phi(x_{j,k})+b$。</p>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">

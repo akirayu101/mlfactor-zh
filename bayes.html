@@ -16,9 +16,9 @@
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet"/>
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet"/>
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/kePrint-0.0.1/kePrint.js"></script><link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet"/>
-<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="本章介绍贝叶斯方法中的先验、似然、后验、朴素贝叶斯与贝叶斯加性回归树。" name="description"/>
-<meta content="本章介绍贝叶斯方法中的先验、似然、后验、朴素贝叶斯与贝叶斯加性回归树。" property="og:description"/>
-<meta content="本章介绍贝叶斯方法中的先验、似然、后验、朴素贝叶斯与贝叶斯加性回归树。" name="twitter:description"/>
+<script crossorigin="anonymous" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js"></script><script crossorigin="anonymous" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script><!-- CSS --><meta content="本章介绍贝叶斯方法中的先验分布、似然函数、后验分布、朴素贝叶斯与贝叶斯加性回归树。" name="description"/>
+<meta content="本章介绍贝叶斯方法中的先验分布、似然函数、后验分布、朴素贝叶斯与贝叶斯加性回归树。" property="og:description"/>
+<meta content="本章介绍贝叶斯方法中的先验分布、似然函数、后验分布、朴素贝叶斯与贝叶斯加性回归树。" name="twitter:description"/>
 <!-- PWA reader enhancements -->
 <link rel="manifest" href="manifest.webmanifest"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
@@ -105,21 +105,21 @@ max-width: 60rem;
 P(A_i|B)=\frac{P(A_i)P(B|A_i)}{P(B)}= \frac{P(A_i)P(B|A_i)}{\sum_{i=1}^nP(B|A_i)P(A_i)}.
 \end{equation}\]</span></p>
 <p>下面进入本节核心：给定数据集，推断未知参数 <span class="math inline">\(\boldsymbol{\theta}\)</span>，它可以是标量也可以是向量。把数据记为 <span class="math inline">\(\textbf{y}\)</span>，沿用 <span class="citation">Gelman et al. (<a href="solutions-to-exercises.html#ref-gelman2013bayesian" role="doc-biblioref">2013</a>)</span> 的记法。不过这与本书其他章节略有冲突，因为其他章节通常用 <span class="math inline">\(\textbf{y}\)</span> 表示标签。</p>
-<p>与频率主义推断相比，贝叶斯分析并不让数据独自决定结果。参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 的推断会结合分析者设定的<strong>先验</strong>分布和数据提供的信息。直接应用贝叶斯公式可得：
+<p>与频率主义推断相比，贝叶斯分析并不让数据独自决定结果。参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 的推断会结合分析者设定的<strong>先验分布</strong>和数据提供的信息。直接应用贝叶斯公式可得：
 <span class="math display" id="eq:bayes2">\[\begin{equation}
 \tag{9.2}
 p(\boldsymbol{\theta}| \textbf{y})=\frac{p(\boldsymbol{\theta})p(\textbf{y} |\boldsymbol{\theta})}{p(\textbf{y})} \propto p(\boldsymbol{\theta})p(\textbf{y} |\boldsymbol{\theta}).
 \end{equation}\]</span></p>
-<p>其含义是：参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 在给定数据 <span class="math inline">\(\textbf{y}\)</span> 后的分布，正比于参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 的先验分布乘以在该参数下观察到数据 <span class="math inline">\(\textbf{y}\)</span> 的可能性，即关于 <span class="math inline">\(\boldsymbol{\theta}\)</span> 的似然。边际似然 <span class="math inline">\(p(\textbf{y})\)</span> 与参数无关，在只关心后验分布的形状时常被吸收到归一化常数中；它保证最终密度积分为 1。</p>
+<p>其含义是：参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 在给定数据 <span class="math inline">\(\textbf{y}\)</span> 后的分布，正比于参数 <span class="math inline">\(\boldsymbol{\theta}\)</span> 的先验分布乘以在该参数下观察到数据 <span class="math inline">\(\textbf{y}\)</span> 的概率密度；后者视为 <span class="math inline">\(\boldsymbol{\theta}\)</span> 的函数时就是似然函数。边际似然 <span class="math inline">\(p(\textbf{y})\)</span> 与参数无关，在只关心后验分布的形状时常被吸收到归一化常数中；它保证最终密度积分为 1。</p>
 <p>式 <a href="bayes.html#eq:bayes">(9.1)</a> 与式 <a href="bayes.html#eq:bayes2">(9.2)</a> 使用了略有差异的记号。前者中的 <span class="math inline">\(P\)</span> 表示事件的概率，是一个数值；后者中的 <span class="math inline">\(p\)</span> 表示 <span class="math inline">\(\boldsymbol{\theta}\)</span> 或 <span class="math inline">\(\textbf{y}\)</span> 的概率密度函数。</p>
-<p>贝叶斯分析的主要任务，是由<strong>后验</strong>分布 <span class="math inline">\(p(\boldsymbol{\theta}| \textbf{y})\)</span> 综合<strong>先验</strong>分布 <span class="math inline">\(p(\boldsymbol{\theta})\)</span> 与<strong>似然函数</strong> <span class="math inline">\(p(\textbf{y} |\boldsymbol{\theta})\)</span>。先验可分为信息先验、弱信息先验和无信息先验，区别在于先验包含的信息强度及其可信程度。构造无信息先验的一种简单方式，是在合理区间上使用常数密度，也就是均匀分布。</p>
-<p>实际建模中，似然函数往往最难指定。一种常见做法是假设数据来自某个参数分布族，并像最大似然推断那样假设各观测独立同分布。若把该分布新增的参数汇总为 <span class="math inline">\(\boldsymbol{\lambda}\)</span>，似然可写为：
+<p>贝叶斯分析的主要任务，是由<strong>后验分布</strong> <span class="math inline">\(p(\boldsymbol{\theta}| \textbf{y})\)</span> 综合<strong>先验分布</strong> <span class="math inline">\(p(\boldsymbol{\theta})\)</span> 与<strong>似然函数</strong> <span class="math inline">\(p(\textbf{y} |\boldsymbol{\theta})\)</span>。按所含信息的强弱，先验分布可分为信息性先验分布、弱信息先验分布和无信息先验分布。构造无信息先验分布的一种简单方式，是在合理区间上使用常数密度，也就是均匀分布。</p>
+<p>实际建模中，似然函数往往最难指定。一种常见做法是假设数据来自某个参数分布族，并像最大似然推断那样假设各观测独立同分布。若把该分布新增的参数汇总为 <span class="math inline">\(\boldsymbol{\lambda}\)</span>，似然函数可写为：
 <span class="math display" id="eq:likelihood">\[\begin{equation}
 \tag{9.3}
 p(\textbf{y} |\boldsymbol{\theta}, \boldsymbol{\lambda})=\prod_{i=1}^I f_{\boldsymbol{\lambda}}(y_i; \boldsymbol{\beta}),
 \end{equation}\]</span>
-引入这些参数后，待求后验变成 <span class="math inline">\(p(\boldsymbol{\theta}, \boldsymbol{\lambda}|\textbf{y})\)</span>，问题也更复杂：需要求 <span class="math inline">\(\boldsymbol{\theta}\)</span> 与 <span class="math inline">\(\boldsymbol{\lambda}\)</span> 在给定 <span class="math inline">\(\textbf{y}\)</span> 时的联合后验分布。由于参数与数据生成过程具有嵌套层次，这类模型通常称为<strong>层次模型</strong>。</p>
-<p>贝叶斯方法广泛用于投资组合选择，其基本思路是把资产收益分布中的未知参数视为随机变量，并推断其后验分布。相关文献十分丰富：<span class="citation">Lai et al. (<a href="solutions-to-exercises.html#ref-lai2011mean" role="doc-biblioref">2011</a>)</span> 通过随机优化研究贝叶斯资产配置，其他研究包括 <span class="citation">Guidolin and Liu (<a href="solutions-to-exercises.html#ref-guidolin2016ambiguity" role="doc-biblioref">2016</a>)</span> 和 <span class="citation">Dangl and Weissensteiner (<a href="solutions-to-exercises.html#ref-dangl2020optimal" role="doc-biblioref">2020</a>)</span>。<span class="citation">Frost and Savarino (<a href="solutions-to-exercises.html#ref-frost1986empirical" role="doc-biblioref">1986</a>)</span>、<span class="citation">Kan and Zhou (<a href="solutions-to-exercises.html#ref-kan2007optimal" role="doc-biblioref">2007</a>)</span> 和 <span class="citation">DeMiguel, Martı́n-Utrera, and Nogales (<a href="solutions-to-exercises.html#ref-demiguel2015parameter" role="doc-biblioref">2015</a>)</span> 研究均值与协方差矩阵的收缩估计；<span class="citation">Tu and Zhou (<a href="solutions-to-exercises.html#ref-tu2010incorporating" role="doc-biblioref">2010</a>)</span> 构造与资产定价理论一致的先验；<span class="citation">Bauder et al. (<a href="solutions-to-exercises.html#ref-bauder2020bayesian" role="doc-biblioref">2020</a>)</span> 则通过抽样投资组合收益推导贝叶斯最优前沿。感兴趣的读者还可继续查阅这些论文引用的文献。</p>
+引入这些参数后，待求后验分布变为 <span class="math inline">\(p(\boldsymbol{\theta}, \boldsymbol{\lambda}|\textbf{y})\)</span>，问题也更复杂：需要求 <span class="math inline">\(\boldsymbol{\theta}\)</span> 与 <span class="math inline">\(\boldsymbol{\lambda}\)</span> 在给定 <span class="math inline">\(\textbf{y}\)</span> 时的联合后验分布。由于参数与数据生成过程具有嵌套层次，这类模型通常称为<strong>层次模型</strong>。</p>
+<p>贝叶斯方法广泛用于投资组合选择，其基本思路是把资产收益分布中的未知参数视为随机变量，并推断其后验分布。相关文献十分丰富：<span class="citation">Lai et al. (<a href="solutions-to-exercises.html#ref-lai2011mean" role="doc-biblioref">2011</a>)</span> 通过随机优化研究贝叶斯资产配置，其他研究包括 <span class="citation">Guidolin and Liu (<a href="solutions-to-exercises.html#ref-guidolin2016ambiguity" role="doc-biblioref">2016</a>)</span> 和 <span class="citation">Dangl and Weissensteiner (<a href="solutions-to-exercises.html#ref-dangl2020optimal" role="doc-biblioref">2020</a>)</span>。<span class="citation">Frost and Savarino (<a href="solutions-to-exercises.html#ref-frost1986empirical" role="doc-biblioref">1986</a>)</span>、<span class="citation">Kan and Zhou (<a href="solutions-to-exercises.html#ref-kan2007optimal" role="doc-biblioref">2007</a>)</span> 和 <span class="citation">DeMiguel, Martı́n-Utrera, and Nogales (<a href="solutions-to-exercises.html#ref-demiguel2015parameter" role="doc-biblioref">2015</a>)</span> 研究均值与协方差矩阵的收缩估计；<span class="citation">Tu and Zhou (<a href="solutions-to-exercises.html#ref-tu2010incorporating" role="doc-biblioref">2010</a>)</span> 构造与资产定价理论一致的先验分布；<span class="citation">Bauder et al. (<a href="solutions-to-exercises.html#ref-bauder2020bayesian" role="doc-biblioref">2020</a>)</span> 则通过抽样投资组合收益推导贝叶斯最优前沿。感兴趣的读者还可继续查阅这些论文引用的文献。</p>
 </div>
 <div class="section level2" id="bayesian-sampling" number="9.2">
 <h2>
@@ -167,7 +167,7 @@ x_J^{m+1}&amp;= p(X_J|X_1=x_1^{m+1}, X_2=x_2^{m+1}, \dots, X_{J-1}=x_{J-1}^{m+1}
 <span class="header-section-number">9.3</span> 贝叶斯线性回归<a aria-label="锚" class="anchor" href="#bayesian-linear-regression"><i class="fas fa-link"></i></a>
 </h2>
 <p>
-贝叶斯概念较为抽象，线性回归是一个便于理解的例子。设模型为 <span class="math inline">\(y_i=\textbf{x}_i\textbf{b}+\epsilon_i\)</span>，通常假设误差项 <span class="math inline">\(\epsilon_i\)</span> 独立同分布，服从均值为 0、方差为 <span class="math inline">\(\sigma^2\)</span> 的正态分布。于是，式 <a href="bayes.html#eq:likelihood">(9.3)</a> 的似然具体写为：
+贝叶斯概念较为抽象，线性回归是一个便于理解的例子。设模型为 <span class="math inline">\(y_i=\textbf{x}_i\textbf{b}+\epsilon_i\)</span>，通常假设误差项 <span class="math inline">\(\epsilon_i\)</span> 独立同分布，服从均值为 0、方差为 <span class="math inline">\(\sigma^2\)</span> 的正态分布。于是，式 <a href="bayes.html#eq:likelihood">(9.3)</a> 的似然函数具体写为：
 <span class="math display">\[p(\boldsymbol{\epsilon}|\textbf{b}, \sigma)=\prod_{i=1}^I\frac{e^{-\frac{\epsilon_i^2}{2\sigma}}}{\sigma\sqrt{2\pi}}=(\sigma\sqrt{2\pi})^{-I}e^{-\sum_{i=1}^I\frac{\epsilon_i^2}{2\sigma^2}}.\]</span></p>
 <p>回归数据由响应向量 <span class="math inline">\(\textbf{y}\)</span> 和特征矩阵 <span class="math inline">\(\textbf{X}\)</span> 共同组成，因此条件中同时列出二者。利用 <span class="math inline">\(\boldsymbol{\epsilon}=\textbf{y}-\textbf{Xb}\)</span>，可得：
 <span class="math display" id="eq:linlike">\[\begin{align}
@@ -175,25 +175,25 @@ p(\textbf{y},\textbf{X}|\textbf{b}, \sigma)&amp;=\prod_{i=1}^I\frac{e^{-\frac{\e
 &amp;=(\sigma\sqrt{2\pi})^{-I}e^{-\sum_{i=1}^I\frac{\left(y_i-\textbf{x}_i'\textbf{b}\right)^2}{2\sigma^2}}=(\sigma\sqrt{2\pi})^{-I} e^{-\frac{\left(\textbf{y}-\textbf{X}\textbf{b}\right)' \left(\textbf{y}-\textbf{X}\textbf{b}\right)}{2\sigma^2}} \nonumber \\ \tag{9.4}
 &amp;=\underbrace{(\sigma\sqrt{2\pi})^{-I} e^{-\frac{\left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right)' \left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right)}{2\sigma^2}}}_{\text{depends on } \sigma, \text{ not } \textbf{b}}\times \underbrace{e^{-\frac{(\textbf{b}-\hat{\textbf{b}})'\textbf{X}'\textbf{X}(\textbf{b}-\hat{\textbf{b}})}{2\sigma^2}}}_{\text{ depends on both } \sigma, \text{ and } \textbf{b} }.
 \end{align}\]</span>
-最后一行把似然分解为两部分，其中第二项取决于偏差 <span class="math inline">\(\textbf{b}-\hat{\textbf{b}}\)</span>，且 <span class="math inline">\(\hat{\textbf{b}}=(\textbf{X}'\textbf{X})^{-1}\textbf{X}'\textbf{y}\)</span> 是普通最小二乘估计。以 <span class="math inline">\(\hat{\textbf{b}}\)</span> 作为参数 <span class="math inline">\(\textbf{b}\)</span> 的中心很自然，而且围绕 <span class="math inline">\(\hat{\textbf{b}}\)</span> 展开后，似然具有便于处理的二次形式。</p>
-<p>上式是后验分布中由数据提供的部分，也就是似然。若希望后验仍有便于分析的分布形式，需要选择能与似然相乘后保持同一分布族的<strong>共轭先验</strong>。对于同时依赖<strong>参数 b</strong> 与 <span class="math inline">\(\sigma\)</span> 的部分，一个自然选择是多元高斯先验：
+最后一行把似然函数分解为两部分，其中第二项取决于偏差 <span class="math inline">\(\textbf{b}-\hat{\textbf{b}}\)</span>，且 <span class="math inline">\(\hat{\textbf{b}}=(\textbf{X}'\textbf{X})^{-1}\textbf{X}'\textbf{y}\)</span> 是普通最小二乘估计。以 <span class="math inline">\(\hat{\textbf{b}}\)</span> 作为参数 <span class="math inline">\(\textbf{b}\)</span> 的中心很自然，而且围绕 <span class="math inline">\(\hat{\textbf{b}}\)</span> 展开后，似然函数具有便于处理的二次形式。</p>
+<p>上式是后验分布中由数据提供的部分，也就是似然函数。若希望后验分布仍有便于分析的形式，需要选择与似然函数结合后，能使后验分布和先验分布属于同一分布族的<strong>共轭先验分布</strong>。对于同时依赖<strong>参数 b</strong> 与 <span class="math inline">\(\sigma\)</span> 的部分，一个自然选择是多元高斯先验分布：
 <span class="math display" id="eq:linprior">\[\begin{equation}
 \tag{9.5}
 p[\textbf{b}|\sigma]=\sigma^{-k}e^{-\frac{(\textbf{b}-\textbf{b}_0)'\boldsymbol{\Lambda}_0(\textbf{b}-\textbf{b}_0)}{2\sigma^2}},
 \end{equation}\]</span>
-这里必须以 <span class="math inline">\(\sigma\)</span> 为条件。该先验的均值为 <span class="math inline">\(\textbf{b}_0\)</span>，协方差矩阵为 <span class="math inline">\(\boldsymbol{\Lambda}_0^{-1}\)</span>。由此，联合后验可以分解为：
+这里必须以 <span class="math inline">\(\sigma\)</span> 为条件。该先验分布的均值为 <span class="math inline">\(\textbf{b}_0\)</span>，协方差矩阵为 <span class="math inline">\(\boldsymbol{\Lambda}_0^{-1}\)</span>。由此，联合后验分布可以分解为：
 <span class="math display" id="eq:cascade">\[\begin{align}
 p[\textbf{b},\sigma|\textbf{y},\textbf{X}]&amp; \propto p[\textbf{y},\textbf{X}|\textbf{b},\sigma]p[\textbf{b},\sigma] \nonumber \\
 \tag{9.6}
 &amp;\propto p[\textbf{y},\textbf{X}|\textbf{b},\sigma]p[\textbf{b}|\sigma]p[\sigma].
 \end{align}\]</span></p>
-<p>要完整指定这一概率层次，还需为 <span class="math inline">\(\sigma\)</span> 指定先验密度：
+<p>要完整指定这一概率层次，还需为 <span class="math inline">\(\sigma\)</span> 对应的方差指定先验密度：
 <span class="math display" id="eq:linsig">\[\begin{equation}
 \tag{9.7}
 p[\sigma^2]\propto (\sigma^2)^{-1-a_0}e^{-\frac{b_0}{2\sigma^2}},
 \end{equation}\]</span>
-其形式与式 <a href="bayes.html#eq:linlike">(9.4)</a> 左侧部分相近，对应方差的逆伽玛先验，超参数为 <span class="math inline">\(a_0\)</span> 和 <span class="math inline">\(b_0\)</span>。这里的第二个标量超参数容易与先验均值向量 <span class="math inline">\(\textbf{b}_0\)</span> 混淆，阅读时需特别留意。</p>
-<p>结合联合后验 <span class="math inline">\(p[\textbf{b},\sigma|\textbf{y},\textbf{X}]\)</span>、式 <a href="bayes.html#eq:linlike">(9.4)</a>、式 <a href="bayes.html#eq:linprior">(9.5)</a> 和式 <a href="bayes.html#eq:linsig">(9.7)</a>，可整理为：
+其形式与式 <a href="bayes.html#eq:linlike">(9.4)</a> 左侧部分相近，对应方差的逆伽玛先验分布，超参数为 <span class="math inline">\(a_0\)</span> 和 <span class="math inline">\(b_0\)</span>。这里的第二个标量超参数容易与先验均值向量 <span class="math inline">\(\textbf{b}_0\)</span> 混淆，阅读时需特别留意。</p>
+<p>结合联合后验分布 <span class="math inline">\(p[\textbf{b},\sigma|\textbf{y},\textbf{X}]\)</span>、式 <a href="bayes.html#eq:linlike">(9.4)</a>、式 <a href="bayes.html#eq:linprior">(9.5)</a> 和式 <a href="bayes.html#eq:linsig">(9.7)</a>，可整理为：
 <span class="math display">\[\begin{align*}
 p[\textbf{b},\sigma|\textbf{y},\textbf{X}]&amp; \propto
 (\sigma\sqrt{2\pi})^{-I} \sigma^{-2(1+a_0)} e^{-\frac{\left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right)' \left(\textbf{y}-\textbf{X}\hat{\textbf{b}}\right)}{2\sigma^2}} \\
@@ -216,9 +216,9 @@ p(\textbf{b}|\textbf{y},\textbf{X},\sigma) \propto \left[\sigma^{-k}e^{-\frac{(\
 a_* &amp; = a_0 + I/2  \\
 b_* &amp;=b_0+\frac{1}{2}\left(\textbf{y}'\textbf{y}+ \textbf{b}_0'\boldsymbol{\Lambda}_0\textbf{b}_0+\textbf{b}_*'\boldsymbol{\Lambda}_*\textbf{b}_* \right).\\
 \end{align*}\]</span></p>
-<p>该后验由两部分组成：主要涉及 <span class="math inline">\(\textbf{b}\)</span> 的高斯部分，以及专门描述 <span class="math inline">\(\sigma\)</span> 的逆伽玛部分。先验与数据如何结合在这里十分清楚：高斯部分的后验精度矩阵 <span class="math inline">\(\boldsymbol{\Lambda}_*\)</span> 是先验精度与数据二次型之和；后验均值 <span class="math inline">\(\textbf{b}_*\)</span> 则综合先验均值 <span class="math inline">\(\textbf{b}_0\)</span> 和样本估计量 <span class="math inline">\(\hat{\textbf{b}}\)</span>。这种把数据估计与外部给定目标相结合的做法称为<strong>收缩</strong>。例如，数据中的交叉乘积矩阵 <span class="math inline">\(\textbf{X}'\textbf{X}\)</span> 会向先验精度 <span class="math inline">\(\boldsymbol{\Lambda}_0\)</span> 收缩。它也可视为一种<strong>正则化</strong>：在纯数据拟合中加入外部结构，使最终估计更稳定。</p>
-<p>进一步说明可参阅 <span class="citation">Greene (<a href="solutions-to-exercises.html#ref-greene2018econometric" role="doc-biblioref">2018</a>)</span> 第 16.3 节，其中第 16.3.2 节专门讨论共轭先验。</p>
-<p>上述推导较长，手工实现也容易出错。R 软件包 <span class="math inline">\(spBayes\)</span> 可以在共轭先验下完成贝叶斯线性回归。下面用一个示例说明其用法。为简化代码并减少计算时间，只使用两个预测变量：市值（规模异象）与市净率（价值异象）。统计学中的<strong>精度矩阵</strong>是协方差矩阵的逆。以下参数中，前两项指定高斯先验，后两项指定逆伽玛先验：
+<p>该后验分布由两部分组成：主要涉及 <span class="math inline">\(\textbf{b}\)</span> 的高斯部分，以及专门描述 <span class="math inline">\(\sigma\)</span> 的逆伽玛部分。先验信息与数据如何结合在这里十分清楚：高斯部分的后验精度矩阵 <span class="math inline">\(\boldsymbol{\Lambda}_*\)</span> 是先验精度与数据二次型之和；后验均值 <span class="math inline">\(\textbf{b}_*\)</span> 则综合先验均值 <span class="math inline">\(\textbf{b}_0\)</span> 和样本估计量 <span class="math inline">\(\hat{\textbf{b}}\)</span>。这种把数据估计与外部给定目标相结合的做法称为<strong>收缩</strong>。例如，数据中的交叉乘积矩阵 <span class="math inline">\(\textbf{X}'\textbf{X}\)</span> 会向先验精度 <span class="math inline">\(\boldsymbol{\Lambda}_0\)</span> 收缩。它也可视为一种<strong>正则化</strong>：在纯数据拟合中加入外部结构，使最终估计更稳定。</p>
+<p>进一步说明可参阅 <span class="citation">Greene (<a href="solutions-to-exercises.html#ref-greene2018econometric" role="doc-biblioref">2018</a>)</span> 第 16.3 节，其中第 16.3.2 节专门讨论共轭先验分布。</p>
+<p>上述推导较长，手工实现也容易出错。R 软件包 <span class="math inline">\(spBayes\)</span> 可以在共轭先验分布下完成贝叶斯线性回归。下面用一个示例说明其用法。为简化代码并减少计算时间，只使用两个预测变量：市值（规模异象）与市净率（价值异象）。统计学中的<strong>精度矩阵</strong>是协方差矩阵的逆。以下参数中，前两项指定高斯先验分布，后两项指定逆伽玛先验分布：
 <span class="math display">\[f_\text{invgamma}(x, \alpha, \beta)=\frac{\beta^\alpha}{\Gamma(\alpha)}x^{-1-\alpha}e^{-\frac{\beta}{x}},\]</span>
 其中 <span class="math inline">\(\alpha\)</span> 是形状参数，<span class="math inline">\(\beta\)</span> 是尺度参数。</p>
 <div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
@@ -233,7 +233,7 @@ b_* &amp;=b_0+\frac{1}{2}\left(\textbf{y}'\textbf{y}+ \textbf{b}_0'\boldsymbol{\
     prior.shape <span class="op">=</span> <span class="fl">0.5</span>,                      <span class="co"># Shape for prior distribution of sigma</span>
     prior.rate <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>                       <span class="co"># Scale for prior distribution of sigma</span></code></pre></div>
 <p></p>
-<p>上述设定还需为截距项指定先验。这里把其先验均值设为 0.01，对应 1% 的平均月收益率。模型估计完成后，可以绘制各回归系数的后验样本分布。</p>
+<p>上述设定还需为截距项指定先验分布。这里把其先验均值设为 0.01，对应 1% 的平均月收益率。模型估计完成后，可以绘制各回归系数的后验样本分布。</p>
 <div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_lmBayes</span><span class="op">$</span><span class="va">p.beta.tauSq.samples</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
     <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Intercept"</span>, <span class="st">"Size"</span>, <span class="st">"Value"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/torch/man/pipe.html">%&gt;%</a></span>
@@ -241,8 +241,8 @@ b_* &amp;=b_0+\frac{1}{2}\left(\textbf{y}'\textbf{y}+ \textbf{b}_0'\boldsymbol{\
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">coefficient</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span id="fig:lmBayesplot" style="display:block;"></span>
-<img alt="线性回归系数（beta）的分布。" src="ML_factor_files/figure-html/lmBayesplot-1.png" width="320px"/><p class="caption">
-图 9.1：线性回归系数（beta）的分布。
+<img alt="线性回归系数 β 的分布。" src="ML_factor_files/figure-html/lmBayesplot-1.png" width="320px"/><p class="caption">
+图 9.1：线性回归系数 β 的分布。
 </p>
 </div>
 <p></p>
@@ -264,12 +264,12 @@ P[\textbf{y} | \textbf{X}] = \frac{P[ \textbf{X} | \textbf{y}]P[\textbf{y}]}{P[\
 \tag{9.9}
 P[\textbf{y} | \textbf{x}_1,\dots,\textbf{x}_K] \propto P[\textbf{x}_1,\dots,\textbf{x}_K| \textbf{y}]P[\textbf{y}].
 \end{equation}\]</span></p>
-<p>“朴素”二字来自对特征作出的强简化假设：给定类别后，各特征彼此条件独立。<a class="footnote-ref" href="solutions-to-exercises.html#fn19" id="fnref19"><sup>19</sup></a> 在这一假设下，上式的联合条件似然可分解为：
+<p>“朴素”二字来自对特征作出的强简化假设：给定类别后，各特征彼此条件独立。<a class="footnote-ref" href="solutions-to-exercises.html#fn19" id="fnref19"><sup>19</sup></a> 在这一假设下，上式的联合条件似然函数可分解为：
 <span class="math display" id="eq:naivebayes3">\[\begin{equation}
 \tag{9.10}
 P[\textbf{y} | \textbf{x}_1,\dots,\textbf{x}_K] \propto P[\textbf{y}]\prod_{k=1}^K P[\textbf{x}_k| \textbf{y}].
 \end{equation}\]</span></p>
-<p>下一步需要具体指定条件似然。可以采用核密度估计等非参数方法，也可以选用常见参数分布，例如连续变量用高斯分布，二元变量用伯努利分布。因子投资中的特征通常连续，因此可使用高斯条件似然：
+<p>下一步需要具体指定条件似然函数。可以采用核密度估计等非参数方法，也可以选用常见参数分布，例如连续变量用高斯分布，二元变量用伯努利分布。因子投资中的特征通常连续，因此可使用高斯条件似然函数：
 <span class="math display">\[P[x_{i,k}=z|\textbf{y}_i= c]=\frac{e^{-\frac{(z-m_c)^2}{2\sigma_c^2}}}{\sigma_c\sqrt{2\pi}},\]</span>
 其中 <span class="math inline">\(c\)</span> 是标签 <span class="math inline">\(y\)</span> 的某个类别，<span class="math inline">\(\sigma_c\)</span> 和 <span class="math inline">\(m_c\)</span> 分别是特征 <span class="math inline">\(x_{i,k}\)</span> 在 <span class="math inline">\(y_i\)</span> 等于 <span class="math inline">\(c\)</span> 条件下的标准差和均值。实践中，对每个类别分别筛选训练样本，并用该子样本估计 <span class="math inline">\(\sigma_c\)</span> 与 <span class="math inline">\(m_c\)</span>。不过，本书数据中的特征近似均匀分布，即使按类别条件化，也未必接近高斯分布。可以通过两步变换缓解这一问题：给定特征向量 <span class="math inline">\(\textbf{x}_k\)</span> 及其经验累积分布函数 <span class="math inline">\(F_{\textbf{x}_k}\)</span>，定义
 <span class="math display" id="eq:transf">\[\begin{equation}
@@ -277,8 +277,8 @@ P[\textbf{y} | \textbf{x}_1,\dots,\textbf{x}_K] \propto P[\textbf{y}]\prod_{k=1}
 \tilde{\textbf{x}}_k=\Phi^{-1}\left(F_{\textbf{x}_k}(\textbf{x}_k) \right),
 \end{equation}\]</span>
 只要 <span class="math inline">\(F_{\textbf{x}_k}\)</span> 满足适当的正则条件，变换后的变量就服从标准正态分布。这里的正则条件包括 cdf 连续且严格递增，并确保送入逆 cdf 的值位于开区间 (0,1) 内。若特征相互独立，逐列单调变换不会引入依赖关系；若特征相关，则可参考 NORmal-To-Anything（NORTA）方法，例如 <span class="citation">H. Chen (<a href="solutions-to-exercises.html#ref-chen2001initialization" role="doc-biblioref">2001</a>)</span> 和 <span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2017approximate" role="doc-biblioref">2017</a>)</span>。</p>
-<p>最后，类别先验 <span class="math inline">\(P[\textbf{y}]\)</span> 在式 <a href="bayes.html#eq:naivebayes3">(9.10)</a> 中通常取均匀分布，即 <span class="math inline">\(1/K\)</span> 对所有类别 <span class="math inline">\(k\)</span> 都相同；也可以直接采用训练样本中的类别频率。</p>
-<p>下面用一个简单示例说明朴素贝叶斯分类。<em>e1071</em> 软件包包含朴素贝叶斯分类器，而 <em>naivebayes</em> 提供高斯、伯努利、多项式和非参数似然等更多选项。由于本例特征近似均匀分布，式 <a href="bayes.html#eq:transf">(9.11)</a> 的变换相当于应用标准正态分位数函数，也就是正态分布的逆 cdf。</p>
+<p>最后，类别先验概率 <span class="math inline">\(P[\textbf{y}]\)</span> 在式 <a href="bayes.html#eq:naivebayes3">(9.10)</a> 中通常取均匀分布，即 <span class="math inline">\(1/K\)</span> 对所有类别 <span class="math inline">\(k\)</span> 都相同；也可以直接采用训练样本中的类别频率。</p>
+<p>下面用一个简单示例说明朴素贝叶斯分类。<em>e1071</em> 软件包包含朴素贝叶斯分类器，而 <em>naivebayes</em> 提供高斯、伯努利、多项式和非参数似然函数等更多选项。由于本例特征近似均匀分布，式 <a href="bayes.html#eq:transf">(9.11)</a> 的变换相当于应用标准正态分位数函数，也就是正态分布的逆 cdf。</p>
 <p>为使图形清晰，只选取一小组特征。</p>
 <div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/majkamichal/naivebayes">naivebayes</a></span><span class="op">)</span>                           <span class="co"># Load package</span>
@@ -338,11 +338,11 @@ y = \sum_{m=1}^M\mathcal{T}_m(q_m,\textbf{w}_m, \textbf{x}) + \epsilon,
 \tag{9.13}
 \left(q_m,\textbf{w}_m,\sigma^2\right) | (\textbf{X}, \textbf{Y}).
 \end{equation}\]</span></p>
-<p>为 <span class="math inline">\(\left(q_m,\textbf{w}_m,\sigma^2\right)\)</span> 指定适当的先验后，算法结合 Metropolis-Hastings <em>与</em>吉布斯采样器，从后验分布中抽取这些参数。</p>
+<p>为 <span class="math inline">\(\left(q_m,\textbf{w}_m,\sigma^2\right)\)</span> 指定适当的先验分布后，算法结合 Metropolis-Hastings <em>与</em>吉布斯采样器，从后验分布中抽取这些参数。</p>
 </div>
 <div class="section level3" id="priors" number="9.5.2">
 <h3>
-<span class="header-section-number">9.5.2</span> 先验<a aria-label="锚" class="anchor" href="#priors"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.5.2</span> 先验分布<a aria-label="锚" class="anchor" href="#priors"><i class="fas fa-link"></i></a>
 </h3>
 <p>
 树模型的先验设定较为精细。第一个关键假设是独立性：噪声方差 <span class="math inline">\(\sigma^2\)</span> 与其他所有参数相互独立，不同树的参数对 <span class="math inline">\((q_m,\textbf{w}_m)\)</span> 和 <span class="math inline">\((q_n,\textbf{w}_n)\)</span> 在 <span class="math inline">\(m\neq n\)</span> 时也相互独立。就这一点而言，BART 在思想上更接近随机森林，而非提升树。由此可得</p>
@@ -352,24 +352,24 @@ y = \sum_{m=1}^M\mathcal{T}_m(q_m,\textbf{w}_m, \textbf{x}) + \epsilon,
 \tag{9.14}
 P(\left(q_1,\textbf{w}_1\right),\dots,\left(q_M,\textbf{w}_M\right),\sigma^2)=\underbrace{P(\sigma^2)}_{\text{noise term}}\prod_{m=1}^M\underbrace{P\left(\textbf{w}_m|q_m\right)}_{\text{tree weights}}\underbrace{P(q_m)}_{\text{tree struct.}}
 \end{equation}\]</span></p>
-<p>接下来需要分别为这三个部分指定先验。</p>
+<p>接下来需要分别为这三个部分指定先验分布。</p>
 <p>先看树结构 <span class="math inline">\(q_m\)</span>。一棵树由各节点上的分裂定义，而每次分裂又由分裂变量和分裂点决定。首先，用下式控制树的规模：深度为 <span class="math inline">\(d\)</span> 的节点继续分裂、成为非终端节点的概率为
 <span class="math display" id="eq:bartnode">\[\begin{equation}
 \tag{9.15}
 \alpha(1+d)^{-\beta}, \quad \alpha \in (0,1), \quad \beta &gt;0.
 \end{equation}\]</span>
-作者建议取 <span class="math inline">\(\alpha = 0.95\)</span>、<span class="math inline">\(\beta=2\)</span>。在这一设定下，树包含 1、2、3、4、5 个节点的概率分别约为 5%、55%、28%、9% 和 3%，从而使先验倾向于较浅的树。</p>
+作者建议取 <span class="math inline">\(\alpha = 0.95\)</span>、<span class="math inline">\(\beta=2\)</span>。在这一设定下，树包含 1、2、3、4、5 个节点的概率分别约为 5%、55%、28%、9% 和 3%，从而使树结构的先验分布倾向于较浅的树。</p>
 <p>其次，分裂变量由广义伯努利分布（即分类分布）选取，该分布给出各特征被选中的概率。在 <span class="citation">Chipman, George, and McCulloch (<a href="solutions-to-exercises.html#ref-chipman2010bart" role="doc-biblioref">2010</a>)</span> 的原始设定中，这个概率向量是均匀的，因此每个预测变量被用于分裂的概率相同。也可以把该向量视为随机变量，从更灵活的狄利克雷分布中抽样。选定预测变量后，再从其所有可行取值中均匀抽取分裂点。</p>
-<p>给定树结构的先验 <span class="math inline">\(q_m\)</span> 后，还需指定叶节点值的条件先验 <span class="math inline">\(\textbf{w}_m|q_m\)</span>。假设所有叶节点值均服从高斯分布 <span class="math inline">\(\mathcal{N}(\mu_\mu,\sigma_\mu^2)\)</span>，其中 <span class="math inline">\(\mu_\mu=(y_\text{min}+y_\text{max})/2\)</span> 是标签取值范围的中点。方差 <span class="math inline">\(\sigma_\mu^2\)</span> 的默认值经过校准，使以 <span class="math inline">\(\mu_\mu\)</span> 为中心、上下各延伸两倍 <span class="math inline">\(\sigma_\mu^2\)</span> 的区间覆盖训练集中约 95% 的标签取值范围；用户也可以调整这一设定。</p>
-<p>最后，与贝叶斯线性回归类似，噪声方差 <span class="math inline">\(\sigma^2\)</span>，即 <span class="math inline">\(\epsilon\)</span> 在 <a href="bayes.html#eq:BART">(9.12)</a> 中的方差，被设定为服从逆伽玛分布 <span class="math inline">\(\text{IG}(\nu/2,\lambda \nu/2)\)</span>。默认情况下，分布参数根据数据校准，使 <span class="math inline">\(\sigma^2\)</span> 的先验取值合理，并帮助抑制过拟合。更多细节可参见原始论文第 2.2.4 节。</p>
-<p>综上，除树的数量 <span class="math inline">\(M\)</span> 外，先验只涉及少量参数：控制树结构的 <span class="math inline">\(\alpha\)</span> 和 <span class="math inline">\(\beta\)</span>，控制叶节点值的 <span class="math inline">\(\mu_\mu\)</span> 和 <span class="math inline">\(\sigma_\mu^2\)</span>，以及控制噪声项的 <span class="math inline">\(\nu\)</span> 和 <span class="math inline">\(\lambda\)</span>。</p>
+<p>给定树结构 <span class="math inline">\(q_m\)</span> 的先验分布后，还需指定叶节点值的条件先验分布 <span class="math inline">\(\textbf{w}_m|q_m\)</span>。假设所有叶节点值均服从高斯分布 <span class="math inline">\(\mathcal{N}(\mu_\mu,\sigma_\mu^2)\)</span>，其中 <span class="math inline">\(\mu_\mu=(y_\text{min}+y_\text{max})/2\)</span> 是标签取值范围的中点。方差 <span class="math inline">\(\sigma_\mu^2\)</span> 的默认值经过校准，使以 <span class="math inline">\(\mu_\mu\)</span> 为中心、上下各延伸两倍 <span class="math inline">\(\sigma_\mu^2\)</span> 的区间覆盖训练集中约 95% 的标签取值范围；用户也可以调整这一设定。</p>
+<p>最后，与贝叶斯线性回归类似，噪声方差 <span class="math inline">\(\sigma^2\)</span>，即 <span class="math inline">\(\epsilon\)</span> 在 <a href="bayes.html#eq:BART">(9.12)</a> 中的方差，被设定为服从逆伽玛分布 <span class="math inline">\(\text{IG}(\nu/2,\lambda \nu/2)\)</span>。默认情况下，分布参数根据数据校准，使 <span class="math inline">\(\sigma^2\)</span> 的先验分布具有合理范围，并帮助抑制过拟合。更多细节可参见原始论文第 2.2.4 节。</p>
+<p>综上，除树的数量 <span class="math inline">\(M\)</span> 外，先验分布仅由少量超参数控制：控制树结构的 <span class="math inline">\(\alpha\)</span> 和 <span class="math inline">\(\beta\)</span>，控制叶节点值的 <span class="math inline">\(\mu_\mu\)</span> 和 <span class="math inline">\(\sigma_\mu^2\)</span>，以及控制噪声项的 <span class="math inline">\(\nu\)</span> 和 <span class="math inline">\(\lambda\)</span>。</p>
 </div>
 <div class="section level3" id="sampling-and-predictions" number="9.5.3">
 <h3>
 <span class="header-section-number">9.5.3</span> 抽样与预测<a aria-label="锚" class="anchor" href="#sampling-and-predictions"><i class="fas fa-link"></i></a>
 </h3>
 <p>
-<a href="bayes.html#eq:bartpost">(9.13)</a> 中的后验分布没有解析解，但可以通过模拟 <a href="bayes.html#eq:BART">(9.12)</a> 来有效近似。与吉布斯抽样和 Metropolis-Hastings 抽样一样，模拟样本的分布会逐步收敛到目标后验。丢弃预热期样本后，对新观测 <span class="math inline">\(\textbf{x}_*\)</span> 的预测可取各次后验模拟预测的均值或中位数。若预热期后保留了 <span class="math inline">\(S\)</span> 次模拟，则后验均值预测为
+<a href="bayes.html#eq:bartpost">(9.13)</a> 中的后验分布没有解析解，但可以通过模拟 <a href="bayes.html#eq:BART">(9.12)</a> 来有效近似。与吉布斯抽样和 Metropolis-Hastings 抽样一样，模拟样本的分布会逐步收敛到目标后验分布。丢弃预热期样本后，对新观测 <span class="math inline">\(\textbf{x}_*\)</span> 的预测可取各次后验抽样对应预测值的均值或中位数。若预热期后保留了 <span class="math inline">\(S\)</span> 次模拟，则后验预测均值为
 <span class="math display">\[\tilde{y}(\textbf{x}_*):=\frac{1}{S}\sum_{s=1}^S\sum_{m=1}^M\mathcal{T}_m\left(q_m^{(s)},\textbf{w}_m^{(s)}, \textbf{x}_*\right).\]</span></p>
 <p>难点在于如何生成这些后验样本。每棵树都通过 Metropolis-Hastings 方法更新：算法先提出一棵候选树，再依据接受准则决定是否用它替换当前树。随后以类似吉布斯抽样的方式，依次对所有树重复这一过程。</p>
 <p>先看其中的 Metropolis-Hastings 更新。目标是从以下条件分布中抽样：</p>
@@ -382,7 +382,7 @@ P(\left(q_1,\textbf{w}_1\right),\dots,\left(q_M,\textbf{w}_M\right),\sigma^2)=\u
 - 剪枝：合并一对终端节点，执行相反操作以降低复杂度；<br/>
 - 修改分裂规则。</p>
 <p>为简化算法，第三种改动通常会被排除。树结构确定，也就是完成抽样后，各叶节点值再独立地从高斯分布 <span class="math inline">\(\mathcal{N}(\mu_\mu, \sigma_\mu^2)\)</span> 中抽取。</p>
-<p>候选树生成后，Metropolis-Hastings 准则按照接受概率决定保留还是拒绝它。候选树对模型似然的改善越大，被接受的概率就越高。具体计算较为繁琐，详见 <span class="citation">Sparapani, Spanbauer, and McCulloch (<a href="solutions-to-exercises.html#ref-sparapani2019r" role="doc-biblioref">2019</a>)</span> 第 2.2 节。</p>
+<p>候选树生成后，Metropolis-Hastings 准则按照接受概率决定保留还是拒绝它。候选树使模型似然值提高得越多，被接受的概率就越高。具体计算较为繁琐，详见 <span class="citation">Sparapani, Spanbauer, and McCulloch (<a href="solutions-to-exercises.html#ref-sparapani2019r" role="doc-biblioref">2019</a>)</span> 第 2.2 节。</p>
 <p>下面概述完整的吉布斯抽样过程。算法以只有单个节点的简单树作为初始状态，并在预先设定的循环次数内<em>依次</em>执行以下步骤：</p>
 <div class="inline-table"><table class="table table-sm">
 <colgroup>
@@ -520,7 +520,7 @@ max-width: 60rem;
 <li>
 <a class="nav-link" href="#BART"><span class="header-section-number">9.5</span> 贝叶斯加性回归树</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#general-formulation"><span class="header-section-number">9.5.1</span> 一般形式</a></li>
-<li><a class="nav-link" href="#priors"><span class="header-section-number">9.5.2</span> 先验</a></li>
+<li><a class="nav-link" href="#priors"><span class="header-section-number">9.5.2</span> 先验分布</a></li>
 <li><a class="nav-link" href="#sampling-and-predictions"><span class="header-section-number">9.5.3</span> 抽样与预测</a></li>
 <li><a class="nav-link" href="#code"><span class="header-section-number">9.5.4</span> 代码</a></li>
 </ul>

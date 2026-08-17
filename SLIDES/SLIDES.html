@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Machine Learning for Factor Investing</title>
+    <title>因子投资中的机器学习</title>
     <meta charset="utf-8" />
     <meta name="author" content="Guillaume Coqueret" />
     <link href="SLIDES_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
@@ -13,46 +13,46 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Machine Learning for Factor Investing
-## An introduction
+# 因子投资中的机器学习
+## 导论
 ### Guillaume Coqueret
-### .font80[Cass <strong>AIR-Q</strong> seminar] 2020-09-02
+### .font80[Cass <strong>AIR-Q</strong> 研讨会] 2020-09-02
 
 ---
 
 
-# Purpose of the talk
+# 演讲目的
 
-This talk provides an overview of ML for factor modelling with a focus on **financial economics**. Importantly, we discuss important limitations of this approach.
+本次演讲概述因子建模中的机器学习，重点关注**金融经济学**，并讨论这一方法的重要局限。
 
-When people start learning ML, they (rightfully) focus on the **technicalities** (.grey[.font90[because they want to be able to answer interview questions!]]).
+人们初学机器学习时，往往会把注意力放在**技术细节**上，这很合理（.grey[.font90[毕竟还要应对面试问题！]]）。
 
-.font90[The problem is that they often see the data just as the input (the fuel) that you feed an ML algorithm (the pure computer science way).
+.font90[问题在于，他们常常只把数据看作输入机器学习算法的原料，这是一种纯计算机科学视角。
 
-This is ok to start with, but **WRONG** in practice! .bluen[Contextualization] is key.]
+作为起点尚可，但在实践中是**错误的**！.bluen[结合具体情境]至关重要。]
 
 
 
 ---
-# ML for trading: why?
+# 为什么用机器学习交易？
 
 .font120[
-1. Because .bluen[**we can**] (data availability, software democratization (open source!), and academic maturity).   
-2. Because it's **fancy** (it makes great marketing pitches).  
-3. Because it **works** (well... it depends).
+1. 因为 .bluen[**我们做得到**]（数据更易获得、开源软件普及、学术研究日趋成熟）。
+2. 因为它看起来**新潮**（很适合市场宣传）。
+3. 因为它**有效**（不过……视情况而定）。
 ]
 
 
 ---
-# About this nexus
+# 这一交叉领域
 
-Many people think of machine learning as a **magic wand** (.grey[.font90[it's sophisticated, those who master it are smart &amp; make money]]). .font110[**NO!**]
+很多人把机器学习视为一根**魔杖**（.grey[.font90[技术如此复杂，掌握它的人既聪明又能赚钱]]）。.font110[**错！**]
 
-.font90[The only way to make ML truly work, is by understanding the **environment** in which it is applied. For instance, this requires knowledge of **corporate finance** (factor investing), **market microstructure** (HFT), **lending industry** (credit scoring). `\(\rightarrow\)` domain-specific expertise.
+.font90[要让机器学习真正发挥作用，必须理解它所处的**环境**。例如，这需要了解**公司金融**（因子投资）、**市场微观结构**（高频交易）和**信贷行业**（信用评分）。`\(\rightarrow\)` 也就是领域专业知识。
 
-This is a prerequisite to making .bluen[**enlightened modelling**] choices (.grey[.fot80[e.g., to choose the HPs]]).
+这是作出 .bluen[**明智建模决策**]的前提（.grey[.fot80[例如选择超参数]]）。
 
-For factor investing, .bluen[**asset pricing models**] (and financial economics more generally) are key.]
+对于因子投资，.bluen[**资产定价模型**]乃至更广泛的金融经济学都是关键。]
 
 ---
 
@@ -67,53 +67,53 @@ padding: 1em 4em 1em 4em;
 &lt;/style&gt;
 
 
-# Factor models: a primer
+# 因子模型入门
 
 
 ---
 class: animated, fadeInRight
 
 
-# The equation .grey[.font60[(there is just one, but it's important to understand it)]]
+# 方程 .grey[.font60[（只有一个，但必须真正理解）]]
 
 .bib[
-Here it goes*:
+方程如下*：
 `$$r_i= f(\textbf{x}_i) + e_i,$$`
 
-- `\(r_i\)` is the (future) return of firm `\(i\)`,   
-- `\(f\)` is some function which may depend on some *hyperparameters*,   
-- `\(\textbf{x}_i\)` are the .bluen[firms characteristics] (market cap, earning/debt ratios, past returns, etc.),   
-- `\(e_i\)` is the error made by the model ( `\(f(\textbf{x}_i)\)` )
+- `\(r_i\)` 是公司 `\(i\)` 的（未来）收益率；
+- `\(f\)` 是某个函数，可能取决于若干*超参数*；
+- `\(\textbf{x}_i\)` 是 .bluen[公司特征]（市值、盈利/债务比率、历史收益率等）；
+- `\(e_i\)` 是模型（`\(f(\textbf{x}_i)\)`）的误差。
 
-**Note**: it a **panel** model: `\(f\)` is the same for all stocks.
+**注意**：这是一个**面板**模型，`\(f\)` 对所有股票都相同。
 
-*.grey[.font70[It's the simple version: it can (should?) be made time-dependent. ]]
+*.grey[.font70[这是简化形式：它可以（也许应该）随时间变化。]]
 ]
 
 ---
-# A simple example
+# 一个简单例子
 
 
-Assume
+假设
 
 `$$r_i = a + b*\text{Size}_i + e_i,$$`
-where Size is a **proxy** of the size of the company (e.g. market capitalization - rescaled/normalized/standardized).   
-If `\(b&gt;0\)`: large firms earn higher returns (according to the model).   
-`\(\rightarrow\)` Usually, it is considered that `\(b&lt;0\)`: small firms have more potential for **growth**, and thus experience enhanced performance (more on that soon).   
-This is related to the so-called **size premium** (or anomaly).   
-.font70[.grey[There are many anomalies: value, momentum, low risk (?), profitability, etc.]]
+其中 Size 是公司规模的**代理变量**，例如经过缩放、归一化或标准化的市值。<br>
+若 `\(b&gt;0\)`：根据模型，大公司获得更高收益率。<br>
+`\(\rightarrow\)` 通常认为 `\(b&lt;0\)`：小公司具有更大的**增长**潜力，因而表现更好，后文还会讨论。<br>
+这与所谓的**规模溢价**（或规模异象）有关。
+.font70[.grey[异象还有很多，例如价值、动量、低风险（？）、盈利能力等。]]
 
 
 ---
-# Generalizations
+# 一般化
 
-Extensions include:         
-- adding more characteristics (accounting ratios, risk, sentiment, .bluen[ESG], etc.);      
-- going beyond linear forms (that where the ML kicks in);    
-- reinforcing conditionality (ex: via macro indicators).
+可作如下扩展：
+- 加入更多公司特征（会计比率、风险、情绪、.bluen[ESG] 等）；
+- 超越线性函数形式（机器学习由此进入）；
+- 强化条件性，例如加入宏观经济指标。
 
-**BUT**! You should always be wary about the error terms `\(e_i\)`! Gaussian? Independent (in time, in the cross-section)?   
-Maybe not...
+**但是**！必须始终警惕误差项 `\(e_i\)`！它服从高斯分布吗？在时间序列和横截面上相互独立吗？<br>
+未必如此……
 
 
 ---
@@ -129,97 +129,97 @@ padding: 1em 4em 1em 4em;
 &lt;/style&gt;
 
 
-# Factor models: limitations
+# 因子模型的局限
 
 
 ---
-# First issue: noise! (1/2)
+# 第一个问题：噪声！（1/2）
 
-Optimal case: low noise (stylized graph).
+理想情形：低噪声（示意图）。
 
 &lt;img src="SLIDES_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
-# First issue: noise! (2/2)
+# 第一个问题：噪声！（2/2）
 
-Second configuration: overwhelming noise (more realistic).
+另一种情形：噪声淹没信号（更贴近现实）。
 
 &lt;img src="SLIDES_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 
-.font70[In practice, things are much more complicated (many predictors, nonlinearities, etc.)]
+.font70[实践中的情况复杂得多，例如预测变量众多、关系非线性等。]
 
 
 ---
-# Illustrating nonlinearity with many features
+# 用多个特征说明非线性
 
-A simple decision tree.
+一棵简单的决策树。
 
 &lt;img src="trees.png" width="530px" style="display: block; margin: auto;" /&gt;
 
 
 ---
-# Second issue: everything is time-varying (1/2)
+# 第二个问题：一切都会随时间变化（1/2）
 
-.font90[Average returns, volatility, factor loadings, they all] .font110[**change**]! .font80[(No arbitrage..)]
+.font90[平均收益率、波动率、因子载荷，都会] .font110[**变化**]！.font80[（无套利……）]
 
 &lt;img src="SLIDES_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-# Second issue: everything is time-varying (2/2)
+# 第二个问题：一切都会随时间变化（2/2）
 
-Any solutions?
+有什么解决办法？
 
-- first, make sure your models evolve &amp; react to new data! One natural inclination is to **fix** the model once &amp; for all... that's a bad idea. Updating is key (though the details are far from obvious).  
-- second, think broadly. Does the **macroeconomy** help explain some variations? Stocks do not move out of nowhere... The credit spread may matter for the Size factor. There are many ways to integrate macro indicators in predictive models.
+- 首先，确保模型能够随新数据演化并作出反应！一种常见倾向是把模型一次设定后便永远**固定**，这是错误的。持续更新至关重要，尽管具体做法绝不简单。
+- 其次，要拓宽视野。**宏观经济**能否解释部分变化？股票不会无缘无故波动……信用利差可能影响规模因子。预测模型可以通过多种方式纳入宏观经济指标。
 
 
 ---
-# Third isse: algorithmic overfitting (1/2)
+# 第三个问题：算法过拟合（1/2）
 
-Big models `\(\neq\)` better. (exaggerated version below)
+大模型 `\(\neq\)` 更好的模型。（下图是夸张示例）
 
 &lt;img src="SLIDES_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-# Third isse: algorithmic overfitting (2/2)
+# 第三个问题：算法过拟合（2/2）
 
-Some **solutions** to overfitting:   
-- often, they are technical and algorithm-dependent. Penalization for regressions, trees and neural networks takes various forms. This requires a bit of practice.
-- one heuristic tip is: .bluen[avoid complex models]!   
-- if you like sophistication, invest time in robustness checks (HP, time windows)
-
-
-
----
-# Fourth issue: backtest overfitting (1/3)
-
-.font90[Imagine a quant fund manager with 5 modelling engines] (.font80[Random Forests, Boosted Trees, Neural Nets, Recurrent NN, Ensemble]).   
-.font90[Say, she wishes to test 10 HP values for each family of models (that's a pretty small number to evaluate sensitivity).  
-This makes 50 combinations. Then, assume there are 5 ways to translate predictive signals into portfolio weights.]  
-`\(\rightarrow\)` In the end, this makes 250 options to build a strategy. 
+应对过拟合的一些**方法**：
+- 许多方法具有技术性，且取决于具体算法。回归、树模型和神经网络的惩罚方式各不相同，需要实践经验。
+- 一条启发式建议是：.bluen[避免复杂模型]！
+- 若确实需要复杂模型，应投入更多时间进行稳健性检验，包括超参数和时间窗口检验。
 
 
-.font90[.grey[And I haven't even mentioned data pre-processing.]] 😉
 
 ---
-# Fourth issue backtest overfitting (2/3)
+# 第四个问题：回测过拟合（1/3）
 
-.font90[So the fund manager is going to **backtest** these strategies, that is, test them on data. Sadly, she only has past data at her disposal... And in the end, she is going to pick the one that works best (after robustness checks, sensitivity analyses, etc.)]
+.font90[设想一位量化基金经理拥有 5 套建模引擎]（.font80[随机森林、提升树、神经网络、循环神经网络、集成模型]）。
+.font90[假设她希望为每类模型测试 10 个超参数值，用来评估敏感性，而这已经算很少。<br>
+于是共有 50 种组合。再假设有 5 种方法把预测信号转换为投资组合权重。]
+`\(\rightarrow\)` 最终会产生 250 种策略构造方案。
 
-Is this choice truly the best? Will it work well in live trading (out-of-sample)? Probably not, because the strategy is optimized on only one dataset! .font70[.grey[In factor investing, artificial data is hard to generate.]]
 
-A rule of thumb: take the Sharpe ratio of the best strat and .bluen[divide it by two] to get a better estimate of what will happen.
+.font90[.grey[这甚至还没有计入数据预处理。]] 😉
 
 ---
-# Fourth issue: backtest overfitting (3/3)
+# 第四个问题：回测过拟合（2/3）
 
-This relates to a crisis of .bluen[reproducibility]:
+.font90[基金经理会对这些策略进行**回测**，即用数据检验策略。遗憾的是，她手中只有历史数据……最后，她会在完成稳健性检验、敏感性分析等工作后，选出表现最好的策略。]
 
-- Academic research is plagued by the "*publish or perish*" paradigm (with a strong bias towards positive results).    
-- Likewise, money managers are pressured to craft **winning strategies**, but can only backtest on past data.
+这个选择真的最好吗？它在实盘交易，即样本外环境中还能表现良好吗？可能不会，因为该策略只针对一份数据集进行了优化！.font70[.grey[在因子投资中，人工生成可信数据十分困难。]]
 
-`\(\rightarrow\)` we are pushed towards **false positives**. We so badly want to find recipes that succeed, that we end up forgetting the framework in which we work. Often, the best strategies perform well by chance! (one lucky random trajectory of the world)
+一条经验法则：将最佳策略的夏普比率 .bluen[除以二]，可能更接近未来表现。
+
+---
+# 第四个问题：回测过拟合（3/3）
+
+这与 .bluen[可重复性]危机有关：
+
+- 学术研究受“*不发表就出局*”范式困扰，并强烈偏好正向结果。
+- 同样，资产管理者也承受设计**制胜策略**的压力，却只能使用历史数据回测。
+
+`\(\rightarrow\)` 这会推动我们产生**假阳性**。我们太想找到成功配方，以至于忘记自己所处的研究框架。许多最佳策略只是偶然表现良好，也就是恰好遇到一条幸运的世界随机路径！
 
 
 
@@ -236,44 +236,44 @@ padding: 1em 4em 1em 4em;
 &lt;/style&gt;
 
 
-# Final words
+# 结语
 
 
 ---
-# Going further: the book!
+# 延伸阅读：本书
 
-It is located at http://www.mlfactor.com.    
-The material can be accessed at https://github.com/shokru/mlfactor.github.io/tree/master/material    
-It includes a reasonably sized dataset &amp; all the R codes (Python soon to come). .bluen[Nothing will replace practice]!    
+本书网站：http://www.mlfactor.com.<br>
+配套材料：https://github.com/shokru/mlfactor.github.io/tree/master/material<br>
+其中包含规模适中的数据集及全部 R 代码，Python 代码也将陆续提供。.bluen[实践不可替代]！
 
-If you want a review of recent advances in ML &amp; econometrics in financial economics, have a look at my html [presentation](https://www.gcoqueret.com/files/AAP/AAP.html)
-
----
-# Wrap up: key takeaways
-
-Factor investing aims to explain or predict financial returns with .bluen[firms characteristics]. 
-
-People tend to focus on sophistication, which sometimes does add value, but requires a huge amount of expertise. Often it is preferable to spend more time on **simple approaches** &amp; have an integrated understanding of the models. 
-
-One major topic I left out is **causality**. It's incredibly important, but personally, I think it's still out of reach in factor investing.  
-
+如需了解机器学习与计量经济学在金融经济学中的近期进展，可参阅我的 HTML [演示文稿](https://www.gcoqueret.com/files/AAP/AAP.html)。
 
 ---
-# Pieces of advice for students
+# 总结：关键要点
+
+因子投资旨在利用 .bluen[公司特征]解释或预测金融资产收益率。
+
+人们往往专注于模型复杂度。复杂模型有时确实能增加价值，但需要深厚的专业知识。更多时候，应投入更多时间研究**简单方法**，并形成对模型的整体理解。
+
+本次演讲没有展开的一个重要议题是**因果关系**。它极其重要，但在我看来，目前仍难以在因子投资中可靠识别。
 
 
-Prefer .bluen[in-depth knowledge]. It's better to fully comprehend simple objects &amp; concept like the **linear regression** that to have a shallow understanding of neural networks.
+---
+# 给学生的几点建议
 
-Focus on simple statistics, optimization &amp; .bluen[financial economics]. And code code code, but **code smart**.
 
-Think on your own, read &amp; write a lot &amp; don't fool yourself: if you have doubts or hesitations, go back to work.
+重视 .bluen[深入理解]。彻底掌握**线性回归**等简单对象和概念，好过对神经网络只有浅层认识。
+
+重点学习基础统计、优化和 .bluen[金融经济学]。要持续编程，但也要**有思考地编程**。
+
+独立思考，多读多写，不要自欺：一旦产生疑问或迟疑，就回到问题本身继续研究。
 
 ---
 
 &lt;center&gt;
-.large[THANK YOU!]
+.large[谢谢！]
 &lt;br&gt;
-.bluen[What are your questions? ]
+.bluen[有什么问题？]
 &lt;/center&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

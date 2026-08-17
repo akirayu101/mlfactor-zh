@@ -96,7 +96,7 @@
 <span class="header-section-number">10.1.1</span> 回归分析<a aria-label="锚" class="anchor" href="#regression-analysis"><i class="fas fa-link"></i></a>
 </h3>
 <p>
-回归任务中的预测误差通常可以直接衡量。最常用的是 <span class="math inline">\(L^1\)</span> 范数和 <span class="math inline">\(L^2\)</span> 范数，二者都容易计算和解释。后者对应的<strong>均方根误差</strong>（RMSE）处处可微，但直观性稍弱，而且会给予异常值更大的权重；前者对应的平均绝对误差（MAE）表示预测值与已实现值之间的平均距离，但在误差为零处不可微。其定义为
+回归任务中的预测误差通常可以直接衡量。最常用的是基于 <span class="math inline">\(L^1\)</span> 的平均绝对误差（MAE）和基于 <span class="math inline">\(L^2\)</span> 的<strong>均方误差</strong>（MSE），二者都容易计算和解释。MSE 处处可微，但直观性稍弱，而且会给予异常值更大的权重；MAE 表示预测值与已实现值之间的平均距离，但在误差为零处不可微。其定义为
 <span class="math display" id="eq:MSE">\[\begin{align}
 \tag{10.1}
 \text{MAE}(\textbf{y},\tilde{\textbf{y}})&amp;=\frac{1}{I}\sum_{i=1}^I|y_i-\tilde{y}_i|, \\  \tag{10.2}
@@ -133,13 +133,13 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 <p>下面按复杂程度逐步介绍这些指标，先区分“正类与负类”以及“预测正确与预测错误”。在投资场景中，可以把正类定义为收益率为正或高于基准，负类则表示相反情形。</p>
 <p>二分类预测共有四种结果：实际为正且预测为正、实际为负且预测为负，这两种预测正确；实际为负却预测为正、实际为正却预测为负，这两种预测错误。相应的汇总指标定义如下：</p>
 <ul>
-<li>真阳性率：<span class="math inline">\(TP=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=1 \}},\)</span><br/>
+<li>真阳性比例：<span class="math inline">\(TP=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=1 \}},\)</span><br/>
 </li>
-<li>真阴性率：<span class="math inline">\(TN=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=0 \}},\)</span><br/>
+<li>真阴性比例：<span class="math inline">\(TN=I^{-1}\sum_{i=1}^I1_{\{y_i=\tilde{y}_i=0 \}},\)</span><br/>
 </li>
-<li>假阳性率：<span class="math inline">\(FP=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=1,y_i=0 \}},\)</span><br/>
+<li>假阳性比例：<span class="math inline">\(FP=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=1,y_i=0 \}},\)</span><br/>
 </li>
-<li>假阴性率：<span class="math inline">\(FN=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=0,y_i=1 \}},\)</span>
+<li>假阴性比例：<span class="math inline">\(FN=I^{-1}\sum_{i=1}^I1_{\{\tilde{y}_i=0,y_i=1 \}},\)</span>
 </li>
 </ul>
 <p>按照惯例，正类编码为 1，负类编码为 0，以上四个比例之和为 1。它们对样本外投资结果的影响并不相同，如图 <a href="valtune.html#fig:valconfusion">10.1</a> 所示。该表也称为<strong>混淆矩阵</strong>。这里假设模型预测的是某种未来盈利能力指标：每一行表示模型的预测类别，每一列表示最终实现的类别。上方一行尤其重要，因为模型预测为正的资产可能会被纳入投资组合。如果资产后来确实表现良好（左上单元格），预测没有问题；如果模型判断错误（右上单元格），投资组合就会直接承受损失。</p>
@@ -200,7 +200,7 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 <p></p>
 <p>图 <a href="valtune.html#fig:roc">10.3</a> 中的曲线非常接近 45° 对角线，说明该模型的分类能力与随机分类器相当，或者更准确地说，同样差。</p>
 <p>比较模型时，直接比较整条曲线并不方便，因此通常用曲线下方的面积概括其信息，即 AUC。45° 对角线下的面积为 0.5，因为它恰好是单位正方形面积的一半。一个有辨别力的模型通常应有高于 0.5 的 AUC；完美分类器的 AUC 为 1。</p>
-<p>最后讨论多分类数据。当输出标签包含两个以上类别时，评估会更复杂。仍然可以计算混淆矩阵，但矩阵维度更高，也更难解释；<span class="math inline">\(TP\)</span>、<span class="math inline">\(TN\)</span> 等二分类指标也需要采用并不统一的方式推广。此时，最简单的指标之一是式 <a href="NN.html#eq:crossentropy">(7.5)</a> 定义的交叉熵。关于分类标签损失函数的更多内容，参见第 <a href="trees.html#treeclass">6.1.2</a> 节。</p>
+<p>最后讨论多分类数据。当输出标签包含两个以上类别时，评估会更复杂。仍然可以计算混淆矩阵，但矩阵维度更高，也更难解释；<span class="math inline">\(TP\)</span>、<span class="math inline">\(TN\)</span> 等二分类指标也需要采用并不统一的方式推广。此时，最简单的指标之一是式 <a href="NN.html#eq:crossentropy">(7.5)</a> 定义的交叉熵。关于类别型标签相关损失函数的更多内容，参见第 <a href="trees.html#treeclass">6.1.2</a> 节。</p>
 </div>
 </div>
 <div class="section level2" id="validation" number="10.2">
@@ -218,7 +218,7 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 <span class="math display">\[y_i=f(\textbf{x}_i)+\epsilon_i, \quad   \mathbb{E}[\boldsymbol{\epsilon}]=0, \quad \mathbb{V}[\boldsymbol{\epsilon}]=\sigma^2,\]</span></p>
 <p>而估计得到的模型为</p>
 <p><span class="math display">\[y_i=\hat{f}(\textbf{x}_i)+\hat{\epsilon}_i. \]</span></p>
-<p>对于一个未知样本 <span class="math inline">\(\textbf{x}\)</span>，平均平方误差可分解为</p>
+<p>对于一条未见过的输入观测 <span class="math inline">\(\textbf{x}\)</span>，平均平方误差可分解为</p>
 <p><span class="math display" id="eq:biasvariance">\[\begin{align}
 \tag{10.7}
 \mathbb{E}[\hat{\epsilon}^2]&amp;=\mathbb{E}[(y-\hat{f}(\textbf{x}))^2]=\mathbb{E}[(f(\textbf{x})+\epsilon-\hat{f}(\textbf{x}))^2]   \\
@@ -253,13 +253,13 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 图 10.5：方差—偏差权衡的第二种表示。
 </p>
 </div>
-<p>岭回归是分析方差—偏差权衡时最容易处理的理论形式。<a class="footnote-ref" href="solutions-to-exercises.html#fn22" id="fnref22"><sup>22</sup></a> 其系数估计为 <span class="math inline">\(\hat{\mathbf{b}}_\lambda=(\mathbf{X}'\mathbf{X}+\lambda \mathbf{I}_N)^{-1}\mathbf{X}'\mathbf{Y}\)</span>（见第 <a href="lasso.html#penreg">5.1.1</a> 节），其中 <span class="math inline">\(\lambda\)</span> 是惩罚强度。假设<em>真实</em>数据生成过程为线性形式 <span class="math inline">\(\textbf{y}=\textbf{Xb}+\boldsymbol{\epsilon}\)</span>，其中 <span class="math inline">\(\textbf{b}\)</span> 未知，误差项的方差为 <span class="math inline">\(\sigma^2\)</span>，相关矩阵为单位矩阵，则有
+<p>岭回归是分析方差—偏差权衡时最容易处理的理论形式。<a class="footnote-ref" href="solutions-to-exercises.html#fn22" id="fnref22"><sup>22</sup></a> 其系数估计量为 <span class="math inline">\(\hat{\mathbf{b}}_\lambda=(\mathbf{X}'\mathbf{X}+\lambda \mathbf{I}_N)^{-1}\mathbf{X}'\mathbf{Y}\)</span>（见第 <a href="lasso.html#penreg">5.1.1</a> 节），其中 <span class="math inline">\(\lambda\)</span> 是惩罚强度。假设<em>真实</em>数据生成过程为线性形式 <span class="math inline">\(\textbf{y}=\textbf{Xb}+\boldsymbol{\epsilon}\)</span>，其中 <span class="math inline">\(\textbf{b}\)</span> 未知，误差项的方差为 <span class="math inline">\(\sigma^2\)</span>，相关矩阵为单位矩阵，则有
 <span class="math display" id="eq:vartrade">\[\begin{align}  
 \mathbb{E}[\hat{\textbf{b}}_\lambda]&amp;=\textbf{b}-\lambda(\textbf{X}'\textbf{X}+\lambda \textbf{I}_N)^{-1} \textbf{b}, \\  \tag{10.8}
 \mathbb{V}[\hat{\textbf{b}}_\lambda]&amp;=\sigma^2(\textbf{X}'\textbf{X}+\lambda \textbf{I}_N)^{-1}\textbf{X}'\textbf{X}   (\textbf{X}'\textbf{X}+\lambda \textbf{I}_N)^{-1}.
 \end{align}\]</span></p>
 <p>这意味着估计量的偏差为 <span class="math inline">\(-\lambda(\textbf{X}'\textbf{X}+\lambda \textbf{I}_N)^{-1} \textbf{b}\)</span>。没有惩罚时，即经典回归情形下，偏差为零；当 <span class="math inline">\(\lambda \rightarrow \infty\)</span>、模型趋于常数模型时，偏差收敛到某个有限值。还要注意，如果估计量无偏，则预测也无偏：<span class="math inline">\(\mathbb{E}[\textbf{X}(\textbf{b}-\hat{\textbf{b}})]=\textbf{0}\)</span>。</p>
-<p>在无约束回归中，系数估计值的方差为 <span class="math inline">\(\mathbb{V}[\hat{\textbf{b}}]=\sigma (\textbf{X}'\textbf{X})^{-1}\)</span>。在式 <a href="valtune.html#eq:vartrade">(10.8)</a> 中，<span class="math inline">\(\lambda\)</span> 会缩小逆矩阵中各元素的幅度。总体而言，<span class="math inline">\(\lambda\)</span> 越大，方差越小；当 <span class="math inline">\(\lambda \rightarrow \infty\)</span>、模型成为常数模型时，方差趋于零。预测值的方差为
+<p>在无约束回归中，系数估计量的方差为 <span class="math inline">\(\mathbb{V}[\hat{\textbf{b}}]=\sigma (\textbf{X}'\textbf{X})^{-1}\)</span>。在式 <a href="valtune.html#eq:vartrade">(10.8)</a> 中，<span class="math inline">\(\lambda\)</span> 会缩小逆矩阵中各元素的幅度。总体而言，<span class="math inline">\(\lambda\)</span> 越大，方差越小；当 <span class="math inline">\(\lambda \rightarrow \infty\)</span>、模型成为常数模型时，方差趋于零。预测值的方差为
 <span class="math display">\[\begin{align*}
 \mathbb{V}[\textbf{X}\hat{\textbf{b}}]&amp;=\mathbb{E}[(\textbf{X}\hat{\textbf{b}}-\mathbb{E}[\textbf{X}\hat{\textbf{b}}])(\textbf{X}\hat{\textbf{b}}-\mathbb{E}[\textbf{X}\hat{\textbf{b}}])'] \\
 &amp;= \textbf{X}\mathbb{E}[(\hat{\textbf{b}}-\mathbb{E}[\hat{\textbf{b}}])(\hat{\textbf{b}}-\mathbb{E}[\hat{\textbf{b}}])']\textbf{X}' \\
@@ -353,7 +353,7 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 <p>对于<strong>单棵树</strong>，降低过拟合风险的核心是限制叶节点数量，具体有多种方式。首先可以限制最大深度：若最大深度为 <span class="math inline">\(d\)</span>，一棵树最多有 <span class="math inline">\(2^d\)</span> 个终端节点，通常建议不要超过 <span class="math inline">\(d=6\)</span>。<em>rpart</em> 中的复杂度参数 cp 也可以限制树的规模：只有当一次新分裂带来的损失下降至少达到 cp 时，才会执行该分裂。因此，cp 较大时树很难继续生长。<em>rpart</em> 还可以设置每个叶节点所需的最少样本数，以及允许节点继续分裂所需的最少样本数；这两个阈值越高，树就越难生长得复杂。</p>
 <p><strong>随机森林</strong>还可以控制森林中的树数。理论上（见 <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span>），增加树数不应提高过拟合风险，因为新树只会通过多样化降低总体误差；但考虑计算成本，实践中通常不建议超过 1,000 棵。另两个超参数是每个学习器使用的子样本规模，以及每次学习保留的特征数。它们对偏差—方差权衡没有简单直接的影响，却会影响模型的原始预测表现。子样本或特征数太少时，树学不到足够信息；特征数太多、接近全部特征时，各学习器接触的信息高度重叠，其预测之间的相关性可能过高。</p>
 <p><strong>提升树</strong>还有其他防止过拟合的手段。最明显的是学习率，它用 <span class="math inline">\(\eta \in (0,1)\)</span> 缩减每棵新树的贡献。学习率过高时，算法学得太快，容易紧贴训练数据；学习率较低时，模型逐步学习，只要集成中有足够多的树，效果往往更好。因此，学习率与树数必须配合选择：两者都低，集成几乎学不到东西；两者都高，则容易过拟合。还可以惩罚叶节点分数和叶节点数量，防止模型过度追随训练样本中的细节。第 <a href="trees.html#boostext">6.4.5</a> 节介绍的单调性约束，也能给模型加入结构，使其只寻找符合指定方向的模式。</p>
-<p><strong>神经网络</strong>同样提供了多种防止过拟合的设置，包括学习率，以及对权重和偏置的范数施加惩罚。如果理论要求模型输入为正，还可以加入非负约束。最后，dropout 是直接减少网络有效参数数量的一种方法。</p>
+<p><strong>神经网络</strong>同样提供了多种防止过拟合的设置，包括学习率，以及对权重和偏置的范数施加惩罚。如果理论要求模型输入为正，还可以加入非负约束。最后，Dropout 是直接减少网络有效参数数量的一种方法。</p>
 </div>
 </div>
 <div class="section level2" id="the-search-for-good-hyperparameters" number="10.3">
@@ -373,7 +373,7 @@ R^2(\textbf{y},\tilde{\textbf{y}})=1- \frac{\sum_{i=1}^I(y_i-\tilde{y}_i)^2}{\su
 \tag{10.9}
 \textbf{p}_*=\underset{\textbf{p}}{\text{argmin}} \ O(\textbf{p}).
 \end{equation}\]</span></p>
-<p>困难在于，每计算一次 <span class="math inline">\(O(\textbf{p})\)</span> 都可能代价高昂，因此必须谨慎选择下一组要尝试的 <span class="math inline">\(\textbf{p}\)</span>。贝叶斯优化通常假设目标函数 <span class="math inline">\(O\)</span> 服从高斯过程，并以超参数分量的线性组合近似 <span class="math inline">\(O\)</span>，其中各分量记为 <span class="math inline">\(p_l\)</span>。换言之，它在输入 <span class="math inline">\(\textbf{p}\)</span> 与输出（响应变量）<span class="math inline">\(O\)</span> 之间建立贝叶斯回归。代理模型估计完成后，<span class="math inline">\(O\)</span> 的后验分布会告诉我们哪些区域更可能包含较优的超参数，从而指导下一组 <span class="math inline">\(\textbf{p}\)</span> 的选择。</p>
+<p>困难在于，每计算一次 <span class="math inline">\(O(\textbf{p})\)</span> 都可能代价高昂，因此必须谨慎选择下一组要尝试的 <span class="math inline">\(\textbf{p}\)</span>。这里的贝叶斯优化假设 <span class="math inline">\(O\)</span> 的分布为高斯，并假设 <span class="math inline">\(O\)</span> 可用超参数分量 <span class="math inline">\(p_l\)</span> 的线性组合来近似。换言之，它在输入 <span class="math inline">\(\textbf{p}\)</span> 与输出（因变量）<span class="math inline">\(O\)</span> 之间建立贝叶斯线性回归。模型估计完成后，再利用 <span class="math inline">\(O\)</span> 的后验分布来判断应在何处尝试新的 <span class="math inline">\(\textbf{p}\)</span> 取值。</p>
 <p>下一次试验由<strong>采集函数</strong>（acquisition function）选择。假设已经测试了 <span class="math inline">\(m\)</span> 组超参数向量 <span class="math inline">\(\textbf{p}\)</span>，相应试验点记为 <span class="math inline">\(\textbf{p}^{(m)}\)</span>，当前最优参数为 <span class="math inline">\(\textbf{p}_m^*=\underset{1\le k\le m}{\text{argmin}} \ O(\textbf{p}^{(k)})\)</span>。新点 <span class="math inline">\(\textbf{p}\)</span> 只有在 <span class="math inline">\(O(\textbf{p})&lt;O(\textbf{p}_m^*)\)</span> 时才带来改进，也就是把目前已知的最小目标值进一步降低。该改进的后验期望为
 <span class="math display" id="eq:acquisition">\[\begin{equation}
 \tag{10.10}
@@ -590,19 +590,19 @@ R 中有多个支持贝叶斯优化的软件包。这里使用通用性较强、
 <li>
 <a class="nav-link" href="#validation"><span class="header-section-number">10.2</span> 验证</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#the-variance-bias-tradeoff-theory"><span class="header-section-number">10.2.1</span> 方差与偏差的权衡：理论</a></li>
-<li><a class="nav-link" href="#the-variance-bias-tradeoff-illustration"><span class="header-section-number">10.2.2</span> 方差-偏差权衡：插图</a></li>
+<li><a class="nav-link" href="#the-variance-bias-tradeoff-illustration"><span class="header-section-number">10.2.2</span> 方差—偏差权衡：示例</a></li>
 <li><a class="nav-link" href="#the-risk-of-overfitting-principle"><span class="header-section-number">10.2.3</span> 过拟合的风险：原则</a></li>
 <li><a class="nav-link" href="#the-risk-of-overfitting-some-solutions"><span class="header-section-number">10.2.4</span> 过拟合的风险：一些解决方案</a></li>
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#the-search-for-good-hyperparameters"><span class="header-section-number">10.3</span> 寻找好的超参数</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#the-search-for-good-hyperparameters"><span class="header-section-number">10.3</span> 寻找合适的超参数</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#methods"><span class="header-section-number">10.3.1</span> 方法</a></li>
 <li><a class="nav-link" href="#example-grid-search"><span class="header-section-number">10.3.2</span> 示例：网格搜索</a></li>
 <li><a class="nav-link" href="#example-bayesian-optimization"><span class="header-section-number">10.3.3</span> 示例：贝叶斯优化</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#short-discussion-on-validation-in-backtests"><span class="header-section-number">10.4</span> 关于回测验证的简短讨论</a></li>
+<li><a class="nav-link" href="#short-discussion-on-validation-in-backtests"><span class="header-section-number">10.4</span> 回测中的验证</a></li>
 </ul>
 <div class="book-extra">
 <ul class="list-unstyled">

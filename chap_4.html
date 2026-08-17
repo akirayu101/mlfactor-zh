@@ -13172,7 +13172,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>下面的图 4.1 展示了一个箱线图，用来说明特征与未来一个月收益率之间相关性的分布。这些相关性逐日期在整个股票横截面上计算。它们大多接近零，但某些日期似乎出现了极端偏移。市值的中位相关性最负，而波动率是唯一具有正中位相关性的预测变量（这个具体例子似乎反驳了低风险异象）。</p>
+<p>图 4.1 以蜂群图展示特征与未来一个月收益率之间相关系数的分布。这些相关系数逐日期、基于当日全部股票的横截面计算。它们大多接近零，但某些日期似乎出现了极端偏移。市值与收益率的相关系数中位数最低且为负，而波动率是唯一一个相关系数中位数为正的预测变量（这个特定例子似乎否定了低风险异象）。</p>
 </div>
 </div>
 </div>
@@ -13218,7 +13218,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>更重要的是，当我们希望使用监督学习（本书大多数时候都会如此）时，可以通过平滑后的<strong>条件平均值</strong>进一步刻画某些特征与因变量之间的关系，因为它展示了特征如何影响标签。使用条件平均值有深厚的理论基础。假设只有一个特征<br/>
+<p>更重要的是，当我们希望使用监督学习（本书大多数时候都会如此）时，可以通过平滑后的<strong>条件期望</strong>（即条件均值）进一步刻画某些特征与因变量之间的关系，因为它反映了特征如何影响标签。使用条件期望有深厚的理论基础。假设只有一个特征<br/>
 $X$，并且我们寻求模型 $Y=f(X)+\text{error}$，其中变量均为实值。使平均平方误差 $\mathbb{E}[(Y-f(X))^2]$ 最小的函数 $f$ 被称为回归函数（见 Hastie, Tibshirani, and Friedman (2009) 第 2.4 节）：</p>
 </div>
 </div>
@@ -13339,7 +13339,7 @@ f(x)=\mathbb{E}[Y|X=x].
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>首先，处理缺失数据主要有两种方式：<strong>删除</strong>和<strong>插补</strong>。删除法不作额外假设，但代价很高，尤其是当一条样本仅因一个特征值缺失就被整体剔除时。插补法通常更受青睐，但它依赖某些隐含且可能错误的假设。</p>
+<p>首先，处理缺失数据主要有两种方式：<strong>删除</strong>和<strong>插补</strong>。删除法不作额外假设，但代价很高，尤其是仅因一个特征值缺失就删除整条观测时。插补法通常更受青睐，但它依赖某些隐含且可能错误的假设。</p>
 </div>
 </div>
 </div>
@@ -13682,7 +13682,7 @@ x^{(1-q)} &amp; \text{ if }  x_i &gt; x^{(1-q)}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="4.5.2-Categorical-labels">4.5.2 分类标签<a class="anchor-link" href="#4.5.2-Categorical-labels">¶</a></h3>
+<h3 id="4.5.2-Categorical-labels">4.5.2 类别型标签<a class="anchor-link" href="#4.5.2-Categorical-labels">¶</a></h3>
 </div>
 </div>
 </div>
@@ -13799,7 +13799,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>分类任务的输出维度更高。对每条样本，模型会给出其属于各个类别的概率。第 6 章和第 7 章将说明，这类输出可以用 softmax 函数方便地处理。</p>
+<p>分类任务的输出维度更高。对每条观测，模型会给出其属于各个类别的概率。第 6 章和第 7 章将说明，这类输出可以用 softmax 函数方便地处理。</p>
 </div>
 </div>
 </div>
@@ -13813,14 +13813,14 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="4.5.3-The-triple-barrier-method">4.5.3 三重障碍法<a class="anchor-link" href="#4.5.3-The-triple-barrier-method">¶</a></h3>
+<h3 id="4.5.3-The-triple-barrier-method">4.5.3 三重屏障法<a class="anchor-link" href="#4.5.3-The-triple-barrier-method">¶</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>本节最后介绍 De Prado (2018) 提到的一种高级标签构造技术。其思想是考虑交易策略的完整动态，而不是简单的表现代理变量。这一扩展的逻辑在于，资金管理人经常设置 P&amp;L 触发器：当收益足够时止盈，或在亏损时退出止损。策略启动时，会固定三道障碍（见图 4.4）：</p>
+<p>本节最后介绍 De Prado (2018) 提到的一种高级标签构造技术。其思想是考虑交易策略的完整动态，而不是简单的表现代理变量。这一扩展的逻辑在于，资产管理人经常设置损益触发条件：收益达到一定水平时获利了结，亏损达到一定程度时退出止损。策略启动时，会设定三道屏障（见图 4.4）：</p>
 </div>
 </div>
 </div>
@@ -13838,7 +13838,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>如果策略触及第一道障碍，输出为 +1；触及第二道障碍，输出为 -1；若先触及最后一道时间障碍，输出可以设为零，也可以在 -1 与 +1 之间线性插值，以表示终值相对于上下两道水平障碍的位置。这一方法的<strong>计算成本高得多</strong>，因为每条样本都需要评估完整价格路径。不过，它也更贴近现实，因为交易策略往往配有止损等自动触发机制。</p>
+<p>如果策略触及第一道屏障，输出为 +1；触及第二道屏障，输出为 -1；若先触及最后一道时间屏障，输出可以设为零，也可以在 -1 与 +1 之间线性插值，以表示终值相对于上下两道水平屏障的位置。这一方法的<strong>计算成本高得多</strong>，因为每条观测都需要评估完整价格路径。不过，它也更贴近现实，因为交易策略往往配有止损等自动触发机制。</p>
 </div>
 </div>
 </div>
@@ -13852,7 +13852,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>图 4.4：三重障碍法示意图。</p>
+<p>图 4.4：三重屏障法示意图。</p>
 </div>
 </div>
 </div>
@@ -14049,7 +14049,7 @@ y_{t,i}=\left\{  \begin{array}{rll}
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>整合变化经济环境的另一条路径是条件工程。假设标签通过公式 (4.2) 编码。阈值可以依赖某个外生变量。在动荡时期，同时提高 $r_+$（买入阈值）和 $r_-$（卖出阈值）可能是个好主意，使标签更加保守：需要更高的收益率才能进入买入类别，同时更偏向空头仓位。一个动态阈值化例子可以是</p>
+<p>纳入经济环境变化的另一种方法是条件化工程。假设标签通过公式 (4.2) 编码。阈值可以依赖某个外生变量。在动荡时期，同时提高 $r_+$（买入阈值）和 $r_-$（卖出阈值）可能是个好主意，使标签更加保守：需要更高的收益率才能进入买入类别，同时更偏向空头仓位。一个动态阈值示例可以写成</p>
 </div>
 </div>
 </div>
@@ -14109,14 +14109,14 @@ r_{t,\pm}=r_{\pm} \times e^{\pm\delta(\text{VIX}_t-\bar{\text{VIX}})},
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>主动学习的关键问题是：学习器应当选择哪些样本进行标注？直观答案是选择最能提高学习效率的观测。在二元分类中，可以依据样本属于某一类别的预测概率来判断。若该概率远离 0.5，算法很容易作出分类，尽管结果仍可能错误。真正有价值的是概率接近 0.5 的样本，因为模型对此最不确定。让预言机标注这类样本，可以帮助学习器补足自己最欠缺的信息。</p>
+<p>主动学习的关键问题是：学习器应当选择哪些样本进行标注？直观答案是选择最能提高学习效率的样本。在二元分类中，可以依据样本属于某一类别的预测概率来判断。若该概率远离 0.5，算法很容易作出分类，尽管结果仍可能错误。真正有价值的是概率接近 0.5 的样本，因为模型对此最不确定。让预言机标注这类样本，可以帮助学习器补足自己最欠缺的信息。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>另一些方法会估计把某条新样本加入训练集后能够获得的拟合改善，并据此选择样本。回顾 Geman, Bienenstock, and Doursat (1992) 第 3.1 节关于偏差—方差权衡的讨论，对于训练数据集 $D$ 和一条样本 $x$（为简化起见省略粗体），有</p>
+<p>另一些方法会估计把某个新样本加入训练集后能够获得的拟合改善，并据此选择样本。回顾 Geman, Bienenstock, and Doursat (1992) 第 3.1 节关于偏差—方差权衡的讨论，对于训练数据集 $D$ 和一个样本 $x$（为简化起见省略粗体），有</p>
 </div>
 </div>
 </div>
@@ -14144,14 +14144,14 @@ r_{t,\pm}=r_{\pm} \times e^{\pm\delta(\text{VIX}_t-\bar{\text{VIX}})},
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>如果这一表达式容易计算，学习器就可以查询使该权衡最小的 $x$。平均而言，这条新样本将带来最佳学习效果，以 $L2$ 误差衡量。该方法也有局限，因为它可能要求预言机标注一条最终并不相关的样本。除此之外，还有许多其他查询准则，完整列表参见 Settles (2009) 第 3 节。</p>
+<p>如果这一表达式容易计算，学习器就可以查询使该权衡最小的 $x$。平均而言，这个新样本将带来最佳学习效果，以 $L^2$ 误差衡量。该方法也有局限，因为它可能要求预言机标注一个最终并不相关的样本。除此之外，还有许多其他查询准则，完整列表参见 Settles (2009) 第 3 节。</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>最后一个问题是：主动学习能否用于因子投资？直接的困难在于，金融数据的标签无法由人工随意标注，因此学习器不能自行模拟样本，再请求对应的真实标签。一种可行方案是只向学习器提供 $\textbf{X}$，暂不提供 $\textbf{y}$，然后只保留查询选中的观测及其对应标签。这在思想上接近 Coqueret and Guida (2020) 的做法，只是查询由用户而非机器执行。该论文表明，不同观测包含的信号量并不相同：与标签取极端值的样本相比，标签接近平均水平的样本通常信息量更低。</p>
+<p>最后一个问题是：主动学习能否用于因子投资？直接的困难在于，金融数据的标签无法由人工随意标注，因此学习器不能自行模拟样本，再请求对应的真实标签。一种可行方案是只向学习器提供 $\textbf{X}$，暂不提供 $\textbf{y}$，然后只保留查询选中的样本及其对应标签。这在思想上接近 Coqueret and Guida (2020) 的做法，只是查询由用户而非机器执行。该论文表明，不同样本包含的信号量并不相同：与标签取极端值的样本相比，标签接近平均水平的样本通常信息量更低。</p>
 </div>
 </div>
 </div>
@@ -14587,7 +14587,7 @@ Notes:
 <div class="text_cell_render border-box-sizing rendered_html">
 <ol>
 <li>圣路易斯联邦储备银行（<a href="https://fred.stlouisfed.org">https://fred.stlouisfed.org</a>）托管了数千条可作为条件变量的经济指标时间序列。选择其中一条，并应用公式 (4.3) 来扩展预测变量数量。如有需要，可使用上面定义的函数。</li>
-<li>基于公式 (4.4) 和 (4.2) 创建一个新的分类标签。VIX 时间序列也可以从美联储网站获取：<a href="https://fred.stlouisfed.org/series/VIXCLS">https://fred.stlouisfed.org/series/VIXCLS</a>。</li>
+<li>基于公式 (4.4) 和 (4.2) 创建一个新的类别型标签。VIX 时间序列也可以从美联储网站获取：<a href="https://fred.stlouisfed.org/series/VIXCLS">https://fred.stlouisfed.org/series/VIXCLS</a>。</li>
 <li>绘制 R12M_Usd 变量的直方图。显然，其中存在一些异常值。找出该变量取值最高的股票，并判断该数值是否可能正确。</li>
 </ol>
 </div>

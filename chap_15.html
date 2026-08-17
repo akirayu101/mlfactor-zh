@@ -14937,7 +14937,7 @@ Vol3Y_Usd          0.008459   0.002795   3.026169  2.477060e-03
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>PCA 的目标是在压缩原始数据 $\tilde{\textbf{X}}$ 时，构建一个列数更少但尽可能保留信息的数据集。关键概念是<strong>基变换</strong>，即通过下式将 $X$ 线性变换为维度相同的矩阵 $\textbf{Z}$：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>PCA 的目标是构建一个列数更少但尽可能保留信息的数据集 $\tilde{\textbf{X}}$，以压缩原始数据。关键概念是<strong>基变换</strong>，即通过下式将 $X$ 线性变换为维度相同的矩阵 $\textbf{Z}$：</p></div>
 </div>
 </div>
 </div>
@@ -15195,7 +15195,7 @@ Vol3Y_Usd          0.008459   0.002795   3.026169  2.477060e-03
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>旋转给出矩阵 $\textbf{P}$：它是改变基的工具。输出的第一行表示每个新因子（列）的标准差。每个因子通过 PC 索引（principal component，主成分）表示。通常，第一个 PC（输出中的第一列 PC1）在所有初始特征上的载荷为负：所有预测变量的凸加权平均预期会携带大量信息。在上述例子中，除波动率在第一个 PC 中系数为正外，几乎正是如此。第二个 PC 是市净率（空头）与股息率（多头）之间的套利。第三个 PC 是反向因子，因为它在动量上的载荷很大且为负。并非所有主成分都易于解释。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>旋转矩阵就是 $\textbf{P}$，用于完成基变换。输出的第一行表示每个新因子（列）的标准差，每个因子以 PC（principal component，主成分）编号表示。第一主成分往往让多数原始特征取同向载荷，从而以一个线性组合承载大量方差信息。本例采用的符号方向下，多数载荷为负，只有波动率为正。需要注意，主成分载荷向量的整体符号可以任意翻转，并不改变主成分所含信息。第二主成分可理解为做空市净率、做多股息率的多空组合。第三主成分带有反转含义，因为它对动量的载荷较大且为负。并非所有主成分都易于解释。</p></div>
 </div>
 </div>
 </div>
@@ -15509,7 +15509,7 @@ Vol3Y_Usd          0.008459   0.002795   3.026169  2.477060e-03
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中编码函数和解码函数 $N$ 与 $N′$ 通常取为神经网络。<strong>自编码器</strong>一词来自这样一个事实：目标输出（通常记作 $\textbf{Z}$）就是原始样本 $\textbf{X}$。因此，算法试图确定函数 $N$，使 $\textbf{X}$ 与输出值 $\breve{\textbf{X}}$ 之间的距离（待定义）最小。编码器生成 $\textbf{X}$ 的另一种表示，而解码器尝试把它重新编码回原始值。自然，中间的（编码后）版本 $\tilde{\textbf{X}}$ 的目标维度小于 $\textbf{X}$。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>其中编码函数和解码函数 $N$ 与 $N′$ 通常取为神经网络。<strong>自编码器</strong>一词来自这样一个事实：目标输出（通常记作 $\textbf{Z}$）就是原始样本 $\textbf{X}$。算法在学习编码函数 $N$ 时同步训练解码器，使输入 $\textbf{X}$ 与重构值 $\breve{\textbf{X}}$ 之间的距离（待定义）最小。编码器生成 $\textbf{X}$ 的另一种表示，解码器则尝试由该表示重构原始值。中间的编码表示 $\tilde{\textbf{X}}$ 通常具有比 $\textbf{X}$ 更低的维度。</p></div>
 </div>
 </div>
 </div>
@@ -15713,7 +15713,7 @@ Epoch 15/15
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="15.3-Clustering-via-k-means">15.3 通过 k-means 进行聚类<a class="anchor-link" href="#15.3-Clustering-via-k-means">¶</a></h2></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><h2 id="15.3-Clustering-via-k-means">15.3 k 均值聚类<a class="anchor-link" href="#15.3-Clustering-via-k-means">¶</a></h2></div>
 </div>
 </div>
 </div>
@@ -15763,7 +15763,7 @@ Epoch 15/15
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>为保证最优性，必须测试所有可能排列；当 $k$ 和 $J$ 很大时，这会耗时到不可承受。因此，该问题通常用贪婪算法求解，寻找（并得到）并非最优但“足够好”的解。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>若要保证得到全局最优解，就必须测试所有可能的分组；当 $k$ 和 $J$ 很大时，这在计算上几乎不可行。因此，实践中通常采用 Lloyd 算法一类的迭代式启发方法，收敛到未必全局最优、但通常“足够好”的局部解。</p></div>
 </div>
 </div>
 </div>
@@ -15905,7 +15905,7 @@ Epoch 15/15
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>我们单独查看第四个聚类，它主要由与 EPS 相关的会计比率组成。给定这 10 个聚类后，可以构建一个小得多的特征组，再将其输入第 5 至第 9 章介绍的预测引擎。聚类的代表可以是最接近中心的成员，也可以直接是中心本身。不过，这个预处理步骤在预测阶段可能带来问题。典型地，它要求训练数据也被聚类。扩展到测试数据并不直接（聚类可能不同）。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>我们单独查看第四个聚类，它主要由与 EPS 相关的会计比率组成。给定这 10 个聚类后，可以构建一个小得多的特征组，再将其输入第 5 至第 9 章介绍的预测引擎。聚类的代表可以是最接近中心的成员，也可以直接是中心本身。为避免信息泄漏，聚类结构必须只用训练数据拟合，再原样应用于测试数据：若每簇选一个代表特征，测试集沿用同一组列；若使用簇中心或合成指标，则沿用训练阶段确定的分组与变换，而不在测试集上重新聚类。</p></div>
 </div>
 </div>
 </div>
@@ -15923,7 +15923,7 @@ Epoch 15/15
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>据我们所知，最近邻并未用于大规模投资组合选择应用。原因很简单：计算成本。不过，邻居概念在无监督学习中很普遍，也可以作为可解释性工具的局部补充。关于 k-NN 在分类任务误差率界上的理论结果，可见 Ripley (2007) 第 6.2 节。其逻辑如下。如果：</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>据我们所知，最近邻并未用于大规模投资组合选择应用，原因很简单：计算成本。不过，邻域概念在无监督学习和局部可解释性分析中都很常见。需要区分的是：仅按特征寻找邻居不需要标签；一旦利用邻居的标签进行分类或回归，k 近邻（k-NN）就是监督学习方法。关于 k-NN 分类误差率上界的理论结果，可见 Ripley (2007) 第 6.2 节。其逻辑如下。如果：</p></div>
 </div>
 </div>
 </div>
@@ -15953,7 +15953,7 @@ Epoch 15/15
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>因此，下文将寻找某个具体样本 $\textbf{x}_i$（一个 $K$ 维行向量）的近邻。需要注意，这与上一节有一个重要区别：这里是在观测层面（行）寻找相似性，而不是在预测变量层面（列）聚类。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>因此，下文将寻找某个具体样本 $\textbf{x}_i$（一个 $K$ 维行向量）的近邻。需要注意，这与上一节有一个重要区别：这里是在样本维度（行）寻找相似性，而不是在预测变量维度（列）聚类。</p></div>
 </div>
 </div>
 </div>
@@ -16078,7 +16078,7 @@ D\left(\textbf{x}_{l_1^i},\textbf{x}_i\right) \le D\left(\textbf{x}_{l_2^i},\tex
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>一种更不带先验的规则是在邻居集合上取 $h:=1$，此时所有邻居权重相同（分类情形下的早期讨论见 T. Bailey and Jain (1978)）。对于分类任务，该过程涉及投票规则：票数最多的类别获胜，并可配合打破平局的方法。感兴趣的读者可参阅 Bhatia et al. (2010) 的简短综述。</p></div>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown"><p>一种假设更少的规则是在邻居集合上取 $h:=1$，此时所有邻居权重相同（分类情形下的早期讨论见 T. Bailey and Jain (1978)）。对于分类任务，该过程涉及投票规则：票数最多的类别获胜，并可配合打破平局的方法。感兴趣的读者可参阅 Bhatia et al. (2010) 的简短综述。</p></div>
 </div>
 </div>
 </div>

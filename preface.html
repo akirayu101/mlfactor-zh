@@ -77,34 +77,34 @@
 max-width: 60rem;
 }
 </style>
-<p>本书旨在介绍基于<strong>公司特征</strong>构建的股票<strong>投资策略</strong>所采用的一些高级建模技术。全书内容分为三方面。首先，我们力求以简明方式解释股票资产配置中使用的大多数主流机器学习算法的基本思想。其次，我们为希望进一步钻研的读者列举了广泛的学术文献。最后，我们提供可直接实践的 <strong>R</strong> 代码示例，说明如何将相关概念和工具应用于我们共享的真实数据集，以促进<strong>可复现性</strong>。</p>
+<p>本书介绍如何将一些高级建模技术用于基于<strong>公司特征</strong>构建的股票<strong>投资策略</strong>，内容包括三个方面。首先，我们力求以简明的方式解释股票资产配置中常用的主流机器学习算法。其次，我们为希望深入研究的读者列出丰富的学术文献。最后，我们提供可直接运行的 <strong>R</strong> 代码示例，说明如何把相关概念和工具应用于本书共享的真实数据集，以保证研究的<strong>可复现性</strong>。</p>
 <div class="section level2 unnumbered" id="what-this-book-is-not-about">
 <h2>本书不讨论什么</h2>
-<p>本书讨论机器学习（ML）工具及其在因子投资中的应用。因子投资属于涵盖资产配置、量化交易和财富管理的广泛领域，其基本前提是：公司的收益率差异可以由公司特征解释。因此，这一方法不同于仅依赖价格和成交量数据的传统分析，例如 <span class="citation">Markowitz (<a href="solutions-to-exercises.html#ref-markowitz1952portfolio" role="doc-biblioref">1952</a>)</span> 式的经典投资组合理论或高频交易。如需全面了解金融领域的机器学习，可参阅 <span class="citation">Matthew F. Dixon, Halperin, and Bilokon (<a href="solutions-to-exercises.html#ref-dixon2020machine" role="doc-biblioref">2020</a>)</span>。</p>
-<p>本书所讨论的内容还涉及一些不在本书范围内的主题，包括：</p>
+<p>本书讨论机器学习（ML）工具及其在因子投资中的应用。因子投资是资产配置、量化交易和财富管理这一广阔领域的一个分支，其基本前提是：公司股票收益率的差异可以由公司特征解释。因此，它有别于只依赖价格和成交量数据的传统方法，例如 <span class="citation">Markowitz (<a href="solutions-to-exercises.html#ref-markowitz1952portfolio" role="doc-biblioref">1952</a>)</span> 式的经典投资组合理论和高频交易方法。如需全面了解机器学习在金融领域的应用，可参阅 <span class="citation">Matthew F. Dixon, Halperin, and Bilokon (<a href="solutions-to-exercises.html#ref-dixon2020machine" role="doc-biblioref">2020</a>)</span>。</p>
+<p>以下主题虽与本书内容相关，但不在讨论范围之内：</p>
 <ul>
 <li>机器学习在<strong>其他金融领域的应用</strong>，例如<strong>欺诈检测</strong>或<strong>信用评分</strong>。关于一般性欺诈检测，可参阅 <span class="citation">Ngai et al. (<a href="solutions-to-exercises.html#ref-ngai2011application" role="doc-biblioref">2011</a>)</span> 和 <span class="citation">Baesens, Van Vlasselaer, and Verbeke (<a href="solutions-to-exercises.html#ref-baesens2015fraud" role="doc-biblioref">2015</a>)</span>；关于信用卡欺诈，可参阅 <span class="citation">Bhattacharyya et al. (<a href="solutions-to-exercises.html#ref-bhattacharyya2011data" role="doc-biblioref">2011</a>)</span>；关于财务报告欺诈，可参阅 <span class="citation">Ravisankar et al. (<a href="solutions-to-exercises.html#ref-ravisankar2011detection" role="doc-biblioref">2011</a>)</span> 和 <span class="citation">Abbasi et al. (<a href="solutions-to-exercises.html#ref-abbasi2012metafraud" role="doc-biblioref">2012</a>)</span>。在信用评分方面，<span class="citation">G. Wang et al. (<a href="solutions-to-exercises.html#ref-wang2011comparative" role="doc-biblioref">2011</a>)</span> 和 <span class="citation">Brown and Mues (<a href="solutions-to-exercises.html#ref-brown2012experimental" role="doc-biblioref">2012</a>)</span> 概述了相关方法并给出了一些实证结果。此外，本书不讨论面向更高频率（日频或日内）采样数据的机器学习算法（市场微观结构模型、限价订单簿）。<span class="citation">Kearns and Nevmyvaka (<a href="solutions-to-exercises.html#ref-kearns2013machine" role="doc-biblioref">2013</a>)</span> 的章节和 <span class="citation">Sirignano and Cont (<a href="solutions-to-exercises.html#ref-sirignano2019universal" role="doc-biblioref">2019</a>)</span> 的近期论文是这一主题的良好入门资料。<br/></li>
-<li><strong>另类数据集的应用案例</strong>，即如何利用社交媒体中的文本数据、卫星图像或信用卡记录来预测销售额、业绩报告乃至未来收益率。该主题的文献仍处于兴起阶段（例如，参见 <span class="citation">Blank, Davis, and Greene (<a href="solutions-to-exercises.html#ref-blank2019using" role="doc-biblioref">2019</a>)</span>、<span class="citation">Jha (<a href="solutions-to-exercises.html#ref-jha2019implementing" role="doc-biblioref">2019</a>)</span> 和 <span class="citation">Z. T. Ke, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-ke2019predicting" role="doc-biblioref">2019</a>)</span>），但很可能在不久的将来迅速发展。<br/></li>
-<li><strong>机器学习工具的技术细节</strong>。尽管我们会说明某些方法的一些特性（即我们认为重要的特性），但本书无意充当统计学习参考手册。有关这一主题的一般性论述，可参阅 <span class="citation">Hastie, Tibshirani, and Friedman (<a href="solutions-to-exercises.html#ref-friedman2009elements" role="doc-biblioref">2009</a>)</span>、<span class="citation">Cornuejols, Miclet, and Barra (<a href="solutions-to-exercises.html#ref-cornuejols2011apprentissage" role="doc-biblioref">2018</a>)</span>（法语著作）、<span class="citation">James et al. (<a href="solutions-to-exercises.html#ref-james2013introduction" role="doc-biblioref">2013</a>)</span>（使用 R 编程！）和 <span class="citation">Mohri, Rostamizadeh, and Talwalkar (<a href="solutions-to-exercises.html#ref-mohri2018foundations" role="doc-biblioref">2018</a>)</span>。<a class="footnote-ref" href="solutions-to-exercises.html#fn1" id="fnref1"><sup>1</sup></a> 此外，<span class="citation">K.-L. Du and Swamy (<a href="solutions-to-exercises.html#ref-du2013neural" role="doc-biblioref">2013</a>)</span> 和 <span class="citation">Goodfellow et al. (<a href="solutions-to-exercises.html#ref-goodfellow2016deep" role="doc-biblioref">2016</a>)</span> 是专门讨论神经网络的扎实专著，而 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 则对强化学习作了独立成篇且全面的介绍。<br/></li>
+<li><strong>另类数据集的应用案例</strong>，即如何利用社交媒体文本、卫星图像或信用卡记录预测销售额、盈利情况乃至未来收益率。该主题的文献仍处于起步阶段（例如，参见 <span class="citation">Blank, Davis, and Greene (<a href="solutions-to-exercises.html#ref-blank2019using" role="doc-biblioref">2019</a>)</span>、<span class="citation">Jha (<a href="solutions-to-exercises.html#ref-jha2019implementing" role="doc-biblioref">2019</a>)</span> 和 <span class="citation">Z. T. Ke, Kelly, and Xiu (<a href="solutions-to-exercises.html#ref-ke2019predicting" role="doc-biblioref">2019</a>)</span>），但很可能在不久的将来迅速发展。<br/></li>
+<li><strong>机器学习工具的技术细节</strong>。我们会介绍部分方法中较为重要的特性，但本书无意充当统计学习参考手册。有关这一主题的综合论述，可参阅 <span class="citation">Hastie, Tibshirani, and Friedman (<a href="solutions-to-exercises.html#ref-friedman2009elements" role="doc-biblioref">2009</a>)</span>、<span class="citation">Cornuejols, Miclet, and Barra (<a href="solutions-to-exercises.html#ref-cornuejols2011apprentissage" role="doc-biblioref">2018</a>)</span>（法语著作）、<span class="citation">James et al. (<a href="solutions-to-exercises.html#ref-james2013introduction" role="doc-biblioref">2013</a>)</span>（使用 R 编程）和 <span class="citation">Mohri, Rostamizadeh, and Talwalkar (<a href="solutions-to-exercises.html#ref-mohri2018foundations" role="doc-biblioref">2018</a>)</span>。<a class="footnote-ref" href="solutions-to-exercises.html#fn1" id="fnref1"><sup>1</sup></a> 此外，<span class="citation">K.-L. Du and Swamy (<a href="solutions-to-exercises.html#ref-du2013neural" role="doc-biblioref">2013</a>)</span> 和 <span class="citation">Goodfellow et al. (<a href="solutions-to-exercises.html#ref-goodfellow2016deep" role="doc-biblioref">2016</a>)</span> 是专门讨论神经网络的扎实专著，而 <span class="citation">Sutton and Barto (<a href="solutions-to-exercises.html#ref-sutton2018reinforcement" role="doc-biblioref">2018</a>)</span> 则对强化学习作了完整且自成体系的介绍。<br/></li>
 <li>最后，本书不讨论自然语言处理（NLP）方法。这些方法可用于评估情绪，进而将情绪转化为投资决策。不过，这一主题近来备受关注；关于相关进展，可参阅 <span class="citation">Loughran and McDonald (<a href="solutions-to-exercises.html#ref-loughran2016textual" role="doc-biblioref">2016</a>)</span>、<span class="citation">Cong, Liang, and Zhang (<a href="solutions-to-exercises.html#ref-cong2019analyzing" role="doc-biblioref">2019a</a>)</span>、<span class="citation">Cong, Liang, and Zhang (<a href="solutions-to-exercises.html#ref-cong2019textual" role="doc-biblioref">2019b</a>)</span> 和 <span class="citation">Gentzkow, Kelly, and Taddy (<a href="solutions-to-exercises.html#ref-gentzkow2019text" role="doc-biblioref">2019</a>)</span>。</li>
 </ul>
 </div>
 <div class="section level2 unnumbered" id="the-targeted-audience">
 <h2>目标受众</h2>
-<p>哪些人适合阅读本书？本书主要面向两类读者。第一类是希望继续深造量化金融、并以投资与资产管理为方向的<strong>研究生</strong>。第二类是资产管理行业的<strong>专业人士</strong>：他们或是希望转向基于机器学习的资产配置方法，或是对这些新工具感兴趣并希望提升自身技能。此外，本书也可在一定程度上服务于学者或研究人员，为他们提供一部广泛收录近期资产定价问题及机器学习算法在资产管理中应用等相关文献的手册。本书主要介绍常用方法，同时也展示如何实现一些不太常见的模型，例如因果图（第 <a href="causality.html#causality">14</a> 章）、贝叶斯加性树（第 <a href="bayes.html#bayes">9</a> 章）和混合自动编码器（第 <a href="NN.html#NN">7</a> 章）。</p>
-<p>本书假定读者具备<strong>代数</strong>（矩阵运算）、<strong>数学分析</strong>（函数求导、梯度）、<strong>优化</strong>（一阶和二阶条件、对偶形式）和<strong>统计学</strong>（分布、矩、检验，以及最大似然等简单估计方法）的基础知识。读者还需要基本的<strong>金融常识</strong>：本书不会定义股票、会计指标（例如账面价值）等简单概念。最后，所有示例和图示均使用 R 编写。具备基本的 R 语言知识，就足以理解书中的代码片段；这些代码大量使用 tidyverse 的常用函数（<span class="citation">Wickham et al. (<a href="solutions-to-exercises.html#ref-wickham2019welcome" role="doc-biblioref">2019</a>)</span>，www.tidyverse.org）和管道操作（<span class="citation">Bache and Wickham (<a href="solutions-to-exercises.html#ref-bache2014magrittr" role="doc-biblioref">2014</a>)</span>；<span class="citation">Mailund (<a href="solutions-to-exercises.html#ref-mailund2019pipelines" role="doc-biblioref">2019</a>)</span>）。</p>
+<p>哪些人适合阅读本书？本书主要面向两类读者。第一类是希望继续深造量化金融，并以投资和资产管理为专业方向的<strong>研究生</strong>。第二类是资产管理行业的<strong>专业人士</strong>：他们或是希望转向基于机器学习的资产配置方法，或是对这些新工具感兴趣并希望提升专业技能。此外，本书也可供学者和研究人员参考，其中广泛收录了近期资产定价问题以及机器学习算法在资产管理中应用的相关文献。本书以常用方法为主，同时也展示如何实现一些较少见的模型，例如因果图（第 <a href="causality.html#causality">14</a> 章）、贝叶斯加性树（第 <a href="bayes.html#bayes">9</a> 章）和混合自动编码器（第 <a href="NN.html#NN">7</a> 章）。</p>
+<p>本书假定读者具备<strong>代数</strong>（矩阵运算）、<strong>数学分析</strong>（函数求导、梯度）、<strong>优化</strong>（一阶和二阶条件、对偶形式）和<strong>统计学</strong>（分布、矩、检验，以及最大似然等简单估计方法）的基础知识。读者还需要掌握基本的<strong>金融知识</strong>：本书不会解释股票、账面价值等基础概念。最后，所有示例和图示均使用 R 编写。具备基本的 R 语言知识，足以理解书中的代码片段；这些代码大量使用 tidyverse 的常用函数（<span class="citation">Wickham et al. (<a href="solutions-to-exercises.html#ref-wickham2019welcome" role="doc-biblioref">2019</a>)</span>，www.tidyverse.org）和管道操作（<span class="citation">Bache and Wickham (<a href="solutions-to-exercises.html#ref-bache2014magrittr" role="doc-biblioref">2014</a>)</span>；<span class="citation">Mailund (<a href="solutions-to-exercises.html#ref-mailund2019pipelines" role="doc-biblioref">2019</a>)</span>）。</p>
 </div>
 <div class="section level2 unnumbered" id="how-this-book-is-structured">
 <h2>本书的结构</h2>
 <p>本书分为四个部分。</p>
 <p>第一部分汇集预备知识，先介绍符号约定与数据（第 <a href="notdata.html#notdata">1</a> 章），再给出导论（第 <a href="intro.html#intro">2</a> 章）。第 <a href="factor.html#factor">3</a> 章概述因子投资的经济学基础（理论和实证），并简要总结相关领域的近期文献。第 <a href="Data.html#Data">4</a> 章讨论数据准备，快速回顾基本技巧，并提醒读者注意一些重大问题。</p>
 <p>第二部分专门介绍监督学习中的预测算法。它们是预测金融指标（收益率、波动率、夏普比率等）最常用的工具，包括惩罚回归（第 <a href="lasso.html#lasso">5</a> 章）、树模型（第 <a href="trees.html#trees">6</a> 章）、神经网络（第 <a href="NN.html#NN">7</a> 章）、支持向量机（第 <a href="svm.html#svm">8</a> 章）和贝叶斯方法（第 <a href="bayes.html#bayes">9</a> 章）。</p>
-<p>下一部分衔接这些工具与其金融应用。第 <a href="valtune.html#valtune">10</a> 章详细说明如何评估和改进此前定义的机器学习模型。第 <a href="ensemble.html#ensemble">11</a> 章解释如何组合模型，也说明为何这样做往往未必是明智之举。最后，第 <a href="backtest.html#backtest">12</a> 章是全书最重要的章节之一，回顾投资组合回测的关键步骤，并指出这一阶段经常出现的错误。</p>
-<p>本书最后一部分围绕机器学习介绍一系列更高级的主题。首先是<strong>模型可解释性</strong>。机器学习模型常被视为黑箱，由此引出信任问题：人们应当如何、又为何可以信任机器学习预测？第 <a href="interp.html#interp">13</a> 章介绍有助于理解模型内部运作方式的方法。第 <a href="causality.html#causality">14</a> 章聚焦<strong>因果关系</strong>。因果关系不仅是一个比相关性强大得多的概念，也是近来人工智能（AI）领域许多讨论的核心。大多数机器学习工具依赖类似相关关系的模式，因此有必要强调因果关系技术的优势。最后，第 <a href="unsup.html#unsup">15</a> 章和第 <a href="RL.html#RL">16</a> 章介绍无监督方法。这些方法虽可能有用，但将其用于金融时，应当给出审慎而充分的理由。 <!-- Lastly, the final chapter (\@ref(NLP)) introduces standard approaches for the treatment of textual data. --></p>
+<p>第三部分把这些工具与金融应用衔接起来。第 <a href="valtune.html#valtune">10</a> 章详细说明如何评估和改进此前定义的机器学习模型。第 <a href="ensemble.html#ensemble">11</a> 章解释如何组合模型，并讨论模型组合为何有时并非明智之选。最后，第 <a href="backtest.html#backtest">12</a> 章是全书最重要的章节之一，回顾投资组合回测的关键步骤，并指出这一阶段的常见错误。</p>
+<p>第四部分介绍一系列与机器学习密切相关的高级主题。首先是<strong>模型可解释性</strong>。机器学习模型常被视为黑箱，由此引出信任问题：我们为何应该信任机器学习的预测，又应当如何建立这种信任？第 <a href="interp.html#interp">13</a> 章介绍帮助读者理解模型内部机制的方法。第 <a href="causality.html#causality">14</a> 章聚焦<strong>因果关系</strong>。与相关性相比，因果关系具有更强的解释力，也是近年人工智能（AI）领域讨论的核心议题之一。大多数机器学习工具依赖类似相关关系的模式，因此有必要强调因果推断方法的优势。最后，第 <a href="unsup.html#unsup">15</a> 章和第 <a href="RL.html#RL">16</a> 章介绍传统监督学习之外的方法。这些方法虽可能有用，但将其用于金融时，必须给出审慎而充分的理由。 <!-- Lastly, the final chapter (\@ref(NLP)) introduces standard approaches for the treatment of textual data. --></p>
 </div>
 <div class="section level2 unnumbered" id="companion-website">
 <h2>配套网站</h2>
-<p>本书全文可在 <a class="uri" href="http://www.mlfactor.com">http://www.mlfactor.com</a> 获取。除了书中内容，贯穿各章使用的数据和代码也应开放获取；这些资料位于 <a class="uri" href="https://github.com/shokru/mlfactor.github.io/tree/master/material">https://github.com/shokru/mlfactor.github.io/tree/master/material</a>。在线版将在印刷版出版后继续更新。</p>
+<p>本书全文可在 <a class="uri" href="http://www.mlfactor.com">http://www.mlfactor.com</a> 获取。网站除提供书中内容外，还公开了各章使用的数据和代码，地址为 <a class="uri" href="https://github.com/shokru/mlfactor.github.io/tree/master/material">https://github.com/shokru/mlfactor.github.io/tree/master/material</a>。印刷版出版后，在线版仍将继续更新。</p>
 </div>
 <div class="section level2 unnumbered" id="why-r">
 <h2>为什么选择 R？</h2>
@@ -113,7 +113,7 @@ max-width: 60rem;
 <p>目前 R 中有多种可用的机器学习框架。</p>
 <ul>
 <li><strong>caret</strong>：<a class="uri" href="https://topepo.github.io/caret/index.html">https://topepo.github.io/caret/index.html</a>，汇集了 200 多个机器学习模型；<br/></li>
-<li><strong>tidymodels</strong>：<a class="uri" href="https://github.com/tidymodels">https://github.com/tidymodels</a>，一组较新的机器学习工作流软件包（由 RStudio 的 Max Kuhn 开发，可谓高质量的保证！）；<br/></li>
+<li><strong>tidymodels</strong>：<a class="uri" href="https://github.com/tidymodels">https://github.com/tidymodels</a>，一组较新的机器学习工作流软件包（由 RStudio 的 Max Kuhn 开发，质量值得信赖）；<br/></li>
 <li><strong>rtemis</strong>：<a class="uri" href="https://rtemis.netlify.com">https://rtemis.netlify.com</a>，用于机器学习和可视化的通用软件包；<br/></li>
 <li><strong>mlr3</strong>：<a class="uri" href="https://mlr3.mlr-org.com/index.html">https://mlr3.mlr-org.com/index.html</a>，另一个简洁的机器学习模型框架；<br/></li>
 <li><strong>h2o</strong>：<a class="uri" href="https://github.com/h2oai/h2o-3/tree/master/h2o-r">https://github.com/h2oai/h2o-3/tree/master/h2o-r</a>，h2o 提供的大型工具集（以 Java 编写）；<br/></li>
@@ -123,8 +123,8 @@ max-width: 60rem;
 </div>
 <div class="section level2 unnumbered" id="coding-instructions">
 <h2>编码说明</h2>
-<p>本书的目标之一，是系统讲解机器学习在金融预测与投资组合选择中的应用。因此，关键词之一就是<strong>可复现性</strong>！要复现我们的结果（部分学习算法可能带有随机性），读者需要在计算机上安装可正常运行的 R 和 RStudio。优秀的 R 教材往往也可在线免费获取；<a class="uri" href="https://rstudio.com/resources/books/">https://rstudio.com/resources/books/</a> 列出了一份简短书单，其中 <em>R for Data Science</em> 或许最值得优先阅读。</p>
-<p>在编程环境方面，我们大量使用 <strong>tidyverse</strong>，这是一组<strong>软件包</strong>（或称库）。最常用的三个软件包是：用于实现简单数据操作（filter、select、arrange）的 <strong>dplyr</strong>，用于将数据整理为整洁格式的 <strong>tidyr</strong>，以及用于图形输出的 <strong>ggplot</strong>。</p>
+<p>本书的目标之一，是系统讲解机器学习在金融预测和投资组合选择中的应用，因此<strong>可复现性</strong>至关重要。要复现书中的结果（部分学习算法带有随机性，结果可能略有差异），读者需要在计算机上安装可正常运行的 R 和 RStudio。许多优秀的 R 教材都可在线免费获取；<a class="uri" href="https://rstudio.com/resources/books/">https://rstudio.com/resources/books/</a> 列出了一份简短书单，其中 <em>R for Data Science</em> 最值得优先阅读。</p>
+<p>本书的代码大量使用 <strong>tidyverse</strong> 软件包集合。其中最常用的三个软件包是：用于常见数据操作（filter、select、arrange）的 <strong>dplyr</strong>、用于将数据整理为整洁格式的 <strong>tidyr</strong>，以及用于绘图的 <strong>ggplot</strong>。</p>
 <p>本书使用的软件包见下方表 <a href="preface.html#tab:packages">0.1</a>。标有星号 <span class="math inline">\(*\)</span> 的软件包需要通过 <em>bioconductor</em> 安装<a class="footnote-ref" href="solutions-to-exercises.html#fn2" id="fnref2"><sup>2</sup></a>；标有加号 <span class="math inline">\(^+\)</span> 的软件包需要<strong>手动</strong>安装<a class="footnote-ref" href="solutions-to-exercises.html#fn3" id="fnref3"><sup>3</sup></a>。</p>
 <table>
 <caption><span id="tab:packages">表 0.1：</span>本书使用的全部软件包。</caption>
@@ -303,24 +303,24 @@ max-width: 60rem;
 </tr>
 </tbody>
 </table>
-<p>在上述软件包（或软件包集合）中，<strong>tidyverse</strong> 和 <strong>lubridate</strong> 几乎是全书所有章节的必备工具。要在 R 中安装新的软件包，只需输入</p>
+<p>在上述软件包中，<strong>tidyverse</strong> 和 <strong>lubridate</strong> 几乎贯穿全书。要在 R 中安装新软件包，只需输入</p>
 <p>install.packages(“name_of_the_package”)</p>
-<p>在控制台中执行上述命令。有时，函数名会发生冲突（尤其是 select() 函数）；此时我们采用 package::function() 语法，以确保调用的函数来自正确的软件包。生成本书时使用的各软件包确切版本记录在本书 GitHub 页面 <a class="uri" href="https://github.com/shokru/mlfactor.github.io">https://github.com/shokru/mlfactor.github.io</a> 上的“<em>renv.lock</em>”文件中。另需说明的是：尽管 <em>dplyr</em> 软件包中的 <em>gather()</em> 和 <em>spread()</em> 已分别被 <em>pivot_longer()</em> 和 <em>pivot_wider()</em> 取代，我们仍沿用前两者，因为其语法紧凑得多。</p>
-<p>我们尽量采用简短的<strong>代码块</strong>，并在有助于理解时为每一行添加注释。注释写在代码行末尾，以一个井号 # 开头。</p>
-<p>本书整体如同一本大型笔记本，因此结果通常直接显示在代码块下方，形式可能是图形或表格，有时也只是简单的数字；数字结果前会有两个井号 ##。下面的示例展示了这种格式。</p>
+<p>在控制台中执行上述命令即可。有时，函数名会发生冲突（尤其是 select()）；此时我们采用 package::function() 语法，明确指定函数所属的软件包。构建本书所用软件包的确切版本记录在本书 GitHub 页面 <a class="uri" href="https://github.com/shokru/mlfactor.github.io">https://github.com/shokru/mlfactor.github.io</a> 上的“<em>renv.lock</em>”文件中。另需说明的是：尽管 <em>tidyr</em> 软件包中的 <em>gather()</em> 和 <em>spread()</em> 已分别被 <em>pivot_longer()</em> 和 <em>pivot_wider()</em> 取代，我们仍沿用前两者，因为其语法紧凑得多。</p>
+<p>我们尽量采用简短的<strong>代码块</strong>，并在有助于理解时逐行添加注释。注释写在代码行末，以一个井号（#）开头。</p>
+<p>全书可视为一个大型笔记本，因此运行结果通常直接显示在代码块下方，可能是图形、表格或简单的数值；数值结果前会有两个井号（##）。下面的示例展示了这种格式。</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a aria-hidden="true" href="preface.html#cb1-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">2</span> <span class="co"># Example</span></span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p></p>
-<p>本书也可视为一部大型教程，因此大多数代码块依赖此前定义的变量。使用在线代码复现其中一部分时，请确保<strong>运行环境包含所有相关变量</strong>。较稳妥的做法是，始终先运行第 <a href="notdata.html#notdata">1</a> 章的全部代码块。练习中也经常会用到对应章节创建的变量。</p>
+<p>本书也是一部完整的教程，因此大多数代码块依赖此前定义的变量。单独运行在线版的某段代码时，请确保<strong>运行环境中已经定义所有相关变量</strong>。较稳妥的做法是先运行第 <a href="notdata.html#notdata">1</a> 章的全部代码块。练习也经常会用到对应章节中创建的变量。</p>
 </div>
 <div class="section level2 unnumbered" id="acknowledgments">
 <h2>致谢</h2>
 <p>本书的主体源于 2019 年春季的一系列课程，由一位作者面向 EMLYON 商学院和帝国理工商学院的金融硕士生讲授。感谢这些学生提出富有启发性的问题，帮助我们改进了本书内容。</p>
-<p>感谢 Bertrand Tavin 和 Gautier Marti 对全书所作的细致审阅。还要感谢 Eric André、Aurélie Brossard、Alban Cousin、Frédérique Girod、Philippe Huber、Jean-Michel Maeso 和 Javier Nogales 的友好评阅；感谢 Christophe Dervieux 在 bookdown 方面的帮助；感谢 Mislav Sagovac 和 Vu Tran 提供早期反馈；感谢 John Kimmel 促成本书出版，也感谢 Jonathan Regenstein 无论面对何种问题都始终不吝相助。最后，还要感谢最初的编辑 John Kimmel 所征集的匿名评审意见。</p>
+<p>感谢 Bertrand Tavin 和 Gautier Marti 对全书所作的细致审阅。还要感谢 Eric André、Aurélie Brossard、Alban Cousin、Frédérique Girod、Philippe Huber、Jean-Michel Maeso 和 Javier Nogales 的友好评阅；感谢 Christophe Dervieux 在 bookdown 方面的帮助；感谢 Mislav Sagovac 和 Vu Tran 提供早期反馈；感谢 John Kimmel 促成本书出版，也感谢 Jonathan Regenstein 在各类问题上始终不吝相助。最后，还要感谢最初的编辑 John Kimmel 所征集的匿名评审意见。</p>
 </div>
 <div class="section level2 unnumbered" id="future-developments">
 <h2>未来发展</h2>
-<p>机器学习和因子投资都是庞大的研究领域，二者的交集同样相当广阔，并且正在快速发展。本书内容始终可以作为扎实的基础，但自然难免随时间推移而过时。此外，受选题范围所限，我们也难免遗漏某些子主题和大量参考文献。我们的目标是逐步完善本书，并根据最新研究进展持续更新。任何有助于修正或更新本书的意见，我们都非常欢迎。请直接通过托管于 <a class="uri" href="https://github.com/shokru/mlfactor.github.io">https://github.com/shokru/mlfactor.github.io</a> 的本书网站提交反馈（pull request）。</p>
+<p>机器学习和因子投资都是庞大的研究领域，二者的交集也相当广阔，并且仍在快速发展。本书可以提供扎实的基础，但具体内容难免随时间推移而过时。此外，受选题范围所限，我们也难免遗漏一些子主题和大量参考文献。我们的目标是逐步完善本书，并根据最新研究进展持续更新。我们欢迎任何有助于修正或更新本书的意见。请直接通过本书网站 <a class="uri" href="https://github.com/shokru/mlfactor.github.io">https://github.com/shokru/mlfactor.github.io</a> 提交反馈（pull request）。</p>
 </div>
 </div>
 </main>

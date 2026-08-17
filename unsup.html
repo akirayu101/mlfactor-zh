@@ -473,7 +473,7 @@ max-width: 60rem;
 ## Pb              -0.168799297
 ## Vol1Y_Usd        0.008632062</code></pre>
 <p></p>
-<p>输出中的旋转矩阵就是 <span class="math inline">\(\textbf{P}\)</span>，用于完成基变换。第一行列出各个新因子（各列）的标准差，每个因子以 PC 编号表示。通常，第一主成分（输出中的第一列 PC1）对所有原始特征都具有正载荷：全部预测变量的凸加权平均往往能够承载大量信息。本例大体如此，只有波动率在第一主成分中的系数为负。第二主成分可理解为做多市净率、做空股息率的多空组合。第三主成分则带有反转含义，因为它对动量的载荷较大且为负。由此也可见，并非所有主成分都容易解释。</p>
+<p>输出中的旋转矩阵就是 <span class="math inline">\(\textbf{P}\)</span>，用于完成基变换。第一行列出各个新因子（各列）的标准差，每个因子以 PC 编号表示。第一主成分往往让多数原始特征取同向载荷，从而以一个线性组合承载大量方差信息。本例大体如此，只有波动率的载荷方向相反。需要注意，主成分载荷向量的整体符号可以任意翻转，并不改变主成分所含信息。第二主成分可理解为做多市净率、做空股息率的多空组合。第三主成分则带有反转含义，因为它对动量的载荷较大且为负。由此也可见，并非所有主成分都容易解释。</p>
 <p>有时，把主成分的构造方式画出来会更直观。图 <a href="unsup.html#fig:pca2">15.2</a> 展示了两个因子（通常取前两个主成分）的一种常见表示方法。</p>
 <div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.sthda.com/english/rpkgs/factoextra">factoextra</a></span><span class="op">)</span>                      <span class="co"># Package for PCA visualization</span>
@@ -529,7 +529,7 @@ max-width: 60rem;
 \tag{15.7}
 \textbf{X},\ (I\times K) \quad \overset{\text{encode via } N} {\longrightarrow} \quad \tilde{\textbf{X}}=N(\textbf{X}), \ (I \times K') \quad \overset{\text{decode via } N'}{\longrightarrow} \quad \breve{\textbf{X}}=N'(\tilde{\textbf{X}}), \ (I \times K),
 \end{equation}\]</span></p>
-<p>编码函数 <span class="math inline">\(N\)</span> 与解码函数 <span class="math inline">\(N'\)</span> 通常都由神经网络表示。“<strong>自编码器</strong>”之所以得名，是因为目标输出（通常记为 <span class="math inline">\(\textbf{Z}\)</span>）就是原始样本 <span class="math inline">\(\textbf{X}\)</span> 本身。算法要使输入 <span class="math inline">\(\textbf{X}\)</span> 与重构输出 <span class="math inline">\(\breve{\textbf{X}}\)</span> 之间的某种距离最小，并据此学习函数 <span class="math inline">\(N\)</span>。编码器生成 <span class="math inline">\(\textbf{X}\)</span> 的另一种表示，解码器则尝试恢复原始值；中间的编码表示 <span class="math inline">\(\tilde{\textbf{X}}\)</span> 应当比 <span class="math inline">\(\textbf{X}\)</span> 维数更低。</p>
+<p>编码函数 <span class="math inline">\(N\)</span> 与解码函数 <span class="math inline">\(N'\)</span> 通常都由神经网络表示。“<strong>自编码器</strong>”之所以得名，是因为目标输出（通常记为 <span class="math inline">\(\textbf{Z}\)</span>）就是原始样本 <span class="math inline">\(\textbf{X}\)</span> 本身。算法要使输入 <span class="math inline">\(\textbf{X}\)</span> 与重构输出 <span class="math inline">\(\breve{\textbf{X}}\)</span> 之间的某种距离最小，并据此联合训练编码函数 <span class="math inline">\(N\)</span> 与解码器。编码器生成 <span class="math inline">\(\textbf{X}\)</span> 的另一种表示，解码器则尝试恢复原始值；中间的编码表示 <span class="math inline">\(\tilde{\textbf{X}}\)</span> 应当比 <span class="math inline">\(\textbf{X}\)</span> 维数更低。</p>
 </div>
 <div class="section level3" id="application" number="15.2.4">
 <h3><span class="header-section-number">15.2.4</span> 应用<a aria-label="锚" class="anchor" href="#application"><i class="fas fa-link"></i></a></h3>
@@ -585,7 +585,7 @@ max-width: 60rem;
 \sum_{i=1}^k\sum_{\textbf{x}\in S_i}||\textbf{x}-\textbf{m}_i||^2,
 \end{equation}\]</span>
 其中 <span class="math inline">\(||\cdot ||\)</span> 表示某种范数，通常取欧几里得 <span class="math inline">\(l^2\)</span> 范数；<span class="math inline">\(S_i\)</span> 表示第 i 个簇，优化针对整套分组 <span class="math inline">\(\textbf{S}\)</span> 进行；<span class="math inline">\(\textbf{m}_i\)</span> 是簇均值，也称质心或重心：<span class="math inline">\(\textbf{m}_i=(\text{card}(S_i))^{-1}\sum_{\textbf{x}\in S_i}\textbf{x}\)</span>。</p>
-<p>若要保证得到全局最优解，就必须枚举所有可能的分组。当 <span class="math inline">\(k\)</span> 和 <span class="math inline">\(J\)</span> 较大时，这在计算上几乎不可行。因此，实践中通常采用贪心算法，寻找未必最优、但“足够好”的解。</p>
+<p>若要保证得到全局最优解，就必须枚举所有可能的分组。当 <span class="math inline">\(k\)</span> 和 <span class="math inline">\(J\)</span> 较大时，这在计算上几乎不可行。因此，实践中通常采用 Lloyd 算法一类的迭代式启发方法，收敛到未必全局最优、但通常“足够好”的局部解。</p>
 <p>一种常见的启发式步骤如下：</p>
 <ol start="0" style="list-style-type: decimal">
 <li>先把数据划分为 <span class="math inline">\(k\)</span> 个簇，初始划分可以随机生成。<br/></li>
@@ -613,17 +613,17 @@ max-width: 60rem;
 ## 3 Recurring_Earning_Total_Assets       4
 ## 4 Sales_Ps                             4</code></pre>
 <p></p>
-<p>这里选出的第 4 簇主要包含与公司盈利能力有关的会计比率。根据这 10 个簇，可以构造一个更小的特征集，再交给第 <a href="lasso.html#lasso">5</a> 至 <a href="bayes.html#bayes">9</a> 章介绍的预测模型。每个簇的代表既可以是最接近质心的成员，也可以直接取质心。不过，这一步预处理会给预测阶段带来困难：训练数据需要聚类，而把同一聚类结构扩展到测试数据并不直接，因为测试集中的簇可能不同。</p>
+<p>这里选出的第 4 簇主要包含与公司盈利能力有关的会计比率。根据这 10 个簇，可以构造一个更小的特征集，再交给第 <a href="lasso.html#lasso">5</a> 至 <a href="bayes.html#bayes">9</a> 章介绍的预测模型。每个簇的代表既可以是最接近质心的成员，也可以直接取质心。为避免信息泄漏，聚类结构必须只用训练数据拟合，再原样应用于测试数据：若每簇选一个代表特征，测试集沿用同一组列；若使用簇质心或合成指标，则沿用训练阶段确定的分组与变换，而不在测试集上重新聚类。</p>
 </div>
 <div class="section level2" id="nearest-neighbors" number="15.4">
 <h2><span class="header-section-number">15.4</span> 最近邻<a aria-label="锚" class="anchor" href="#nearest-neighbors"><i class="fas fa-link"></i></a></h2>
-<p>据我们所知，最近邻方法尚未用于大规模投资组合选择，原因很简单：计算成本过高。不过，“邻域”这一概念在无监督学习中十分常见，也可以在局部分析中配合可解释性工具使用。关于 k 近邻（k-NN）分类误差率上界的理论结果，可参见 <span class="citation">Ripley (<a href="solutions-to-exercises.html#ref-ripley2007pattern" role="doc-biblioref">2007</a>)</span> 第 6.2 节。其基本逻辑如下。若：</p>
+<p>据我们所知，最近邻方法尚未用于大规模投资组合选择，原因很简单：计算成本过高。不过，“邻域”这一概念在无监督学习和局部可解释性分析中都很常见。需要区分的是：仅按特征寻找邻居不需要标签；一旦利用邻居的标签进行分类或回归，k 近邻（k-NN）就是监督学习方法。关于 k-NN 分类误差率上界的理论结果，可参见 <span class="citation">Ripley (<a href="solutions-to-exercises.html#ref-ripley2007pattern" role="doc-biblioref">2007</a>)</span> 第 6.2 节。其基本逻辑如下。若：</p>
 <ol style="list-style-type: decimal">
 <li>训练样本能够充分覆盖 <span class="math inline">\((\textbf{y}, \textbf{X})\)</span> 的分布；<strong>并且</strong><br/></li>
 <li>测试样本与训练样本服从相同或足够接近的分布；</li>
 </ol>
 <p>那么，对测试特征中的一个样本 <span class="math inline">\(\textbf{x}_i\)</span>，依据训练样本确定的邻域就能为 <span class="math inline">\(y_i\)</span> 提供有价值的信息。</p>
-<p>下文要寻找某个特定样本 <span class="math inline">\(\textbf{x}_i\)</span>（一个 <span class="math inline">\(K\)</span> 维行向量）的邻居。这里与上一节有一个重要区别：本节在观测层面（行）寻找邻居，而上一节是在预测变量层面（列）聚类。</p>
+<p>下文要寻找某个特定样本 <span class="math inline">\(\textbf{x}_i\)</span>（一个 <span class="math inline">\(K\)</span> 维行向量）的邻居。这里与上一节有一个重要区别：本节在样本维度（行）寻找邻居，而上一节是在预测变量维度（列）聚类。</p>
 <p>给定列结构相同的一个数据集 <span class="math inline">\(\textbf{X}_{i,k}\)</span>，可用相似度量（或距离）定义邻居：
 <span class="math display" id="eq:D">\[\begin{equation}
 \tag{15.9}
@@ -689,7 +689,7 @@ D(\textbf{x}_j,\textbf{x}_i)=\sum_{k=1}^Kc_k d_k(x_{j,k},x_{i,k}),
 <li><a class="nav-link" href="#corpred"><span class="header-section-number">15.1</span> 相关预测变量的问题</a></li>
 <li>
 <a class="nav-link" href="#principal-component-analysis-and-autoencoders"><span class="header-section-number">15.2</span> 主成分分析和自编码器</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#a-bit-of-algebra"><span class="header-section-number">15.2.1</span> 一些代数</a></li>
+<li><a class="nav-link" href="#a-bit-of-algebra"><span class="header-section-number">15.2.1</span> 一点代数</a></li>
 <li><a class="nav-link" href="#pca"><span class="header-section-number">15.2.2</span> PCA</a></li>
 <li><a class="nav-link" href="#ae"><span class="header-section-number">15.2.3</span> 自编码器</a></li>
 <li><a class="nav-link" href="#application"><span class="header-section-number">15.2.4</span> 应用</a></li>

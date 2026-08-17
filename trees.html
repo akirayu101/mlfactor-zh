@@ -101,7 +101,7 @@ max-width: 60rem;
 <h3>
 <span class="header-section-number">6.1.1</span> 原理<a aria-label="锚" class="anchor" href="#principle"><i class="fas fa-link"></i></a>
 </h3>
-<p>决策树的目标是把数据集递归地划分为<strong>内部相对同质的组</strong>。给定目标变量 <span class="math inline">\(\mathbf{Y}\)</span> 和特征 <span class="math inline">\(\mathbf{X}\)</span>，树反复将样本分成若干子组，通常每次一分为二，使各组内部的 <span class="math inline">\(\mathbf{Y}\)</span> 尽可能相似。每次分裂都依据特征集中的某一个变量。术语上，若 <span class="math inline">\(\mathbf{Y}\)</span> 为实数变量，称为<em>回归树</em>；若 <span class="math inline">\(\mathbf{Y}\)</span> 为类别变量，则称为<em>分类树</em>。</p>
+<p>决策树的目标是把数据集递归地划分为<strong>内部相对同质的节点</strong>。给定目标变量 <span class="math inline">\(\mathbf{Y}\)</span> 和特征 <span class="math inline">\(\mathbf{X}\)</span>，树反复将样本分成若干子节点，通常每次一分为二，使各节点内部的 <span class="math inline">\(\mathbf{Y}\)</span> 尽可能相似。每次分裂都依据特征集中的某一个变量。术语上，若 <span class="math inline">\(\mathbf{Y}\)</span> 为实数变量，称为<em>回归树</em>；若 <span class="math inline">\(\mathbf{Y}\)</span> 为类别变量，则称为<em>分类树</em>。</p>
 <p>在给出正式定义前，先用图 <a href="trees.html#fig:treescheme">6.1</a> 说明这一过程。图中有 12 颗星，每颗星有三个特征：颜色、大小和复杂度（分支数）。</p>
 <div class="figure">
 <span id="fig:treescheme" style="display:block;"></span>
@@ -110,7 +110,7 @@ max-width: 60rem;
 </p>
 </div>
 <p>目标变量是颜色；为便于理解，可把它看作与颜色对应的波长。第一次分裂可以依据大小或复杂度。复杂度显然更合适：复杂的星为蓝色或绿色，简单的星为黄色、橙色或红色。若按大小分裂，小星组会同时包含蓝色和黄色，大星组则会同时包含绿色和橙色，组内颜色并不一致。</p>
-<p>第二步把两个子组各自再分裂一层。此时只有大小这一特征可用，分裂方式很直接。最终，这棵示意树得到四个内部一致的叶节点。对应到因子投资，颜色可代表业绩：红色表示高收益，蓝色表示表现平平；星的大小与复杂度则替换为市值、会计比率等公司特征。树模型要寻找的，正是能够把未来表现较好与较差的公司区分开的特征。</p>
+<p>第二步把两个子节点各自再分裂一层。此时只有大小这一特征可用，分裂方式很直接。最终，这棵示意树得到四个内部一致的叶节点。对应到因子投资，颜色可代表业绩：红色表示高收益，蓝色表示表现平平；星的大小与复杂度则替换为市值、会计比率等公司特征。树模型要寻找的，正是能够把未来表现较好与较差的公司区分开的特征。</p>
 <p>下面正式说明回归树的构建，也就是分裂过程，主要依据 <span class="citation">Breiman et al. (<a href="solutions-to-exercises.html#ref-breiman1984classification" role="doc-biblioref">1984</a>)</span> 以及 <span class="citation">Hastie, Tibshirani, and Friedman (<a href="solutions-to-exercises.html#ref-friedman2009elements" role="doc-biblioref">2009</a>)</span> 第 9 章。每条样本由标签 <span class="math inline">\(y_i\)</span> 与特征向量 <span class="math inline">\(\mathbf{x}_i\)</span> 组成；给定大小为 <span class="math inline">\(I\)</span> 的样本，<em>回归</em>树寻找一个分裂点，使两个子节点内 <span class="math inline">\(y_i\)</span> 的总变异最小，两个子节点的样本数不必相同。算法分两步进行：先针对每个特征 <span class="math inline">\(x_i^{(k)}\)</span> 找到使 <span class="math inline">\(\mathbf{Y}\)</span> 最同质的最佳分裂点，再从所有特征中选出同质性最高的一个。</p>
 <p>回归树中的同质性与方差密切相关。我们希望每个子节点内的 <span class="math inline">\(y_i\)</span> 尽可能相近，因此要分别计算两个节点内部的<strong>变异</strong>或<strong>离散程度</strong>，再把二者相加。不能直接相加方差，因为那样没有考虑两个节点的相对大小；因此采用<em>总离差</em>，也就是方差乘以节点中的样本数。</p>
 <p>下面的记号稍显繁复，因为上标 <span class="math inline">\(k\)</span> 用来标识特征；理解思路时可以暂时忽略上标。第一步是为每个特征寻找最佳分裂点，即求解 <span class="math inline">\(\underset{c^{(k)}}{\text{argmin}} \ V^{(k)}_I(c^{(k)})\)</span>，其中
@@ -122,7 +122,7 @@ V^{(k)}_I(c^{(k}))= \underbrace{\sum_{x_i^{(k)}&lt;c^{(k)}}\left(y_i-m_I^{k,-}(c
 <span class="math display">\[\begin{align*}
 m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}&lt;c^{(k)} \}}y_i \quad \text{ and } \\ m_I^{k,+}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&gt;c^{(k)} \}}\sum_{\{x_i^{(k)}&gt;c^{(k)} \}}y_i
 \end{align*}\]</span>
-这两项分别是 <span class="math inline">\(Y\)</span> 在特征 <span class="math inline">\(X^{(k)}\)</span> 小于或大于阈值 <span class="math inline">\(c\)</span> 时的均值。基数函数 <span class="math inline">\(\#\{\cdot\}\)</span> 计算集合中的样本数。因此，对特征 <span class="math inline">\(k\)</span> 而言，最优分裂点 <span class="math inline">\(c^{k,*}\)</span> 就是使两个子组总离差最小的点。</p>
+这两项分别是 <span class="math inline">\(Y\)</span> 在特征 <span class="math inline">\(X^{(k)}\)</span> 小于或大于阈值 <span class="math inline">\(c\)</span> 时的均值。基数函数 <span class="math inline">\(\#\{\cdot\}\)</span> 计算集合中的样本数。因此，对特征 <span class="math inline">\(k\)</span> 而言，最优分裂点 <span class="math inline">\(c^{k,*}\)</span> 就是使两个子节点总离差最小的点。</p>
 <p>各特征的最优分裂点满足 <span class="math inline">\(c^{k,*}= \underset{c^{(k)}}{\text{argmin}} \ V^{(k)}_I(c^{(k)})\)</span>。在所有候选特征中，树最终选择使总离差最小的特征：<span class="math inline">\(k^*=\underset{k}{\text{argmin}} \ V^{(k)}_I(c^{k,*})\)</span>。</p>
 <p>完成一次分裂后，算法在新得到的两个子节点上继续递归。分裂何时停止可由多种准则决定（见第 <a href="trees.html#pruning-criteria">6.1.3</a> 节）。最简单的做法是限制树的最大层数，即深度；另一种常见做法是要求每次分裂至少带来某个幅度的增益。如果分裂带来的离差下降低于阈值，就不再执行。关于决策树的进一步技术讨论，可参见 <span class="citation">Hastie, Tibshirani, and Friedman (<a href="solutions-to-exercises.html#ref-friedman2009elements" role="doc-biblioref">2009</a>)</span> 第 9.2.4 节。</p>
 <p>树训练完成后，对新样本作预测十分直接：根据该样本的特征值沿树向下移动，最终落入某个叶节点；该叶节点内标签的平均值就是预测结果。当然，这只适用于数值型标签，分类标签的处理将在下文说明。</p>
@@ -138,11 +138,11 @@ m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}
 <p>损失函数必须处理标签的这种多维性。树模型追求节点内部同质，因此会惩罚没有集中到某一类别的分布。例如，(0.3, 0.4, 0.3) 比 (0.8, 0.1, 0.1) 更难作出明确分类。</p>
 <p>因此，分类树追求节点的“纯度”：寻找能够产生尽可能纯的子节点的分裂准则，使一个类别占据明显优势，或至少只有少数类别占优。文献提出了多种度量，它们都基于节点内的类别比例。若共有 <span class="math inline">\(J\)</span> 个类别，并以 <span class="math inline">\(p_j\)</span> 表示各类别比例，则每个叶节点常用的损失函数包括：</p>
 <ul>
-<li>基尼杂质指数： <span class="math inline">\(1-\sum_{j=1}^Jp_j^2;\)</span><br/>
+<li>基尼不纯度指数：<span class="math inline">\(1-\sum_{j=1}^Jp_j^2;\)</span><br/>
 </li>
 <li>误分类率：<span class="math inline">\(1-\underset{j}{\text{max}}\, p_j;\)</span><br/>
 </li>
-<li>熵： <span class="math inline">\(-\sum_{j=1}^J\log(p_j)p_j.\)</span>
+<li>熵：<span class="math inline">\(-\sum_{j=1}^J\log(p_j)p_j.\)</span>
 </li>
 </ul>
 <p>基尼不纯度等于 1 减去衡量投资组合集中程度的赫芬达尔指数；换言之，树在寻找类别分布最集中的划分。当某个 <span class="math inline">\(p_j=1\)</span>、其余均为零时，基尼不纯度取得最小值 0；其最大值为 <span class="math inline">\(1-1/J\)</span>，在所有 <span class="math inline">\(p_j=1/J\)</span> 时取得。另外两种损失也有类似性质。误分类率不可导，这是实践中更常选用基尼不纯度或熵的原因之一。</p>
@@ -160,10 +160,10 @@ m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}
 <li>每个叶节点中的样本都无法再依据现有特征进一步分开。</li>
 </ul>
 <p>到这一步，树已无法继续分裂。</p>
-<p>当预测变量具有解释力、数量多且为数值型时，完全生长的树通常能近乎完美地拟合训练数据。但训练样本中特别细微的模式对样本外预测未必有用。例如，模型即使完美捕捉了 2000 至 2006 年的规律，也未必能用于 2007 至 2009 年。树中最靠近根节点的部分通常最可靠，因为它们覆盖大量数据；这些上层节点的均值由众多观测计算而得。前几次分裂决定最一般的规律，越深的分裂则越可能只是在刻画训练样本的特殊之处。</p>
+<p>当预测变量具有解释力、数量多且为数值型时，完全生长的树通常能近乎完美地拟合训练数据。但训练样本中特别细微的模式对样本外预测未必有用。例如，模型即使完美捕捉了 2000 至 2006 年的规律，也未必能用于 2007 至 2009 年。树中最靠近根节点的部分通常最可靠，因为它们覆盖大量数据；这些上层节点的均值由众多样本计算而得。前几次分裂决定最一般的规律，越深的分裂则越可能只是在刻画训练样本的特殊之处。</p>
 <p>因此，必须限制树的规模以避免过拟合。剪枝可以依据多种准则，常见做法包括：</p>
 <ul>
-<li>规定每个终端节点（叶节点）的最小样本数。这样可保证每个叶节点包含足够多的观测，使标签均值的估计更可靠。<br/>
+<li>规定每个终端节点（叶节点）的最小样本数。这样可保证每个叶节点包含足够多的样本，使标签均值的估计更可靠。<br/>
 </li>
 <li>规定允许节点继续分裂所需的最小样本数。这一准则与上一项密切相关。<br/>
 </li>
@@ -200,7 +200,7 @@ m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}
 </div>
 <p></p>
 <p>树形图通常遵循一项约定：每个节点用布尔表达式给出分裂条件。若条件为<strong>真</strong>，样本进入<strong>左侧子节点</strong>；若条件不成立，则沿<em>右侧分支</em>继续。图 <a href="trees.html#fig:rpart1">6.2</a> 中，根节点首先按照市净率分裂。若样本的 Pb 得分（或取值）高于 0.025，就进入左侧；否则进入<strong>右侧子节点</strong>。</p>
-<p>每个节点显示两项重要指标：节点内标签的平均值，以及该节点所占的样本比例。根节点包含全部样本（100%），未来 1 个月平均收益率为 1.3%。下一层的左节点包含约 98% 的观测，平均收益率为 1.2%；右节点只包含 2%，平均收益率却高达 5.9%。后者可能只是本样本特有的现象。</p>
+<p>每个节点显示两项重要指标：节点内标签的平均值，以及该节点所占的样本比例。根节点包含全部样本（100%），未来 1 个月平均收益率为 1.3%。下一层的左节点包含约 98% 的样本，平均收益率为 1.2%；右节点只包含 2%，平均收益率却高达 5.9%。后者可能只是本样本特有的现象。</p>
 <p>算法以同样方式继续分裂各节点，直到满足停止条件；本例通常是达到最大深度。节点颜色表示平均收益率，从白色的低收益逐渐过渡到蓝色的高收益。最左侧叶节点的平均收益率最低，其中公司同时满足以下<em>全部</em>条件：</p>
 <ul>
 <li>Pb 分数高于 0.025；<br/>
@@ -209,8 +209,8 @@ m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}
 </li>
 <li>过去 3 个月的日均交易量得分高于 0.85。</li>
 </ul>
-<p>树模型的一个特点是各节点的样本量可能非常不均衡：少数节点汇集了几乎全部观测，另一些很小的节点则只包含少量异常值。这种性质并不理想，因为小节点更可能反映偶然现象，难以推广到样本外。</p>
-<p>因此，构建树时需要施加限制。代码中的 minbucket = 3500 要求每个叶节点至少包含 3500 个样本；minsplit 则要求一个节点至少有 8000 个观测，才允许继续分裂。这些阈值应随训练样本规模调整。参数 cp = 0.0001 要求分裂后的损失低于分裂前的 0.9999 倍。最后，最大深度为 3，意味着从根节点到任一叶节点最多经过三次分裂。</p>
+<p>树模型的一个特点是各节点的样本量可能非常不均衡：少数节点汇集了几乎全部样本，另一些很小的节点则只包含少量异常值。这种性质并不理想，因为小节点更可能反映偶然现象，难以推广到样本外。</p>
+<p>因此，构建树时需要施加限制。代码中的 minbucket = 3500 要求每个叶节点至少包含 3500 个样本；minsplit 则要求一个节点至少有 8000 个样本，才允许继续分裂。这些阈值应随训练样本规模调整。参数 cp = 0.0001 要求分裂后的损失低于分裂前的 0.9999 倍。最后，最大深度为 3，意味着从根节点到任一叶节点最多经过三次分裂。</p>
 <p>若以叶节点数衡量树的复杂度，那么复杂度随 minbucket、minsplit 和 cp 增大而降低，随最大深度增大而提高。</p>
 <p>模型训练完成后，任一样本的预测值就是该样本所在叶节点内标签的平均值。</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
@@ -263,9 +263,9 @@ m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}
 <span class="header-section-number">6.2.1</span> 原理<a aria-label="锚" class="anchor" href="#principle-1"><i class="fas fa-link"></i></a>
 </h3>
 <p>面对多种候选模型时，通常无法事先确定哪一个最好。若各模型的误差相关性不高，将它们组合起来便能分散预测误差。<span class="citation">Schapire (<a href="solutions-to-exercises.html#ref-schapire1990strength" role="doc-biblioref">1990</a>)</span> 奠定了模型多样化的部分理论基础。</p>
-<p><span class="citation">T. K. Ho (<a href="solutions-to-exercises.html#ref-ho1995random" role="doc-biblioref">1995</a>)</span> 随后讨论了更实际的问题，而 <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span> 是随机森林的主要参考文献。<span class="citation">Yin (<a href="solutions-to-exercises.html#ref-yin2020equity" role="doc-biblioref">2020</a>)</span> 成功地用 Bagging 聚合股票收益预测。要从简单树构造多个预测模型，主要有两种方法；随机森林将二者结合起来：</p>
+<p><span class="citation">T. K. Ho (<a href="solutions-to-exercises.html#ref-ho1995random" role="doc-biblioref">1995</a>)</span> 随后讨论了更实际的问题，而 <span class="citation">Breiman (<a href="solutions-to-exercises.html#ref-breiman2001random" role="doc-biblioref">2001</a>)</span> 是随机森林的主要参考文献。<span class="citation">Yin (<a href="solutions-to-exercises.html#ref-yin2020equity" role="doc-biblioref">2020</a>)</span> 成功地用 Bagging（自助聚合）聚合股票收益预测。要从简单树构造多个预测模型，主要有两种方法；随机森林将二者结合起来：</p>
 <ul>
-<li>第一，在相似但不完全相同的数据集上训练各棵树。具体可通过 Bootstrap 重采样实现：对每棵树分别以有放回或无放回方式抽取样本，从而在每次建树时得到新的训练数据。<br/>
+<li>第一，在相似但不完全相同的数据集上训练各棵树。具体可通过重采样实现：经典 Bootstrap（自助抽样）采用有放回抽样，某些实现也允许无放回抽样，从而在每次建树时得到新的训练数据。<br/>
 </li>
 <li>第二，减少每棵树可使用的预测变量。用户先指定保留多少个特征，算法再为每棵树随机抽取相应数量的特征，使不同树基于不同的特征子集。</li>
 </ul>
@@ -306,7 +306,7 @@ m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}
 ##  0.009787728  0.012507087  0.008722386  0.009398814 -0.011511758</code></pre>
 <p></p>
 <p>与单棵树不同，随机森林几乎会为每个样本给出不同的预测，因为组合多棵树后可以形成更细致的结果。代码第二行固定了随机数种子，这是因为随机森林依赖随机抽取的样本与特征组合；固定种子才能复现实验。</p>
-<p>上例中，每棵树使用 10,000 个无放回随机抽取的样本训练，每个叶节点至少包含 250 个观测。森林共聚合 40 棵树，每棵树从全部特征中随机选择 30 个预测变量。</p>
+<p>上例中，每棵树使用 10,000 个无放回随机抽取的样本训练，每个叶节点至少包含 250 个样本。森林共聚合 40 棵树，每棵树从全部特征中随机选择 30 个预测变量。</p>
 <p>单棵树容易可视化，随机森林的整体学习结果却难以用一幅图表示，尽管仍有一些解释方法（见第 <a href="interp.html#surr">13.1.1</a> 节）。理论上可以提取全部 40 棵树，但无法简洁地综合展示。第 <a href="interp.html#variable-importance">13.1.2</a> 节介绍的变量重要性可提供一个简化视角。</p>
 <p>最后评估模型的预测表现。</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
@@ -336,7 +336,7 @@ m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_RF_C</span>, <span class="va">testing_sample</span><span class="op">)</span> <span class="op">==</span> <span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span><span class="op">)</span> <span class="co"># Hit ratio</span></code></pre></div>
 <pre><code>## [1] 0.4971371</code></pre>
 <p></p>
-<p>分类准确率并不理想。除了训练集与测试集的规律可能差异较大之外，还有两种解释。第一，样本量可能太小：原始训练集包含 20 多万个观测，而上述设置只保留约十分之一，因而可能丢失大量有用信息。第二，每棵树只使用 30 个预测变量，约为全部特征的三分之一，这提高了随机抽到无关特征的可能性。默认情况下，分类任务和回归任务每次分别抽取 <span class="math inline">\(\sqrt{p}\)</span> 与 <span class="math inline">\(p/3\)</span> 个预测变量，其中 <span class="math inline">\(p\)</span> 为特征总数。</p>
+<p>分类准确率并不理想。除了训练集与测试集的规律可能差异较大之外，还有两种解释。第一，样本量可能太小：原始训练集包含 20 多万个样本，而上述设置只保留约十分之一，因而可能丢失大量有用信息。第二，每棵树只使用 30 个预测变量，约为全部特征的三分之一，这提高了随机抽到无关特征的可能性。默认情况下，分类任务和回归任务每次分别抽取 <span class="math inline">\(\sqrt{p}\)</span> 与 <span class="math inline">\(p/3\)</span> 个预测变量，其中 <span class="math inline">\(p\)</span> 为特征总数。</p>
 </div>
 </div>
 <div class="section level2" id="Adaboost" number="6.3">
@@ -358,7 +358,7 @@ m_I^{k,-}(c^{(k)})&amp;=\frac{1}{\#\{i,x_i^{(k)}&lt;c^{(k)} \}}\sum_{\{x_i^{(k)}
 </ul>
 <ol style="list-style-type: decimal">
 <li>寻找学习器 <span class="math inline">\(l_m\)</span>，使加权损失 <span class="math inline">\(\sum_{i=1}^Iw_iL(l_m(\textbf{x}_i),\textbf{y}_i)\)</span> 最小；</li>
-<li>计算学习者权重
+<li>计算学习器权重
 <span class="math display" id="eq:Adaboostam">\[\begin{equation}
 \tag{6.2}
 a_m=f_a(\textbf{w},l_m(\textbf{x}),\textbf{y});
@@ -386,14 +386,14 @@ w_i \leftarrow w_ie^{f_w(l_m(\textbf{x}_i), \textbf{y}_i)};
 </li>
 <li>第二、三步是 AdaBoost 的核心，规定了算法如何按顺序自适应。既然目标是聚合多个模型，就不必让所有学习器等权，而可以由 <span class="math inline">\(f_a\)</span> 为每个学习器确定权重。误差越小、预测越准确的学习器，理应获得越大的权重。<br/>
 </li>
-<li>第三步调整观测的样本权重。函数 <span class="math inline">\(f_w\)</span> 会提高当前模型预测不佳、误差较大样本的权重，使下一个学习器更加关注这些难以预测的样本。<br/>
+<li>第三步调整样本权重。函数 <span class="math inline">\(f_w\)</span> 会提高当前模型预测不佳、误差较大样本的权重，使下一个学习器更加关注这些难以预测的样本。<br/>
 </li>
 <li>第四步只是把样本权重重新缩放为和等于 1。</li>
 </ol>
 <p>表 <a href="trees.html#tab:Adaboost">6.1</a> 给出文献中两组具体的加权函数。原始 AdaBoost（<span class="citation">Freund and Schapire (<a href="solutions-to-exercises.html#ref-freund1996experiments" role="doc-biblioref">1996</a>)</span>；<span class="citation">Freund and Schapire (<a href="solutions-to-exercises.html#ref-freund1997decision" role="doc-biblioref">1997</a>)</span>）处理标签仅取 +1 和 -1 的二元分类；第二组来自 <span class="citation">Drucker (<a href="solutions-to-exercises.html#ref-drucker1997improving" role="doc-biblioref">1997</a>)</span>，用于实值标签的回归任务。其他形式可参见 <span class="citation">Schapire (<a href="solutions-to-exercises.html#ref-schapire2003boosting" role="doc-biblioref">2003</a>)</span> 和 <span class="citation">Ridgeway, Madigan, and Richardson (<a href="solutions-to-exercises.html#ref-ridgeway1999boosting" role="doc-biblioref">1999</a>)</span>。</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:Adaboost">表 6.1： </span>AdaBoost 类算法的函数示例。</caption>
+<span id="tab:Adaboost">表 6.1：</span>AdaBoost 类算法的函数示例。</caption>
 <colgroup>
 <col width="33%"/>
 <col width="33%"/>
@@ -454,7 +454,7 @@ w_i \leftarrow w_ie^{f_w(l_m(\textbf{x}_i), \textbf{y}_i)};
                          data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">training_sample</span><span class="op">[</span><span class="va">subsample</span>,<span class="op">]</span><span class="op">)</span>,  <span class="co"># Data source</span>
                          nIter <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>                                       <span class="co"># Number of trees              </span></code></pre></div>
 <p></p>
-<p>最后，我们评估分类器的性能。 </p>
+<p>最后，我们评估分类器的性能。</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">testing_sample</span><span class="op">$</span><span class="va">R1M_Usd_C</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_adaboost_C</span>, <span class="va">testing_sample</span><span class="op">)</span><span class="op">$</span><span class="va">class</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 0.5028202</code></pre>
@@ -495,8 +495,8 @@ O&amp;=\sum_{i=1}^I \left(y_i-m_{J-1}(\mathbf{x}_i)-T_J(\mathbf{x}_i)\right)^2+ 
 继续推导之前，需要明确惩罚项的形式。对于给定的树 <span class="math inline">\(T\)</span>，用 <span class="math inline">\(T(x)=w_{q(x)}\)</span> 表示其结构，其中 <span class="math inline">\(w\)</span> 是某个叶节点的输出值，<span class="math inline">\(q(\cdot)\)</span> 是把输入映射到最终叶节点的函数。图 <a href="trees.html#fig:treeq">6.5</a> 展示了这种编码方式：函数 <span class="math inline">\(q\)</span> 决定输入经过的路径，向量 <span class="math inline">\(\textbf{w}=w_i\)</span> 则记录各终端叶节点的输出值。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:treeq" style="display:block;"></span>
-<img alt="编码决策树：结构、节点和叶值之间的分解。" src="images/tree_q.png" width="400px"/><p class="caption">
-图 6.5：编码决策树：结构与节点和叶值之间的分解。
+<img alt="决策树编码：分离树结构、节点与叶节点取值。" src="images/tree_q.png" width="400px"/><p class="caption">
+图 6.5：决策树编码：分离树结构、节点与叶节点取值。
 </p>
 </div>
 <p>以 <span class="math inline">\(l=1,\dots,L\)</span> 表示树的叶节点索引。在 XGBoost 中，树的复杂度定义为：
@@ -507,7 +507,7 @@ O&amp;=\sum_{i=1}^I \left(y_i-m_{J-1}(\mathbf{x}_i)-T_J(\mathbf{x}_i)\right)^2+ 
 </li>
 <li>第二项惩罚<strong>叶节点输出值的大小</strong>，这有助于降低方差。</li>
 </ul>
-<p>第一个惩罚项限制树的深度，第二个惩罚项则收缩最新一棵树带来的调整幅度。</p>
+<p>第一个惩罚项抑制叶节点数量，因而限制树的复杂度；第二个惩罚项则收缩最新一棵树带来的调整幅度。</p>
 </div>
 <div class="section level3" id="aggregation" number="6.4.3">
 <h3>
@@ -549,13 +549,13 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 <span class="header-section-number">6.4.5</span> 扩展<a aria-label="锚" class="anchor" href="#boostext"><i class="fas fa-link"></i></a>
 </h3>
 <p>XGBoost 还提供若干机制，以进一步防止提升树过拟合。树的数量足够多时，集成模型可以很好地拟合训练样本，却未必能在样本外保持良好的泛化能力。</p>
-<p>受 <span class="citation">Srivastava et al. (<a href="solutions-to-exercises.html#ref-srivastava2014dropout" role="doc-biblioref">2014</a>)</span> 开创性工作的启发，<span class="citation">Rashmi and Gilad-Bachrach (<a href="solutions-to-exercises.html#ref-rashmi2015dart" role="doc-biblioref">2015</a>)</span> 提出了 DART（Dropout for Additive Regression Trees）。其思路是在训练期间随机暂时舍弃一定数量的树。完整参数说明见 <a class="uri" href="https://xgboost.readthedocs.io/en/latest/tutorials/dart.html">https://xgboost.readthedocs.io/en/latest/tutorials/dart.html</a>；下面的第一个示例使用 10% 的 dropout 比率。</p>
+<p>受 <span class="citation">Srivastava et al. (<a href="solutions-to-exercises.html#ref-srivastava2014dropout" role="doc-biblioref">2014</a>)</span> 开创性工作的启发，<span class="citation">Rashmi and Gilad-Bachrach (<a href="solutions-to-exercises.html#ref-rashmi2015dart" role="doc-biblioref">2015</a>)</span> 提出了 DART（Dropout for Additive Regression Trees）。其思路是在训练期间随机暂时舍弃一定数量的树。完整参数说明见 <a class="uri" href="https://xgboost.readthedocs.io/en/latest/tutorials/dart.html">https://xgboost.readthedocs.io/en/latest/tutorials/dart.html</a>；下面的第一个示例使用 10% 的 Dropout 比率。</p>
 <p>单调约束是 XGBoost 和 LightGBM 都支持的另一项功能。有时，我们预期某个特征对标签具有单调影响。例如，如果坚信动量效应，那么在股票横截面上，过去收益率越高，未来收益率也应越高。</p>
 <p>由于分裂算法具有递归结构，可以根据指定特征决定某次分裂是否可接受。图 <a href="trees.html#fig:monotonic">6.6</a> 展示了算法的处理方式，其中所有分裂都基于同一个特征。第一次分裂较为简单，只需验证两个子节点的平均值是否按要求的方向排序。更深层的分裂则较复杂：上层各次分裂确定的平均值会为下层节点的平均值设定可接受区间。若某次分裂违反这些界限，算法便忽略该分裂，改用其他变量。</p>
 <div class="figure" style="text-align: center">
 <span id="fig:monotonic" style="display:block;"></span>
-<img alt="施加单调约束。约束在底部叶子中以粗体蓝色显示。" src="images/tree_monotonic.png" width="590"/><p class="caption">
-图 6.6：施加单调约束。约束在底部叶子中以粗体蓝色显示。
+<img alt="施加单调约束。约束在底部叶节点中以粗体蓝色显示。" src="images/tree_monotonic.png" width="590"/><p class="caption">
+图 6.6：施加单调约束。约束在底部叶节点中以粗体蓝色显示。
 </p>
 </div>
 </div>
@@ -564,7 +564,7 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 <span class="header-section-number">6.4.6</span> 代码与结果<a aria-label="锚" class="anchor" href="#boostcode"><i class="fas fa-link"></i></a>
 </h3>
 <p>本节使用 <em>XGBoost</em> 软件包训练模型。其他选择包括 <em>catboost</em>、<em>gbm</em>、<em>lightgbm</em>，以及 <em>h2o</em> 自带的提升模型。与许多软件包不同，XGBoost 函数要求特定的调用语法和数据格式，因此第一步是按要求封装数据。</p>
-<p>此外，考虑到训练可能耗时较长，我们依照 <span class="citation">Coqueret and Guida (<a href="solutions-to-exercises.html#ref-coqueret2019training" role="doc-biblioref">2020</a>)</span> 的建议缩减训练样本。这里只保留标签值最极端的 40% 观测，即最高 20% 与最低 20%，并使用较小的特征子集。本书所有关于提升树的代码示例都只用 7 个特征训练模型。</p>
+<p>此外，考虑到训练可能耗时较长，我们依照 <span class="citation">Coqueret and Guida (<a href="solutions-to-exercises.html#ref-coqueret2019training" role="doc-biblioref">2020</a>)</span> 的建议缩减训练样本。这里只保留标签值最极端的 40% 样本，即最高 20% 与最低 20%，并使用较小的特征子集。本书所有关于提升树的代码示例都只用 7 个特征训练模型。</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dmlc/xgboost">xgboost</a></span><span class="op">)</span>                                                <span class="co"># The package for boosted trees</span>
 <span class="va">train_features_xgb</span> <span class="op">&lt;-</span> <span class="va">training_sample</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
@@ -659,7 +659,7 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 <p>
 计算总损失时，还可以为不同样本分配权重，从而提高模型的灵活性：
 <span class="math display">\[O=\underbrace{\sum_{i=1}^I\mathcal{W}_i \times \text{loss}(y_i,\tilde{y}_i)}_{\text{weighted error term}} \quad + \underbrace{\sum_{j=1}^J\Omega(T_j)}_{\text{regularization term (unchanged)}}.\]</span></p>
-<p>在因子投资中，样本权重完全可以取决于特征值（<span class="math inline">\(\mathcal{W}_i=\mathcal{W}_i(\textbf{x}_i)\)</span>）。例如，对某一特征 <span class="math inline">\(\textbf{x}^k\)</span>，权重可以随特征值上升，使高特征值资产受到更多重视；若该特征是价值指标，这相当于相对成长股更偏重价值股。另一种做法是让特征值越极端，样本权重越大，使深度价值股和高成长股都获得较大权重。若特征服从均匀分布，可令 <span class="math inline">\(\mathcal{W}_i(x_i^k)\propto|x_i^k-0.5|\)</span>：特征值位于中位数 0.5 的公司权重为 0，越接近 0 或 1，权重越大。为样本指定权重会有意识地使学习过程偏向某些观测，这与 <span class="citation">Black and Litterman (<a href="solutions-to-exercises.html#ref-black1992global" role="doc-biblioref">1992</a>)</span> 框架中主观观点影响资产配置的方式相似；区别在于，这种调整早在投资组合选择之前就已作用于模型训练。</p>
+<p>在因子投资中，样本权重完全可以取决于特征值（<span class="math inline">\(\mathcal{W}_i=\mathcal{W}_i(\textbf{x}_i)\)</span>）。例如，对某一特征 <span class="math inline">\(\textbf{x}^k\)</span>，权重可以随特征值上升，使高特征值资产受到更多重视；若该特征是价值指标，这相当于相对成长股更偏重价值股。另一种做法是让特征值越极端，样本权重越大，使深度价值股和高成长股都获得较大权重。若特征服从均匀分布，可令 <span class="math inline">\(\mathcal{W}_i(x_i^k)\propto|x_i^k-0.5|\)</span>：特征值位于中位数 0.5 的公司权重为 0，越接近 0 或 1，权重越大。为样本指定权重会有意识地使学习过程偏向某些样本，这与 <span class="citation">Black and Litterman (<a href="solutions-to-exercises.html#ref-black1992global" role="doc-biblioref">1992</a>)</span> 框架中主观观点影响资产配置的方式相似；区别在于，这种调整早在投资组合选择之前就已作用于模型训练。</p>
 <p>在 XGBoost 中，样本权重需要在创建 xgb.DMatrix 时指定：</p>
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">inst_weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">train_features_xgb</span><span class="op">)</span><span class="op">)</span>               <span class="co"># Random weights</span>
@@ -685,9 +685,9 @@ O_L(q)&amp;=-\frac{1}{2}\sum_{l=1}^L \frac{\left(\sum_{i\in I_l}(y_i -m_{J-1}(\m
 <span class="header-section-number">6.6</span> 编码练习<a aria-label="锚" class="anchor" href="#coding-exercises-2"><i class="fas fa-link"></i></a>
 </h2>
 <ol style="list-style-type: decimal">
-<li><p>使用 <em>formula</em> 在上面的块中，在训练样本上构建两棵简单的树，只有一个参数：cp。 对于第一棵树，取 cp=0.001，对于第二棵树，取 cp=0.01。评估两个模型在测试样本上的性能。评论。</p></li>
+<li><p>使用上面代码块中的 <em>formula</em>，在训练样本上构建两棵仅设置 cp 参数的简单树。第一棵树取 cp=0.001，第二棵树取 cp=0.01。在测试样本上评估两个模型的表现，并加以评论。</p></li>
 <li><p>使用较小的预测变量集，在训练样本上构建随机森林。将训练限制为 30,000 个样本和 5 个预测变量。分别用 10、20、40、80 和 160 棵树构建森林，并评估它们在训练样本上的表现。在这种情况下，增加复杂度是否值得？为什么？</p></li>
-<li><p>根据 2008 年和 2009 年的数据绘制一棵树。进行比较。</p></li>
+<li><p>分别根据 2008 年和 2009 年的数据绘制一棵树，并比较两棵树。</p></li>
 </ol>
 </div>
 </div>

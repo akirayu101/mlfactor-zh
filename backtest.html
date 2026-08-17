@@ -111,10 +111,10 @@ max-width: 60rem;
 </div>
 <div class="section level2" id="turning-signals-into-portfolio-weights" number="12.2">
 <h2><span class="header-section-number">12.2</span> 将信号转化为投资组合权重<a aria-label="锚" class="anchor" href="#turning-signals-into-portfolio-weights"><i class="fas fa-link"></i></a></h2>
-<p><a href="lasso.html#lasso">5</a> 至 <a href="ensemble.html#ensemble">11</a> 章介绍的预测工具，首先产生的是一个信号：它应当包含有关资产未来收益能力的信息。要把信号转化为实际投资决策，可以采用多种方法；关于如何把机器学习工具纳入这一过程，可参阅 <span class="citation">Snow (<a href="solutions-to-exercises.html#ref-snow2020machine" role="doc-biblioref">2020</a>)</span>。</p>
+<p><a href="lasso.html#lasso">5</a> 至 <a href="ensemble.html#ensemble">11</a> 章介绍的预测工具，首先产生的是一个信号：它应当包含有关资产未来收益率的信息。要把信号转化为实际投资决策，可以采用多种方法；关于如何把机器学习工具纳入这一过程，可参阅 <span class="citation">Snow (<a href="solutions-to-exercises.html#ref-snow2020machine" role="doc-biblioref">2020</a>)</span>。</p>
 <p>投资组合构建至少包含两个环节，信号可以用于其中任一环节，也可以同时用于两者。不过，如果资产选择和权重分配都完全依赖同一信号，就等于把很大筹码押在预测上，只有在对预测把握很高时才宜采用。</p>
-<p>第一步是<strong>资产选择</strong>。即使模型能为大量资产生成预测，也没有必要持有全部资产。对于只做多的组合，利用信号剔除预计表现不佳的资产尤其合理。很多投资策略会预先规定持仓数量，因此最直接的做法，就是保留预测最有利的资产、舍弃其余资产。资产定价研究经常使用这种简单方法：按某项基础特征的分位数组建<strong>排序组合</strong>；如果不同分位数组合的收益表现明显不同，例如高分位数组合平均收益较高、低分位数组合较低，就说明该特征可能具有定价信息。</p>
-<p>这种排序也是检验信号有效性的一种简便方法。若按照信号排名构造 <span class="math inline">\(Q\)</span> 个组合 <span class="math inline">\(q=1,\dots,Q\)</span>，那么组合的样本外表现理应随 <span class="math inline">\(q\)</span> 呈单调变化。严格检验单调性需要同时考察全部组合，例如 <span class="citation">Romano and Wolf (<a href="solutions-to-exercises.html#ref-romano2013testing" role="doc-biblioref">2013</a>)</span> 的方法；实践中则常只比较两个极端组合。如果第 1 组与第 <span class="math inline">\(Q\)</span> 组的收益差异显著，说明信号具有价值。若允许卖空，把一个极端组合做多、另一个做空，便可构造美元中性策略。</p>
+<p>第一步是<strong>资产选择</strong>。即使模型能为大量资产生成预测，也没有必要持有全部资产。对于只做多的组合，利用信号剔除预计表现不佳的资产尤其合理。很多投资策略会预先规定持仓数量，因此最直接的做法，就是保留预测最有利的资产、舍弃其余资产。资产定价研究经常使用这种简单方法：按某项基础特征的分位数组建<strong>排序投资组合</strong>；如果不同分位数组合的收益表现明显不同，例如高分位数组合平均收益较高、低分位数组合较低，就说明该特征可能具有定价信息。</p>
+<p>这种排序也是检验信号有效性的一种简便方法。若按照信号排名构造 <span class="math inline">\(Q\)</span> 个组合 <span class="math inline">\(q=1,\dots,Q\)</span>，那么组合的样本外表现理应随 <span class="math inline">\(q\)</span> 呈单调变化。严格检验单调性需要同时考察全部组合，例如 <span class="citation">Romano and Wolf (<a href="solutions-to-exercises.html#ref-romano2013testing" role="doc-biblioref">2013</a>)</span> 的方法；实践中则常只比较两个极端组合。如果第 1 组与第 <span class="math inline">\(Q\)</span> 组的收益差异显著，说明信号具有价值。若允许卖空，以相等名义金额做多一个极端组合并做空另一个极端组合，便可构造美元中性的多空策略。</p>
 <p>第二步是<strong>权重分配</strong>。如果资产选择已经依赖预测信号，权重方案通常越简单越好。等权组合一向很难被稳定超越（参见 <span class="citation">DeMiguel, Garlappi, and Uppal (<a href="solutions-to-exercises.html#ref-demiguel2007optimal" role="doc-biblioref">2009</a>)</span>）；<span class="citation">Plyakha, Uppal, and Vilkov (<a href="solutions-to-exercises.html#ref-plyakha2014equal" role="doc-biblioref">2016</a>)</span> 表明，相比市值加权组合尤其如此。更复杂的方案包括等风险贡献（<span class="citation">Maillard, Roncalli, and Teiletche (<a href="solutions-to-exercises.html#ref-maillard2010properties" role="doc-biblioref">2010</a>)</span>）和带约束的最小方差配置（<span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2015diversified" role="doc-biblioref">2015</a>)</span>）。这两类方法只需要资产收益率的协方差矩阵，不必估计预期收益率向量。</p>
 <p>为完整起见，下面给出 <span class="citation">Coqueret (<a href="solutions-to-exercises.html#ref-coqueret2015diversified" role="doc-biblioref">2015</a>)</span> 的一个推广形式，即通用的带约束二次规划：
 <span class="math display" id="eq:coq">\[\begin{equation}
@@ -146,8 +146,8 @@ L(\textbf{w})= \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textb
 <p>这个公式看似复杂，实际却相当灵活，也便于求解。要为 <span class="math inline">\(\lambda\)</span>、<span class="math inline">\(\kappa_R\)</span> 和 <span class="math inline">\(\kappa_D\)</span> 选出符合实际的取值，仍需反复测试和调整，相关练习见本章末尾。<span class="citation">Pedersen, Babu, and Levine (<a href="solutions-to-exercises.html#ref-pedersen2020enhanced" role="doc-biblioref">2020</a>)</span> 提出了类似形式，但把协方差矩阵向样本方差组成的对角矩阵收缩，并让预期收益率在模型信号与锚定组合之间折中。作者指出，这一通用框架与鲁棒优化（另见 <span class="citation">W. C. Kim, Kim, and Fabozzi (<a href="solutions-to-exercises.html#ref-kim2014deciphering" role="doc-biblioref">2014</a>)</span>）、贝叶斯推断（<span class="citation">Lai et al. (<a href="solutions-to-exercises.html#ref-lai2011mean" role="doc-biblioref">2011</a>)</span>）、随机矩阵理论下的矩阵去噪以及<strong>收缩估计</strong>均有联系。事实上，预期收益率的收缩估计由来已久（<span class="citation">Jorion (<a href="solutions-to-exercises.html#ref-jorion1985international" role="doc-biblioref">1985</a>)</span>、<span class="citation">Kan and Zhou (<a href="solutions-to-exercises.html#ref-kan2007optimal" role="doc-biblioref">2007</a>)</span> 和 <span class="citation">Bodnar, Parolya, and Schmid (<a href="solutions-to-exercises.html#ref-bodnar2013equivalence" role="doc-biblioref">2013</a>)</span>），目的就是分散风险并降低估计误差带来的风险。</p>
 </div>
 <div class="section level2" id="perfmet" number="12.3">
-<h2><span class="header-section-number">12.3</span> 绩效指标<a aria-label="锚" class="anchor" href="#perfmet"><i class="fas fa-link"></i></a></h2>
-<p>绩效评估是回测的关键环节。下面的内容并非面面俱到，但会覆盖投资组合评价中最重要的几个方面。</p>
+<h2><span class="header-section-number">12.3</span> 投资组合评估指标<a aria-label="锚" class="anchor" href="#perfmet"><i class="fas fa-link"></i></a></h2>
+<p>投资组合评估是回测的关键环节。下面的内容并非面面俱到，但会覆盖投资组合评价中最重要的几个方面。</p>
 <div class="section level3" id="discussion-1" number="12.3.1">
 <h3><span class="header-section-number">12.3.1</span> 讨论<a aria-label="锚" class="anchor" href="#discussion-1"><i class="fas fa-link"></i></a></h3>
 <p>评估机器学习模型的预测准确性当然很重要，而且不可或缺，参见 <a href="valtune.html#mlmetrics">10.1</a> 节；但在回测中，投资组合收益最终才是检验策略的标准。任何回测都必须设定一个<strong>基准</strong>，因为脱离参照物的绝对指标很难说明策略究竟是否有效。</p>
@@ -155,14 +155,14 @@ L(\textbf{w})= \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textb
 <p>在投资组合配置中，最基本的基准是等权组合，即每项资产获得相同权重。它看似简单，却很难被持续超越（参见 <span class="citation">DeMiguel, Garlappi, and Uppal (<a href="solutions-to-exercises.html#ref-demiguel2007optimal" role="doc-biblioref">2009</a>)</span> 和 <span class="citation">Plyakha, Uppal, and Vilkov (<a href="solutions-to-exercises.html#ref-plyakha2014equal" role="doc-biblioref">2016</a>)</span>）。理论上，当不确定性、模糊性或估计风险较高时，等权配置可能是最优选择（<span class="citation">Pflug, Pichler, and Wozabal (<a href="solutions-to-exercises.html#ref-pflug20121" role="doc-biblioref">2012</a>)</span>、<span class="citation">Maillet, Tokpavi, and Vaucher (<a href="solutions-to-exercises.html#ref-maillet2015global" role="doc-biblioref">2015</a>)</span>、<span class="citation">L. Zhao and Gao (<a href="solutions-to-exercises.html#ref-zhao2021efficient" role="doc-biblioref">2022</a>)</span>）；经验研究也表明，即使在因子层面，它仍难以被击败（<span class="citation">Dichtl, Drobetz, and Wendt (<a href="solutions-to-exercises.html#ref-dichtl2020build" role="doc-biblioref">2020</a>)</span>）。因此，下文以包含全部股票的<strong>等权</strong>（EW）组合作为基准。</p>
 </div>
 <div class="section level3" id="pure-performance-and-risk-indicators" number="12.3.2">
-<h3><span class="header-section-number">12.3.2</span> 纯绩效和风险指标<a aria-label="锚" class="anchor" href="#pure-performance-and-risk-indicators"><i class="fas fa-link"></i></a></h3>
-<p>下面定义实务界和学术界常用的绩效指标。分别以 <span class="math inline">\(r^P=(r_t^P)_{1\le t\le T}\)</span> 和 <span class="math inline">\(r^B=(r_t^B)_{1\le t\le T}\)</span> 表示投资组合与基准的收益率序列；泛指某个收益率序列时，则简写为 <span class="math inline">\(r_t\)</span>。多数评价方法都利用收益率分布的某些性质。</p>
+<h3><span class="header-section-number">12.3.2</span> 收益与风险指标<a aria-label="锚" class="anchor" href="#pure-performance-and-risk-indicators"><i class="fas fa-link"></i></a></h3>
+<p>下面定义实务界和学术界常用的收益与风险指标。分别以 <span class="math inline">\(r^P=(r_t^P)_{1\le t\le T}\)</span> 和 <span class="math inline">\(r^B=(r_t^B)_{1\le t\le T}\)</span> 表示投资组合与基准的收益率序列；泛指某个收益率序列时，则简写为 <span class="math inline">\(r_t\)</span>。多数评价方法都利用收益率分布的某些性质。</p>
 <p>最简单的指标是平均收益率：
 <span class="math display">\[\bar{r}_P=\mu_P=\mathbb{E}[r^P]\approx \frac{1}{T}\sum_{t=1}^T r_t^P, \quad \bar{r}_B=\mu_B=\mathbb{E}[r^B]\approx \frac{1}{T}\sum_{t=1}^T r_t^B,\]</span></p>
 <p>若 <span class="math inline">\(\mathbb{E}[r^P]&gt;\mathbb{E}[r^B]\)</span>，投资组合的平均收益高于基准，自然值得进一步关注。上式使用算术平均收益率，也可以改用几何平均收益率：
 <span class="math display">\[\tilde{\mu}_P\approx \left(\prod_{t=1}^T(1+r^P_t) \right)^{1/T}-1 , \quad \tilde{\mu}_B \approx  \left(\prod_{t=1}^T(1+r^B_t) \right)^{1/T}-1.\]</span>
 几何平均收益率考虑了复利效应，因此会反映波动对长期财富增长的拖累。以两期收益率分别为 <span class="math inline">\(-r\)</span> 和 <span class="math inline">\(+r\)</span> 为例，算术平均值为零，而几何平均值 <span class="math inline">\(\sqrt{1-r^2}-1\)</span> 为负。</p>
-<p><em>命中率</em>与分类任务中的准确率类似，用来衡量仓位方向判断正确的比例：实际收益为正时做多，或实际收益为负时做空。它可以在资产层面计算，即方向正确的头寸占比<a class="footnote-ref" href="solutions-to-exercises.html#fn24" id="fnref24"><sup>24</sup></a>，也可以在投资组合层面计算；还可以基于绝对收益或相对基准的收益来定义。更有意义的一种口径，是策略跑赢基准的期数占比。但命中率本身并不充分，因为许多次小幅盈利，仍可能被少数几次巨额亏损完全抵消。</p>
+<p><em>命中率</em>与分类任务中的准确率类似，用来衡量仓位方向判断正确的比例：已实现收益率为正时做多，或已实现收益率为负时做空。它可以在资产层面计算，即方向正确的头寸占比<a class="footnote-ref" href="solutions-to-exercises.html#fn24" id="fnref24"><sup>24</sup></a>，也可以在投资组合层面计算；还可以基于绝对收益或相对基准的收益来定义。更有意义的一种口径，是策略跑赢基准的期数占比。但命中率本身并不充分，因为许多次小幅盈利，仍可能被少数几次巨额亏损完全抵消。</p>
 <p>这里还需澄清一个重要细节。本书此前的监督学习示例都把命中率与 0.5 比较，但这并非合适的基准。若投资者长期看涨并始终押注上涨，其命中率就等于样本中收益率为正的比例。由于资产长期具有正风险溢价，这个比例往往高于 0.5；在本书样本中为 0.556。因此，0.556 才是策略至少应当超越的朴素基准。</p>
 <p>收益指标几乎总要与<strong>风险指标</strong>结合使用。收益率的二阶矩通常用于衡量投资组合的波动幅度：方差越大，收益率和组合价值的起伏越剧烈。因此，收益率的标准差被称为投资组合的<strong>波动率</strong>。
 <span class="math display">\[\sigma^2_P=\mathbb{V}[r^P]\approx \frac{1}{T-1}\sum_{t=1}^T (r_t^P-\mu_P)^2, \quad \sigma^2_B=\mathbb{V}[r^B]\approx \frac{1}{T-1}\sum_{t=1}^T (r_t^B-\mu_B)^2.\]</span></p>
@@ -181,7 +181,7 @@ L(\textbf{w})= \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textb
 <h3><span class="header-section-number">12.3.3</span> 基于因子的评估<a aria-label="锚" class="anchor" href="#factor-based-evaluation"><i class="fas fa-link"></i></a></h3>
 <p>按照因子模型的思路，还可以从因子暴露的角度评价策略表现。回顾公式 <a href="factor.html#eq:apt">(3.1)</a>：
 <span class="math display">\[r_{t,n}= \alpha_n+\sum_{k=1}^K\beta_{t,k,n}f_{t,k}+\epsilon_{t,n}, \]</span></p>
-<p>估计得到的 <span class="math inline">\(\hat{\alpha}_n\)</span> 表示无法由模型中其他因子解释的收益表现。若因变量采用超过无风险利率的<em>超额收益率</em>，且模型只包含市场因子，那么该截距称为 Jensen alpha（<span class="citation">Jensen (<a href="solutions-to-exercises.html#ref-jensen1968performance" role="doc-biblioref">1968</a>)</span>），通常简称 <em>alpha</em>。另一个估计量 <span class="math inline">\(\hat{\beta}_{t,M,n}\)</span> 中的 <span class="math inline">\(M\)</span> 表示市场，因此它衡量资产对市场因子的暴露，即市场 beta。</p>
+<p>估计得到的 <span class="math inline">\(\hat{\alpha}_n\)</span> 表示无法由模型中其他因子解释的收益表现。若因变量采用超过无风险利率的<em>超额收益率</em>，且模型只包含市场因子，那么该截距称为 Jensen alpha（<span class="citation">Jensen (<a href="solutions-to-exercises.html#ref-jensen1968performance" role="doc-biblioref">1968</a>)</span>），通常简称 <em>alpha</em>。另一个估计值 <span class="math inline">\(\hat{\beta}_{t,M,n}\)</span> 中的 <span class="math inline">\(M\)</span> 表示市场，因此它衡量资产对市场因子的暴露，即市场贝塔。</p>
 <p>随着因子投资兴起，研究者通常还会报告包含更多因子的回归 alpha。加入规模与价值溢价（如 <span class="citation">Fama and French (<a href="solutions-to-exercises.html#ref-fama1993common" role="doc-biblioref">1993</a>)</span>），甚至再加入动量因子（<span class="citation">Carhart (<a href="solutions-to-exercises.html#ref-carhart1997persistence" role="doc-biblioref">1997</a>)</span>），有助于判断策略是否创造了常见因子收益之外的增量价值。</p>
 </div>
 <div class="section level3" id="risk-adjusted-measures" number="12.3.4">
@@ -194,7 +194,7 @@ L(\textbf{w})= \frac{\lambda}{2} \textbf{w}'\boldsymbol{\Sigma}\textbf{w}-\textb
 <span class="math display">\[MAR^P = \frac{\tilde{\mu}_P}{MD^P},\]</span>
 而特雷诺比率等于
 <span class="math display">\[\text{Treynor}=\frac{\mu_P}{\hat{\beta}_M},\]</span>
-即用（超额）收益率除以市场 beta，参见 <span class="citation">Treynor (<a href="solutions-to-exercises.html#ref-treynor1965rate" role="doc-biblioref">1965</a>)</span>。<span class="citation">Hübner (<a href="solutions-to-exercises.html#ref-hubner2005generalized" role="doc-biblioref">2005</a>)</span> 将其推广到多因子情形，得到广义 Treynor 比率：
+即用（超额）收益率除以市场贝塔，参见 <span class="citation">Treynor (<a href="solutions-to-exercises.html#ref-treynor1965rate" role="doc-biblioref">1965</a>)</span>。<span class="citation">Hübner (<a href="solutions-to-exercises.html#ref-hubner2005generalized" role="doc-biblioref">2005</a>)</span> 将其推广到多因子情形，得到广义 Treynor 比率：
 <span class="math display">\[\text{GT}=\mu_P\frac{\sum_{k=1}^K\bar{f}_k}{\sum_{k=1}^K\hat{\beta}_k\bar{f}_k},\]</span>
 其中 <span class="math inline">\(\bar{f}_k\)</span> 是因子 <span class="math inline">\(f_{t,k}\)</span> 的样本均值。该比率的详细分析性质可参阅原文。</p>
 </div>
@@ -291,7 +291,7 @@ E_k(S)= \int_{f,h}\int_{\textbf{x}\notin S} \underbrace{ (1-\delta(f(\textbf{x})
 <li>创建并初始化变量；<br/></li>
 <li>在主函数中定义策略；<br/></li>
 <li>执行回测循环；<br/></li>
-<li>计算绩效指标。</li>
+<li>计算评估指标。</li>
 </ol>
 <p>先从变量初始化开始。</p>
 <div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
@@ -399,7 +399,7 @@ E_k(S)= \int_{f,h}\int_{\textbf{x}\notin S} \underbrace{ (1-\delta(f(\textbf{x})
     <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">turn</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">t_oos</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p></p>
-<p>定义换手率后，再把它纳入绩效函数，与平均收益率、波动率、夏普比率和 VaR 一并计算。</p>
+<p>定义换手率后，再把它纳入评估函数，与平均收益率、波动率、夏普比率和 VaR 一并计算。</p>
 <div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">perf_met</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">portf_returns</span>, <span class="va">weights</span>, <span class="va">asset_returns</span>, <span class="va">t_oos</span><span class="op">)</span><span class="op">{</span> 
     <span class="va">avg_ret</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">portf_returns</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>                     <span class="co"># Arithmetic mean </span>
@@ -418,7 +418,7 @@ E_k(S)= \int_{f,h}\int_{\textbf{x}\notin S} \underbrace{ (1-\delta(f(\textbf{x})
     <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">met</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <p></p>
-<p>接着构建一个汇总函数，依次计算每种策略的绩效指标。</p>
+<p>接着构建一个汇总函数，依次计算每种策略的评估指标。</p>
 <div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">perf_met_multi</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">portf_returns</span>, <span class="va">weights</span>, <span class="va">asset_returns</span>, <span class="va">t_oos</span>, <span class="va">strat_name</span><span class="op">)</span><span class="op">{</span>
     <span class="va">J</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">weights</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>              <span class="co"># Number of strategies </span>
@@ -469,14 +469,14 @@ E_k(S)= \int_{f,h}\int_{\textbf{x}\notin S} \underbrace{ (1-\delta(f(\textbf{x})
 <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span id="fig:backtest6" style="display:block;"></span>
-<img alt="投资组合绩效的图形表示。" src="ML_factor_files/figure-html/backtest6-1.png" width="672"/><p class="caption">图 12.3：投资组合绩效的图形表示。</p>
+<img alt="投资组合表现的图形表示。" src="ML_factor_files/figure-html/backtest6-1.png" width="672"/><p class="caption">图 12.3：投资组合表现的图形表示。</p>
 </div>
 <p></p>
 <p>在 12 年回测期中，机器学习策略有 10 年跑赢基准。在组合整体亏损的 4 个年份里，它在 2015 年和 2018 年的损失也小于基准。考虑到 EW 基准本就很难超越，这样的改善已经令人满意。</p>
 </div>
 <div class="section level2" id="second-example-backtest-overfitting" number="12.7">
 <h2><span class="header-section-number">12.7</span> 第二个示例：回测过拟合<a aria-label="锚" class="anchor" href="#second-example-backtest-overfitting"><i class="fas fa-link"></i></a></h2>
-<p>本章最后用数值示例说明 <a href="backtest.html#backov">12.4.2</a> 节的回测过拟合。先构建一个函数，用于批量计算多种简单策略的绩效指标。每种策略都是单纯的因子押注，由三个输入决定：所选特征，例如市值；阈值，即该特征的分位点；以及方向，即做多特征分布的上端还是下端。</p>
+<p>本章最后用数值示例说明 <a href="backtest.html#backov">12.4.2</a> 节的回测过拟合。先构建一个函数，用于批量计算多种简单策略的评估指标。每种策略都是单纯的因子押注，由三个输入决定：所选特征，例如市值；阈值，即该特征的分位点；以及方向，即做多特征分布的上端还是下端。</p>
 <div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">strat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">feature</span>, <span class="va">thresh</span>, <span class="va">direction</span><span class="op">)</span><span class="op">{</span>
     <span class="va">data_tmp</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">feature</span>, <span class="va">date</span>, <span class="va">R1M_Usd</span><span class="op">)</span>       <span class="co"># Data</span>
@@ -582,9 +582,9 @@ E_k(S)= \int_{f,h}\int_{\textbf{x}\notin S} \underbrace{ (1-\delta(f(\textbf{x})
 <li><a class="nav-link" href="#protocol"><span class="header-section-number">12.1</span> 设定流程</a></li>
 <li><a class="nav-link" href="#turning-signals-into-portfolio-weights"><span class="header-section-number">12.2</span> 将信号转化为投资组合权重</a></li>
 <li>
-<a class="nav-link" href="#perfmet"><span class="header-section-number">12.3</span> 绩效指标</a><ul class="nav navbar-nav">
+<a class="nav-link" href="#perfmet"><span class="header-section-number">12.3</span> 投资组合评估指标</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#discussion-1"><span class="header-section-number">12.3.1</span> 讨论</a></li>
-<li><a class="nav-link" href="#pure-performance-and-risk-indicators"><span class="header-section-number">12.3.2</span> 纯绩效和风险指标</a></li>
+<li><a class="nav-link" href="#pure-performance-and-risk-indicators"><span class="header-section-number">12.3.2</span> 收益与风险指标</a></li>
 <li><a class="nav-link" href="#factor-based-evaluation"><span class="header-section-number">12.3.3</span> 基于因子的评估</a></li>
 <li><a class="nav-link" href="#risk-adjusted-measures"><span class="header-section-number">12.3.4</span> 风险调整指标</a></li>
 <li><a class="nav-link" href="#transaction-costs-and-turnover"><span class="header-section-number">12.3.5</span> 交易成本和换手率</a></li>
@@ -594,7 +594,7 @@ E_k(S)= \int_{f,h}\int_{\textbf{x}\notin S} \underbrace{ (1-\delta(f(\textbf{x})
 <a class="nav-link" href="#common-errors-and-issues"><span class="header-section-number">12.4</span> 常见错误和问题</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#forward-looking-data"><span class="header-section-number">12.4.1</span> 前视数据</a></li>
 <li><a class="nav-link" href="#backov"><span class="header-section-number">12.4.2</span> 回测过拟合</a></li>
-<li><a class="nav-link" href="#simple-safeguards"><span class="header-section-number">12.4.3</span> 简单的保障措施</a></li>
+<li><a class="nav-link" href="#simple-safeguards"><span class="header-section-number">12.4.3</span> 简单保障措施</a></li>
 </ul>
 </li>
 <li>

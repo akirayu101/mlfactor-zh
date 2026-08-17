@@ -14670,7 +14670,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Granger (1969) 提出的格兰杰因果检验大概是最著名、也最简单的工具。为便于说明，只考虑两个平稳过程 $X_t$ 和 $Y_t$。一种严格定义是：若称 $X$ 格兰杰导致 $Y$，则对某个整数 $k$ 有下式成立：</p>
+<p>Granger (1969) 提出的格兰杰因果检验大概是最著名、也最简单的工具。为便于说明，只考虑两个平稳过程 $X_t$ 和 $Y_t$。一种严格定义是：若称 $X$ 是 $Y$ 的格兰杰原因，则对某个整数 $k$ 有下式成立：</p>
 </div>
 </div>
 </div>
@@ -14730,7 +14730,7 @@ Y_t&amp;=\sum_{j=1}^mc_jX_{t-j}+\sum_{j=1}^md_jY_{t-j} + \nu_t
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>为简化分析，假设两个过程的均值都为零，并采用常规条件：高斯噪声 $\epsilon_t$ 与 $\nu_t$ 彼此不相关，在时间维度上也不相关。若至少一个 $b_j$ 非零，则称 $Y$ 格兰杰导致 $X$；若至少一个 $c_j$ 非零，则称 $X$ 格兰杰导致 $Y$。这两种情况可以同时成立，因此模型允许存在反馈回路。</p>
+<p>为简化分析，假设两个过程的均值都为零，并采用常规条件：高斯噪声 $\epsilon_t$ 与 $\nu_t$ 彼此不相关，在时间维度上也不相关。若至少一个 $b_j$ 非零，则称 $Y$ 是 $X$ 的格兰杰原因；若至少一个 $c_j$ 非零，则称 $X$ 是 $Y$ 的格兰杰原因。这两种情况可以同时成立，因此模型允许存在反馈回路。</p>
 </div>
 </div>
 </div>
@@ -14752,7 +14752,7 @@ Y_t&amp;=\sum_{j=1}^mc_jX_{t-j}+\sum_{j=1}^md_jY_{t-j} + \nu_t
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>下面检验过去 6 个月的平均市值，是否格兰杰导致某只具体股票（样本中的第一只股票）未来 1 个月的收益率。</p>
+<p>下面检验过去 6 个月的平均市值，是否是某只具体股票（样本中的第一只股票）未来 1 个月收益率的格兰杰原因。</p>
 </div>
 </div>
 </div>
@@ -14801,7 +14801,7 @@ parameter F test:         F=4.1110  , p=0.0008  , df_denom=149, df_num=6
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>该检验具有方向性，只检验 $X$ 是否格兰杰导致 $Y$；若要检验反向关系，需要交换函数参数。上面的输出给出很低的 $p$ 值，说明在 $H_0$ 成立时观察到当前这类样本的概率极低。因此，市值似乎确实包含预测未来 1 个月收益率的信息。不过，格兰杰因果关系弱于下一小节讨论的因果关系：一个过程格兰杰导致另一个过程，只能说明前者含有有用的预测信息，并不能严格证明因果关系。此外，本检验只考虑线性模型，引入非线性或加入其他回归变量，包括可能遗漏的变量，都可能改变结论（参见 Chow、Cotsomitis 和 Kwan (2002)）。</p>
+<p>该检验具有方向性，只检验 $X$ 是否是 $Y$ 的格兰杰原因；若要检验反向关系，需要交换函数参数。上面的输出给出很低的 $p$ 值，说明在 $H_0$ 成立时观察到当前这类样本的概率极低。因此，市值似乎确实包含预测未来 1 个月收益率的信息。不过，格兰杰因果关系弱于下一小节讨论的因果关系：一个过程是另一个过程的格兰杰原因，只能说明前者含有有用的预测信息，并不能严格证明因果关系。此外，本检验只考虑线性模型，引入非线性或加入其他回归变量，包括可能遗漏的变量，都可能改变结论（参见 Chow、Cotsomitis 和 Kwan (2002)）。</p>
 </div>
 </div>
 </div>
@@ -14823,7 +14823,7 @@ parameter F test:         F=4.1110  , p=0.0008  , df_denom=149, df_num=6
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>因果模型种类繁多，甚至第 9.5 节的 BART 也可用于因果推断，见 Hahn、Murray 和 Carvalho（2019）。进一步阅读可参考 Pearl (2009)、Peters、Janzing 和 Schölkopf (2017)、Maathuis 等人 (2018)、Hünermund 和 Bareinboim (2019) 及其引用的文献。因果模型的核心工具之一是 Pearl 提出的 <strong>do-演算</strong>。传统条件概率 $P[Y|X]$ 描述的是 $Y$ 在<strong>观察到 $X$</strong>取值 $x$ 时的概率，而 do($⋅$) 表示通过干预<strong>令 $X$</strong>取值 $x$。这一区别就是<em>观察</em>与<em>干预</em>之分。一个经典例子是气压计：观察气压计有助于判断天气，因为高气压通常与晴天相伴：</p>
+<p>因果模型种类繁多，甚至第 9.5 节的 BART 也可用于因果推断，见 Hahn、Murray 和 Carvalho（2019）。进一步阅读可参考 Pearl (2009)、Peters、Janzing 和 Schölkopf (2017)、Maathuis 等人 (2018)、Hünermund 和 Bareinboim (2019) 及其引用的文献。因果模型的核心工具之一是 Pearl 提出的 <strong>do-演算（干预演算）</strong>。传统条件概率 $P[Y|X]$ 描述的是 $Y$ 在<strong>观察到 $X$</strong>取值 $x$ 时的概率，而 do($⋅$) 表示通过干预<strong>令 $X$</strong>取值 $x$。这一区别就是<em>观察</em>与<em>干预</em>之分。一个经典例子是气压计：观察气压计有助于判断天气，因为高气压通常与晴天相伴：</p>
 </div>
 </div>
 </div>
@@ -14867,7 +14867,7 @@ parameter F test:         F=4.1110  , p=0.0008  , df_denom=149, df_num=6
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>这是因为操纵气压计本身不会改变天气。简写为：对气压计实施干预时，$P[\text{weather}|\text{do(barometer)}]=P[\text{weather}]$。真正的上游变量是气压，它同时影响天气和气压计读数，这种共同作用称为混杂；气压计读数本身并不导致天气变化。希望深入理解这些概念的读者可参阅 Judea Pearl 的著作。do-演算是非常强大的理论框架，但并不容易直接应用于任意问题或数据集（例如参见 Aronow 和 Sävje (2019) 的书评）。</p>
+<p>这是因为操纵气压计本身不会改变天气。简写为：对气压计实施干预时，$P[\text{weather}|\text{do(barometer)}]=P[\text{weather}]$。真正的上游变量是气压：它同时影响天气和气压计读数，因此是二者之间的混杂变量，由这一共同原因造成的关联称为混杂；气压计读数本身并不导致天气变化。希望深入理解这些概念的读者可参阅 Judea Pearl 的著作。do-演算是非常强大的理论框架，但并不容易直接应用于任意问题或数据集（例如参见 Aronow 和 Sävje (2019) 的书评）。</p>
 </div>
 </div>
 </div>
@@ -15042,7 +15042,7 @@ X_j=f_j\left(\textbf{X}_{\text{pa}_D(j)},\epsilon_j  \right),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>其中噪声变量是相互独立的。符号 $\text{pa}_D(j)$ 指的是顶点 $j$ 在图结构 $D$ 中的父节点集。因此，$X_j$ 是其所有父项和一些噪声项 $\epsilon_j$ 的函数。加性因果模型是上述规范的轻微简化：</p>
+<p>其中噪声变量是相互独立的。符号 $\text{pa}_D(j)$ 指的是顶点 $j$ 在图结构 $D$ 中的父节点集。因此，$X_j$ 是其所有父节点和噪声项 $\epsilon_j$ 的函数。因果加性模型是上述设定的轻微简化：</p>
 </div>
 </div>
 </div>
@@ -15403,7 +15403,7 @@ None
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><img src="http://www.mlfactor.com/images/conceptchange.png" width="300"/>
-图 14.3：不同风格的概念变化。</p>
+图 14.3：概念变化的不同类型。</p>
 </div>
 </div>
 </div>
@@ -15678,7 +15678,7 @@ L=\sum_{i=1}^Iw_i(y_i-\textbf{x}_i\textbf{b})^2.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>在线学习最简单的例子之一是 Widrow-Hoff 算法，源自 Widrow 和 Hoff (1960)。其思想来自 ADALINE（ADAptive LInear NEuron，自适应线性神经元）模型：一种只有单个隐藏层、采用线性激活函数的神经网络。它类似感知器，但激活方式不同。</p>
+<p>在线学习最简单的例子之一是 Widrow-Hoff 算法，源自 Widrow 和 Hoff (1960)。其思想来自 ADALINE（ADAptive LInear NEuron，自适应线性神经元）模型：一种只有单个隐藏层、采用线性激活函数的神经网络。它类似感知机，但激活方式不同。</p>
 </div>
 </div>
 </div>
@@ -15856,7 +15856,7 @@ R_T \le \frac{G^2}{2H}(1+\log(T)),
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>另一类有趣的参数更新方法，是 Crammer 等人 (2006) 形式化的被动-主动算法（PAA）。原始设定主要针对分类任务，下面沿用其第 5 节的回归版本。PAA 的一个重要限制，是它依赖于损失为零或可忽略的一组参数：$\boldsymbol{\Theta}^*_\epsilon=\{\boldsymbol{\theta}, L_t(\boldsymbol{\theta})&lt; \epsilon\}$。对一般损失函数和学习器 $f$，这一集合通常难以求得。因此，Crammer 等人 (2006) 把算法限制在线性 $f$ 与 $\epsilon$ 不敏感铰链损失这一特定情形：</p>
+<p>另一类有趣的参数更新方法，是 Crammer 等人 (2006) 形式化的被动-激进算法（PAA）。原始设定主要针对分类任务，下面沿用其第 5 节的回归版本。PAA 的一个重要限制，是它依赖于损失为零或可忽略的一组参数：$\boldsymbol{\Theta}^*_\epsilon=\{\boldsymbol{\theta}, L_t(\boldsymbol{\theta})&lt; \epsilon\}$。对一般损失函数和学习器 $f$，这一集合通常难以求得。因此，Crammer 等人 (2006) 把算法限制在线性 $f$ 与 $\epsilon$ 不敏感铰链损失这一特定情形：</p>
 </div>
 </div>
 </div>
@@ -15922,7 +15922,7 @@ L_\epsilon(\boldsymbol{\theta})=\left\{ \begin{array}{ll}
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>按这一构造，若当前模型已经足够好，参数保持不变，处于“被动”阶段；若模型表现不足，参数就会迅速调整到能产生满意结果的位置，进入“主动”阶段。</p>
+<p>按这一构造，若当前模型已经足够好，参数保持不变，处于“被动”阶段；若模型表现不足，参数就会迅速调整到能产生满意结果的位置，进入“激进”阶段。</p>
 </div>
 </div>
 </div>
@@ -16036,7 +16036,7 @@ R_T=\underset{\boldsymbol{\theta}^*\in \boldsymbol{\Theta}}{\sup} \ \sum_{t=1}^T
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>迁移学习的子类型取决于源域 $S$ 与目标域 $T$ 之间究竟发生了什么变化：特征空间、标签分布，还是二者之间的关系？这些问题与第 14.2 节讨论的环境变化相同。金融中尤其值得关注第三种情况，因为它直接对应非平稳性，也就是模型 $f$ 在 $\textbf{y}=f(\textbf{X})$ 中随时间变化。用迁移学习的记号表示，就是 $P[\textbf{y}^S|\textbf{X}^S]\neq P[\textbf{y}^T|\textbf{X}^T]$：从源域转到目标域后，给定特征的标签条件分布发生改变。“领域自适应”常被用作迁移学习的近义词，因为数据发生偏移后，需要相应调整模型以提高准确度。Quionero-Candela 等人（2009）编著的文集用多个章节综述了这些主题。</p>
+<p>迁移学习的子类型取决于源域 $S$ 与目标域 $T$ 之间究竟发生了什么变化：特征空间、标签分布，还是二者之间的关系？这些问题与第 14.2 节讨论的环境变化相同。金融中尤其值得关注第三种情况，因为它直接对应非平稳性，也就是模型 $f$ 在 $\textbf{y}=f(\textbf{X})$ 中随时间变化。用迁移学习的记号表示，就是 $P[\textbf{y}^S|\textbf{X}^S]\neq P[\textbf{y}^T|\textbf{X}^T]$：从源域转到目标域后，给定特征的标签条件分布发生改变。“域适应”（domain adaptation）常被用作迁移学习的近义词，因为数据发生偏移后，需要相应调整模型以提高准确度。Quionero-Candela 等人（2009）编著的文集用多个章节综述了这些主题。</p>
 </div>
 </div>
 </div>
